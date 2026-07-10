@@ -164,11 +164,12 @@ export default function CertificationsSection() {
         <div className={styles.trustBox}>
           <span>¿Por qué confiar en ANCOSUR?</span>
 
-          <h3>Porque cada proyecto se construye con respaldo y experiencia.</h3>
+          <h3>No solo construimos espacios, creamos experiencias para vivir mejor.</h3>
 
           <p>
-            Acompañamos a nuestros clientes con planificación, asesoría y
-            compromiso en cada etapa de su inversión inmobiliaria.
+            Porque elegir un departamento o un lote no se trata solo de metros cuadrados.
+            Se trata del lugar donde empiezas nuevas etapas, compartes momentos y
+            construyes tu futuro con seguridad, respaldo y acompañamiento.
           </p>
         </div>
       </div>

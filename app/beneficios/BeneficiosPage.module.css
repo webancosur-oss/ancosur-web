@@ -13,7 +13,7 @@
   align-items: center;
   background:
     linear-gradient(rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.68)),
-    url("/assets/images/beneficios/beneficios-hero.webp") center/cover no-repeat;
+    url("/assets/benefits/beneficios-hero.webp") center/cover no-repeat;
   color: #ffffff;
 }
 

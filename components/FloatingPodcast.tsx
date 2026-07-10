@@ -1,47 +1,20 @@
 "use client";
 
-import {
-  PlayCircleIcon,
-  SpotifyLogoIcon,
-} from "@phosphor-icons/react";
+import { PlayCircleIcon, SpotifyLogoIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import styles from "./FloatingPodcast.module.css";
 
-type PodcastEpisode = {
-  id: number;
-  title: string;
-  description: string;
-  embedUrl: string;
-  spotifyUrl: string;
+const episode = {
+  title: "ANCOSUR Podcast",
+  description: "Episodio destacado de ANCOSUR Podcast.",
+  embedUrl:
+    "https://open.spotify.com/embed/episode/4353PBdKvMf4Ksns6vaiQt/video?utm_source=generator&si=2b377738d4c64558",
+  spotifyUrl:
+    "https://open.spotify.com/episode/4353PBdKvMf4Ksns6vaiQt?si=2b377738d4c64558",
 };
-
-const episodes: PodcastEpisode[] = [
-  {
-    id: 1,
-    title: "Episodio 1",
-    description: "ANCOSUR Podcast",
-    embedUrl:
-      "https://open.spotify.com/episode/4353PBdKvMf4Ksns6vaiQt?si=76d9453a60a140e8",
-    spotifyUrl:
-      "https://open.spotify.com/episode/3iHpWa0XFSya5LQ421Lf9x",
-  },
-  {
-    id: 2,
-    title: "Episodio 2",
-    description: "ANCOSUR Podcast",
-    embedUrl:
-      "https://open.spotify.com/embed/episode/5s7EXRvM8gndPybTbg5bqa?utm_source=generator",
-    spotifyUrl:
-      "https://open.spotify.com/episode/5s7EXRvM8gndPybTbg5bqa",
-  },
-];
 
 export default function FloatingPodcast() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeEpisodeId, setActiveEpisodeId] = useState(episodes[0].id);
-
-  const activeEpisode =
-    episodes.find((episode) => episode.id === activeEpisodeId) ?? episodes[0];
 
   return (
     <aside className={`${styles.podcastWidget} ${isOpen ? styles.open : ""}`}>
@@ -65,7 +38,7 @@ export default function FloatingPodcast() {
               <SpotifyLogoIcon size={17} weight="fill" aria-hidden="true" />
               ANCOSUR Podcast
             </span>
-            <strong>{activeEpisode.title}</strong>
+            <strong>{episode.title}</strong>
           </div>
 
           <button
@@ -78,40 +51,25 @@ export default function FloatingPodcast() {
           </button>
         </div>
 
-        <div className={styles.episodeTabs} aria-label="Lista de episodios">
-          {episodes.map((episode) => (
-            <button
-              key={episode.id}
-              type="button"
-              className={`${styles.episodeButton} ${
-                activeEpisodeId === episode.id ? styles.activeEpisode : ""
-              }`}
-              onClick={() => setActiveEpisodeId(episode.id)}
-            >
-              {episode.title}
-            </button>
-          ))}
-        </div>
-
-        <p className={styles.description}>{activeEpisode.description}</p>
+        <p className={styles.description}>{episode.description}</p>
 
         <div className={styles.frameBox}>
           {isOpen && (
             <iframe
-              key={activeEpisode.id}
               className={styles.spotifyFrame}
-              src={activeEpisode.embedUrl}
+              src={episode.embedUrl}
               width="100%"
-              height="352"
+              height="279"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              allowFullScreen
               loading="lazy"
-              title={activeEpisode.title}
+              title={episode.title}
             />
           )}
         </div>
 
         <a
-          href={activeEpisode.spotifyUrl}
+          href={episode.spotifyUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.spotifyLink}

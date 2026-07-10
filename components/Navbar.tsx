@@ -8,11 +8,12 @@ import styles from "./Navbar.module.css";
 const LOGO_SRC = "/assets/images/ancosur-logo-black.svg";
 
 const navLinks = [
-  { label: "Inicio", href: "/" },
-  { label: "Proyectos", href: "/proyectos" },
+  // { label: "Proyectos", href: "/proyectos" },
   { label: "Nosotros", href: "/nosotros" },
-  { label: "Financiamiento", href: "/financiamiento" },
-  { label: "Contacto", href: "/contacto" },
+  { label: "Departamentos", href: "/departamentos" },
+  { label: "Lotes", href: "/lotes" },
+  { label: "Resorts", href: "/resorts" },
+  { label: "Trabaja con nosotros", href: "/trabaja-con-nosotros" },
 ];
 
 export default function Navbar() {
@@ -72,7 +73,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/proyectos"
+              href="/#proyectos"
               className={styles.ctaButton}
               onClick={closeMenu}
             >
@@ -83,8 +84,11 @@ export default function Navbar() {
 
         <div className={styles.actions}>
 
-          <Link href="#proyectos" className={styles.ctaButton}>
+          <Link href="/#proyectos" className={styles.ctaButton}>
             Ver proyectos
+          </Link>
+           <Link href="/beneficios" className={styles.ctaButton}>
+            Beneficios
           </Link>
         </div>
 

@@ -9,9 +9,9 @@ type JoinTeamCTAProps = {
 };
 
 export default function JoinTeamCTA({
-  title = "¿Quieres ser parte de nuestro equipo?",
-  description = "En ANCOSUR buscamos personas con talento, compromiso y ganas de crecer junto a una empresa inmobiliaria en expansión.",
-  buttonLabel = "Ver oportunidades",
+  title = "Tu talento también puede construir futuro.",
+  description = "Únete a un equipo que crece, innova y transforma la forma de vivir e invertir en proyectos inmobiliarios.",
+  buttonLabel = "Enviar mi CV",
   href = "/trabaja-con-nosotros",
 }: JoinTeamCTAProps) {
   return (
@@ -19,13 +19,30 @@ export default function JoinTeamCTA({
       <div className={styles.container}>
         <div className={styles.content}>
           <span>Trabaja con nosotros</span>
+
           <h2>{title}</h2>
+
           <p>{description}</p>
+
+          <div className={styles.tags}>
+            <small>Comercial</small>
+            <small>Marketing</small>
+            <small>Proyectos</small>
+            <small>Administración</small>
+          </div>
+
+          <Link href={href} className={styles.button}>
+            {buttonLabel}
+            <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
-        <Link href={href} className={styles.button}>
-          {buttonLabel}
-        </Link>
+        <div className={styles.visualBox}>
+          <div className={styles.visualContent}>
+            <strong>ANCOSUR</strong>
+            <p>Crecemos contigo.</p>
+          </div>
+        </div>
       </div>
     </section>
   );

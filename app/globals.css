@@ -17,6 +17,7 @@
 
 html {
   background: #ffffff;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -28,5 +29,9 @@ body {
 }
 
 section {
+  scroll-margin-top: 100px;
+}
+
+#proyectos {
   scroll-margin-top: 100px;
 }

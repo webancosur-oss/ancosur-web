@@ -1,19 +1,51 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./PromoLeadPopup.module.css";
 
+type PopupCampaign = {
+  id: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  imageWidth: number;
+  imageHeight: number;
+};
+
 const popupConfig = {
-  id: "campana-cusco-2026",
   enabled: true,
   showDelay: 1200,
   showOncePerSession: false,
-  image: "/assets/campanias/campaniajulio.png",
-  imageAlt: "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
-  imageWidth: 1080,
-  imageHeight: 1080,
 };
+
+const campaigns: PopupCampaign[] = [
+  {
+    id: "cyber-house-2026",
+    title: "Quiero información",
+    eyebrow: "Cyber House",
+    description:
+      "Conoce nuestros proyectos, beneficios especiales y recibe asesoría personalizada durante el evento.",
+    image: "/assets/campanias/cyber-house.png",
+    imageAlt: "Campaña Cyber House ANCOSUR",
+    imageWidth: 1080,
+    imageHeight: 1080,
+  },
+  {
+    id: "campania-cusco-2026",
+    title: "Quiero participar",
+    eyebrow: "Campaña exclusiva",
+    description:
+      "Déjanos tus datos para recibir mayor información sobre esta campaña y los proyectos disponibles de ANCOSUR.",
+    image: "/assets/campanias/campaniajulio.png",
+    imageAlt: "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
+    imageWidth: 1080,
+    imageHeight: 1080,
+  },
+  
+];
 
 type FormData = {
   fullName: string;
@@ -39,14 +71,22 @@ const initialFormData: FormData = {
 
 export default function PromoLeadPopup() {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeCampaignId, setActiveCampaignId] = useState(campaigns[0].id);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const activeCampaign = useMemo(() => {
+    return (
+      campaigns.find((campaign) => campaign.id === activeCampaignId) ??
+      campaigns[0]
+    );
+  }, [activeCampaignId]);
+
   useEffect(() => {
     if (!popupConfig.enabled) return;
 
-    const storageKey = `popup-${popupConfig.id}`;
+    const storageKey = "popup-ancosur-campaigns";
 
     if (popupConfig.showOncePerSession) {
       const alreadyClosed = sessionStorage.getItem(storageKey);
@@ -60,12 +100,36 @@ export default function PromoLeadPopup() {
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closePopup();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isVisible]);
+
   const closePopup = () => {
     setIsVisible(false);
 
     if (popupConfig.showOncePerSession) {
-      sessionStorage.setItem(`popup-${popupConfig.id}`, "closed");
+      sessionStorage.setItem("popup-ancosur-campaigns", "closed");
     }
+  };
+
+  const changeCampaign = (campaignId: string) => {
+    setActiveCampaignId(campaignId);
+    setIsSubmitted(false);
+    setErrors({});
   };
 
   const validateForm = () => {
@@ -126,7 +190,7 @@ export default function PromoLeadPopup() {
     const documentClean = formData.numDocument.replace(/\D/g, "");
 
     const leadData = {
-      campaign: popupConfig.id,
+      campaign: activeCampaign.id,
       fullName: formData.fullName.trim(),
       phone: formData.phone.replace(/\s|-/g, ""),
       email: formData.email.trim().toLowerCase(),
@@ -166,27 +230,42 @@ export default function PromoLeadPopup() {
         </button>
 
         <div className={styles.imageSide}>
+          <div className={styles.campaignTabs}>
+            {campaigns.map((campaign) => (
+              <button
+                key={campaign.id}
+                type="button"
+                className={`${styles.campaignTab} ${
+                  activeCampaign.id === campaign.id ? styles.activeTab : ""
+                }`}
+                onClick={() => changeCampaign(campaign.id)}
+              >
+                {campaign.eyebrow}
+              </button>
+            ))}
+          </div>
+
           <Image
-            src={popupConfig.image}
-            alt={popupConfig.imageAlt}
-            width={popupConfig.imageWidth}
-            height={popupConfig.imageHeight}
+            key={activeCampaign.id}
+            src={activeCampaign.image}
+            alt={activeCampaign.imageAlt}
+            width={activeCampaign.imageWidth}
+            height={activeCampaign.imageHeight}
             className={styles.popupImage}
-            loading="lazy"
-            sizes="(max-width: 768px) 92vw, 520px"
+            priority
+            sizes="(max-width: 520px) 94vw, (max-width: 900px) 680px, 560px"
           />
         </div>
 
         <div className={styles.formSide}>
           {!isSubmitted ? (
             <>
-              <span className={styles.eyebrow}>Campaña exclusiva</span>
+              <span className={styles.eyebrow}>{activeCampaign.eyebrow}</span>
 
-              <h2>Quiero participar</h2>
+              <h2>{activeCampaign.title}</h2>
 
               <p className={styles.description}>
-                Déjanos tus datos para recibir mayor información sobre la
-                campaña y los proyectos disponibles de ANCOSUR.
+                {activeCampaign.description}
               </p>
 
               <form className={styles.form} onSubmit={handleSubmit} noValidate>
@@ -232,7 +311,7 @@ export default function PromoLeadPopup() {
                   )}
                 </div>
 
-                <div className={styles.field}>
+                {/* <div className={styles.field}>
                   <label htmlFor="numDocument">DNI o RUC</label>
                   <input
                     id="numDocument"
@@ -256,7 +335,7 @@ export default function PromoLeadPopup() {
                       {errors.numDocument}
                     </small>
                   )}
-                </div>
+                </div> */}
 
                 <div className={styles.field}>
                   <label htmlFor="email">Correo electrónico</label>

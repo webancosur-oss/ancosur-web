@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  box-sizing: border-box;
 }
 
 .backdrop {
@@ -20,43 +21,82 @@
 .popup {
   position: relative;
   z-index: 2;
-  width: min(1040px, 94vw);
-  max-height: 92vh;
+  width: min(1080px, 94vw);
+  max-height: 92dvh;
   background: #ffffff;
-  border-radius: 22px;
+  border-radius: 24px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.9fr);
   box-shadow: 0 40px 120px rgba(0, 0, 0, 0.42);
   animation: popupShow 0.35s ease;
 }
 
 .imageSide {
   position: relative;
-  background: #111;
-  min-height: 520px;
+  min-height: 560px;
+  background: #111111;
+  overflow: hidden;
+}
+
+.campaignTabs {
+  position: absolute;
+  left: 18px;
+  right: 72px;
+  top: 18px;
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.campaignTab {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(23, 23, 47, 0.68);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition:
+    background 0.24s ease,
+    border-color 0.24s ease,
+    transform 0.24s ease;
+}
+
+.campaignTab:hover,
+.activeTab {
+  background: #00a74f;
+  border-color: #00a74f;
+  transform: translateY(-1px);
 }
 
 .popupImage {
   display: block;
   width: 100%;
   height: 100%;
-  max-height: 92vh;
+  min-height: 560px;
   object-fit: cover;
 }
 
 .formSide {
-  padding: clamp(28px, 4vw, 52px);
+  padding: clamp(26px, 3.5vw, 48px);
   overflow-y: auto;
-  max-height: 92vh;
+  max-height: 92dvh;
   background: #fff7f1;
+  box-sizing: border-box;
 }
 
 .eyebrow {
   display: inline-flex;
   margin-bottom: 14px;
   color: #00a74f;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -66,7 +106,7 @@
 .success h2 {
   margin: 0;
   color: #17172f;
-  font-size: clamp(2rem, 3vw, 3.3rem);
+  font-size: clamp(2rem, 3vw, 3.2rem);
   line-height: 1;
   letter-spacing: -0.05em;
   font-weight: 900;
@@ -74,16 +114,16 @@
 
 .description,
 .success p {
-  margin: 18px 0 0;
-  color: #17172f;
-  font-size: 1rem;
-  line-height: 1.55;
+  margin: 16px 0 0;
+  color: rgba(23, 23, 47, 0.82);
+  font-size: 0.98rem;
+  line-height: 1.52;
 }
 
 .form {
-  margin-top: 28px;
+  margin-top: 24px;
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .field {
@@ -93,7 +133,7 @@
 
 .field label {
   color: #17172f;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 800;
 }
 
@@ -105,9 +145,9 @@
   border-radius: 10px;
   background: #ffffff;
   color: #17172f;
-  font-size: 0.96rem;
+  font-size: 0.95rem;
   font-family: inherit;
-  padding: 13px 14px;
+  padding: 12px 14px;
   outline: none;
   box-sizing: border-box;
   transition:
@@ -116,7 +156,9 @@
 }
 
 .field textarea {
-  resize: none;
+  resize: vertical;
+  min-height: 86px;
+  max-height: 130px;
 }
 
 .field input:focus,
@@ -131,7 +173,7 @@
   align-items: flex-start;
   gap: 10px;
   color: #17172f;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   line-height: 1.4;
   cursor: pointer;
 }
@@ -146,18 +188,18 @@
 
 .error {
   color: #d71920;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
 .submitButton {
   width: 100%;
-  min-height: 52px;
+  min-height: 50px;
   border: none;
   border-radius: 10px;
   background: #00a74f;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 900;
   cursor: pointer;
   transition:
@@ -176,14 +218,14 @@
   position: absolute;
   top: 18px;
   right: 18px;
-  z-index: 5;
+  z-index: 8;
   width: 48px;
   height: 48px;
   border: none;
   border-radius: 50%;
   background: #17172f;
   color: #ffffff;
-  font-size: 2.3rem;
+  font-size: 2.2rem;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
@@ -243,22 +285,16 @@
   }
 
   .popupImage {
+    width: 100%;
     height: auto;
-    max-height: 46vh;
+    min-height: 0;
+    max-height: 44dvh;
     object-fit: contain;
-    background: #000;
+    background: #111111;
   }
 
   .formSide {
-    max-height: 48vh;
-  }
-
-  .closeButton {
-    top: 14px;
-    right: 14px;
-    width: 44px;
-    height: 44px;
-    font-size: 2rem;
+    max-height: 48dvh;
   }
 }
 
@@ -271,21 +307,30 @@
 
   .popup {
     width: 100%;
-    max-height: 94vh;
+    max-height: 94dvh;
     border-radius: 18px;
   }
 
+  .campaignTabs {
+    left: 12px;
+    right: 58px;
+    top: 12px;
+    gap: 6px;
+  }
+
+  .campaignTab {
+    min-height: 32px;
+    padding: 0 10px;
+    font-size: 0.62rem;
+  }
+
   .popupImage {
-    max-height: 36vh;
+    max-height: 36dvh;
   }
 
   .formSide {
     padding: 24px 18px;
-    max-height: 58vh;
-  }
-
-  .form {
-    gap: 14px;
+    max-height: 58dvh;
   }
 
   .formSide h2,
@@ -316,9 +361,16 @@
 
   .submitButton,
   .closeButton,
+  .campaignTab,
   .field input,
   .field select,
   .field textarea {
     transition: none;
+  }
+
+  .submitButton:hover,
+  .closeButton:hover,
+  .campaignTab:hover {
+    transform: none;
   }
 }
