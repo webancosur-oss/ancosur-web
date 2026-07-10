@@ -1,0 +1,290 @@
+.footer {
+  width: 100%;
+  padding: 80px 6% 30px;
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: grid;
+  grid-template-columns: 220px 1.2fr auto;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 46px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* LOGO */
+.logo {
+  width: 190px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImage {
+  display: block;
+  width: 190px;
+  height: auto;
+  max-height: 58px;
+  object-fit: contain;
+}
+
+.logoText {
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logoText::first-letter {
+  color: #00a74f;
+}
+
+.brand p {
+  max-width: 520px;
+  margin: 0;
+  color: #cfcfcf;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* REDES */
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.socials a {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e1e1e;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.socials a:hover {
+  background: #00a74f;
+  border-color: #00a74f;
+  transform: translateY(-3px);
+}
+
+.socials img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* COLUMNAS */
+.columns {
+  padding: 52px 0 38px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px;
+}
+
+.column h3 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.column li {
+  margin-bottom: 13px;
+}
+
+.column a,
+.column address {
+  color: #cfcfcf;
+  font-size: 15px;
+  line-height: 1.6;
+  font-style: normal;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.column a:hover {
+  color: #00a74f;
+}
+
+.contactList li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contactList span {
+  color: #8d8d8d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.memberBox {
+  margin-top: 22px;
+  padding: 16px;
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+.memberBox span {
+  display: block;
+  margin-bottom: 6px;
+  color: #8d8d8d;
+  font-size: 13px;
+}
+
+.memberBox strong {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* TARJETAS LEGALES */
+.legalCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.legalCard {
+  min-height: 92px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.legalCard span {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.legalCard small {
+  margin-top: 5px;
+  color: #00a74f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.legalCard:hover {
+  border-color: #00a74f;
+  transform: translateY(-3px);
+}
+
+/* BOTTOM */
+.bottom {
+  padding-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.bottom p {
+  margin: 0;
+  color: #9f9f9f;
+  font-size: 14px;
+}
+
+.bottom div {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.bottom a {
+  color: #cfcfcf;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.bottom a:hover {
+  color: #00a74f;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .brand {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .socials {
+    justify-content: flex-start;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .footer {
+    padding: 64px 20px 26px;
+  }
+
+  .logo {
+    width: 160px;
+    height: 48px;
+  }
+
+  .logoImage {
+    width: 160px;
+    height: auto;
+    max-height: 48px;
+  }
+
+  .logoText {
+    font-size: 30px;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .legalCards {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bottom div {
+    flex-wrap: wrap;
+  }
+}

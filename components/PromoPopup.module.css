@@ -1,0 +1,143 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+}
+
+.popup {
+  position: relative;
+  z-index: 2;
+  width: min(620px, 92vw);
+  max-height: 92vh;
+  animation: popupShow 0.35s ease;
+}
+
+.imageLink {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+.popupImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.45);
+}
+
+.closeButton {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #17172f;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.08);
+  background: #00a74f;
+  color: #ffffff;
+}
+
+@keyframes popupShow {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 20px;
+  }
+
+  .popup {
+    width: min(560px, 90vw);
+  }
+
+  .closeButton {
+    top: -18px;
+    right: -14px;
+    width: 46px;
+    height: 46px;
+    font-size: 2.2rem;
+  }
+
+  .popupImage {
+    border-radius: 16px;
+  }
+}
+
+/* MÓVIL */
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 14px;
+  }
+
+  .popup {
+    width: 94vw;
+  }
+
+  .closeButton {
+    top: -14px;
+    right: -8px;
+    width: 42px;
+    height: 42px;
+    font-size: 2rem;
+  }
+
+  .popupImage {
+    border-radius: 14px;
+    max-height: 86vh;
+  }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    animation: none;
+  }
+
+  .closeButton {
+    transition: none;
+  }
+}

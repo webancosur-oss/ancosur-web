@@ -1,0 +1,462 @@
+.podcastWidget {
+  position: fixed;
+  right: 0;
+  bottom: 120px;
+  z-index: 300;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
+
+/* BADGE PEGADO AL BORDE DERECHO */
+
+.notch {
+  position: relative;
+  z-index: 4;
+  width: 54px;
+  min-height: 148px;
+  border: none;
+  border-radius: 999px 0 0 999px;
+  background: #00a74f;
+  color: #ffffff;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: 0 20px 46px rgba(0, 167, 79, 0.34);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.notch:hover {
+  background: #008f43;
+  box-shadow: 0 26px 60px rgba(0, 167, 79, 0.42);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* PANEL DESKTOP */
+
+.panel {
+  position: absolute;
+  right: 68px;
+  bottom: 0;
+  width: 360px;
+  max-width: calc(100vw - 92px);
+  max-height: calc(100svh - 150px);
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(23, 23, 47, 0.96);
+  color: #ffffff;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(18px);
+  pointer-events: auto;
+  overflow: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(24px) scale(0.96);
+  transform-origin: right bottom;
+  box-sizing: border-box;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.open .panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+}
+
+/* HEADER */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.titleBox {
+  min-width: 0;
+}
+
+.titleBox span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+  color: #1ed760;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.titleBox strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.closeButton {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.closeButton:hover {
+  background: #00a74f;
+  transform: rotate(90deg);
+}
+
+/* EPISODIOS */
+
+.episodeTabs {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.episodeTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.episodeButton {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.episodeButton:hover {
+  color: #ffffff;
+  border-color: rgba(0, 167, 79, 0.8);
+}
+
+.activeEpisode {
+  background: #00a74f;
+  border-color: #00a74f;
+  color: #ffffff;
+}
+
+.description {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+/* SPOTIFY */
+
+.frameBox {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #121212;
+}
+
+.spotifyFrame {
+  display: block;
+  width: 100%;
+  height: 352px;
+  border: 0;
+  border-radius: 16px;
+  background: #121212;
+}
+
+.spotifyLink {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 14px;
+  border-radius: 999px;
+  background: #1ed760;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.spotifyLink:hover {
+  background: #00a74f;
+  color: #ffffff;
+  box-shadow: 0 18px 38px rgba(0, 167, 79, 0.28);
+}
+
+.notch:focus-visible,
+.closeButton:focus-visible,
+.episodeButton:focus-visible,
+.spotifyLink:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.38);
+  outline-offset: 4px;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+  .podcastWidget {
+    bottom: 108px;
+  }
+
+  .notch {
+    width: 52px;
+    min-height: 140px;
+  }
+
+  .panel {
+    right: 64px;
+    width: 340px;
+    max-width: calc(100vw - 86px);
+    max-height: calc(100svh - 130px);
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .spotifyFrame {
+    height: 340px;
+  }
+}
+
+/* TABLET PEQUEÑA */
+
+@media (max-width: 760px) {
+  .podcastWidget {
+    right: 0;
+    bottom: 96px;
+  }
+
+  .notch {
+    width: 50px;
+    min-height: 132px;
+    border-radius: 999px 0 0 999px;
+  }
+
+  .panel {
+    position: fixed;
+    left: 16px;
+    right: 64px;
+    bottom: 96px;
+    width: auto;
+    max-width: none;
+    max-height: calc(100svh - 120px);
+    padding: 16px;
+    border-radius: 22px;
+    transform: translateX(20px) scale(0.96);
+    transform-origin: right bottom;
+  }
+
+  .open .panel {
+    transform: translateX(0) scale(1);
+  }
+
+  .titleBox span {
+    font-size: 0.72rem;
+  }
+
+  .titleBox strong {
+    font-size: 1rem;
+  }
+
+  .spotifyFrame {
+    height: 330px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 640px) {
+  .podcastWidget {
+    right: 14px;
+    bottom: 18px;
+  }
+
+  .notch {
+    width: auto;
+    min-height: 50px;
+    padding: 0 16px;
+    border-radius: 999px;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .text {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+  }
+
+  .panel {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: 82px;
+    width: auto;
+    max-width: none;
+    max-height: calc(100svh - 104px);
+    padding: 15px;
+    border-radius: 20px;
+    transform: translateY(18px) scale(0.96);
+    transform-origin: right bottom;
+  }
+
+  .open .panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .header {
+    gap: 12px;
+  }
+
+  .closeButton {
+    width: 32px;
+    height: 32px;
+  }
+
+  .episodeTabs {
+    margin: 12px 0;
+  }
+
+  .description {
+    font-size: 0.84rem;
+  }
+
+  .spotifyFrame {
+    height: 320px;
+  }
+
+  .spotifyLink {
+    min-height: 44px;
+    font-size: 0.78rem;
+  }
+}
+
+/* MOBILE PEQUEÑO */
+
+@media (max-width: 420px) {
+  .podcastWidget {
+    right: 12px;
+    bottom: 14px;
+  }
+
+  .notch {
+    min-height: 48px;
+    padding: 0 14px;
+  }
+
+  .icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .text {
+    font-size: 0.72rem;
+  }
+
+  .panel {
+    left: 10px;
+    right: 10px;
+    bottom: 76px;
+    max-height: calc(100svh - 92px);
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .titleBox span {
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+  }
+
+  .titleBox strong {
+    font-size: 0.96rem;
+  }
+
+  .episodeButton {
+    min-height: 32px;
+    padding: 0 11px;
+    font-size: 0.7rem;
+  }
+
+  .spotifyFrame {
+    height: 300px;
+  }
+
+  .spotifyLink {
+    min-height: 42px;
+    font-size: 0.74rem;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+  .notch,
+  .panel,
+  .closeButton,
+  .episodeButton,
+  .spotifyLink {
+    transition: none;
+  }
+
+  .closeButton:hover {
+    transform: none;
+  }
+}

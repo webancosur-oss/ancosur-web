@@ -1,0 +1,236 @@
+.page {
+  width: 100%;
+  background: #ffffff;
+  color: #111111;
+  overflow-x: hidden;
+}
+
+.hero {
+  width: 100%;
+  min-height: 54vh;
+  padding: 140px 6% 80px;
+  display: flex;
+  align-items: center;
+  background: #111111;
+  color: #ffffff;
+}
+
+.heroContent {
+  max-width: 920px;
+}
+
+/* BOTÓN REGRESAR */
+.backButton {
+  margin-bottom: 32px;
+}
+
+/* TEXTO PEQUEÑO SUPERIOR */
+.eyebrow,
+.heroContent > span {
+  display: block;
+  margin-bottom: 14px;
+  color: #00a74f;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.heroContent h1 {
+  max-width: 900px;
+  margin: 0 0 18px;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+}
+
+.heroContent p {
+  max-width: 720px;
+  margin: 0;
+  color: #d8d8d8;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.contentSection {
+  width: 100%;
+  padding: 90px 6% 110px;
+}
+
+.article {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 56px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 28px;
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.08);
+}
+
+.badge {
+  width: fit-content;
+  margin-bottom: 28px;
+  padding: 10px 18px;
+  background: #00a74f;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.article p {
+  margin: 0 0 24px;
+  color: #444444;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.article strong {
+  color: #111111;
+  font-weight: 900;
+}
+
+.scopeBox {
+  margin: 42px 0;
+  padding: 34px;
+  background: #111111;
+  color: #ffffff;
+  border-radius: 24px;
+}
+
+.scopeBox span {
+  display: block;
+  margin-bottom: 12px;
+  color: #00a74f;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.scopeBox h2 {
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.08;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.processGrid {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 24px;
+}
+
+.processCard {
+  padding: 30px;
+  background: #f6f6f6;
+  border: 1px solid #eeeeee;
+  border-radius: 22px;
+}
+
+.processCard h3 {
+  margin: 0 0 22px;
+  color: #111111;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.processCard ul {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  list-style: none;
+}
+
+.processCard li {
+  position: relative;
+  padding-left: 24px;
+  color: #444444;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.processCard li::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  position: absolute;
+  top: 8px;
+  left: 0;
+  background: #00a74f;
+  border-radius: 50%;
+}
+
+.note {
+  margin-top: 42px;
+  padding: 30px;
+  background: #f1fff7;
+  border: 1px solid rgba(0, 167, 79, 0.25);
+  border-radius: 22px;
+}
+
+.note h3 {
+  margin: 0 0 12px;
+  color: #00a74f;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.note p {
+  margin: 0;
+  color: #333333;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 120px 20px 70px;
+  }
+
+  .backButton {
+    margin-bottom: 26px;
+  }
+
+  .heroContent h1 {
+    font-size: clamp(38px, 12vw, 52px);
+    letter-spacing: -1px;
+  }
+
+  .heroContent p {
+    font-size: 16px;
+  }
+
+  .contentSection {
+    padding: 70px 20px 84px;
+  }
+
+  .article {
+    padding: 30px 22px;
+    border-radius: 22px;
+  }
+
+  .scopeBox {
+    padding: 26px 22px;
+  }
+
+  .processGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .processCard {
+    padding: 24px;
+  }
+
+  .note {
+    padding: 24px;
+  }
+}

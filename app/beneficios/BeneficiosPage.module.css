@@ -1,0 +1,261 @@
+.page {
+  width: 100%;
+  background: #ffffff;
+  color: #111111;
+  overflow-x: hidden;
+}
+
+.hero {
+  width: 100%;
+  min-height: 62vh;
+  padding: 150px 6% 90px;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.68)),
+    url("/assets/images/beneficios/beneficios-hero.webp") center/cover no-repeat;
+  color: #ffffff;
+}
+
+.heroContent {
+  max-width: 900px;
+}
+
+.heroContent span,
+.sectionHeader span,
+.cta span {
+  color: #00a74f;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.heroContent h1 {
+  margin: 14px 0;
+  max-width: 900px;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: 1.02;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+}
+
+.heroContent p {
+  max-width: 700px;
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.benefitsSection {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 90px 6%;
+}
+
+.sectionHeader {
+  max-width: 760px;
+  margin-bottom: 42px;
+}
+
+.sectionHeader h2 {
+  margin: 12px 0 0;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 24px;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.07);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+}
+
+.imageBox {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.content {
+  padding: 28px;
+}
+
+.content span {
+  display: block;
+  margin-bottom: 10px;
+  color: #00a74f;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.content h3 {
+  margin: 0 0 14px;
+  color: #111111;
+  font-size: 25px;
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.content p {
+  margin: 0 0 24px;
+  color: #5d5d5d;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.content a,
+.cta a {
+  min-height: 48px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #00a74f;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.content a:hover,
+.cta a:hover {
+  background: #008f43;
+  transform: translateY(-2px);
+}
+
+.cta {
+  max-width: 1120px;
+  margin: 0 auto 100px;
+  padding: 52px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 40px;
+  background: #111111;
+  color: #ffffff;
+  border-radius: 28px;
+}
+
+.cta h2 {
+  margin: 12px 0;
+  max-width: 760px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.08;
+  font-weight: 900;
+}
+
+.cta p {
+  max-width: 620px;
+  margin: 0;
+  color: #d6d6d6;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.cta a {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 54vh;
+    padding: 130px 5% 76px;
+  }
+
+  .benefitsSection {
+    padding: 76px 5%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cta {
+    margin: 0 5% 90px;
+    grid-template-columns: 1fr;
+    padding: 42px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: auto;
+    padding: 115px 20px 64px;
+  }
+
+  .heroContent h1 {
+    font-size: clamp(38px, 12vw, 52px);
+    letter-spacing: -1px;
+  }
+
+  .heroContent p {
+    font-size: 16px;
+  }
+
+  .benefitsSection {
+    padding: 64px 20px;
+  }
+
+  .sectionHeader {
+    margin-bottom: 30px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .imageBox {
+    height: 250px;
+  }
+
+  .content {
+    padding: 24px;
+  }
+
+  .content h3 {
+    font-size: 23px;
+  }
+
+  .content a,
+  .cta a {
+    width: 100%;
+  }
+
+  .cta {
+    margin: 0 20px 74px;
+    padding: 32px 22px;
+    border-radius: 22px;
+  }
+}

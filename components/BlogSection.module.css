@@ -1,0 +1,263 @@
+.section {
+  width: 100%;
+  padding: 100px 6%;
+  background: #fff;
+  color: #111111;
+}
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.header {
+  max-width: 760px;
+  margin-bottom: 48px;
+}
+
+.header span {
+  color: #00a74f;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header h2 {
+  margin: 12px 0;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.header p {
+  margin: 0;
+  color: #555555;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 30px;
+}
+
+.featured {
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.08);
+}
+
+.featuredImage {
+  width: 100%;
+  height: 420px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #dddddd;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.featured:hover .image,
+.card:hover .image {
+  transform: scale(1.06);
+}
+
+.badge {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 2;
+  padding: 9px 14px;
+  background: #00a74f;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.featuredContent {
+  padding: 34px;
+}
+
+.featuredContent span {
+  color: #00a74f;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.featuredContent h3 {
+  margin: 10px 0 14px;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.08;
+  font-weight: 900;
+}
+
+.featuredContent p {
+  margin: 0 0 26px;
+  color: #555555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.mainLink {
+  min-height: 48px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #111111;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.mainLink:hover {
+  background: #00a74f;
+}
+
+.sidePosts {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card {
+  min-height: 185px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 185px;
+  display: block;
+  overflow: hidden;
+  background: #dddddd;
+}
+
+.cardContent {
+  padding: 22px;
+}
+
+.cardContent span {
+  color: #00a74f;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.cardContent h3 {
+  margin: 8px 0 8px;
+  font-size: 21px;
+  line-height: 1.18;
+  font-weight: 900;
+}
+
+.cardContent p {
+  margin: 0 0 14px;
+  color: #606060;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cardContent a {
+  color: #111111;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.cardContent a:hover {
+  color: #00a74f;
+}
+
+.footerAction {
+  margin-top: 38px;
+  display: flex;
+  justify-content: center;
+}
+
+.footerAction a {
+  min-height: 50px;
+  padding: 0 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #00a74f;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footerAction a:hover {
+  background: #008f43;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .featuredImage {
+    height: 360px;
+  }
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding: 74px 20px;
+  }
+
+  .header {
+    margin-bottom: 34px;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .cardImage {
+    height: 220px;
+  }
+
+  .featuredImage {
+    height: 300px;
+  }
+
+  .featuredContent {
+    padding: 26px 22px;
+  }
+
+  .cardContent {
+    padding: 22px;
+  }
+}

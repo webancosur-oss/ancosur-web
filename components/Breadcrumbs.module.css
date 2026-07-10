@@ -1,0 +1,102 @@
+.wrapper {
+  width: 100%;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.backButton {
+  min-height: 40px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #00a74f;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: #008f43;
+  transform: translateY(-2px);
+}
+
+.breadcrumbs ol {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumbs a,
+.breadcrumbs span,
+.breadcrumbs small {
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.light .breadcrumbs a {
+  color: #555555;
+}
+
+.light .breadcrumbs span {
+  color: #111111;
+}
+
+.light .breadcrumbs small {
+  color: #aaaaaa;
+}
+
+.dark .breadcrumbs a {
+  color: #d8d8d8;
+}
+
+.dark .breadcrumbs span {
+  color: #ffffff;
+}
+
+.dark .breadcrumbs small {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.breadcrumbs a:hover {
+  color: #00a74f;
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    gap: 14px;
+  }
+
+  .backButton {
+    width: 100%;
+  }
+
+  .breadcrumbs ol {
+    gap: 6px;
+  }
+
+  .breadcrumbs a,
+  .breadcrumbs span,
+  .breadcrumbs small {
+    font-size: 12px;
+  }
+}
