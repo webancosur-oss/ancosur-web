@@ -21,7 +21,7 @@ const certifications: Certification[] = [
     subtitle: "Calidad y procesos",
     description:
       "Respaldo en control, orden y mejora continua para desarrollar proyectos con mayor confianza.",
-    image: "/assets/certificados/sgs.svg",
+    image: "/assets/certificados/isos.svg",
     href: "https://www.sgs.com/es-pe",
     points: ["Control", "Calidad", "Confianza"],
   },
