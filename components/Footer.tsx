@@ -37,7 +37,7 @@ const supportLinks: FooterLink[] = [
 {
   label: "Libro de Reclamaciones",
   href: "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
-},  { label: "Certificados", href: "#certificaciones" },
+},  { label: "Certificados", href: "/#certificaciones" },
 ];
 
 const socialLinks: SocialLink[] = [
