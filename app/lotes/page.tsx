@@ -55,7 +55,7 @@ const lotesDisponibles = projects.filter((project) => {
   const isDelivered =
     !isForcedLot &&
     (project.status === "ENTREGADO" ||
-      project.status === "SIN UNIDADES" ||
+      project.status === "VENDIDOS" ||
       deliveredLotSet.has(name));
 
   return isLot && !isDelivered;

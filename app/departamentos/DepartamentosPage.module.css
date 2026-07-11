@@ -206,6 +206,89 @@
   line-height: 1.55;
 }
 
+/* FILTROS DE TIPOLOGÍAS */
+
+.typologyFilters {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.typologyButton {
+  min-height: 78px;
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #f7faf8 100%);
+  border: 1px solid rgba(23, 23, 47, 0.08);
+  color: #17172f;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 14px 34px rgba(23, 23, 47, 0.055);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.typologyButton:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 167, 79, 0.24);
+  box-shadow: 0 20px 48px rgba(23, 23, 47, 0.09);
+}
+
+.typologyButton span {
+  color: inherit;
+  font-size: 0.86rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.typologyButton small {
+  color: rgba(23, 23, 47, 0.58);
+  font-size: 0.7rem;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.typologyActive {
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.2), transparent 38%),
+    #00a74f;
+  border-color: #00a74f;
+  color: #ffffff;
+  box-shadow: 0 18px 44px rgba(0, 167, 79, 0.22);
+}
+
+.typologyActive small {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.resultsInfo {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto 26px;
+  color: rgba(23, 23, 47, 0.68);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.resultsInfo strong {
+  color: #00a74f;
+  font-weight: 900;
+}
+
 /* CARDS DE PROYECTOS */
 
 .grid {
@@ -348,6 +431,25 @@
   overflow: hidden;
 }
 
+.typologyTags {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.typologyTag {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0, 167, 79, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .details {
   min-width: 0;
   opacity: 0;
@@ -434,6 +536,25 @@
   overflow: hidden;
 }
 
+.locationLink {
+  grid-column: 1 / -1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.locationLink strong {
+  transition: color 0.25s ease;
+}
+
+.locationLink:hover strong {
+  color: #00ff78;
+}
+
 .footer {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -474,7 +595,36 @@
   box-shadow: 0 16px 34px rgba(0, 167, 79, 0.32);
 }
 
-/* ENTREGADOS - DISEÑO ÚNICO */
+/* SIN RESULTADOS */
+
+.emptyState {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 44px);
+  border-radius: 28px;
+  background: #f7faf8;
+  border: 1px solid rgba(23, 23, 47, 0.08);
+  text-align: center;
+}
+
+.emptyState h3 {
+  margin: 0;
+  color: #17172f;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.emptyState p {
+  max-width: 520px;
+  margin: 16px auto 24px;
+  color: rgba(23, 23, 47, 0.68);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+/* ENTREGADOS */
 
 .deliveredSection {
   position: relative;
@@ -716,6 +866,10 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .typologyFilters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
@@ -803,6 +957,31 @@
   .deliveredHeader p {
     margin: 16px 0 0;
     font-size: 0.94rem;
+  }
+
+  .typologyFilters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .typologyButton {
+    min-height: 66px;
+    padding: 12px;
+    border-radius: 15px;
+  }
+
+  .typologyButton span {
+    font-size: 0.76rem;
+  }
+
+  .typologyButton small {
+    font-size: 0.64rem;
+  }
+
+  .resultsInfo {
+    text-align: left;
+    margin-bottom: 20px;
   }
 
   .grid {
@@ -896,6 +1075,19 @@
     text-shadow: none;
   }
 
+  .typologyTags {
+    margin-top: 8px;
+    gap: 5px;
+  }
+
+  .typologyTag {
+    padding: 5px 8px;
+    color: #00a74f;
+    background: rgba(0, 167, 79, 0.08);
+    border-color: rgba(0, 167, 79, 0.12);
+    font-size: 0.5rem;
+  }
+
   .details {
     opacity: 1;
     max-height: none;
@@ -938,6 +1130,15 @@
     text-overflow: ellipsis;
   }
 
+  .locationLink {
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .locationLink:hover strong {
+    color: #00a74f;
+  }
+
   .footer {
     padding: 0;
     background: transparent;
@@ -955,6 +1156,16 @@
     padding: 0 13px;
     font-size: 0.66rem;
     box-shadow: none;
+  }
+
+  .emptyState {
+    text-align: left;
+    border-radius: 22px;
+  }
+
+  .emptyState p {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .deliveredGrid {
@@ -1005,6 +1216,10 @@
 }
 
 @media (max-width: 420px) {
+  .typologyFilters {
+    grid-template-columns: 1fr;
+  }
+
   .card {
     grid-template-columns: 40% minmax(0, 1fr);
     min-height: 148px;
@@ -1051,7 +1266,9 @@
   .ctaButton,
   .deliveredItem,
   .deliveredItem::before,
-  .deliveredItem::after {
+  .deliveredItem::after,
+  .typologyButton,
+  .locationLink strong {
     transition: none;
   }
 
@@ -1061,7 +1278,8 @@
   .primaryButton:hover,
   .secondaryButton:hover,
   .ctaButton:hover,
-  .deliveredItem:hover {
+  .deliveredItem:hover,
+  .typologyButton:hover {
     transform: none;
   }
 }

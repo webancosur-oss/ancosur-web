@@ -21,56 +21,52 @@ const AUTO_PLAY_DELAY = 6500;
 const slides = [
   {
     id: 1,
-    label: "Vive Conectado:",
     title: "Una Ciudad dentro de tu Edificio",
-    subtitle: "Departamentos, lotes e inversiones inmobiliarias",
     location: "Huancayo",
     type: "Comprar",
     price: "Desde S/ 211,270",
+    logoImage: "/assets/images/distrito-sancarlos.svg",
     desktopImage: "/assets/projects/sliders/distrito-san-carlos.webp",
-    mobileImage: "/assets/projects/sliders/mobile/distrito-san-carlos-mobile.webp",
+    mobileImage:
+      "/assets/projects/sliders/mobile/distrito-san-carlos-mobile.webp",
   },
   {
     id: 2,
-    label: "Vive en Bienestar:",
     title: "El Primer Edificio Wellness de Huancayo",
-    subtitle: "Departamentos, lotes e inversiones inmobiliarias",
     location: "Huancayo",
     type: "Comprar",
     price: "Desde S/ 211,270",
+    logoImage: "/assets/images/neo-rivera.svg",
     desktopImage: "/assets/projects/sliders/neo-rivera.webp",
     mobileImage: "/assets/projects/sliders/mobile/neo-rivera-mobile.webp",
   },
   {
     id: 3,
-    label: "Vive en Movimiento",
     title: "El Primer Edificio con ADN Deportivo de Huancayo",
-    subtitle: "Ubicación, comodidad y espacios para disfrutar cada día",
     location: "San Carlos",
     type: "Comprar",
     price: "Desde S/ 213,060",
+    logoImage: "/assets/images/neo-xport.svg",
     desktopImage: "/assets/projects/sliders/neo-xport.webp",
     mobileImage: "/assets/projects/sliders/mobile/neo-xport-mobile.webp",
   },
   {
     id: 4,
-    label: "Vive y Trasciende",
     title: "Inversión Inteligente en el Corazón de la Zona Universitaria",
-    subtitle: "Opciones ideales para vivir, invertir o construir tu futuro",
     location: "San Carlos",
     type: "Invertir",
     price: "Desde S/ 174,143",
+    logoImage: "/assets/images/neo-eterna.svg",
     desktopImage: "/assets/projects/sliders/neo-eterna.webp",
     mobileImage: "/assets/projects/sliders/mobile/neo-eterna-mobile.webp",
   },
   {
     id: 5,
-    label: "Vive en Familia",
     title: "El Primer Edificio Pet-Centric de Huancayo",
-    subtitle: "Opciones ideales para vivir, invertir o construir tu futuro",
     location: "El Tambo",
     type: "Comprar",
     price: "Desde S/ 169,590",
+    logoImage: "/assets/images/neo-balto.svg",
     desktopImage: "/assets/projects/sliders/neo-balto.webp",
     mobileImage: "/assets/projects/sliders/mobile/neo-balto-mobile.webp",
   },
@@ -161,9 +157,7 @@ export default function HeroAncosur() {
     }
   };
 
-  const labelParts = activeSlide.label.split(" ");
-  const labelFirstWord = labelParts[0];
-  const labelRest = labelParts.slice(1).join(" ");
+  
 
   return (
     <section
@@ -208,13 +202,21 @@ export default function HeroAncosur() {
         key={`content-${activeSlide.id}`}
         className={`${styles.content} ${directionClass}`}
       >
-        <p className={styles.label}>
-          {labelFirstWord} <strong>{labelRest}</strong>
-        </p>
+        
+        <h1 className={styles.seoTitle}>{activeSlide.title}</h1>
 
-        <h1>{activeSlide.title}</h1>
+        <div className={styles.titleLogoBox}>
+          <Image
+            src={activeSlide.logoImage}
+            alt={activeSlide.title}
+            width={560}
+            height={190}
+            priority={activeIndex === 0}
+            className={styles.titleLogo}
+          />
+        </div>
 
-        <p className={styles.subtitle}>{activeSlide.subtitle}</p>
+        <p className={styles.subtitle}>{activeSlide.title}</p>
 
         <div className={styles.searchBox}>
           <div className={styles.searchItem}>

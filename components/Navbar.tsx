@@ -14,6 +14,9 @@ import styles from "./Navbar.module.css";
 
 const LOGO_SRC = "/assets/images/ancosur-logo-black.svg";
 
+const WHATSAPP_LINK =
+  "https://wa.me/51971069763?text=Hola,%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
+
 const mainLinks = [
   { label: "Departamentos", href: "/departamentos" },
   { label: "Lotes", href: "/lotes" },
@@ -110,7 +113,13 @@ export default function Navbar() {
         </nav>
 
         <div className={styles.actions}>
-          <a href="tel:+51971069763" className={styles.phoneLink}>
+          <a
+            href={WHATSAPP_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.phoneLink}
+            aria-label="Contactar por WhatsApp"
+          >
             <WhatsappLogoIcon size={19} weight="bold" aria-hidden="true" />
             <span>971 069 763</span>
           </a>
@@ -178,9 +187,12 @@ export default function Navbar() {
 
           <div className={styles.mobileActions}>
             <a
-              href="tel:+51971069763"
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
               className={styles.mobilePhone}
               onClick={closeMenu}
+              aria-label="Contactar por WhatsApp"
             >
               <PhoneCallIcon size={20} weight="bold" aria-hidden="true" />
               971 069 763

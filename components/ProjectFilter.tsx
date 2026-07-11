@@ -19,7 +19,7 @@ const filters: FilterStatus[] = [
   "PRE VENTA",
   "EN CONSTRUCCIÓN",
   "ENTREGA INMEDIATA",
-  "SIN UNIDADES",
+  "VENDIDOS",
   "ENTREGADO",
 ];
 

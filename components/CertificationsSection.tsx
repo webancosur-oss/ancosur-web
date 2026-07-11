@@ -21,7 +21,7 @@ const certifications: Certification[] = [
     subtitle: "Calidad y procesos",
     description:
       "Respaldo en control, orden y mejora continua para desarrollar proyectos con mayor confianza.",
-    image: "/assets/certificados/isos.svg",
+    image: "/assets/certificados/sgs.svg",
     href: "https://www.sgs.com/es-pe",
     points: ["Control", "Calidad", "Confianza"],
   },
@@ -31,7 +31,7 @@ const certifications: Certification[] = [
     subtitle: "Formación técnica",
     description:
       "Capacitación y actualización para fortalecer el conocimiento técnico de nuestro equipo.",
-    image: "/assets/certificados/instituto.svg",
+    image: "/assets/certificados/capeco.svg",
     href: "https://www.capeco.org",
     points: ["Capacitación", "Buenas prácticas", "Respaldo técnico"],
   },
@@ -70,7 +70,7 @@ export default function CertificationsSection() {
       <div className={styles.container}>
         <div className={styles.header}>
           <span>Respaldo ANCOSUR</span>
-          <h2>Confianza para elegir mejor.</h2>
+          <h2>Certificaciones que respaldan nuestra excelencia</h2>
           <p>
             Trabajamos con procesos, capacitación y respaldo técnico para darte
             mayor seguridad al invertir.
@@ -124,6 +124,7 @@ export default function CertificationsSection() {
             </article>
           ))}
         </div>
+
       </div>
     </section>
   );

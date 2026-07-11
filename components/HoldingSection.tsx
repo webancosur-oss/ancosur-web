@@ -1,9 +1,42 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import styles from "./HoldingSection.module.css";
 
-const platforms = [
+type PlatformId =
+  | "inmobiliario"
+  | "construccion"
+  | "resort"
+  | "arquitectura"
+  | "gestion"
+  | "podcast";
+
+type Accent =
+  | "greenBrand"
+  | "greenForest"
+  | "greenFresh"
+  | "greenOlive"
+  | "greenDeep"
+  | "greenLime";
+
+type Platform = {
+  id: PlatformId;
+  label: string;
+  description: string;
+};
+
+type Company = {
+  name: string;
+  category: string;
+  platform: PlatformId;
+  description: string;
+  href: string;
+  accent: Accent;
+  logo: string;
+};
+
+const platforms: Platform[] = [
   {
     id: "inmobiliario",
     label: "Inmobiliario",
@@ -36,24 +69,25 @@ const platforms = [
   },
 ];
 
-const companies = [
+const companies: Company[] = [
   {
     name: "ANCOSUR",
     category: "Desarrollo inmobiliario",
     platform: "inmobiliario",
     description:
       "Proyectos inmobiliarios para vivir, invertir y construir futuro.",
-    href: "https://ancosur.pe/",
-    accent: "blue",
+    href: "/nosotros",
+    accent: "greenBrand",
+    logo: "/assets/images/ancosur-logo-white.svg",
   },
   {
     name: "STRATON",
     category: "Construcción",
     platform: "construccion",
-    description:
-      "Construcción de proyectos con eficiencia, técnica y calidad.",
+    description: "Construcción de proyectos con eficiencia, técnica y calidad.",
     href: "#",
-    accent: "purple",
+    accent: "greenForest",
+    logo: "/assets/images/straton.svg",
   },
   {
     name: "ZAGARI",
@@ -62,7 +96,8 @@ const companies = [
     description:
       "Proyectos turísticos que conectan inversión, naturaleza y experiencia.",
     href: "https://zagari.pe/",
-    accent: "green",
+    accent: "greenFresh",
+    logo: "/assets/images/zagari.svg",
   },
   {
     name: "DARKHAM",
@@ -71,7 +106,8 @@ const companies = [
     description:
       "Diseño arquitectónico que transforma ideas en espacios con identidad.",
     href: "#",
-    accent: "black",
+    accent: "greenDeep",
+    logo: "/assets/images/darkham.svg",
   },
   {
     name: "SULPAA",
@@ -79,8 +115,9 @@ const companies = [
     platform: "gestion",
     description:
       "Gestión estratégica de proyectos e inversiones para generar valor.",
-    href: "#",
-    accent: "red",
+    href: "https://sulpaa.com/",
+    accent: "greenOlive",
+    logo: "/assets/images/sulpaa.svg",
   },
   {
     name: "TERCER ESPACIO",
@@ -88,13 +125,15 @@ const companies = [
     platform: "podcast",
     description:
       "Un espacio de conversación, ideas y comunidad impulsado por ANCOSUR.",
-    href: "#",
-    accent: "gold",
+    href: "https://open.spotify.com/show/4MlsSTgEjZAUKhd9SsQ5tp",
+    accent: "greenLime",
+    logo: "/assets/images/tercer-espacio.svg",
   },
 ];
 
 export default function HoldingSection() {
-  const [activePlatform, setActivePlatform] = useState("inmobiliario");
+  const [activePlatform, setActivePlatform] =
+    useState<PlatformId>("inmobiliario");
 
   const activeCompany = useMemo(() => {
     return (
@@ -151,32 +190,37 @@ export default function HoldingSection() {
 
           <div className={styles.content}>
             <article className={styles.featureCard}>
+              <small className={styles.category}>{activeCompany.category}</small>
+
               <div className={styles.featureLogo}>
-                {activeCompany.name.charAt(0)}
+                <Image
+                  src={activeCompany.logo}
+                  alt={activeCompany.name}
+                  width={620}
+                  height={260}
+                  className={styles.featureLogoImage}
+                  priority
+                />
               </div>
 
-              <div className={styles.featureInfo}>
-                <small>{activeCompany.category}</small>
-                <h3>{activeCompany.name}</h3>
-                <p>{activeCompany.description}</p>
+              <p>{activeCompany.description}</p>
 
-                {hasWebsite ? (
-                  <a
-                    href={activeCompany.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    Conocer más
-                    <span aria-hidden="true">→</span>
-                  </a>
-                ) : (
-                  <span className={`${styles.link} ${styles.linkDisabled}`}>
-                    Próximamente
-                    <span aria-hidden="true">→</span>
-                  </span>
-                )}
-              </div>
+              {hasWebsite ? (
+                <a
+                  href={activeCompany.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                  Conocer más
+                  <span aria-hidden="true">→</span>
+                </a>
+              ) : (
+                <span className={`${styles.link} ${styles.linkDisabled}`}>
+                  Próximamente
+                  <span aria-hidden="true">→</span>
+                </span>
+              )}
             </article>
           </div>
         </div>

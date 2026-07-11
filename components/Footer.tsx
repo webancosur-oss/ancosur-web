@@ -20,22 +20,24 @@ const logoSrc = "/assets/images/ancosur-logo-white.svg"
 
 
 const companyLinks: FooterLink[] = [
-  { label: "Departamentos", href: "#departamentos" },
-  { label: "Lotes", href: "#lotes" },
+  { label: "Departamentos", href: "/departamentos" },
+  { label: "Lotes", href: "/lotes" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Trabaja con nosotros", href: "/trabaja-con-nosotros" },
 ];
 
 const investorLinks: FooterLink[] = [
   { label: "Inversionistas", href: "/inversionistas" },
-  { label: "Compra de terrenos", href: "/compra-de-terrenos" },
-  { label: "Portal de Transparencia", href: "/portal-de-transparencia" },
+  { label: "Compra de terrenos", href: "/beneficios" },
+  // { label: "Portal de Transparencia", href: "/portal-de-transparencia" },
   { label: "Políticas", href: "/politicas" },
 ];
 
 const supportLinks: FooterLink[] = [
-  { label: "Libro de Reclamaciones", href: "/libro-de-reclamaciones" },
-  { label: "Certificados", href: "/certificados" },
+{
+  label: "Libro de Reclamaciones",
+  href: "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
+},  { label: "Certificados", href: "#certificaciones" },
 ];
 
 const socialLinks: SocialLink[] = [
@@ -122,7 +124,7 @@ export default function Footer() {
 
         <div className={styles.columns}>
           <div className={styles.column}>
-            <h3>Nosotros</h3>
+            {/* <h3>Nosotros</h3> */}
             <ul>
               {companyLinks.map((item) => (
                 <li key={item.label}>
@@ -133,7 +135,7 @@ export default function Footer() {
           </div>
 
           <div className={styles.column}>
-            <h3>Políticas</h3>
+            {/* <h3>Políticas</h3> */}
             <ul>
               {investorLinks.map((item) => (
                 <li key={item.label}>
@@ -180,6 +182,7 @@ export default function Footer() {
             <Link
               key={item.label}
               href={item.href}
+              // target="_blank"
               className={styles.legalCard}
             >
               <span>{item.label}</span>

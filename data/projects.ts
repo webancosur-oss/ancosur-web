@@ -4,7 +4,7 @@ export type ProjectStatus =
   | "PRE VENTA"
   | "LANZAMIENTO"
   | "ENTREGA INMEDIATA"
-  | "SIN UNIDADES"
+  | "VENDIDOS"
 
   ;
 
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     name: "Neo Origen",
     type: "Departamento",
     location: "EL TAMBO – Jr. Libertad 1187 (A minutos de Plaza Vea)",
-    status: "SIN UNIDADES",
+    status: "VENDIDOS",
     image: "/assets/projects/origen.webp",
     href: "/neo-origen",
   },
@@ -78,7 +78,7 @@ export const projects: Project[] = [
     name: "Neo 18",
     type: "Departamento",
     location: "HUANCAYO – Av. San Carlos Cdra 24 (Cerca a la UPLA)",
-    status: "SIN UNIDADES",
+    status: "VENDIDOS",
     image: "/assets/projects/18.webp",
     href: "/neo-18",
   },

@@ -101,22 +101,14 @@ export default function PromoLeadPopup() {
   }, []);
 
   useEffect(() => {
-    if (!isVisible) return;
+  if (!isVisible) return;
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closePopup();
-      }
-    };
+  document.body.style.overflow = "hidden";
 
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [isVisible]);
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [isVisible]);
 
   const closePopup = () => {
     setIsVisible(false);
@@ -212,12 +204,7 @@ export default function PromoLeadPopup() {
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true">
-      <button
-        type="button"
-        className={styles.backdrop}
-        onClick={closePopup}
-        aria-label="Cerrar popup"
-      />
+      <div className={styles.backdrop} aria-hidden="true" />
 
       <div className={styles.popup}>
         <button

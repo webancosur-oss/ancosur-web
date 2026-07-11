@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./FloatingActions.module.css";
 
 const whatsappUrl =
-  "https://wa.me/51971069763?text=Hola%20ANCOSUR%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20proyectos.";
+  "https://wa.me/51971069763?text=Hola,%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
 
 export default function FloatingActions() {
   const [showTopButton, setShowTopButton] = useState(false);

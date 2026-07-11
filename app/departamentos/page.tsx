@@ -1,7 +1,6 @@
 import {
   ArrowRightIcon,
   BuildingsIcon,
-  CheckCircleIcon,
   MapPinIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { projects } from "@/data/projects";
@@ -15,6 +14,72 @@ export const metadata = {
   title: "Departamentos en Huancayo",
   description:
     "Encuentra departamentos en venta en Huancayo con ANCOSUR Inmobiliaria. Proyectos modernos para vivir e invertir.",
+};
+
+type ProjectTypology = "impulso" | "equilibrio" | "espacio" | "tiempo" | "luz";
+type FilterTypology = "todos" | ProjectTypology;
+
+type DepartamentosPageProps = {
+  searchParams?:
+    | Promise<{
+        tipologia?: string | string[];
+      }>
+    | {
+        tipologia?: string | string[];
+      };
+};
+
+const typologyFilters: {
+  id: FilterTypology;
+  label: string;
+  subtitle: string;
+}[] = [
+  {
+    id: "todos",
+    label: "Todos",
+    subtitle: "Ver proyectos",
+  },
+  {
+    id: "impulso",
+    label: "Impulso",
+    subtitle: "Tu primer gran paso",
+  },
+  {
+    id: "equilibrio",
+    label: "Equilibrio",
+    subtitle: "Vida y trabajo",
+  },
+  {
+    id: "espacio",
+    label: "Espacio",
+    subtitle: "Para compartir",
+  },
+  {
+    id: "tiempo",
+    label: "Tiempo",
+    subtitle: "Más eficiencia",
+  },
+  {
+    id: "luz",
+    label: "Luz",
+    subtitle: "Energía que inspira",
+  },
+];
+
+const typologyLabelMap: Record<ProjectTypology, string> = {
+  impulso: "Impulso",
+  equilibrio: "Equilibrio",
+  espacio: "Espacio",
+  tiempo: "Tiempo",
+  luz: "Luz",
+};
+
+const projectTypologyMap: Record<string, ProjectTypology[]> = {
+  "neo eterna": ["impulso", "equilibrio", "espacio", "tiempo", "luz"],
+  "neo xport": ["luz", "impulso"],
+  "neo balto": ["luz", "impulso"],
+  "neo rivera": ["luz", "equilibrio"],
+  "distrito san carlos": ["espacio", "equilibrio", "impulso"],
 };
 
 const deliveredProjectNames = [
@@ -49,13 +114,66 @@ const departamentosDisponibles = projects.filter((project) => {
   const isDepartment = project.type.toLowerCase().includes("depart");
   const isDelivered =
     project.status === "ENTREGADO" ||
-    project.status === "SIN UNIDADES" ||
+    project.status === "VENDIDOS" ||
     deliveredProjectSet.has(project.name.toLowerCase());
 
   return isDepartment && !isDelivered;
 });
 
-export default function DepartamentosPage() {
+const getGoogleMapsHref = (projectName: string, location: string) => {
+  const query = `${projectName} ANCOSUR ${location} Huancayo Perú`;
+
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    query
+  )}`;
+};
+
+const getProjectTypologies = (projectName: string): ProjectTypology[] => {
+  const normalizedName = projectName.toLowerCase();
+
+  const matchedProject = Object.entries(projectTypologyMap).find(([name]) =>
+    normalizedName.includes(name)
+  );
+
+  return matchedProject?.[1] ?? [];
+};
+
+const getFilterHref = (id: FilterTypology) => {
+  if (id === "todos") {
+    return "/departamentos#departamentos";
+  }
+
+  return `/departamentos?tipologia=${id}#departamentos`;
+};
+
+const isValidTypology = (value: string | undefined): value is FilterTypology => {
+  return typologyFilters.some((item) => item.id === value);
+};
+
+export default async function DepartamentosPage({
+  searchParams,
+}: DepartamentosPageProps) {
+  const resolvedSearchParams = await searchParams;
+
+  const rawTypology = Array.isArray(resolvedSearchParams?.tipologia)
+    ? resolvedSearchParams?.tipologia[0]
+    : resolvedSearchParams?.tipologia;
+
+  const selectedTypology: FilterTypology = isValidTypology(rawTypology)
+    ? rawTypology
+    : "todos";
+
+  const selectedTypologyData =
+    typologyFilters.find((item) => item.id === selectedTypology) ??
+    typologyFilters[0];
+
+  const filteredDepartamentos =
+    selectedTypology === "todos"
+      ? departamentosDisponibles
+      : departamentosDisponibles.filter((project) =>
+          getProjectTypologies(project.name).includes(selectedTypology)
+        );
+
   return (
     <>
       <Navbar />
@@ -85,139 +203,174 @@ export default function DepartamentosPage() {
           </div>
         </section>
 
-        {/* <section className={styles.intro}>
-          <div className={styles.introText}>
-            <span>Vive o invierte</span>
-            <h2>Departamentos para cada etapa de tu vida</h2>
-          </div>
-
-          <div className={styles.introGrid}>
-            <article>
-              <CheckCircleIcon size={24} weight="fill" aria-hidden="true" />
-              <h3>Ubicaciones estratégicas</h3>
-              <p>
-                Proyectos cerca de zonas comerciales, educativas y de alto
-                crecimiento.
-              </p>
-            </article>
-
-            <article>
-              <CheckCircleIcon size={24} weight="fill" aria-hidden="true" />
-              <h3>Opciones para vivir</h3>
-              <p>
-                Departamentos para familias, jóvenes profesionales e
-                inversionistas.
-              </p>
-            </article>
-
-            <article>
-              <CheckCircleIcon size={24} weight="fill" aria-hidden="true" />
-              <h3>Respaldo ANCOSUR</h3>
-              <p>
-                Te acompañamos desde la elección del proyecto hasta concretar tu
-                inversión.
-              </p>
-            </article>
-          </div>
-        </section> */}
-
         <section className={styles.projectsSection} id="departamentos">
           <div className={styles.sectionHeader}>
-            <span>Proyectos disponibles</span>
-            <h2>Departamentos ANCOSUR</h2>
+            <span>Tipologías ANCOSUR</span>
+            <h2>
+              {selectedTypology === "todos"
+                ? "Departamentos ANCOSUR"
+                : `Tipo ${selectedTypologyData.label}`}
+            </h2>
             <p>
-              Explora nuestras opciones activas y elige el proyecto que mejor se
-              adapte a tu forma de vivir o invertir.
+              Filtra por nuestras 5 tipologías especiales y encuentra el
+              proyecto que mejor se adapta a tu forma de vivir o invertir.
             </p>
           </div>
 
-          <div className={styles.grid}>
-            {departamentosDisponibles.map((project) => {
-              const locationText =
+          <div className={styles.typologyFilters}>
+            {typologyFilters.map((item) => (
+              <Link
+                key={item.id}
+                href={getFilterHref(item.id)}
+                className={`${styles.typologyButton} ${
+                  selectedTypology === item.id ? styles.typologyActive : ""
+                }`}
+              >
+                <span>{item.label}</span>
+                <small>{item.subtitle}</small>
+              </Link>
+            ))}
+          </div>
+
+          <div className={styles.resultsInfo}>
+            Mostrando <strong>{filteredDepartamentos.length}</strong>{" "}
+            {filteredDepartamentos.length === 1
+              ? "proyecto"
+              : "proyectos"}{" "}
+            {selectedTypology !== "todos" && (
+              <>
+                con tipología <strong>{selectedTypologyData.label}</strong>
+              </>
+            )}
+          </div>
+
+          {filteredDepartamentos.length > 0 ? (
+            <div className={styles.grid}>
+              {filteredDepartamentos.map((project) => {
+                const locationText =
                 project.location ?? "Ubicación por consultar";
+                const projectTypologies = getProjectTypologies(project.name);
+                const mapsHref = getGoogleMapsHref(project.name, locationText);
 
-              return (
-                <article key={project.id} className={styles.card}>
-                  <div className={styles.imageBox}>
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      width={900}
-                      height={680}
-                      className={styles.image}
-                      sizes="(max-width: 640px) 42vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-
-                  <div className={styles.overlay} />
-
-                  <span className={styles.statusBadge}>{project.status}</span>
-
-                  <div className={styles.cardContent}>
-                    <div className={styles.mainInfo}>
-                      <span className={styles.type}>{project.type}</span>
-                      <h3>{project.name}</h3>
+                return (
+                  <article key={project.id} className={styles.card}>
+                    <div className={styles.imageBox}>
+                      <Image
+                        src={project.image}
+                        alt={project.name}
+                        width={900}
+                        height={680}
+                        className={styles.image}
+                        sizes="(max-width: 640px) 42vw, (max-width: 1024px) 50vw, 33vw"
+                      />
                     </div>
 
-                    <div className={styles.details}>
-                      <div className={styles.metaGrid}>
-                        <div className={styles.metaItem}>
-                          <MapPinIcon
-                            size={18}
-                            weight="bold"
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <span>Ubicación</span>
-                            <strong>{locationText}</strong>
+                    <div className={styles.overlay} />
+
+                    <span className={styles.statusBadge}>
+                      {project.status}
+                    </span>
+
+                    <div className={styles.cardContent}>
+                      <div className={styles.mainInfo}>
+                        <span className={styles.type}>{project.type}</span>
+                        <h3>{project.name}</h3>
+
+                        {projectTypologies.length > 0 && (
+                          <div className={styles.typologyTags}>
+                            {projectTypologies.map((typology) => (
+                              <span
+                                key={typology}
+                                className={styles.typologyTag}
+                              >
+                                {typologyLabelMap[typology]}
+                              </span>
+                            ))}
                           </div>
-                        </div>
-
-                        <div className={styles.metaItem}>
-                          <BuildingsIcon
-                            size={18}
-                            weight="bold"
-                            aria-hidden="true"
-                          />
-                          <div>
-                            <span>Tipo</span>
-                            <strong>{project.type}</strong>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className={styles.footer}>
-                        <div className={styles.footerText}>
-                          <span>Estado</span>
-                          <strong>{project.status}</strong>
-                        </div>
-
-                        {project.href ? (
-                          <Link href={project.href} className={styles.link}>
-                            Ver más
-                            <ArrowRightIcon
-                              size={17}
-                              weight="bold"
-                              aria-hidden="true"
-                            />
-                          </Link>
-                        ) : (
-                          <a href="#asesoria" className={styles.link}>
-                            Consultar
-                            <ArrowRightIcon
-                              size={17}
-                              weight="bold"
-                              aria-hidden="true"
-                            />
-                          </a>
                         )}
                       </div>
+
+                      <div className={styles.details}>
+                        <div className={styles.metaGrid}>
+                          <div className={styles.metaItem}>
+                            <a
+                              href={mapsHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.locationLink}
+                              aria-label={`Ver ubicación de ${project.name} en Google Maps`}
+                            >
+                              <MapPinIcon
+                                size={18}
+                                weight="bold"
+                                aria-hidden="true"
+                              />
+
+                              <div>
+                                <span>Ubicación</span>
+                                <strong>{locationText}</strong>
+                              </div>
+                            </a>
+                          </div>
+
+                          <div className={styles.metaItem}>
+                            <BuildingsIcon
+                              size={18}
+                              weight="bold"
+                              aria-hidden="true"
+                            />
+                            <div>
+                              <span>Tipo</span>
+                              <strong>{project.type}</strong>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={styles.footer}>
+                          <div className={styles.footerText}>
+                            <span>Estado</span>
+                            <strong>{project.status}</strong>
+                          </div>
+
+                          {project.href ? (
+                            <Link href={project.href} className={styles.link}>
+                              Ver más
+                              <ArrowRightIcon
+                                size={17}
+                                weight="bold"
+                                aria-hidden="true"
+                              />
+                            </Link>
+                          ) : (
+                            <a href="#asesoria" className={styles.link}>
+                              Consultar
+                              <ArrowRightIcon
+                                size={17}
+                                weight="bold"
+                                aria-hidden="true"
+                              />
+                            </a>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <h3>No hay proyectos activos con esta tipología.</h3>
+              <p>
+                Déjanos tus datos y un asesor te ayudará a encontrar una opción
+                similar.
+              </p>
+              <a href="#asesoria" className={styles.primaryButton}>
+                Solicitar asesoría
+                <ArrowRightIcon size={18} weight="bold" aria-hidden="true" />
+              </a>
+            </div>
+          )}
         </section>
 
         <section className={styles.deliveredSection}>
@@ -299,6 +452,11 @@ export default function DepartamentosPage() {
                   <option value="Departamento para invertir">
                     Departamento para invertir
                   </option>
+                  <option value="Tipo Impulso">Tipo Impulso</option>
+                  <option value="Tipo Equilibrio">Tipo Equilibrio</option>
+                  <option value="Tipo Espacio">Tipo Espacio</option>
+                  <option value="Tipo Tiempo">Tipo Tiempo</option>
+                  <option value="Tipo Luz">Tipo Luz</option>
                   <option value="Asesoría personalizada">
                     Asesoría personalizada
                   </option>

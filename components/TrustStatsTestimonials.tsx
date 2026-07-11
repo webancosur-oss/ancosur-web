@@ -40,7 +40,7 @@ const stats: StatItem[] = [
     suffix: "Años",
     label: "Experiencia",
     description: "Trayectoria en proyectos inmobiliarios.",
-    accent: "#00a74f",
+    accent: "#00A74F",
   },
   {
     value: 100,
@@ -48,21 +48,21 @@ const stats: StatItem[] = [
     suffix: "MM",
     label: "Inversión",
     description: "Respaldo en proyectos de alto valor.",
-    accent: "#d6b300",
+    accent: "#1F6D4A",
   },
   {
     value: 200,
     prefix: "+",
     label: "Propiedades",
     description: "Departamentos, lotes e inversión.",
-    accent: "#8fd6b3",
+    accent: "#8FAA55",
   },
   {
     value: 9,
     prefix: "+",
     label: "Entregados",
     description: "Proyectos culminados con compromiso.",
-    accent: "#00a74f",
+    accent: "#102D16",
   },
 ];
 
@@ -70,24 +70,26 @@ const testimonials: TestimonialItem[] = [
   {
     id: 1,
     name: "Familia ANCOSUR",
-    project: "Neo Emperatriz",
+    project: "Neo Origen",
     quote:
       "Encontramos un departamento ideal para nuestra familia, con buena ubicación y el acompañamiento que necesitábamos.",
     iframeSrc:
-      "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1692833732157565%2F&show_text=false&width=267&t=0",
+      "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1308792507541429%2F&show_text=false&width=267&t=0",
   },
   {
     id: 2,
-    name: "Cliente inversionista",
+    name: "Familia ANCOSUR",
     project: "Neo Emperatriz",
     quote:
       "Elegimos invertir porque vimos respaldo, confianza y una ubicación con gran proyección para nuestro futuro.",
     iframeSrc:
       "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F4148433428738238%2F&show_text=false&width=267&t=0",
   },
+
+  
   {
     id: 3,
-    name: "Nuevo propietario",
+    name: "Familia ANCOSUR",
     project: "Neo Emperatriz",
     quote:
       "El proceso fue claro desde el inicio. Recibimos orientación en cada etapa hasta concretar nuestro nuevo hogar.",

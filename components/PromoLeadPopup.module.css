@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 18px;
   box-sizing: border-box;
 }
 
@@ -15,50 +15,50 @@
   border: none;
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(6px);
-  cursor: pointer;
+  cursor: default;
 }
 
 .popup {
   position: relative;
   z-index: 2;
-  width: min(1080px, 94vw);
-  max-height: 92dvh;
+  width: min(980px, 94vw);
+  max-height: 90dvh;
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 22px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.9fr);
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.42);
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.78fr);
+  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.4);
   animation: popupShow 0.35s ease;
 }
 
 .imageSide {
   position: relative;
-  min-height: 560px;
+  min-height: 500px;
   background: #111111;
   overflow: hidden;
 }
 
 .campaignTabs {
   position: absolute;
-  left: 18px;
-  right: 72px;
-  top: 18px;
+  left: 16px;
+  right: 64px;
+  top: 16px;
   z-index: 4;
   display: flex;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
 .campaignTab {
-  min-height: 38px;
-  padding: 0 14px;
+  min-height: 34px;
+  padding: 0 12px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   background: rgba(23, 23, 47, 0.68);
   color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.68rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -80,24 +80,24 @@
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 560px;
+  min-height: 500px;
   object-fit: cover;
 }
 
 .formSide {
-  padding: clamp(26px, 3.5vw, 48px);
+  padding: clamp(22px, 3vw, 34px);
   overflow-y: auto;
-  max-height: 92dvh;
-  background: #fff7f1;
+  max-height: 90dvh;
+  background: #ffffff;
   box-sizing: border-box;
 }
 
 .eyebrow {
   display: inline-flex;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   color: #00a74f;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -106,35 +106,35 @@
 .success h2 {
   margin: 0;
   color: #17172f;
-  font-size: clamp(2rem, 3vw, 3.2rem);
-  line-height: 1;
+  font-size: clamp(1.75rem, 2.7vw, 2.65rem);
+  line-height: 0.98;
   letter-spacing: -0.05em;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .description,
 .success p {
-  margin: 16px 0 0;
-  color: rgba(23, 23, 47, 0.82);
-  font-size: 0.98rem;
-  line-height: 1.52;
+  margin: 12px 0 0;
+  color: rgba(23, 23, 47, 0.76);
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .form {
-  margin-top: 24px;
+  margin-top: 18px;
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .field {
   display: grid;
-  gap: 7px;
+  gap: 5px;
 }
 
 .field label {
   color: #17172f;
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 850;
 }
 
 .field input,
@@ -142,12 +142,12 @@
 .field textarea {
   width: 100%;
   border: 1px solid rgba(23, 23, 47, 0.18);
-  border-radius: 10px;
+  border-radius: 9px;
   background: #ffffff;
   color: #17172f;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-family: inherit;
-  padding: 12px 14px;
+  padding: 9px 12px;
   outline: none;
   box-sizing: border-box;
   transition:
@@ -155,10 +155,15 @@
     box-shadow 0.25s ease;
 }
 
+.field input,
+.field select {
+  min-height: 40px;
+}
+
 .field textarea {
   resize: vertical;
-  min-height: 86px;
-  max-height: 130px;
+  min-height: 62px;
+  max-height: 96px;
 }
 
 .field input:focus,
@@ -171,36 +176,38 @@
 .checkbox {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 9px;
   color: #17172f;
-  font-size: 0.84rem;
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.35;
   cursor: pointer;
 }
 
 .checkbox input {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
   accent-color: #00a74f;
   flex-shrink: 0;
 }
 
 .error {
   color: #d71920;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 800;
 }
 
 .submitButton {
   width: 100%;
-  min-height: 50px;
+  min-height: 44px;
   border: none;
-  border-radius: 10px;
+  border-radius: 9px;
   background: #00a74f;
   color: #ffffff;
-  font-size: 0.98rem;
-  font-weight: 700;
+  font-size: 0.88rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition:
     background 0.25s ease,
@@ -216,16 +223,16 @@
 
 .closeButton {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 14px;
+  right: 14px;
   z-index: 8;
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border: none;
   border-radius: 50%;
   background: #17172f;
   color: #ffffff;
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
@@ -248,16 +255,16 @@
 
 .success span {
   display: inline-flex;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #00a74f;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.76rem;
+  font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .success .submitButton {
-  margin-top: 28px;
+  margin-top: 22px;
 }
 
 @keyframes popupShow {
@@ -276,7 +283,7 @@
 
 @media (max-width: 900px) {
   .popup {
-    width: min(680px, 94vw);
+    width: min(640px, 94vw);
     grid-template-columns: 1fr;
   }
 
@@ -288,13 +295,14 @@
     width: 100%;
     height: auto;
     min-height: 0;
-    max-height: 44dvh;
+    max-height: 38dvh;
     object-fit: contain;
     background: #111111;
   }
 
   .formSide {
-    max-height: 48dvh;
+    max-height: 50dvh;
+    padding: 22px;
   }
 }
 
@@ -302,7 +310,7 @@
 
 @media (max-width: 520px) {
   .overlay {
-    padding: 12px;
+    padding: 10px;
   }
 
   .popup {
@@ -312,43 +320,72 @@
   }
 
   .campaignTabs {
-    left: 12px;
-    right: 58px;
-    top: 12px;
-    gap: 6px;
+    left: 10px;
+    right: 54px;
+    top: 10px;
+    gap: 5px;
   }
 
   .campaignTab {
-    min-height: 32px;
-    padding: 0 10px;
-    font-size: 0.62rem;
+    min-height: 30px;
+    padding: 0 9px;
+    font-size: 0.58rem;
   }
 
   .popupImage {
-    max-height: 36dvh;
+    max-height: 32dvh;
   }
 
   .formSide {
-    padding: 24px 18px;
-    max-height: 58dvh;
+    padding: 20px 16px;
+    max-height: 60dvh;
   }
 
   .formSide h2,
   .success h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .description,
   .success p {
-    font-size: 0.94rem;
+    font-size: 0.86rem;
+  }
+
+  .form {
+    margin-top: 14px;
+    gap: 9px;
+  }
+
+  .field label {
+    font-size: 0.74rem;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 0.84rem;
+    padding: 8px 10px;
+  }
+
+  .field input,
+  .field select {
+    min-height: 38px;
+  }
+
+  .field textarea {
+    min-height: 54px;
+  }
+
+  .submitButton {
+    min-height: 42px;
   }
 
   .closeButton {
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    font-size: 1.8rem;
+    top: 9px;
+    right: 9px;
+    width: 38px;
+    height: 38px;
+    font-size: 1.7rem;
   }
 }
 
