@@ -51,7 +51,7 @@
   margin-bottom: 14px;
   color: #00a74f;
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
@@ -62,7 +62,7 @@
   font-size: clamp(2.35rem, 5vw, 4.8rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .header p {
@@ -145,7 +145,7 @@
   gap: 4px;
   color: var(--number-color);
   text-align: center;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -162,14 +162,14 @@
 .valuePrefix {
   font-size: clamp(0.95rem, 1.35vw, 1.25rem);
   line-height: 1;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.04em;
 }
 
 .valueNumber {
   font-size: clamp(2.05rem, 3.1vw, 2.85rem);
   line-height: 0.9;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.06em;
 }
 
@@ -178,7 +178,7 @@
   max-width: 100%;
   font-size: clamp(0.62rem, 0.85vw, 0.82rem);
   line-height: 1;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-align: center;
   text-transform: uppercase;
@@ -190,7 +190,7 @@
   color: #17172f;
   font-size: clamp(0.88rem, 1.05vw, 1rem);
   line-height: 1.25;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }

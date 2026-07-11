@@ -27,7 +27,8 @@ const slides = [
     location: "Huancayo",
     type: "Comprar",
     price: "Desde S/ 211,270",
-    images: ["/assets/projects/sliders/distrito.webp"],
+    desktopImage: "/assets/projects/sliders/distrito-san-carlos.webp",
+    mobileImage: "/assets/projects/sliders/mobile/distrito-san-carlos-mobile.webp",
   },
   {
     id: 2,
@@ -37,7 +38,8 @@ const slides = [
     location: "Huancayo",
     type: "Comprar",
     price: "Desde S/ 211,270",
-    images: ["/assets/projects/sliders/rivera.webp"],
+    desktopImage: "/assets/projects/sliders/neo-rivera.webp",
+    mobileImage: "/assets/projects/sliders/mobile/neo-rivera-mobile.webp",
   },
   {
     id: 3,
@@ -47,7 +49,8 @@ const slides = [
     location: "San Carlos",
     type: "Comprar",
     price: "Desde S/ 213,060",
-    images: ["/assets/projects/sliders/xport.webp"],
+    desktopImage: "/assets/projects/sliders/neo-xport.webp",
+    mobileImage: "/assets/projects/sliders/mobile/neo-xport-mobile.webp",
   },
   {
     id: 4,
@@ -57,7 +60,8 @@ const slides = [
     location: "San Carlos",
     type: "Invertir",
     price: "Desde S/ 174,143",
-    images: ["/assets/projects/sliders/eterna.webp"],
+    desktopImage: "/assets/projects/sliders/neo-eterna.webp",
+    mobileImage: "/assets/projects/sliders/mobile/neo-eterna-mobile.webp",
   },
   {
     id: 5,
@@ -65,9 +69,10 @@ const slides = [
     title: "El Primer Edificio Pet-Centric de Huancayo",
     subtitle: "Opciones ideales para vivir, invertir o construir tu futuro",
     location: "El Tambo",
-    type: "Lotes",
+    type: "Comprar",
     price: "Desde S/ 169,590",
-    images: ["/assets/projects/sliders/balto.webp"],
+    desktopImage: "/assets/projects/sliders/neo-balto.webp",
+    mobileImage: "/assets/projects/sliders/mobile/neo-balto-mobile.webp",
   },
 ];
 
@@ -81,7 +86,6 @@ export default function HeroAncosur() {
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const activeSlide = slides[activeIndex];
-  const activeImage = activeSlide.images[0];
 
   const directionClass =
     direction === "next" ? styles.slideNext : styles.slidePrev;
@@ -157,6 +161,10 @@ export default function HeroAncosur() {
     }
   };
 
+  const labelParts = activeSlide.label.split(" ");
+  const labelFirstWord = labelParts[0];
+  const labelRest = labelParts.slice(1).join(" ");
+
   return (
     <section
       className={styles.hero}
@@ -178,12 +186,22 @@ export default function HeroAncosur() {
         className={`${styles.background} ${directionClass}`}
       >
         <Image
-          src={activeImage}
-          // alt={activeSlide.title}
+          src={activeSlide.desktopImage}
+          alt={activeSlide.title}
           fill
           priority={activeIndex === 0}
-          className={styles.backgroundImage}
-          sizes="100vw" alt={""}        />
+          className={`${styles.backgroundImage} ${styles.desktopImage}`}
+          sizes="100vw"
+        />
+
+        <Image
+          src={activeSlide.mobileImage}
+          alt={activeSlide.title}
+          fill
+          priority={activeIndex === 0}
+          className={`${styles.backgroundImage} ${styles.mobileImage}`}
+          sizes="100vw"
+        />
       </div>
 
       <div
@@ -191,8 +209,7 @@ export default function HeroAncosur() {
         className={`${styles.content} ${directionClass}`}
       >
         <p className={styles.label}>
-          {activeSlide.label.split(" ")[0]}{" "}
-          <strong>{activeSlide.label.split(" ").slice(1).join(" ")}</strong>
+          {labelFirstWord} <strong>{labelRest}</strong>
         </p>
 
         <h1>{activeSlide.title}</h1>

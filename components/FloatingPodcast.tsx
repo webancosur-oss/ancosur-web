@@ -1,6 +1,6 @@
 "use client";
 
-import { PlayCircleIcon, SpotifyLogoIcon } from "@phosphor-icons/react";
+import { PlayCircleIcon, SpotifyLogoIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import styles from "./FloatingPodcast.module.css";
 
@@ -26,7 +26,7 @@ export default function FloatingPodcast() {
         aria-expanded={isOpen}
       >
         <span className={styles.icon}>
-          <PlayCircleIcon size={20} weight="fill" aria-hidden="true" />
+          <PlayCircleIcon size={21} weight="fill" aria-hidden="true" />
         </span>
         <span className={styles.text}>Podcast</span>
       </button>
@@ -47,7 +47,7 @@ export default function FloatingPodcast() {
             onClick={() => setIsOpen(false)}
             aria-label="Cerrar podcast"
           >
-            ×
+            <XIcon size={18} weight="bold" aria-hidden="true" />
           </button>
         </div>
 
@@ -58,7 +58,7 @@ export default function FloatingPodcast() {
             <iframe
               className={styles.spotifyFrame}
               src={episode.embedUrl}
-              width="100%"
+              width="496"
               height="279"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen

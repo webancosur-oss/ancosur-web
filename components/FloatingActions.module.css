@@ -1,0 +1,118 @@
+.floatingActions {
+  position: fixed;
+  right: clamp(16px, 2.4vw, 30px);
+  bottom: clamp(18px, 3vw, 32px);
+  z-index: 950;
+  display: grid;
+  gap: 12px;
+  justify-items: end;
+  pointer-events: none;
+}
+
+.whatsappButton,
+.topButton {
+  pointer-events: auto;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    transform 0.24s ease,
+    box-shadow 0.24s ease,
+    background 0.24s ease,
+    opacity 0.24s ease,
+    visibility 0.24s ease;
+}
+
+.whatsappButton {
+  min-height: 56px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #00a74f;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.86rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 18px 44px rgba(0, 167, 79, 0.34);
+}
+
+.whatsappButton:hover {
+  background: #008f43;
+  transform: translateY(-3px);
+  box-shadow: 0 24px 58px rgba(0, 167, 79, 0.42);
+}
+
+.topButton {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #17172f;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16px 38px rgba(23, 23, 47, 0.28);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.94);
+}
+
+.showTopButton {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.topButton:hover {
+  background: #00a74f;
+  transform: translateY(-3px) scale(1);
+  box-shadow: 0 20px 48px rgba(0, 167, 79, 0.35);
+}
+
+.whatsappButton:focus-visible,
+.topButton:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.35);
+  outline-offset: 5px;
+}
+
+@media (max-width: 640px) {
+  .floatingActions {
+    right: 14px;
+    bottom: 16px;
+    gap: 10px;
+  }
+
+  .whatsappButton {
+    width: 52px;
+    height: 52px;
+    min-height: 52px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .whatsappButton span {
+    display: none;
+  }
+
+  .topButton {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsappButton,
+  .topButton {
+    transition: none;
+  }
+
+  .whatsappButton:hover,
+  .topButton:hover {
+    transform: none;
+  }
+}

@@ -25,8 +25,6 @@ const filters: FilterStatus[] = [
 
 const INITIAL_VISIBLE_COUNT = 12;
 const LOAD_MORE_COUNT = 6;
-// Para cargar de 3 en 3, cambia arriba a:
-// const LOAD_MORE_COUNT = 3;
 
 export default function ProjectFilter() {
   const [activeFilter, setActiveFilter] = useState<FilterStatus>("TODOS");
@@ -104,7 +102,7 @@ export default function ProjectFilter() {
                   width={900}
                   height={680}
                   className={styles.image}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 42vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
 

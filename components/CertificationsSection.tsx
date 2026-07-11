@@ -11,47 +11,29 @@ type Certification = {
   description: string;
   image: string;
   href: string;
-  whatItMeans: string;
-  whyItMatters: string;
-  trustPoints: string[];
+  points: string[];
 };
 
 const certifications: Certification[] = [
   {
     id: 1,
     name: "Certificación SGS",
-    subtitle: "Calidad y procesos supervisados",
+    subtitle: "Calidad y procesos",
     description:
-      "SGS evalúa procesos de calidad, control y cumplimiento.",
+      "Respaldo en control, orden y mejora continua para desarrollar proyectos con mayor confianza.",
     image: "/assets/certificados/isos.svg",
     href: "https://www.sgs.com/es-pe",
-    whatItMeans:
-      "Nos ayuda a trabajar con mayor orden, control y mejora continua.",
-    whyItMatters:
-      "Para el cliente, representa mayor confianza en cada etapa del proyecto.",
-    trustPoints: [
-      "Procesos mejor controlados.",
-      "Compromiso con la calidad.",
-      "Mejora continua en obra.",
-    ],
+    points: ["Control", "Calidad", "Confianza"],
   },
   {
     id: 2,
     name: "Instituto CAPECO",
-    subtitle: "Formación técnica para construcción",
+    subtitle: "Formación técnica",
     description:
-      "CAPECO impulsa la capacitación y actualización del sector construcción.",
+      "Capacitación y actualización para fortalecer el conocimiento técnico de nuestro equipo.",
     image: "/assets/certificados/instituto.svg",
     href: "https://www.capeco.org",
-    whatItMeans:
-      "Refuerza la preparación técnica de nuestro equipo.",
-    whyItMatters:
-      "Para el cliente, significa contar con un equipo más preparado y actualizado.",
-    trustPoints: [
-      "Equipo capacitado.",
-      "Buenas prácticas constructivas.",
-      "Mayor respaldo técnico.",
-    ],
+    points: ["Capacitación", "Buenas prácticas", "Respaldo técnico"],
   },
 ];
 
@@ -71,9 +53,7 @@ export default function CertificationsSection() {
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.2,
-      }
+      { threshold: 0.2 }
     );
 
     observer.observe(currentSection);
@@ -89,88 +69,60 @@ export default function CertificationsSection() {
     >
       <div className={styles.container}>
         <div className={styles.header}>
-          <span>Certificaciones y respaldo</span>
-
-          <h2>Más que metros cuadrados, construimos confianza.</h2>
-
+          <span>Respaldo ANCOSUR</span>
+          <h2>Confianza para elegir mejor.</h2>
           <p>
-            En ANCOSUR trabajamos con procesos, capacitación y respaldo técnico
-            para desarrollar proyectos con mayor seguridad y compromiso.
+            Trabajamos con procesos, capacitación y respaldo técnico para darte
+            mayor seguridad al invertir.
           </p>
         </div>
 
-        <div className={styles.certificationsList}>
+        <div className={styles.grid}>
           {certifications.map((item, index) => (
             <article
               key={item.id}
-              className={styles.certificationItem}
+              className={styles.card}
               style={{ animationDelay: `${index * 140}ms` }}
             >
               <a
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.logoLink}
+                className={styles.logoBox}
                 aria-label={`Abrir página de ${item.name}`}
               >
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={760}
-                  height={420}
+                  width={520}
+                  height={300}
                   className={styles.logo}
-                  sizes="(max-width: 640px) 88vw, (max-width: 1024px) 420px, 460px"
+                  sizes="(max-width: 640px) 80vw, 360px"
                 />
               </a>
 
               <div className={styles.content}>
-                <span className={styles.itemSubtitle}>{item.subtitle}</span>
-
+                <span>{item.subtitle}</span>
                 <h3>{item.name}</h3>
+                <p>{item.description}</p>
 
-                <p className={styles.description}>{item.description}</p>
-
-                <div className={styles.infoGrid}>
-                  <div className={styles.infoBlock}>
-                    <strong>¿Qué significa?</strong>
-                    <p>{item.whatItMeans}</p>
-                  </div>
-
-                  <div className={styles.infoBlock}>
-                    <strong>¿Por qué importa?</strong>
-                    <p>{item.whyItMatters}</p>
-                  </div>
-                </div>
-
-                <ul className={styles.trustList}>
-                  {item.trustPoints.map((point) => (
-                    <li key={point}>{point}</li>
+                <div className={styles.points}>
+                  {item.points.map((point) => (
+                    <small key={point}>{point}</small>
                   ))}
-                </ul>
+                </div>
 
                 <a
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.externalButton}
+                  className={styles.button}
                 >
                   Ver respaldo
                 </a>
               </div>
             </article>
           ))}
-        </div>
-
-        <div className={styles.trustBox}>
-          <span>¿Por qué confiar en ANCOSUR?</span>
-
-          <h3>No solo construimos espacios, creamos experiencias para vivir mejor.</h3>
-
-          <p>
-            Porque elegir un departamento o un lote no se trata solo de metros cuadrados.
-            Se trata del lugar donde empiezas nuevas etapas, compartes momentos y
-            construyes tu futuro con seguridad, respaldo y acompañamiento.
-          </p>
         </div>
       </div>
     </section>

@@ -53,6 +53,14 @@
   object-position: center;
 }
 
+.desktopImage {
+  display: block;
+}
+
+.mobileImage {
+  display: none;
+}
+
 .background.slideNext .backgroundImage {
   animation: backgroundNext 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -88,7 +96,7 @@
 
 .label strong {
   color: #00a74f;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .content h1 {
@@ -98,7 +106,7 @@
   font-size: clamp(2.45rem, 4.6vw, 5.25rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
-  font-weight: 900;
+  font-weight: 700;
   text-wrap: balance;
   text-shadow: 0 16px 46px rgba(0, 0, 0, 0.55);
 }
@@ -146,7 +154,7 @@
 .searchItem span {
   color: rgba(255, 255, 255, 0.62);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -154,7 +162,7 @@
 .searchItem strong {
   color: #ffffff;
   font-size: clamp(0.84rem, 0.95vw, 0.98rem);
-  font-weight: 900;
+  font-weight: 700;
   overflow-wrap: break-word;
 }
 
@@ -173,7 +181,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 0.96rem;
-  font-weight: 900;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
@@ -238,7 +246,7 @@
   background: transparent;
   color: rgba(255, 255, 255, 0.62);
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .counterItem:hover {
@@ -260,7 +268,7 @@
   background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -382,6 +390,14 @@
         rgba(8, 8, 18, 0.5) 38%,
         rgba(8, 8, 18, 0.92) 100%
       );
+  }
+
+  .desktopImage {
+    display: none;
+  }
+
+  .mobileImage {
+    display: block;
   }
 
   .backgroundImage {

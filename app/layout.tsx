@@ -1,18 +1,30 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import FloatingActions from "@/components/FloatingActions";
+import FloatingPodcast from "@/components/FloatingPodcast";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ancosur-web-production.up.railway.app";
+/*
+ * URL principal de la web.
+ * En producción configura:
+ * NEXT_PUBLIC_SITE_URL=https://www.ancosur.com
+ */
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://ancosur-web-production.up.railway.app"
+).replace(/\/+$/, "");
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-main",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
+  applicationName: "ANCOSUR Inmobiliaria",
 
   title: {
     default: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
@@ -24,6 +36,21 @@ export const metadata: Metadata = {
 
   keywords: [
     "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "ANCOSUR Huancayo",
+    "ANCOSUR departamentos",
+    "ANCOSUR lotes",
+    "ANCOSUR proyectos",
+    "ANCOSUR inmobiliaria",
+    "ANCOSUR inversión",
+    "departamentos ANCOSUR",
+    "lotes ANCOSUR",
+    "proyectos ANCOSUR",
+    "inmobiliaria ANCOSUR",
+    "inversión ANCOSUR",
+    "departamentos en venta Huancayo",
+    "lotes en venta Huancayo",
+    "proyectos inmobiliarios Huancayo",
     "inmobiliaria en Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta",
@@ -34,44 +61,50 @@ export const metadata: Metadata = {
     "Neo Eterna",
   ],
 
-  authors: [{ name: "ANCOSUR Inmobiliaria" }],
+  authors: [
+    {
+      name: "ANCOSUR Inmobiliaria",
+      url: siteUrl,
+    },
+  ],
+
   creator: "ANCOSUR Inmobiliaria",
   publisher: "ANCOSUR Inmobiliaria",
 
   alternates: {
-    canonical: "http://localhost:3000",
+    canonical: "/",
   },
 
-openGraph: {
-  title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
-  description:
-    "Departamentos, lotes y proyectos inmobiliarios en Huancayo para vivir e invertir.",
-  url: "/",
-  siteName: "ANCOSUR Inmobiliaria",
-  locale: "es_PE",
-  type: "website",
-  images: [
-    {
-      url: "/opengraph-image.png",
-      width: 1200,
-      height: 630,
-      alt: "ANCOSUR Inmobiliaria - Departamentos en Huancayo",
-    },
-  ],
-},
+  openGraph: {
+    title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
+    description:
+      "Departamentos, lotes y proyectos inmobiliarios en Huancayo para vivir e invertir.",
+    url: siteUrl,
+    siteName: "ANCOSUR Inmobiliaria",
+    locale: "es_PE",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ANCOSUR Inmobiliaria - Departamentos en Huancayo",
+      },
+    ],
+  },
 
-twitter: {
-  card: "summary_large_image",
-  title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
-  description:
-    "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo.",
-  images: ["/twitter-image.png"],
-},
-
+  twitter: {
+    card: "summary_large_image",
+    title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
+    description:
+      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo.",
+    images: ["/twitter-image.png"],
+  },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -81,33 +114,41 @@ twitter: {
     },
   },
 
-
+  category: "Inmobiliaria",
 };
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
+    "@id": `${siteUrl}/#organization`,
+
     name: "ANCOSUR Inmobiliaria",
+
+    description:
+      "Empresa inmobiliaria dedicada al desarrollo de departamentos, lotes y proyectos inmobiliarios en Huancayo.",
+
     url: siteUrl,
-    logo: `${siteUrl}/assets/images/logo-ancosur.png`,
-    image: `${siteUrl}/opengraph-image.png`,
-    telephone: "+51 968658098",
+
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/assets/images/ancosur-logo-black.svg`,
+    },
+
+    image: {
+      "@type": "ImageObject",
+      url: `${siteUrl}/opengraph-image.png`,
+      width: 1200,
+      height: 630,
+    },
+
+    telephone: "+51 968 658 098",
     email: "info@ancosur.com",
+
     address: {
       "@type": "PostalAddress",
       streetAddress: "Av. San Carlos 1481",
@@ -115,25 +156,50 @@ export default function RootLayout({
       addressRegion: "Junín",
       addressCountry: "PE",
     },
-    sameAs: [
-      "https://www.facebook.com/",
-      "https://www.instagram.com/",
-      "https://www.youtube.com/",
-      "https://www.linkedin.com/",
-    ],
-  };
-return (
-  <html lang="es" className={`${manrope.variable} h-full antialiased`}>
-    <body className="min-h-full flex flex-col">
-      {children}
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
-        }}
-      />
-    </body>
-  </html>
-);
+    areaServed: {
+      "@type": "City",
+      name: "Huancayo",
+    },
+
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+51 968 658 098",
+      contactType: "sales",
+      areaServed: "PE",
+      availableLanguage: ["Spanish"],
+    },
+
+    /*
+     * Agrega aquí solamente las URLs reales de ANCOSUR.
+     *
+     * sameAs: [
+     *   "https://www.facebook.com/TU-PERFIL-REAL",
+     *   "https://www.instagram.com/TU-PERFIL-REAL",
+     *   "https://www.youtube.com/@TU-CANAL-REAL",
+     *   "https://www.linkedin.com/company/TU-PERFIL-REAL",
+     * ],
+     */
+  };
+
+  return (
+    <html
+      lang="es-PE"
+      className={jakarta.variable}
+      data-scroll-behavior="smooth"
+    >
+      <body>
+        {children}
+          <FloatingActions />
+                  <FloatingPodcast />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      </body>
+    </html>
+  );
 }

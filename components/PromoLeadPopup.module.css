@@ -58,7 +58,7 @@
   background: rgba(23, 23, 47, 0.68);
   color: #ffffff;
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -97,7 +97,7 @@
   margin-bottom: 14px;
   color: #00a74f;
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -109,7 +109,7 @@
   font-size: clamp(2rem, 3vw, 3.2rem);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .description,
@@ -134,7 +134,7 @@
 .field label {
   color: #17172f;
   font-size: 0.88rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .field input,
@@ -200,7 +200,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 0.98rem;
-  font-weight: 900;
+  font-weight: 700;
   cursor: pointer;
   transition:
     background 0.25s ease,
@@ -251,7 +251,7 @@
   margin-bottom: 16px;
   color: #00a74f;
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }

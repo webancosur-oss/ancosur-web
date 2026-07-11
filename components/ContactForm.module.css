@@ -54,7 +54,7 @@
   margin-bottom: 18px;
   color: #00a74f;
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
@@ -63,10 +63,10 @@
   margin: 0;
   max-width: 620px;
   color: #17172f;
-  font-size: clamp(2.7rem, 5vw, 5.8rem);
+  font-size: clamp(2.7rem, 5vw, 3.8rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .infoSide p {
@@ -112,7 +112,7 @@
   display: block;
   color: #17172f;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .infoCard small {
@@ -148,7 +148,7 @@
   margin-bottom: 8px;
   color: #00a74f;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -159,7 +159,7 @@
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   line-height: 1;
   letter-spacing: -0.04em;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .honeypot {
@@ -178,7 +178,7 @@
 .field label {
   color: rgba(255, 255, 255, 0.88);
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .inputWrap {
@@ -291,7 +291,7 @@
   display: block;
   color: #ff7474;
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .submitButton {
@@ -302,7 +302,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   display: inline-flex;
@@ -382,7 +382,7 @@
   }
 
   .infoSide h2 {
-    font-size: clamp(2.4rem, 12vw, 4.2rem);
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
   }
 
   .infoCards {

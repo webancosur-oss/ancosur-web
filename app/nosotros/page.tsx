@@ -61,18 +61,27 @@ export default function NosotrosPage() {
       <main className={styles.page}>
 
         <section className={styles.hero}>
-  <h1 className={styles.seoTitle}>
-    ANCOSUR Inmobiliaria: construimos espacios para vivir diferente
-  </h1>
-
   <Image
-    src="/assets/nosotros/10anios.png"
+    src="/assets/heros/10anios.png"
     alt="ANCOSUR Vive Diferente - 10 años contigo"
     fill
     priority
     sizes="100vw"
     className={styles.heroImage}
   />
+
+  <div className={styles.heroOverlay} />
+
+  <div className={styles.heroContent}>
+    <span>Nosotros</span>
+
+    <h1>ANCOSUR Inmobiliaria: construimos espacios para vivir diferente</h1>
+
+    <p>
+      10 años desarrollando proyectos inmobiliarios con innovación, compromiso
+      y una visión enfocada en mejorar la forma de vivir.
+    </p>
+  </div>
 </section>
 
          {/* <section className={styles.yearsSection}>

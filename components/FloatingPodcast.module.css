@@ -1,22 +1,22 @@
 .podcastWidget {
   position: fixed;
   right: 0;
-  bottom: 120px;
-  z-index: 300;
+  bottom: clamp(230px, 30vh, 330px);
+  z-index: 930;
   width: auto;
   height: auto;
   pointer-events: none;
 }
 
-/* BADGE PEGADO AL BORDE DERECHO */
+/* BOTÓN DESKTOP PEGADO A LA DERECHA */
 
 .notch {
   position: relative;
   z-index: 4;
-  width: 54px;
-  min-height: 148px;
+  width: 58px;
+  min-height: 136px;
   border: none;
-  border-radius: 999px 0 0 999px;
+  border-radius: 16px 0 0 16px;
   background: #00a74f;
   color: #ffffff;
   cursor: pointer;
@@ -25,15 +25,16 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  box-shadow: 0 20px 46px rgba(0, 167, 79, 0.34);
+  box-shadow: 0 18px 42px rgba(0, 167, 79, 0.34);
   transition:
     background 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .notch:hover {
   background: #008f43;
-  box-shadow: 0 26px 60px rgba(0, 167, 79, 0.42);
+  box-shadow: 0 24px 58px rgba(0, 167, 79, 0.42);
 }
 
 .icon {
@@ -46,9 +47,9 @@
 .text {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: 0.76rem;
-  font-weight: 900;
-  letter-spacing: 0.16em;
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
@@ -56,28 +57,28 @@
 
 .panel {
   position: absolute;
-  right: 68px;
+  right: 74px;
   bottom: 0;
-  width: 360px;
-  max-width: calc(100vw - 92px);
-  max-height: calc(100svh - 150px);
+  width: 390px;
+  max-width: calc(100vw - 100px);
+  max-height: calc(100svh - 130px);
   padding: 18px;
-  border-radius: 24px;
-  background: rgba(23, 23, 47, 0.96);
+  border-radius: 18px;
+  background: rgba(23, 23, 47, 0.97);
   color: #ffffff;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
   pointer-events: auto;
   overflow: auto;
   opacity: 0;
   visibility: hidden;
-  transform: translateX(24px) scale(0.96);
+  transform: translateX(26px) scale(0.97);
   transform-origin: right bottom;
   box-sizing: border-box;
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    visibility 0.3s ease;
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0.28s ease;
 }
 
 .open .panel {
@@ -93,7 +94,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .titleBox {
@@ -106,8 +107,8 @@
   gap: 7px;
   margin-bottom: 5px;
   color: #1ed760;
-  font-size: 0.76rem;
-  font-weight: 900;
+  font-size: 0.72rem;
+  font-weight: 850;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -116,7 +117,7 @@
   display: block;
   color: #ffffff;
   font-size: 1.05rem;
-  font-weight: 900;
+  font-weight: 850;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
@@ -125,12 +126,10 @@
   width: 34px;
   height: 34px;
   border: none;
-  border-radius: 50%;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -145,71 +144,32 @@
   transform: rotate(90deg);
 }
 
-/* EPISODIOS */
-
-.episodeTabs {
-  display: flex;
-  gap: 8px;
-  margin: 14px 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.episodeTabs::-webkit-scrollbar {
-  display: none;
-}
-
-.episodeButton {
-  flex: 0 0 auto;
-  min-height: 34px;
-  padding: 0 13px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.76rem;
-  font-weight: 900;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.episodeButton:hover {
-  color: #ffffff;
-  border-color: rgba(0, 167, 79, 0.8);
-}
-
-.activeEpisode {
-  background: #00a74f;
-  border-color: #00a74f;
-  color: #ffffff;
-}
-
 .description {
   margin: 0 0 14px;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   line-height: 1.45;
 }
 
 /* SPOTIFY */
 
 .frameBox {
+  position: relative;
   width: 100%;
+  aspect-ratio: 496 / 279;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 14px;
   background: #121212;
 }
 
 .spotifyFrame {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: 352px;
+  height: 100%;
   border: 0;
-  border-radius: 16px;
+  border-radius: 14px;
   background: #121212;
 }
 
@@ -217,15 +177,15 @@
   width: 100%;
   min-height: 46px;
   margin-top: 14px;
-  border-radius: 999px;
+  border-radius: 12px;
   background: #1ed760;
   color: #111111;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  font-size: 0.84rem;
-  font-weight: 900;
+  font-size: 0.82rem;
+  font-weight: 850;
   text-decoration: none;
   text-transform: uppercase;
   box-sizing: border-box;
@@ -243,7 +203,6 @@
 
 .notch:focus-visible,
 .closeButton:focus-visible,
-.episodeButton:focus-visible,
 .spotifyLink:focus-visible {
   outline: 3px solid rgba(0, 167, 79, 0.38);
   outline-offset: 4px;
@@ -253,70 +212,22 @@
 
 @media (max-width: 1024px) {
   .podcastWidget {
-    bottom: 108px;
+    bottom: 220px;
   }
 
   .notch {
-    width: 52px;
-    min-height: 140px;
+    width: 54px;
+    min-height: 126px;
+    border-radius: 14px 0 0 14px;
   }
 
   .panel {
-    right: 64px;
-    width: 340px;
-    max-width: calc(100vw - 86px);
-    max-height: calc(100svh - 130px);
-    padding: 16px;
-    border-radius: 22px;
-  }
-
-  .spotifyFrame {
-    height: 340px;
-  }
-}
-
-/* TABLET PEQUEÑA */
-
-@media (max-width: 760px) {
-  .podcastWidget {
-    right: 0;
-    bottom: 96px;
-  }
-
-  .notch {
-    width: 50px;
-    min-height: 132px;
-    border-radius: 999px 0 0 999px;
-  }
-
-  .panel {
-    position: fixed;
-    left: 16px;
-    right: 64px;
-    bottom: 96px;
-    width: auto;
-    max-width: none;
+    right: 68px;
+    width: 360px;
+    max-width: calc(100vw - 92px);
     max-height: calc(100svh - 120px);
     padding: 16px;
-    border-radius: 22px;
-    transform: translateX(20px) scale(0.96);
-    transform-origin: right bottom;
-  }
-
-  .open .panel {
-    transform: translateX(0) scale(1);
-  }
-
-  .titleBox span {
-    font-size: 0.72rem;
-  }
-
-  .titleBox strong {
-    font-size: 1rem;
-  }
-
-  .spotifyFrame {
-    height: 330px;
+    border-radius: 16px;
   }
 }
 
@@ -325,36 +236,39 @@
 @media (max-width: 640px) {
   .podcastWidget {
     right: 14px;
-    bottom: 18px;
+    bottom: 146px;
+    z-index: 940;
   }
 
   .notch {
-    width: auto;
-    min-height: 50px;
-    padding: 0 16px;
-    border-radius: 999px;
+    width: 52px;
+    min-height: 52px;
+    padding: 0;
+    border-radius: 14px;
     flex-direction: row;
-    gap: 8px;
+    gap: 0;
   }
 
   .text {
-    writing-mode: horizontal-tb;
-    transform: none;
-    font-size: 0.76rem;
-    letter-spacing: 0.08em;
+    display: none;
+  }
+
+  .icon svg {
+    width: 23px;
+    height: 23px;
   }
 
   .panel {
     position: fixed;
     left: 14px;
     right: 14px;
-    bottom: 82px;
+    bottom: 210px;
     width: auto;
     max-width: none;
-    max-height: calc(100svh - 104px);
+    max-height: calc(100svh - 230px);
     padding: 15px;
-    border-radius: 20px;
-    transform: translateY(18px) scale(0.96);
+    border-radius: 16px;
+    transform: translateY(18px) scale(0.97);
     transform-origin: right bottom;
   }
 
@@ -366,26 +280,33 @@
     gap: 12px;
   }
 
+  .titleBox span {
+    font-size: 0.68rem;
+  }
+
+  .titleBox strong {
+    font-size: 0.96rem;
+  }
+
   .closeButton {
     width: 32px;
     height: 32px;
-  }
-
-  .episodeTabs {
-    margin: 12px 0;
+    border-radius: 9px;
   }
 
   .description {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
+  .frameBox,
   .spotifyFrame {
-    height: 320px;
+    border-radius: 12px;
   }
 
   .spotifyLink {
     min-height: 44px;
-    font-size: 0.78rem;
+    border-radius: 11px;
+    font-size: 0.76rem;
   }
 }
 
@@ -394,54 +315,37 @@
 @media (max-width: 420px) {
   .podcastWidget {
     right: 12px;
-    bottom: 14px;
+    bottom: 140px;
   }
 
   .notch {
+    width: 48px;
     min-height: 48px;
-    padding: 0 14px;
-  }
-
-  .icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .text {
-    font-size: 0.72rem;
+    border-radius: 12px;
   }
 
   .panel {
     left: 10px;
     right: 10px;
-    bottom: 76px;
-    max-height: calc(100svh - 92px);
+    bottom: 198px;
+    max-height: calc(100svh - 214px);
     padding: 14px;
-    border-radius: 18px;
+    border-radius: 14px;
   }
 
   .titleBox span {
-    font-size: 0.66rem;
+    font-size: 0.64rem;
     letter-spacing: 0.06em;
   }
 
   .titleBox strong {
-    font-size: 0.96rem;
-  }
-
-  .episodeButton {
-    min-height: 32px;
-    padding: 0 11px;
-    font-size: 0.7rem;
-  }
-
-  .spotifyFrame {
-    height: 300px;
+    font-size: 0.92rem;
   }
 
   .spotifyLink {
     min-height: 42px;
-    font-size: 0.74rem;
+    border-radius: 10px;
+    font-size: 0.72rem;
   }
 }
 
@@ -451,7 +355,6 @@
   .notch,
   .panel,
   .closeButton,
-  .episodeButton,
   .spotifyLink {
     transition: none;
   }

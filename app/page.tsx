@@ -1,25 +1,24 @@
-import BlogSection from "@/components/BlogSection";
 import CertificationsSection from "@/components/CertificationsSection";
 import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
-import FloatingPodcast from "@/components/FloatingPodcast";
+import FloatingActions from "@/components/FloatingActions";
 import Footer from "@/components/Footer";
 import HeroAncosur from "@/components/HeroAncosur";
+import HomeTypologies from "@/components/Typologies";
 import JoinTeamCTA from "@/components/JoinTeamCTA";
 import Navbar from "@/components/Navbar";
 import ProjectFilter from "@/components/ProjectFilter";
 import PromoLeadPopup from "@/components/PromoLeadPopup";
-import PromoPopup from "@/components/PromoPopup";
-import RealEstateStats from "@/components/RealEstateStats";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
+import HoldingSection from "@/components/HoldingSection";
 
 export default function Home() {
   return (
      <>
        <Navbar />
-        <FloatingPodcast />
         {/* <PromoPopup /> */}
         <PromoLeadPopup />
+          <FloatingActions />
 
       <main>
         <section className="hero">
@@ -29,9 +28,10 @@ export default function Home() {
             <TrustStatsTestimonials />
             {/* <RealEstateStats /> */}
             <CertificationsSection />
-            {/* <Testimonial /> */}
+            <HoldingSection />
+            <HomeTypologies />
             <ContactForm />
-            <JoinTeamCTA />
+            {/* <JoinTeamCTA /> */}
             {/* <BlogSection /> */}
             <FAQSection />
         </section>
