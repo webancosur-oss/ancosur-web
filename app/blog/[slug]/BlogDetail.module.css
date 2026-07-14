@@ -15,7 +15,7 @@
   margin-bottom: 34px;
   color: #00a74f;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-decoration: none;
 }
 
@@ -36,21 +36,20 @@
   color: #ffffff;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
 .meta small {
   color: #777777;
   font-size: 14px;
-  font-weight: 700;
+ 
 }
 
 .article h1 {
   margin: 0 0 18px;
-  font-size: clamp(38px, 6vw, 68px);
   line-height: 1.05;
-  font-weight: 700;
+ 
   letter-spacing: -1px;
 }
 
@@ -101,16 +100,15 @@
 .relatedHeader span {
   color: #00a74f;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .relatedHeader h2 {
   margin: 10px 0 0;
-  font-size: clamp(30px, 4vw, 46px);
   line-height: 1.1;
-  font-weight: 700;
+ 
 }
 
 .relatedGrid {
@@ -138,7 +136,7 @@
 .relatedCard strong {
   color: #00a74f;
   font-size: 12px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
@@ -147,7 +145,7 @@
   color: #111111;
   font-size: 22px;
   line-height: 1.2;
-  font-weight: 700;
+ 
 }
 
 .relatedCard p {

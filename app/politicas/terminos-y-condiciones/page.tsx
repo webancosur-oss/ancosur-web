@@ -193,7 +193,7 @@ export default function TerminosPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

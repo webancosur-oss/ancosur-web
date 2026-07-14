@@ -29,7 +29,7 @@
   margin-bottom: 14px;
   color: #00a74f;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -37,10 +37,7 @@
 .heroContent h1 {
   max-width: 960px;
   margin: 0 0 18px;
-  font-size: clamp(40px, 7vw, 76px);
-  line-height: 1.02;
-  font-weight: 700;
-  letter-spacing: -1.5px;
+  
 }
 
 .heroContent p {
@@ -74,7 +71,7 @@
   color: #ffffff;
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
@@ -93,9 +90,8 @@
 .block h2 {
   margin: 0 0 18px;
   color: #111111;
-  font-size: clamp(26px, 4vw, 40px);
   line-height: 1.12;
-  font-weight: 700;
+ 
 }
 
 .block h3 {
@@ -103,7 +99,7 @@
   color: #00a74f;
   font-size: 22px;
   line-height: 1.2;
-  font-weight: 700;
+ 
 }
 
 .block p {
@@ -119,7 +115,7 @@
 
 .block strong {
   color: #111111;
-  font-weight: 700;
+ 
 }
 
 .subBlock {
@@ -171,14 +167,14 @@
   margin-bottom: 6px;
   color: #00a74f;
   font-size: 13px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
 .contactBox a {
   color: #ffffff;
   font-size: 20px;
-  font-weight: 700;
+ 
   text-decoration: none;
 }
 
@@ -198,7 +194,7 @@
   margin: 0 0 12px;
   color: #ffffff;
   font-size: 28px;
-  font-weight: 700;
+ 
 }
 
 .closing p {
@@ -210,7 +206,7 @@
 
 .closing a {
   color: #00a74f;
-  font-weight: 700;
+ 
   text-decoration: none;
 }
 
@@ -232,7 +228,6 @@
   }
 
   .heroContent h1 {
-    font-size: clamp(38px, 12vw, 52px);
     letter-spacing: -1px;
   }
 

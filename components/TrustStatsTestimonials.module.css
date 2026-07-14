@@ -58,7 +58,7 @@
   margin-bottom: 12px;
   color: #00a74f;
   font-size: 0.76rem;
-  font-weight: 700;
+ 
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
@@ -67,10 +67,9 @@
   max-width: 650px;
   margin: 0 auto;
   color: #17172f;
-  font-size: clamp(2rem, 4.2vw, 3.8rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
-  font-weight: 700;
+ 
   text-wrap: balance;
 }
 
@@ -78,7 +77,6 @@
   max-width: 590px;
   margin: 18px auto 0;
   color: rgba(23, 23, 47, 0.68);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
   line-height: 1.55;
 }
 
@@ -113,7 +111,7 @@
   margin-bottom: 8px;
   color: #00a74f;
   font-size: 0.72rem;
-  font-weight: 700;
+ 
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -122,10 +120,9 @@
   max-width: 340px;
   margin: 0;
   color: #17172f;
-  font-size: clamp(1.35rem, 2.3vw, 2.05rem);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-weight: 700;
+ 
 }
 
 .statsGrid {
@@ -177,19 +174,19 @@
 .valuePrefix {
   margin-top: 5px;
   font-size: 0.72rem;
-  font-weight: 700;
+ 
 }
 
 .valueNumber {
   font-size: 1.75rem;
-  font-weight: 700;
+ 
   letter-spacing: -0.08em;
 }
 
 .valueSuffix {
   margin-top: 2px;
   font-size: 0.58rem;
-  font-weight: 700;
+ 
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -204,7 +201,7 @@
   font-size: 1.05rem;
   line-height: 1.05;
   letter-spacing: -0.035em;
-  font-weight: 700;
+ 
 }
 
 .statText p {
@@ -259,7 +256,7 @@
   background: rgba(23, 23, 47, 0.82);
   color: #ffffff;
   font-size: 0.68rem;
-  font-weight: 700;
+ 
   backdrop-filter: blur(12px);
   pointer-events: none;
 }
@@ -302,10 +299,9 @@
   max-width: 380px;
   margin: 0;
   color: #17172f;
-  font-size: clamp(1.28rem, 1.75vw, 1.75rem);
   line-height: 1.12;
   letter-spacing: -0.042em;
-  font-weight: 700;
+ 
   overflow-wrap: break-word;
 }
 
@@ -318,13 +314,13 @@
 .clientInfo strong {
   color: #17172f;
   font-size: 0.96rem;
-  font-weight: 700;
+ 
 }
 
 .clientInfo span {
   color: rgba(23, 23, 47, 0.64);
   font-size: 0.86rem;
-  font-weight: 700;
+ 
 }
 
 /* CONTROLES */
@@ -375,13 +371,13 @@
 .counter strong {
   color: #00a74f;
   font-size: 0.9rem;
-  font-weight: 700;
+ 
 }
 
 .counter span {
   color: rgba(23, 23, 47, 0.52);
   font-size: 0.82rem;
-  font-weight: 700;
+ 
 }
 
 .dots {
@@ -500,7 +496,6 @@
   }
 
   .header h2 {
-    font-size: clamp(2rem, 10vw, 2.65rem);
   }
 
   .header p {

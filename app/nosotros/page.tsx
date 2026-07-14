@@ -169,7 +169,7 @@ export default function NosotrosPage() {
        
       </main>
 
-      <Footer />
+      
     </>
   );
 }

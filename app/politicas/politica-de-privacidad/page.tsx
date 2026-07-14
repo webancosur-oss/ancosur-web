@@ -184,7 +184,7 @@ export default function PoliticasPrivacidadPage() {
 
               <div className={styles.contactBox}>
                 <span>Correo electrónico</span>
-                <a href="mailto:info@ancosur.com">info@ancosur.com</a>
+                <a href="mailto:jefe.experiencia.cliente@ancosur.com">jefe.experiencia.cliente@ancosur.com</a>
               </div>
 
               <p>
@@ -214,7 +214,7 @@ export default function PoliticasPrivacidadPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

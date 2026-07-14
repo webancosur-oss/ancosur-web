@@ -3,10 +3,7 @@ export type ProjectStatus =
   | "ENTREGADO"
   | "PRE VENTA"
   | "LANZAMIENTO"
-  | "ENTREGA INMEDIATA"
-  | "VENDIDOS"
-
-  ;
+  | "ENTREGA INMEDIATA";
 
 export type Project = {
   id: number;
@@ -24,11 +21,11 @@ export const projects: Project[] = [
     name: "Neo Rivera",
     type: "Departamento",
     location: "LA RIBERA – Jr. Dalias (Al costado del Parque La Rivera)",
-    status: "LANZAMIENTO",
+    status: "PRE VENTA",
     image: "/assets/projects/rivera.webp",
     href: "/neo-rivera",
   },
-   {
+  {
     id: 2,
     name: "Neo Balto",
     type: "Departamento",
@@ -36,15 +33,6 @@ export const projects: Project[] = [
     status: "PRE VENTA",
     image: "/assets/projects/balto.webp",
     href: "/neo-balto",
-  },
-  {
-    id: 3,
-    name: "Neo Xport",
-    type: "Departamento",
-    location: "SAN ANTONIO – Av. Chorillos (Frente al Polideportivo)",
-    status: "EN CONSTRUCCIÓN",
-    image: "/assets/projects/neo-xport.webp",
-    href: "/neo-xport",
   },
   {
     id: 4,
@@ -56,6 +44,16 @@ export const projects: Project[] = [
     href: "/neo-eterna",
   },
   {
+    id: 8,
+    name: "Distrito San Carlos",
+    type: "Departamento",
+    location: "HUANCAYO – Jr. Chacabuco (A minutos del Obelisco)",
+    status: "PRE VENTA",
+    image: "/assets/projects/distrito.webp",
+    href: "/distrito-san-carlos",
+  },
+
+  {
     id: 5,
     name: "Neo Emperatriz",
     type: "Departamento",
@@ -65,38 +63,37 @@ export const projects: Project[] = [
     href: "/neo-eterna",
   },
   {
-    id: 6,
-    name: "Neo Origen",
-    type: "Departamento",
-    location: "EL TAMBO – Jr. Libertad 1187 (A minutos de Plaza Vea)",
-    status: "VENDIDOS",
-    image: "/assets/projects/origen.webp",
-    href: "/neo-origen",
-  },
-   {
-    id: 7,
-    name: "Neo 18",
-    type: "Departamento",
-    location: "HUANCAYO – Av. San Carlos Cdra 24 (Cerca a la UPLA)",
-    status: "VENDIDOS",
-    image: "/assets/projects/18.webp",
-    href: "/neo-18",
+    id: 12,
+    name: "Las Colinas de Moro",
+    type: "Lote",
+    status: "ENTREGA INMEDIATA",
+    image: "/assets/projects/entregados/fachada-colinas-moro.webp",
+    href: "/colinas-moro",
   },
   {
-    id: 8,
-    name: "Distrito San Carlos",
-    type: "Departamento",
-    location: "HUANCAYO – Jr. Chacabuco (A minutos del Obelisco)",
-    status: "PRE VENTA",
-    image: "/assets/projects/distrito.webp",
-    href: "/distrito-san-carlos",
+    id: 15,
+    name: "Las Terrazas de Concepción",
+    type: "Lote",
+    status: "ENTREGA INMEDIATA",
+    image: "/assets/projects/entregados/fachada-terrazas-concepcion.webp",
+    href: "terrazas-concepcion",
   },
-   {
+
+  {
+    id: 3,
+    name: "Neo Xport",
+    type: "Departamento",
+    location: "SAN ANTONIO – Av. Chorillos (Frente al Polideportivo)",
+    status: "EN CONSTRUCCIÓN",
+    image: "/assets/projects/neo-xport.webp",
+    href: "/neo-xport",
+  },
+  {
     id: 9,
     name: "Moro 416",
     type: "Departamento",
     location: "HUANCAYO – Av. Giráldez (Frente a Real Plaza)",
-    status: "PRE VENTA",
+    status: "EN CONSTRUCCIÓN",
     image: "/assets/projects/moro.webp",
     href: "/moro-416",
   },
@@ -116,14 +113,26 @@ export const projects: Project[] = [
     location: "San Ramón",
     status: "EN CONSTRUCCIÓN",
     image: "/assets/projects/zagaari.webp",
-    href: "/zagari",
+    href: "https://zagari.pe/",
+  },
+
+  {
+    id: 6,
+    name: "Neo Origen",
+    type: "Departamento",
+    location: "EL TAMBO – Jr. Libertad 1187 (A minutos de Plaza Vea)",
+    status: "ENTREGA INMEDIATA",
+    image: "/assets/projects/origen.webp",
+    href: "/neo-origen",
   },
   {
-    id: 12,
-    name: "Las Colinas de Moro",
-    type: "Lote",
+    id: 7,
+    name: "Neo 18",
+    type: "Departamento",
+    location: "HUANCAYO – Av. San Carlos Cdra 24 (Cerca a la UPLA)",
     status: "ENTREGADO",
-    image: "/assets/projects/entregados/fachada-colinas-moro.webp",
+    image: "/assets/projects/18.webp",
+    href: "/neo-18",
   },
   {
     id: 13,
@@ -140,20 +149,13 @@ export const projects: Project[] = [
     image: "/assets/projects/entregados/fachada-neo18.webp",
   },
   {
-    id: 15,
-    name: "Las Terrazas de Concepción",
-    type: "Lote",
-    status: "ENTREGADO",
-    image: "/assets/projects/entregados/fachada-terrazas-concepcion.webp",
-  },
-    {
     id: 16,
     name: "Alta luz",
     type: "Departamento",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-altaluz.webp",
   },
-    {
+  {
     id: 17,
     name: "Serena",
     type: "Departamento",
@@ -167,7 +169,7 @@ export const projects: Project[] = [
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-vita.webp",
   },
-{
+  {
     id: 19,
     name: "Zenda",
     type: "Departamento",
@@ -188,7 +190,7 @@ export const projects: Project[] = [
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-dovle.webp",
   },
-   {
+  {
     id: 22,
     name: "La Huerta Vista Alegre",
     type: "Lote",

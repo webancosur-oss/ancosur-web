@@ -86,7 +86,7 @@ export default function PoliticaSigPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

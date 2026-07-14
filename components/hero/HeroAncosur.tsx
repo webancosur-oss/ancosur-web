@@ -1,29 +1,29 @@
 "use client";
 
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  PhoneCallIcon,
-} from "@phosphor-icons/react";
+import { PhoneIcon } from "@phosphor-icons/react";
 import Image from "next/image";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
+import HeroSliderControls from "./HeroSliderControls";
 import styles from "./HeroAncosur.module.css";
+import ActionButton from "../buttons/ActionButton";
 
 const AUTO_PLAY_DELAY = 6500;
+const SWIPE_THRESHOLD = 55;
 
 const slides = [
   {
     id: 1,
     title: "Una Ciudad dentro de tu Edificio",
     location: "Huancayo",
-    type: "Comprar",
+    type: "Desde 54 - 82 m²",
     price: "Desde S/ 211,270",
     logoImage: "/assets/images/distrito-sancarlos.svg",
     desktopImage: "/assets/projects/sliders/distrito-san-carlos.webp",
@@ -34,7 +34,7 @@ const slides = [
     id: 2,
     title: "El Primer Edificio Wellness de Huancayo",
     location: "Huancayo",
-    type: "Comprar",
+    type: "Desde 57 - 67 m²",
     price: "Desde S/ 211,270",
     logoImage: "/assets/images/neo-rivera.svg",
     desktopImage: "/assets/projects/sliders/neo-rivera.webp",
@@ -44,7 +44,7 @@ const slides = [
     id: 3,
     title: "El Primer Edificio con ADN Deportivo de Huancayo",
     location: "San Carlos",
-    type: "Comprar",
+    type: "Desde 68 - 79 m²",
     price: "Desde S/ 213,060",
     logoImage: "/assets/images/neo-xport.svg",
     desktopImage: "/assets/projects/sliders/neo-xport.webp",
@@ -54,7 +54,7 @@ const slides = [
     id: 4,
     title: "Inversión Inteligente en el Corazón de la Zona Universitaria",
     location: "San Carlos",
-    type: "Invertir",
+    type: "Desde 54 - 82 m²",
     price: "Desde S/ 174,143",
     logoImage: "/assets/images/neo-eterna.svg",
     desktopImage: "/assets/projects/sliders/neo-eterna.webp",
@@ -64,7 +64,7 @@ const slides = [
     id: 5,
     title: "El Primer Edificio Pet-Centric de Huancayo",
     location: "El Tambo",
-    type: "Comprar",
+    type: "Desde 54 - 82 m²",
     price: "Desde S/ 169,590",
     logoImage: "/assets/images/neo-balto.svg",
     desktopImage: "/assets/projects/sliders/neo-balto.webp",
@@ -74,44 +74,61 @@ const slides = [
 
 type SlideDirection = "next" | "prev";
 
+type PointerStart = {
+  x: number;
+  y: number;
+};
+
 export default function HeroAncosur() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState<SlideDirection>("next");
   const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
 
-  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerStartRef = useRef<PointerStart | null>(null);
 
   const activeSlide = slides[activeIndex];
 
   const directionClass =
     direction === "next" ? styles.slideNext : styles.slidePrev;
 
+  const sliderTransform = useMemo(() => {
+    return `translate3d(calc(-${activeIndex * 100}% + ${dragOffset}px), 0, 0)`;
+  }, [activeIndex, dragOffset]);
+
+  const resetDrag = () => {
+    pointerStartRef.current = null;
+    setIsDragging(false);
+    setDragOffset(0);
+  };
+
   const goToSlide = useCallback(
-    (index: number) => {
+    (index: number, selectedDirection?: SlideDirection) => {
       const total = slides.length;
       const nextIndex = (index + total) % total;
 
       if (nextIndex === activeIndex) return;
 
-      const isNext =
-        nextIndex === (activeIndex + 1) % total || nextIndex > activeIndex;
+      const autoDirection = nextIndex > activeIndex ? "next" : "prev";
 
-      setDirection(isNext ? "next" : "prev");
+      setDirection(selectedDirection ?? autoDirection);
       setActiveIndex(nextIndex);
+      setDragOffset(0);
     },
     [activeIndex]
   );
 
   const goNext = useCallback(() => {
-    goToSlide(activeIndex + 1);
+    goToSlide(activeIndex + 1, "next");
   }, [activeIndex, goToSlide]);
 
   const goPrev = useCallback(() => {
-    goToSlide(activeIndex - 1);
+    goToSlide(activeIndex - 1, "prev");
   }, [activeIndex, goToSlide]);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || isDragging) return;
 
     const timer = window.setInterval(() => {
       setDirection("next");
@@ -119,13 +136,39 @@ export default function HeroAncosur() {
     }, AUTO_PLAY_DELAY);
 
     return () => window.clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, isDragging]);
 
   const handlePointerDown = (event: PointerEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+
+    if (target.closest("button") || target.closest("a")) {
+      return;
+    }
+
     pointerStartRef.current = {
       x: event.clientX,
       y: event.clientY,
     };
+
+    setIsPaused(true);
+    setIsDragging(true);
+    setDragOffset(0);
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (!pointerStartRef.current || !isDragging) return;
+
+    const diffX = event.clientX - pointerStartRef.current.x;
+    const diffY = event.clientY - pointerStartRef.current.y;
+
+    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 14) {
+      setDragOffset(0);
+      return;
+    }
+
+    setDragOffset(diffX);
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLElement>) => {
@@ -134,15 +177,30 @@ export default function HeroAncosur() {
     const diffX = event.clientX - pointerStartRef.current.x;
     const diffY = event.clientY - pointerStartRef.current.y;
 
-    if (Math.abs(diffX) > 55 && Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX < 0) {
-        goNext();
-      } else {
-        goPrev();
-      }
+    const isHorizontalSwipe =
+      Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(diffX) > Math.abs(diffY);
+
+    resetDrag();
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    pointerStartRef.current = null;
+    if (!isHorizontalSwipe) return;
+
+    if (diffX < 0) {
+      goNext();
+    } else {
+      goPrev();
+    }
+  };
+
+  const handlePointerCancel = (event: PointerEvent<HTMLElement>) => {
+    resetDrag();
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -157,62 +215,74 @@ export default function HeroAncosur() {
     }
   };
 
-  
-
   return (
     <section
-      className={styles.hero}
+      className={`${styles.hero} ${isDragging ? styles.dragging : ""}`}
       onPointerEnter={() => setIsPaused(true)}
-      onPointerLeave={() => setIsPaused(false)}
+      onPointerLeave={() => {
+        if (!isDragging) {
+          setIsPaused(false);
+        }
+      }}
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
       onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      onPointerCancel={() => {
-        pointerStartRef.current = null;
-      }}
+      onPointerCancel={handlePointerCancel}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       aria-label="Slider principal de proyectos ANCOSUR"
     >
-      <div
-        key={`background-${activeSlide.id}`}
-        className={`${styles.background} ${directionClass}`}
-      >
-        <Image
-          src={activeSlide.desktopImage}
-          alt={activeSlide.title}
-          fill
-          priority={activeIndex === 0}
-          className={`${styles.backgroundImage} ${styles.desktopImage}`}
-          sizes="100vw"
-        />
+      <div className={styles.background}>
+        <div
+          className={styles.sliderTrack}
+          style={{
+            transform: sliderTransform,
+            transition: isDragging ? "none" : undefined,
+          }}
+        >
+          {slides.map((slide, index) => (
+            <div key={slide.id} className={styles.slidePanel}>
+              <Image
+                src={slide.desktopImage}
+                alt={slide.title}
+                fill
+                priority={index === 0}
+                className={`${styles.backgroundImage} ${styles.desktopImage}`}
+                sizes="100vw"
+                draggable={false}
+              />
 
-        <Image
-          src={activeSlide.mobileImage}
-          alt={activeSlide.title}
-          fill
-          priority={activeIndex === 0}
-          className={`${styles.backgroundImage} ${styles.mobileImage}`}
-          sizes="100vw"
-        />
+              <Image
+                src={slide.mobileImage}
+                alt={slide.title}
+                fill
+                priority={index === 0}
+                className={`${styles.backgroundImage} ${styles.mobileImage}`}
+                sizes="100vw"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div
         key={`content-${activeSlide.id}`}
         className={`${styles.content} ${directionClass}`}
       >
-        
         <h1 className={styles.seoTitle}>{activeSlide.title}</h1>
 
         <div className={styles.titleLogoBox}>
           <Image
             src={activeSlide.logoImage}
             alt={activeSlide.title}
-            width={560}
-            height={190}
+            width={420}
+            height={140}
             priority={activeIndex === 0}
             className={styles.titleLogo}
+            draggable={false}
           />
         </div>
 
@@ -227,7 +297,7 @@ export default function HeroAncosur() {
           <div className={styles.divider} />
 
           <div className={styles.searchItem}>
-            <span>Buscas</span>
+            <span>Metraje</span>
             <strong>{activeSlide.type}</strong>
           </div>
 
@@ -238,48 +308,27 @@ export default function HeroAncosur() {
             <strong>{activeSlide.price}</strong>
           </div>
 
-          <a href="#contactar" className={styles.searchButton}>
+          <ActionButton
+            href="#contactar"
+            ariaLabel="Contactar con ANCOSUR"
+            icon={PhoneIcon}
+            iconPosition="right"
+            size="sm"
+            fullWidth
+            className={styles.searchButton}
+          >
             Contactar
-            <PhoneCallIcon size={20} weight="bold" aria-hidden="true" />
-          </a>
+          </ActionButton>
         </div>
       </div>
 
-      <div className={styles.counter} aria-label="Controles del slider">
-        <button
-          type="button"
-          className={styles.counterArrow}
-          onClick={goPrev}
-          aria-label="Slide anterior"
-        >
-          <ArrowLeftIcon size={18} weight="bold" aria-hidden="true" />
-        </button>
-
-        <div className={styles.counterTrack}>
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              onClick={() => goToSlide(index)}
-              className={`${styles.counterItem} ${
-                activeIndex === index ? styles.activeCounter : ""
-              }`}
-              type="button"
-              aria-label={`Ir al slide ${slide.id}`}
-            >
-              {String(slide.id).padStart(2, "0")}
-            </button>
-          ))}
-        </div>
-
-        <button
-          type="button"
-          className={styles.counterArrow}
-          onClick={goNext}
-          aria-label="Siguiente slide"
-        >
-          <ArrowRightIcon size={18} weight="bold" aria-hidden="true" />
-        </button>
-      </div>
+      <HeroSliderControls
+        slides={slides}
+        activeIndex={activeIndex}
+        goPrev={goPrev}
+        goNext={goNext}
+        goToSlide={(index) => goToSlide(index)}
+      />
     </section>
   );
 }

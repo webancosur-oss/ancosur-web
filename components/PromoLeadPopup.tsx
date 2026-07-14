@@ -22,17 +22,7 @@ const popupConfig = {
 };
 
 const campaigns: PopupCampaign[] = [
-  {
-    id: "cyber-house-2026",
-    title: "Quiero información",
-    eyebrow: "Cyber House",
-    description:
-      "Conoce nuestros proyectos, beneficios especiales y recibe asesoría personalizada durante el evento.",
-    image: "/assets/campanias/cyber-house.png",
-    imageAlt: "Campaña Cyber House ANCOSUR",
-    imageWidth: 1080,
-    imageHeight: 1080,
-  },
+  
   {
     id: "campania-cusco-2026",
     title: "Quiero participar",
@@ -124,81 +114,105 @@ export default function PromoLeadPopup() {
     setErrors({});
   };
 
-  const validateForm = () => {
-    const newErrors: FormErrors = {};
+ const validateForm = () => {
+  const newErrors: FormErrors = {};
 
-    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,60}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const phoneClean = formData.phone.replace(/\s|-/g, "");
-    const phoneRegex = /^9\d{8}$/;
-    const documentClean = formData.numDocument.replace(/\D/g, "");
-    const documentRegex = /^(\d{8}|\d{11})$/;
+  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,60}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phoneClean = formData.phone.replace(/\s|-/g, "");
+  const phoneRegex = /^9\d{8}$/;
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Ingresa tu nombre completo.";
-    } else if (!nameRegex.test(formData.fullName.trim())) {
-      newErrors.fullName = "Ingresa un nombre válido.";
-    }
+  if (!formData.fullName.trim()) {
+    newErrors.fullName = "Ingresa tu nombre completo.";
+  } else if (!nameRegex.test(formData.fullName.trim())) {
+    newErrors.fullName = "Ingresa un nombre válido.";
+  }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Ingresa tu número de celular.";
-    } else if (!phoneRegex.test(phoneClean)) {
-      newErrors.phone = "El celular debe tener 9 dígitos y empezar con 9.";
-    }
+  if (!formData.phone.trim()) {
+    newErrors.phone = "Ingresa tu número de celular.";
+  } else if (!phoneRegex.test(phoneClean)) {
+    newErrors.phone = "El celular debe tener 9 dígitos y empezar con 9.";
+  }
 
-    if (!formData.numDocument.trim()) {
-      newErrors.numDocument = "Ingresa tu DNI o RUC.";
-    } else if (!documentRegex.test(documentClean)) {
-      newErrors.numDocument =
-        "El DNI debe tener 8 dígitos y el RUC 11 dígitos.";
-    }
+  if (!formData.email.trim()) {
+    newErrors.email = "Ingresa tu correo electrónico.";
+  } else if (!emailRegex.test(formData.email.trim())) {
+    newErrors.email = "Ingresa un correo válido.";
+  }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Ingresa tu correo electrónico.";
-    } else if (!emailRegex.test(formData.email.trim())) {
-      newErrors.email = "Ingresa un correo válido.";
-    }
+  if (!formData.project) {
+    newErrors.project = "Selecciona una opción de interés.";
+  }
 
-    if (!formData.project) {
-      newErrors.project = "Selecciona una opción de interés.";
-    }
+  if (formData.message.trim().length > 250) {
+    newErrors.message = "El mensaje no debe superar los 250 caracteres.";
+  }
 
-    if (!formData.consent) {
-      newErrors.consent = "Debes aceptar ser contactado.";
-    }
+  if (!formData.consent) {
+    newErrors.consent = "Debes aceptar ser contactado.";
+  }
 
-    setErrors(newErrors);
+  setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+  return Object.keys(newErrors).length === 0;
+};
+
+ const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  const isValid = validateForm();
+
+  if (!isValid) return;
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!apiUrl) {
+    console.error("NEXT_PUBLIC_API_URL no está configurado");
+    return;
+  }
+
+  const leadData = {
+    fullName: formData.fullName.trim(),
+    phone: formData.phone.replace(/\s|-/g, ""),
+    email: formData.email.trim().toLowerCase(),
+    project: formData.project,
+    message: formData.message.trim(),
+    campaign: activeCampaign.id,
+    origen_ruta: window.location.pathname,
+    origen_componente: `Popup ${activeCampaign.eyebrow}`,
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  try {
+    const response = await fetch(`${apiUrl}/api/leads`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
 
-    const isValid = validateForm();
+    const result = await response.json();
 
-    if (!isValid) return;
+    console.log("Respuesta API:", result);
 
-    const documentClean = formData.numDocument.replace(/\D/g, "");
-
-    const leadData = {
-      campaign: activeCampaign.id,
-      fullName: formData.fullName.trim(),
-      phone: formData.phone.replace(/\s|-/g, ""),
-      email: formData.email.trim().toLowerCase(),
-      documentType: documentClean.length === 11 ? "RUC" : "DNI",
-      numDocument: documentClean,
-      project: formData.project,
-      message: formData.message.trim(),
-      createdAt: new Date().toISOString(),
-    };
-
-    console.log("Lead enviado:", leadData);
+    if (!response.ok) {
+      setErrors({
+        message: result.message || "No se pudo registrar el lead.",
+      });
+      return;
+    }
 
     setIsSubmitted(true);
     setFormData(initialFormData);
     setErrors({});
-  };
+  } catch (error) {
+    console.error("Error enviando lead:", error);
+
+    setErrors({
+      message: "No se pudo conectar con el servidor.",
+    });
+  }
+};
 
   if (!isVisible) return null;
 
@@ -369,22 +383,31 @@ export default function PromoLeadPopup() {
                   )}
                 </div>
 
-                <div className={styles.field}>
-                  <label htmlFor="message">Mensaje opcional</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={3}
-                    placeholder="Cuéntanos qué proyecto te interesa"
-                    value={formData.message}
-                    onChange={(event) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        message: event.target.value,
-                      }))
-                    }
-                  />
-                </div>
+               <div className={styles.field}>
+                <label htmlFor="message">Mensaje opcional</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={3}
+                  maxLength={250}
+                  placeholder="Cuéntanos qué proyecto te interesa"
+                  value={formData.message}
+                  onChange={(event) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      message: event.target.value,
+                    }))
+                  }
+                />
+
+                <small className={styles.counter}>
+                  {formData.message.length}/250 caracteres
+                </small>
+
+                {errors.message && (
+                  <small className={styles.error}>{errors.message}</small>
+                )}
+              </div>
 
                 <label className={styles.checkbox}>
                   <input

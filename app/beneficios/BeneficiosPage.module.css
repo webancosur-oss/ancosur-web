@@ -26,7 +26,7 @@
 .cta span {
   color: #00a74f;
   font-size: 14px;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -34,9 +34,8 @@
 .heroContent h1 {
   margin: 14px 0;
   max-width: 900px;
-  font-size: clamp(40px, 7vw, 76px);
   line-height: 1.02;
-  font-weight: 800;
+  
   letter-spacing: -1.5px;
 }
 
@@ -61,9 +60,8 @@
 
 .sectionHeader h2 {
   margin: 12px 0 0;
-  font-size: clamp(32px, 5vw, 56px);
   line-height: 1.05;
-  font-weight: 800;
+  
   letter-spacing: -0.04em;
 }
 
@@ -115,7 +113,7 @@
   margin-bottom: 10px;
   color: #00a74f;
   font-size: 13px;
-  font-weight: 800;
+  
   text-transform: uppercase;
 }
 
@@ -124,7 +122,7 @@
   color: #111111;
   font-size: 25px;
   line-height: 1.15;
-  font-weight: 800;
+  
 }
 
 .content p {
@@ -148,9 +146,8 @@
   background: #00a74f;
   color: #ffffff;
   border-radius: 999px;
-  font-family: inherit;
   font-size: 14px;
-  font-weight: 800;
+  
   text-decoration: none;
   text-transform: uppercase;
   cursor: pointer;
@@ -188,9 +185,8 @@
 .cta h2 {
   margin: 12px 0;
   max-width: 760px;
-  font-size: clamp(30px, 4vw, 48px);
   line-height: 1.08;
-  font-weight: 800;
+  
   letter-spacing: -0.04em;
 }
 
@@ -258,7 +254,7 @@
   margin-bottom: 12px;
   color: #00a74f;
   font-size: 13px;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -266,10 +262,9 @@
 .modalHeader h2 {
   margin: 0;
   color: #111111;
-  font-size: clamp(34px, 5vw, 62px);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  
 }
 
 .modalHeader p {
@@ -307,7 +302,7 @@
   display: grid;
   place-items: center;
   font-size: 26px;
-  font-weight: 900;
+  
 }
 
 .stepsGrid h3 {
@@ -315,7 +310,7 @@
   color: #ffffff;
   font-size: 22px;
   line-height: 1.1;
-  font-weight: 900;
+  
 }
 
 .stepsGrid p {
@@ -348,7 +343,7 @@
   margin-bottom: 10px;
   color: #00ff78;
   font-size: 13px;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -356,10 +351,9 @@
 .clubHeader h2 {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(30px, 5vw, 54px);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  
 }
 
 .clubHeader p {
@@ -422,16 +416,15 @@
   background: #071225;
   color: #ffffff;
   font-size: 10px;
-  font-weight: 900;
+  
   text-transform: uppercase;
 }
 
 .clubInfo h3 {
   margin: 0 0 8px;
   color: #111111;
-  font-size: clamp(17px, 2vw, 22px);
   line-height: 1.05;
-  font-weight: 900;
+  
   letter-spacing: -0.03em;
 }
 
@@ -447,9 +440,8 @@
 .clubDiscount strong {
   display: block;
   color: #00a74f;
-  font-size: clamp(25px, 3vw, 38px);
   line-height: 0.9;
-  font-weight: 950;
+  
   letter-spacing: -0.05em;
 }
 
@@ -458,7 +450,7 @@
   margin-top: 4px;
   color: rgba(17, 17, 17, 0.58);
   font-size: 9px;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -505,9 +497,8 @@
 .formTitle h3 {
   margin: 0;
   color: #111111;
-  font-size: clamp(26px, 4vw, 42px);
   line-height: 1;
-  font-weight: 900;
+  
   letter-spacing: -0.04em;
 }
 
@@ -515,7 +506,7 @@
   margin: 8px 0 0;
   color: #00a74f;
   font-size: 18px;
-  font-weight: 800;
+  
 }
 
 .formGrid {
@@ -641,7 +632,6 @@
   }
 
   .heroContent h1 {
-    font-size: clamp(38px, 12vw, 52px);
     letter-spacing: -1px;
   }
 

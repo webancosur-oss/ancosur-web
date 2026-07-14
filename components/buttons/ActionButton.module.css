@@ -1,0 +1,282 @@
+.button {
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: inherit;
+  text-decoration: none;
+  
+  
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.xs {
+  min-height: 34px;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: 0.68rem;
+}
+
+.sm {
+  min-height: 40px;
+  padding: 0 15px;
+  gap: 7px;
+  font-size: 0.76rem;
+}
+
+.md {
+  min-height: 48px;
+  padding: 0 20px;
+  gap: 9px;
+  font-size: 0.86rem;
+}
+
+.lg {
+  min-height: 56px;
+  padding: 0 26px;
+  gap: 10px;
+  font-size: 0.94rem;
+}
+
+.primary {
+  background: #00a74f;
+  color: #ffffff;
+  border-color: #00a74f;
+  box-shadow: 0 18px 44px rgba(0, 167, 79, 0.24);
+}
+
+.primary:hover {
+  background: #008f43;
+  border-color: #008f43;
+  box-shadow: 0 24px 58px rgba(0, 167, 79, 0.32);
+}
+
+.dark {
+  background: #17172f;
+  color: #ffffff;
+  border-color: #17172f;
+  box-shadow: 0 18px 44px rgba(23, 23, 47, 0.22);
+}
+
+.dark:hover {
+  background: #0e0e21;
+  border-color: #0e0e21;
+}
+
+.light {
+  background: #ffffff;
+  color: #17172f;
+  border-color: #ffffff;
+  box-shadow: 0 18px 44px rgba(23, 23, 47, 0.12);
+}
+
+.light:hover {
+  background: #f6f7f6;
+  border-color: #f6f7f6;
+}
+
+.outline {
+  background: transparent;
+  color: #17172f;
+  border-color: rgba(23, 23, 47, 0.2);
+}
+
+.outline:hover {
+  background: #17172f;
+  color: #ffffff;
+  border-color: #17172f;
+}
+
+.ghost {
+  background: transparent;
+  color: #00a74f;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.ghost:hover {
+  color: #008f43;
+  background: transparent;
+  box-shadow: none;
+  transform: translateX(3px);
+}
+
+.unstyled {
+  min-height: auto;
+  padding: 0;
+  gap: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+
+.unstyled:hover {
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .mobileXs {
+    min-height: 34px;
+    padding: 0 11px;
+    gap: 6px;
+    font-size: 0.66rem;
+  }
+
+  .mobileSm {
+    min-height: 38px;
+    padding: 0 13px;
+    gap: 7px;
+    font-size: 0.72rem;
+  }
+
+  .mobileMd {
+    min-height: 44px;
+    padding: 0 17px;
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+
+  .mobileLg {
+    min-height: 50px;
+    padding: 0 22px;
+    gap: 9px;
+    font-size: 0.88rem;
+  }
+
+  .mobileFullWidth {
+    width: 100%;
+  }
+
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tabletXs {
+    min-height: 34px;
+    padding: 0 12px;
+    gap: 6px;
+    font-size: 0.68rem;
+  }
+
+  .tabletSm {
+    min-height: 40px;
+    padding: 0 15px;
+    gap: 7px;
+    font-size: 0.76rem;
+  }
+
+  .tabletMd {
+    min-height: 48px;
+    padding: 0 20px;
+    gap: 9px;
+    font-size: 0.86rem;
+  }
+
+  .tabletLg {
+    min-height: 54px;
+    padding: 0 24px;
+    gap: 10px;
+    font-size: 0.92rem;
+  }
+
+  .tabletFullWidth {
+    width: 100%;
+  }
+
+  .hideOnTablet {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  .desktopXs {
+    min-height: 34px;
+    padding: 0 12px;
+    gap: 6px;
+    font-size: 0.68rem;
+  }
+
+  .desktopSm {
+    min-height: 40px;
+    padding: 0 15px;
+    gap: 7px;
+    font-size: 0.76rem;
+  }
+
+  .desktopMd {
+    min-height: 48px;
+    padding: 0 20px;
+    gap: 9px;
+    font-size: 0.86rem;
+  }
+
+  .desktopLg {
+    min-height: 56px;
+    padding: 0 26px;
+    gap: 10px;
+    font-size: 0.94rem;
+  }
+
+  .desktopFullWidth {
+    width: 100%;
+  }
+
+  .hideOnDesktop {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .button:hover {
+    transform: none;
+  }
+}

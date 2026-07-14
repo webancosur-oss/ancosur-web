@@ -178,7 +178,7 @@ export default function InversionistasPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

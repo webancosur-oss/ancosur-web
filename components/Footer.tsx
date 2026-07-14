@@ -156,7 +156,7 @@ export default function Footer() {
 
               <li>
                 <span>Correo</span>
-                <a href="mailto:info@ancosur.com">info@ancosur.com</a>
+                <a href="mailto:jefe.experiencia.cliente@ancosur.com">jefe.experiencia.cliente@ancosur.com</a>
               </li>
             </ul>
           </div>

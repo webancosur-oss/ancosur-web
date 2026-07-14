@@ -72,6 +72,7 @@ export default function ContactForm({
   const fullName = formData.fullName.trim();
   const phone = formData.phone.replace(/\D/g, "");
   const email = formData.email.trim();
+  const message = formData.message.trim();
 
   const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,70}$/;
   const phoneRegex = /^9\d{8}$/;
@@ -97,6 +98,10 @@ export default function ContactForm({
 
   if (!formData.interest) {
     newErrors.interest = "Selecciona una opción de interés.";
+  }
+
+  if (message.length > 250) {
+    newErrors.message = "El mensaje no debe superar los 250 caracteres.";
   }
 
   if (!formData.consent) {
@@ -127,52 +132,70 @@ export default function ContactForm({
     }
   };
 
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    if (formData.website) return;
+  if (formData.website) return;
 
-    const isValid = validateForm();
+  const isValid = validateForm();
 
-    if (!isValid) return;
+  if (!isValid) return;
 
-    const leadPayload = {
-      campaign,
-      fullName: formData.fullName.trim(),
-      phone: formData.phone.replace(/\D/g, ""),
-      email: formData.email.trim().toLowerCase(),
-      interest: formData.interest,
-      message: formData.message.trim(),
-      source: "web",
-      createdAt: new Date().toISOString(),
-    };
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    try {
-      setIsSending(true);
-      setStatus("idle");
+  if (!apiUrl) {
+    console.error("NEXT_PUBLIC_API_URL no está configurado");
+    setStatus("error");
+    return;
+  }
 
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(leadPayload),
-      });
-
-      if (!response.ok) {
-        throw new Error("No se pudo enviar el formulario.");
-      }
-
-      setStatus("success");
-      setFormData(initialFormData);
-      setErrors({});
-    } catch (error) {
-      console.error(error);
-      setStatus("error");
-    } finally {
-      setIsSending(false);
-    }
+  const leadPayload = {
+    campaign,
+    fullName: formData.fullName.trim(),
+    phone: formData.phone.replace(/\D/g, ""),
+    email: formData.email.trim().toLowerCase(),
+    project: formData.interest,
+    categoria_interes: formData.interest,
+    message: formData.message.trim(),
+    origen_ruta: window.location.pathname,
+    origen_componente: `Formulario ${title}`,
   };
+
+  try {
+    setIsSending(true);
+    setStatus("idle");
+
+    const response = await fetch(`${apiUrl}/api/leads`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(leadPayload),
+    });
+
+    const result = await response.json();
+
+    console.log("Respuesta API:", result);
+
+    if (!response.ok) {
+      setErrors({
+        message: result.message || "No se pudo enviar el formulario.",
+      });
+      setStatus("error");
+      return;
+    }
+
+    setStatus("success");
+    setFormData(initialFormData);
+    setErrors({});
+  } catch (error) {
+    console.error("Error enviando lead:", error);
+    setStatus("error");
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <section id={id} className={styles.contactSection}>
@@ -324,10 +347,19 @@ export default function ContactForm({
                 id="message"
                 name="message"
                 rows={4}
+                maxLength={250}
                 placeholder="Cuéntanos qué proyecto te interesa o cuándo deseas que te contactemos."
                 value={formData.message}
                 onChange={(event) => updateField("message", event.target.value)}
               />
+
+              <small className={styles.counter}>
+                {formData.message.length}/250 caracteres
+              </small>
+
+              {errors.message && (
+                <small className={styles.error}>{errors.message}</small>
+              )}
             </div>
 
             <label className={styles.checkbox}>

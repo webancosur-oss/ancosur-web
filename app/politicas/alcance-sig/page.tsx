@@ -111,7 +111,7 @@ export default function AlcanceSigPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

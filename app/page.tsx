@@ -3,8 +3,8 @@ import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
 import FloatingActions from "@/components/FloatingActions";
 import Footer from "@/components/Footer";
-import HeroAncosur from "@/components/HeroAncosur";
-import HomeTypologies from "@/components/Typologies";
+import HeroAncosur from "@/components/hero/HeroAncosur";
+import HomeTypologies from "@/app/neo-rivera/components/Typologies";
 import JoinTeamCTA from "@/components/JoinTeamCTA";
 import Navbar from "@/components/Navbar";
 import ProjectFilter from "@/components/ProjectFilter";
@@ -29,14 +29,13 @@ export default function Home() {
             {/* <RealEstateStats /> */}
             <CertificationsSection />
             <HoldingSection />
-            <HomeTypologies />
+            {/* <HomeTypologies /> */}
             <ContactForm />
             {/* <JoinTeamCTA /> */}
             {/* <BlogSection /> */}
             <FAQSection />
         </section>
       </main>
-      <Footer />
 
     </>
   );

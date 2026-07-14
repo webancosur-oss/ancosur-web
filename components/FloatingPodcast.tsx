@@ -1,6 +1,6 @@
 "use client";
 
-import { PlayCircleIcon, SpotifyLogoIcon, XIcon } from "@phosphor-icons/react";
+import { SpotifyLogoIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import styles from "./FloatingPodcast.module.css";
 
@@ -25,19 +25,18 @@ export default function FloatingPodcast() {
         aria-label={isOpen ? "Cerrar podcast" : "Abrir podcast"}
         aria-expanded={isOpen}
       >
-        <span className={styles.icon}>
-          <PlayCircleIcon size={21} weight="fill" aria-hidden="true" />
-        </span>
-        <span className={styles.text}>Podcast</span>
+        <SpotifyLogoIcon size={30} weight="fill" aria-hidden={true}/>
+        <span>Podcast</span>
       </button>
 
       <div className={styles.panel}>
         <div className={styles.header}>
           <div className={styles.titleBox}>
             <span>
-              <SpotifyLogoIcon size={17} weight="fill" aria-hidden="true" />
-              ANCOSUR Podcast
+              <SpotifyLogoIcon size={18} weight="fill" aria-hidden={true} />
+              Spotify
             </span>
+
             <strong>{episode.title}</strong>
           </div>
 
@@ -47,7 +46,7 @@ export default function FloatingPodcast() {
             onClick={() => setIsOpen(false)}
             aria-label="Cerrar podcast"
           >
-            <XIcon size={18} weight="bold" aria-hidden="true" />
+            <XIcon size={18} weight="bold" aria-hidden={true} />
           </button>
         </div>
 
@@ -74,7 +73,7 @@ export default function FloatingPodcast() {
           rel="noopener noreferrer"
           className={styles.spotifyLink}
         >
-          <SpotifyLogoIcon size={18} weight="fill" aria-hidden="true" />
+          <SpotifyLogoIcon size={20} weight="fill" aria-hidden={true} />
           Abrir en Spotify
         </a>
       </div>

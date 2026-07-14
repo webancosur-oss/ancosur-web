@@ -351,7 +351,7 @@ export default function FAQSection() {
             rel="noopener noreferrer"
             className={styles.faqButton}
           >
-            Contactar al <strong>971 069 763</strong>
+            Contactanos<strong>971 069 763</strong>
           </a>
         </div>
       </div>

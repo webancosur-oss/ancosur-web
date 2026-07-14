@@ -1,194 +1,185 @@
 "use client";
 
-import {
-  ArrowRightIcon,
-  BuildingsIcon,
-  MapPinIcon,
-} from "@phosphor-icons/react";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import { projects, ProjectStatus } from "@/data/projects";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import ActionButton from "./buttons/ActionButton";
+import ProjectCard from "./ProjectCard";
+import ProjectFilterTabs from "./ProjectFilterTabs";
 import styles from "./ProjectFilter.module.css";
 
-type FilterStatus = "TODOS" | ProjectStatus;
+export type ProjectFilterGroup = {
+  id: string;
+  label: string;
+  projectNames?: string[];
+  projectTypes?: string[];
+  statuses?: ProjectStatus[];
+};
 
-const filters: FilterStatus[] = [
-  "TODOS",
-  "LANZAMIENTO",
-  "PRE VENTA",
-  "EN CONSTRUCCIÓN",
-  "ENTREGA INMEDIATA",
-  "VENDIDOS",
-  "ENTREGADO",
-];
+type ProjectFilterProps = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
 
-const INITIAL_VISIBLE_COUNT = 12;
-const LOAD_MORE_COUNT = 6;
+  projectNames?: string[];
+  projectTypes?: string[];
+  statuses?: ProjectStatus[];
 
-export default function ProjectFilter() {
-  const [activeFilter, setActiveFilter] = useState<FilterStatus>("TODOS");
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+  filterGroups?: ProjectFilterGroup[];
+  initialFilterId?: string;
+  showFilters?: boolean;
 
-  const filteredProjects = useMemo(() => {
-    if (activeFilter === "TODOS") return projects;
+  visibleLimit?: number;
+  showResultsInfo?: boolean;
 
-    return projects.filter((project) => project.status === activeFilter);
-  }, [activeFilter]);
+  showCta?: boolean;
+  ctaHref?: string;
+  ctaLabel?: string;
+};
+
+const DEFAULT_VISIBLE_LIMIT = 8;
+
+const normalizeText = (value: string) => {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+};
+
+const matchesTextList = (value: string, list?: string[]) => {
+  if (!list?.length) return true;
+
+  const normalizedValue = normalizeText(value);
+
+  return list.some((item) => {
+    const normalizedItem = normalizeText(item);
+
+    return (
+      normalizedValue.includes(normalizedItem) ||
+      normalizedItem.includes(normalizedValue)
+    );
+  });
+};
+
+export default function ProjectFilter({
+  eyebrow = "Proyectos ANCOSUR",
+  title = "Tenemos el proyecto ideal para ti",
+  description = "Descubre opciones para vivir, invertir o construir tu futuro.",
+
+  projectNames,
+  projectTypes,
+  statuses,
+
+  filterGroups,
+  initialFilterId,
+  showFilters = false,
+
+  visibleLimit = DEFAULT_VISIBLE_LIMIT,
+  showResultsInfo = false,
+
+  showCta = true,
+  ctaHref = "/proyectos",
+  ctaLabel = "Ver más proyectos",
+}: ProjectFilterProps) {
+  const firstFilterId = filterGroups?.[0]?.id ?? "";
+  const [activeFilterId, setActiveFilterId] = useState(
+    initialFilterId ?? firstFilterId
+  );
+
+  const activeFilter = useMemo(() => {
+    if (!showFilters || !filterGroups?.length) return null;
+
+    return (
+      filterGroups.find((filterGroup) => filterGroup.id === activeFilterId) ??
+      filterGroups[0]
+    );
+  }, [activeFilterId, filterGroups, showFilters]);
+
+  const selectedProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const baseMatchesName = matchesTextList(project.name, projectNames);
+      const baseMatchesType = matchesTextList(project.type, projectTypes);
+      const baseMatchesStatus =
+        !statuses?.length || statuses.includes(project.status);
+
+      const matchesBase =
+        baseMatchesName && baseMatchesType && baseMatchesStatus;
+
+      if (!matchesBase) return false;
+
+      if (!activeFilter) return true;
+
+      const filterMatchesName = matchesTextList(
+        project.name,
+        activeFilter.projectNames
+      );
+
+      const filterMatchesType = matchesTextList(
+        project.type,
+        activeFilter.projectTypes
+      );
+
+      const filterMatchesStatus =
+        !activeFilter.statuses?.length ||
+        activeFilter.statuses.includes(project.status);
+
+      return filterMatchesName && filterMatchesType && filterMatchesStatus;
+    });
+  }, [projectNames, projectTypes, statuses, activeFilter]);
 
   const visibleProjects = useMemo(() => {
-    return filteredProjects.slice(0, visibleCount);
-  }, [filteredProjects, visibleCount]);
-
-  const hasMoreProjects = visibleCount < filteredProjects.length;
-
-  useEffect(() => {
-    setVisibleCount(INITIAL_VISIBLE_COUNT);
-  }, [activeFilter]);
-
-  const handleLoadMore = () => {
-    setVisibleCount((currentCount) =>
-      Math.min(currentCount + LOAD_MORE_COUNT, filteredProjects.length)
-    );
-  };
+    return selectedProjects.slice(0, visibleLimit);
+  }, [selectedProjects, visibleLimit]);
 
   return (
     <section className={styles.section} id="proyectos">
       <div className={styles.header}>
-        <span>Proyectos ANCOSUR</span>
+        <span>{eyebrow}</span>
 
-        <h2>Encuentra el proyecto ideal para ti</h2>
+        <h2>{title}</h2>
 
-        <p>
-          Explora nuestros proyectos inmobiliarios y descubre opciones para
-          vivir, invertir o construir tu futuro.
-        </p>
+        <p>{description}</p>
       </div>
 
-      <div className={styles.filters} aria-label="Filtros de proyectos">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            onClick={() => setActiveFilter(filter)}
-            className={`${styles.filterButton} ${
-              activeFilter === filter ? styles.active : ""
-            }`}
-          >
-            {filter === "TODOS" ? "Todos" : filter}
-          </button>
+      {showFilters && filterGroups && (
+        <ProjectFilterTabs
+          options={filterGroups.map((filterGroup) => ({
+            id: filterGroup.id,
+            label: filterGroup.label,
+          }))}
+          activeId={activeFilterId}
+          onChange={setActiveFilterId}
+        />
+      )}
+
+      {showResultsInfo && (
+        <div className={styles.resultsInfo}>
+          Mostrando <strong>{visibleProjects.length}</strong> de{" "}
+          <strong>{selectedProjects.length}</strong>{" "}
+          {selectedProjects.length === 1
+            ? "proyecto encontrado"
+            : "proyectos encontrados"}
+        </div>
+      )}
+
+      <div className={styles.grid}>
+        {visibleProjects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
 
-      <div className={styles.resultsInfo}>
-        Mostrando <strong>{visibleProjects.length}</strong> de{" "}
-        <strong>{filteredProjects.length}</strong>{" "}
-        {filteredProjects.length === 1
-          ? "proyecto encontrado"
-          : "proyectos encontrados"}
+      <div className={styles.loadMoreWrap}>
+        <ActionButton
+          href={ctaHref}
+          icon={ArrowRightIcon}
+          size="lg"
+          className={styles.loadMoreButton}
+          isActive={showCta}
+        >
+          {ctaLabel}
+        </ActionButton>
       </div>
-
-      <div className={styles.grid}>
-        {visibleProjects.map((project) => {
-          const hasLocation = Boolean(project.location);
-          const hasHref = Boolean(project.href);
-
-          return (
-            <article key={project.id} className={styles.card}>
-              <div className={styles.imageBox}>
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  width={900}
-                  height={680}
-                  className={styles.image}
-                  sizes="(max-width: 640px) 42vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </div>
-
-              <div className={styles.overlay} />
-
-              <span className={styles.statusBadge}>{project.status}</span>
-
-              <div className={styles.cardContent}>
-                <div className={styles.mainInfo}>
-                  <span className={styles.type}>{project.type}</span>
-                  <h3>{project.name}</h3>
-                </div>
-
-                <div className={styles.details}>
-                  <div className={styles.metaGrid}>
-                    {hasLocation && (
-                      <div className={styles.metaItem}>
-                        <MapPinIcon
-                          size={18}
-                          weight="bold"
-                          aria-hidden="true"
-                        />
-                        <div>
-                          <span>Ubicación</span>
-                          <strong>{project.location}</strong>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className={styles.metaItem}>
-                      <BuildingsIcon
-                        size={18}
-                        weight="bold"
-                        aria-hidden="true"
-                      />
-                      <div>
-                        <span>Tipo</span>
-                        <strong>{project.type}</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    className={`${styles.footer} ${
-                      !hasHref ? styles.footerNoLink : ""
-                    }`}
-                  >
-                    <div className={styles.footerText}>
-                      <span>Estado</span>
-                      <strong>{project.status}</strong>
-                    </div>
-
-                    {project.href && (
-                      <Link href={project.href} className={styles.link}>
-                        Ver más
-                        <ArrowRightIcon
-                          size={17}
-                          weight="bold"
-                          aria-hidden="true"
-                        />
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-
-      {hasMoreProjects && (
-        <div className={styles.loadMoreWrap}>
-          <button
-            type="button"
-            className={styles.loadMoreButton}
-            onClick={handleLoadMore}
-          >
-            Ver más proyectos
-            <ArrowRightIcon size={18} weight="bold" aria-hidden="true" />
-          </button>
-
-          <span className={styles.loadMoreText}>
-            Quedan {filteredProjects.length - visibleProjects.length} por ver
-          </span>
-        </div>
-      )}
     </section>
   );
 }

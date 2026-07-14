@@ -78,7 +78,7 @@ const companies: Company[] = [
       "Proyectos inmobiliarios para vivir, invertir y construir futuro.",
     href: "/nosotros",
     accent: "greenBrand",
-    logo: "/assets/images/ancosur-logo-white.svg",
+    logo: "/assets/images/ancosur-logo.svg",
   },
   {
     name: "STRATON",
@@ -152,7 +152,7 @@ export default function HoldingSection() {
       <div className={styles.container}>
         <div className={styles.header}>
           <span>Ecosistema empresarial</span>
-          <h2>Nuestras marcas del grupo</h2>
+          <h2>Nuestro Holding</h2>
           <p>
             Empresas especializadas en inmobiliaria, construcción, diseño,
             turismo, inversión y comunidad.

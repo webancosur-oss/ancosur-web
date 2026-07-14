@@ -58,7 +58,7 @@
   background: rgba(23, 23, 47, 0.68);
   color: #ffffff;
   font-size: 0.68rem;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -97,7 +97,7 @@
   margin-bottom: 10px;
   color: #00a74f;
   font-size: 0.72rem;
-  font-weight: 900;
+  
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -105,11 +105,9 @@
 .formSide h2,
 .success h2 {
   margin: 0;
-  color: #17172f;
-  font-size: clamp(1.75rem, 2.7vw, 2.65rem);
-  line-height: 0.98;
+  color: #17172f;  line-height: 0.98;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  
 }
 
 .description,
@@ -133,9 +131,7 @@
 
 .field label {
   color: #17172f;
-  font-size: 0.78rem;
-  font-weight: 850;
-}
+  font-size: 0.78rem;}
 
 .field input,
 .field select,
@@ -146,7 +142,7 @@
   background: #ffffff;
   color: #17172f;
   font-size: 0.88rem;
-  font-family: inherit;
+  
   padding: 9px 12px;
   outline: none;
   box-sizing: border-box;
@@ -194,7 +190,7 @@
 .error {
   color: #d71920;
   font-size: 0.72rem;
-  font-weight: 800;
+  
 }
 
 .submitButton {
@@ -205,7 +201,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 0.88rem;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -258,7 +254,7 @@
   margin-bottom: 12px;
   color: #00a74f;
   font-size: 0.76rem;
-  font-weight: 900;
+  
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }

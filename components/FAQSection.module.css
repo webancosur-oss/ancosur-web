@@ -23,7 +23,7 @@
   margin-bottom: 12px;
   color: #00a74f;
   font-size: 13px;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -31,9 +31,8 @@
 .header h2 {
   margin: 0;
   color: #111111;
-  font-size: clamp(32px, 5vw, 56px);
   line-height: 1;
-  font-weight: 800;
+  
   letter-spacing: -0.04em;
   text-wrap: balance;
 }
@@ -79,7 +78,7 @@
   border: 0;
   cursor: pointer;
   text-align: left;
-  font-family: inherit;
+  
   transition:
     background 0.25s ease,
     color 0.25s ease;
@@ -88,7 +87,7 @@
 .question span {
   color: #111111;
   font-size: 16px;
-  font-weight: 800;
+  
   line-height: 1.4;
 }
 
@@ -147,7 +146,7 @@
 
 .greenText {
   color: #00a74f;
-  font-weight: 900;
+  
   white-space: nowrap;
 }
 
@@ -169,9 +168,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: inherit;
+  
   font-size: 13px;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -214,7 +213,7 @@
   margin-bottom: 12px;
   color: #00ff78;
   font-size: 0.74rem;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -222,10 +221,9 @@
 .faqCta h3 {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(1.7rem, 3vw, 2.7rem);
   line-height: 1;
   letter-spacing: -0.05em;
-  font-weight: 900;
+  
   text-wrap: balance;
 }
 
@@ -248,7 +246,7 @@
   justify-content: center;
   text-decoration: none;
   font-size: 0.84rem;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -268,7 +266,7 @@
 .faqButton strong {
   margin-left: 5px;
   color: #ffffff;
-  font-weight: 950;
+  
 }
 
 /* RESPONSIVE */
@@ -283,7 +281,6 @@
   }
 
   .header h2 {
-    font-size: clamp(30px, 9vw, 42px);
   }
 
   .header p {
@@ -347,7 +344,6 @@
   }
 
   .faqCta h3 {
-    font-size: clamp(1.55rem, 8vw, 2.2rem);
   }
 
   .faqButton {

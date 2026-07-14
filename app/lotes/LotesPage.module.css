@@ -33,7 +33,7 @@
   margin-bottom: 16px;
   color: #00a74f;
   font-size: 0.78rem;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.13em;
 }
@@ -41,10 +41,8 @@
 .heroContent h1 {
   margin: 0;
   color: #ffffff;
-  font-size: clamp(3.2rem, 7vw, 7rem);
-  line-height: 0.88;
-  letter-spacing: -0.075em;
-  font-weight: 800;
+  
+  
   text-wrap: balance;
 }
 
@@ -52,8 +50,7 @@
   max-width: 620px;
   margin: 28px 0 0;
   color: rgba(255, 255, 255, 0.82);
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
-  line-height: 1.6;
+ 
 }
 
 .heroActions {
@@ -75,7 +72,7 @@
   gap: 10px;
   text-decoration: none;
   font-size: 0.86rem;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.05em;
   transition:
@@ -134,11 +131,7 @@
 .leadContent h2 {
   margin: 0;
   color: #17172f;
-  font-size: clamp(2.1rem, 4.8vw, 4.5rem);
-  line-height: 0.96;
-  letter-spacing: -0.06em;
-  font-weight: 800;
-  text-wrap: balance;
+  
 }
 
 .introGrid {
@@ -164,7 +157,7 @@
   margin: 0;
   color: #17172f;
   font-size: 1.12rem;
-  font-weight: 800;
+  
   letter-spacing: -0.035em;
 }
 
@@ -201,9 +194,7 @@
 .leadContent p {
   max-width: 680px;
   margin: 22px auto 0;
-  color: rgba(23, 23, 47, 0.72);
-  font-size: clamp(1rem, 1.35vw, 1.16rem);
-  line-height: 1.55;
+  color: rgba(23, 23, 47, 0.72);  line-height: 1.55;
 }
 
 /* CARDS */
@@ -294,7 +285,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 0.64rem;
-  font-weight: 800;
+  
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -326,7 +317,7 @@
   margin-bottom: 8px;
   color: #00a74f;
   font-size: 0.72rem;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -336,11 +327,9 @@
 
 .cardContent h3 {
   margin: 0;
-  color: #ffffff;
-  font-size: clamp(1.45rem, 1.8vw, 2rem);
-  line-height: 1.02;
+  color: #ffffff;  line-height: 1.02;
   letter-spacing: -0.04em;
-  font-weight: 800;
+  
   text-shadow: 0 16px 42px rgba(0, 0, 0, 0.55);
   overflow-wrap: anywhere;
   display: -webkit-box;
@@ -414,7 +403,7 @@
   margin-bottom: 3px;
   color: rgba(255, 255, 255, 0.62);
   font-size: 0.66rem;
-  font-weight: 800;
+  
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -427,7 +416,7 @@
   display: -webkit-box;
   color: #ffffff;
   font-size: 0.82rem;
-  font-weight: 800;
+  
   line-height: 1.22;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
@@ -457,7 +446,7 @@
   justify-content: center;
   gap: 7px;
   font-size: 0.74rem;
-  font-weight: 800;
+  
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
@@ -563,7 +552,7 @@
   background: rgba(23, 23, 47, 0.055);
   color: rgba(23, 23, 47, 0.52);
   font-size: 0.62rem;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.08em;
   opacity: 0;
@@ -607,9 +596,7 @@
   z-index: 2;
   max-width: calc(100% - 24px);
   color: #17172f;
-  font-size: 0.92rem;
-  font-weight: 850;
-  line-height: 1.2;
+  font-size: 0.92rem;  line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
@@ -655,7 +642,7 @@
   gap: 7px;
   color: #17172f;
   font-size: 0.84rem;
-  font-weight: 800;
+  
 }
 
 .formGrid input,
@@ -691,7 +678,7 @@
   justify-content: center;
   gap: 10px;
   font-size: 0.86rem;
-  font-weight: 900;
+  
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -758,9 +745,7 @@
     background-position: center;
   }
 
-  .heroContent h1 {
-    font-size: clamp(3rem, 14vw, 4.3rem);
-  }
+  .heroContent h1 {  }
 
   .heroContent p {
     font-size: 0.96rem;
@@ -794,9 +779,7 @@
 
   .sectionHeader h2,
   .deliveredHeader h2,
-  .leadContent h2 {
-    font-size: clamp(2.1rem, 10vw, 3.05rem);
-    line-height: 0.96;
+  .leadContent h2 {    line-height: 0.96;
   }
 
   .sectionHeader p,
@@ -932,7 +915,7 @@
     display: block;
     color: rgba(23, 23, 47, 0.68);
     font-size: 0.76rem;
-    font-weight: 800;
+    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

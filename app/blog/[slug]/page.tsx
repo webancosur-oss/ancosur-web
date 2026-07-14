@@ -143,7 +143,7 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
         </article>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

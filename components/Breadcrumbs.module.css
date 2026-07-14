@@ -18,7 +18,7 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 13px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -49,7 +49,7 @@
 .breadcrumbs span,
 .breadcrumbs small {
   font-size: 13px;
-  font-weight: 700;
+ 
   text-decoration: none;
 }
 

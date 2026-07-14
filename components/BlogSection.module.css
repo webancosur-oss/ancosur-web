@@ -19,16 +19,15 @@
 .header span {
   color: #00a74f;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .header h2 {
   margin: 12px 0;
-  font-size: clamp(34px, 5vw, 58px);
   line-height: 1.05;
-  font-weight: 700;
+ 
 }
 
 .header p {
@@ -80,7 +79,7 @@
   color: #ffffff;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
@@ -91,14 +90,13 @@
 .featuredContent span {
   color: #00a74f;
   font-size: 13px;
-  font-weight: 700;
+ 
 }
 
 .featuredContent h3 {
   margin: 10px 0 14px;
-  font-size: clamp(30px, 4vw, 42px);
   line-height: 1.08;
-  font-weight: 700;
+ 
 }
 
 .featuredContent p {
@@ -118,7 +116,7 @@
   color: #ffffff;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-decoration: none;
   text-transform: uppercase;
   transition: all 0.2s ease;
@@ -167,7 +165,7 @@
 .cardContent span {
   color: #00a74f;
   font-size: 12px;
-  font-weight: 700;
+ 
   text-transform: uppercase;
 }
 
@@ -175,7 +173,7 @@
   margin: 8px 0 8px;
   font-size: 21px;
   line-height: 1.18;
-  font-weight: 700;
+ 
 }
 
 .cardContent p {
@@ -188,7 +186,7 @@
 .cardContent a {
   color: #111111;
   font-size: 13px;
-  font-weight: 700;
+ 
   text-decoration: none;
   text-transform: uppercase;
 }
@@ -213,7 +211,7 @@
   color: #ffffff;
   border-radius: 999px;
   font-size: 14px;
-  font-weight: 700;
+ 
   text-decoration: none;
   text-transform: uppercase;
 }

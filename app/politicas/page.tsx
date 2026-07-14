@@ -53,7 +53,7 @@ export default function PoliticasPage() {
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }

@@ -60,7 +60,7 @@ export default function EquipoPage() {
         ))}
       </main>
 
-      <Footer />
+      
     </>
   );
 }

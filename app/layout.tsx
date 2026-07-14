@@ -1,23 +1,20 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import type { ReactNode } from "react";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import FloatingActions from "@/components/FloatingActions";
 import FloatingPodcast from "@/components/FloatingPodcast";
+import Footer from "@/components/Footer";
 
-/*
- * URL principal de la web.
- * En producción configura:
- * NEXT_PUBLIC_SITE_URL=https://www.ancosur.com
- */
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   "https://ancosur-web-production.up.railway.app"
 ).replace(/\/+$/, "");
 
-const jakarta = Plus_Jakarta_Sans({
+const manrope = Manrope({
   variable: "--font-main",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -38,27 +35,20 @@ export const metadata: Metadata = {
     "ANCOSUR",
     "ANCOSUR Inmobiliaria",
     "ANCOSUR Huancayo",
-    "ANCOSUR departamentos",
-    "ANCOSUR lotes",
-    "ANCOSUR proyectos",
-    "ANCOSUR inmobiliaria",
-    "ANCOSUR inversión",
-    "departamentos ANCOSUR",
-    "lotes ANCOSUR",
-    "proyectos ANCOSUR",
-    "inmobiliaria ANCOSUR",
-    "inversión ANCOSUR",
+    "departamentos en Huancayo",
     "departamentos en venta Huancayo",
+    "lotes en Huancayo",
     "lotes en venta Huancayo",
     "proyectos inmobiliarios Huancayo",
     "inmobiliaria en Huancayo",
-    "departamentos en Huancayo",
-    "departamentos en venta",
-    "lotes en Huancayo",
-    "proyectos inmobiliarios",
+    "inversión inmobiliaria Huancayo",
     "Neo Rivera",
     "Neo Xport",
     "Neo Eterna",
+    "Neo Balto",
+    "Distrito San Carlos",
+    "Camino Real",
+    "Zagari Resort Club",
   ],
 
   authors: [
@@ -104,7 +94,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-
     googleBot: {
       index: true,
       follow: true,
@@ -117,38 +106,31 @@ export const metadata: Metadata = {
   category: "Inmobiliaria",
 };
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
+type RootLayoutProps = {
+  children: ReactNode;
+};
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     "@id": `${siteUrl}/#organization`,
-
     name: "ANCOSUR Inmobiliaria",
-
     description:
       "Empresa inmobiliaria dedicada al desarrollo de departamentos, lotes y proyectos inmobiliarios en Huancayo.",
-
     url: siteUrl,
-
     logo: {
       "@type": "ImageObject",
       url: `${siteUrl}/assets/images/ancosur-logo-black.svg`,
     },
-
     image: {
       "@type": "ImageObject",
       url: `${siteUrl}/opengraph-image.png`,
       width: 1200,
       height: 630,
     },
-
     telephone: "+51 968 658 098",
-    email: "info@ancosur.com",
-
+    email: "jefe.experiencia.cliente@ancosur.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Av. San Carlos 1481",
@@ -156,12 +138,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
       addressRegion: "Junín",
       addressCountry: "PE",
     },
-
     areaServed: {
       "@type": "City",
       name: "Huancayo",
     },
-
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+51 968 658 098",
@@ -169,30 +149,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
       areaServed: "PE",
       availableLanguage: ["Spanish"],
     },
-
-    /*
-     * Agrega aquí solamente las URLs reales de ANCOSUR.
-     *
-     * sameAs: [
-     *   "https://www.facebook.com/TU-PERFIL-REAL",
-     *   "https://www.instagram.com/TU-PERFIL-REAL",
-     *   "https://www.youtube.com/@TU-CANAL-REAL",
-     *   "https://www.linkedin.com/company/TU-PERFIL-REAL",
-     * ],
-     */
   };
 
   return (
     <html
       lang="es-PE"
-      className={jakarta.variable}
+      className={manrope.variable}
       data-scroll-behavior="smooth"
     >
       <body>
         {children}
-          <FloatingActions />
-                  <FloatingPodcast />
 
+        <FloatingActions />
+        <FloatingPodcast />
+        <Footer />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

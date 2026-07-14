@@ -1,27 +1,71 @@
+:root {
+  --font-main: "Manrope", Arial, sans-serif;
+
+  --color-primary: #00a74f;
+  --color-primary-dark: #008f43;
+  --color-dark: #17172f;
+  --color-text: #17172f;
+  --color-muted: rgba(23, 23, 47, 0.68);
+  --color-soft: #f7faf8;
+  --color-white: #ffffff;
+  --color-error: #d71920;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --fs-eyebrow: 0.68rem;
+  --fs-small: 0.76rem;
+  --fs-body: 0.94rem;
+  --fs-body-lg: 1rem;
+
+  --fs-h1: 3.2rem;
+  --fs-h2: 2.45rem;
+  --fs-h3: 1.45rem;
+  --fs-h4: 1.1rem;
+
+  --lh-title: 1;
+  --lh-body: 1.55;
+
+  --tracking-title: -0.04em;
+  --tracking-small: 0.08em;
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 18px 48px rgba(23, 23, 47, 0.08);
+  --shadow-primary: 0 18px 44px rgba(0, 167, 79, 0.24);
+
+  --section-space: 96px;
+  --container-x: clamp(20px, 6vw, 100px);
+  --container-max: 1180px;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
-  background: #ffffff;
+  background: var(--color-white);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: #ffffff;
-  color: #17172f;
-  font-family: var(--font-main), Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  background: var(--color-white);
+  color: var(--color-text);
+  font-family: var(--font-main);
+  font-size: var(--fs-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--lh-body);
   overflow-x: hidden;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body *:not(svg):not(svg *) {
-  font-family: var(--font-main), Arial, Helvetica, sans-serif;
 }
 
 h1,
@@ -29,38 +73,48 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p {
   margin-top: 0;
   color: inherit;
-  font-family: var(--font-main), Arial, Helvetica, sans-serif;
-  letter-spacing: -0.045em;
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-title);
+  text-wrap: balance;
 }
 
 h1 {
-  font-weight: 700;
-  line-height: 0.92;
+  font-size: var(--fs-h1);
 }
 
 h2 {
-  font-weight: 700;
-  line-height: 0.96;
+  font-size: var(--fs-h2);
 }
 
 h3 {
-  font-weight: 700;
-  line-height: 1.05;
+  font-size: var(--fs-h3);
 }
 
 h4,
 h5,
 h6 {
-  font-weight: 700;
-  line-height: 1.15;
+  font-size: var(--fs-h4);
+  font-weight: var(--weight-semibold);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 p {
-  font-weight: 400;
-  line-height: 1.6;
+  margin-bottom: 0;
+  font-size: var(--fs-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--lh-body);
 }
 
 span,
@@ -71,18 +125,20 @@ label,
 input,
 select,
 textarea,
-button {
-  font-family: var(--font-main), Arial, Helvetica, sans-serif;
+button,
+strong,
+b {
+  font-family: inherit;
 }
 
 strong,
 b {
-  font-weight: 700;
+  font-weight: var(--weight-semibold);
 }
 
-button,
-a {
-  font-weight: 700;
+small {
+  font-size: var(--fs-small);
+  font-weight: var(--weight-medium);
 }
 
 button,
@@ -92,21 +148,65 @@ textarea {
   font: inherit;
 }
 
+button,
+a {
+  font-weight: var(--weight-semibold);
+}
+
+button {
+  border: 0;
+}
+
 a {
   color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
 }
 
 section {
   scroll-margin-top: 100px;
 }
 
-/* Para textos pequeños como etiquetas, badges o filtros */
-small {
-  font-weight: 600;
-}
-
-/* Selección de texto */
 ::selection {
   background: rgba(0, 167, 79, 0.22);
-  color: #17172f;
+  color: var(--color-dark);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --fs-h1: 2.8rem;
+    --fs-h2: 2.2rem;
+    --fs-h3: 1.3rem;
+
+    --section-space: 80px;
+    --container-x: 5%;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --fs-eyebrow: 0.62rem;
+    --fs-small: 0.7rem;
+    --fs-body: 0.86rem;
+    --fs-body-lg: 0.92rem;
+
+    --fs-h1: 2.35rem;
+    --fs-h2: 1.9rem;
+    --fs-h3: 1.15rem;
+    --fs-h4: 1rem;
+
+    --section-space: 64px;
+    --container-x: 16px;
+  }
+
+  section {
+    scroll-margin-top: 82px;
+  }
 }

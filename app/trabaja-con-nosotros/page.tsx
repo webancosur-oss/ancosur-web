@@ -122,7 +122,7 @@ export default function TrabajaPage() {
               </p>
 
               <a
-                href="mailto:info@ancosur.com?subject=Postulación%20espontánea%20ANCOSUR"
+                href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulación%20espontánea%20ANCOSUR"
                 className={styles.applyButton}
               >
                 Enviar CV
@@ -141,13 +141,13 @@ export default function TrabajaPage() {
             </p>
           </div>
 
-          <a href="mailto:info@ancosur.com?subject=Postulación%20espontánea%20ANCOSUR">
+          <a href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulación%20espontánea%20ANCOSUR">
             Enviar CV
           </a>
         </section>
       </main>
 
-      <Footer />
+      
     </>
   );
 }
