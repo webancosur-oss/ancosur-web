@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 
 import ActionButton from "@/components/buttons/ActionButton";
 import {

@@ -1,0 +1,329 @@
+.mediaSection {
+  padding: 100px 0;
+  background: #f5f7f6;
+}
+
+.mediaHeader {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  max-width: 780px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.mediaHeader > span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mediaHeader h2 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.mediaHeader p {
+  margin: 18px auto 0;
+  color: var(--color-muted, #656579);
+  line-height: 1.75;
+}
+
+.projectVideoCard {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #111124;
+  box-shadow: 0 25px 65px rgba(23, 23, 47, 0.16);
+}
+
+.projectVideoBox {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+.projectVideoBox > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.projectVideoCard:hover .projectVideoBox > img {
+  transform: scale(1.035);
+}
+
+.projectVideoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 24, 0.05) 25%,
+    rgba(10, 10, 24, 0.85) 100%
+  );
+}
+
+.projectPlayButton {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  padding-left: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: rgba(0, 167, 79, 0.92);
+  color: #ffffff;
+  font-size: 1.45rem;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.24);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.projectPlayButton:hover {
+  background: var(--color-primary-dark, #008f43);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.projectVideoContent {
+  position: absolute;
+  left: 36px;
+  right: 36px;
+  bottom: 32px;
+  z-index: 2;
+  max-width: 680px;
+}
+
+.projectVideoContent span {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #55e39a;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.projectVideoContent h3 {
+  margin: 0;
+  color: #ffffff;
+line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.lotOptionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 30px auto 0;
+}
+
+.lotOptionCard {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid rgba(23, 23, 47, 0.09);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 16px 45px rgba(23, 23, 47, 0.08);
+}
+
+.lotOptionImage {
+  position: relative;
+  min-height: 330px;
+  overflow: hidden;
+  background: #e6ece8;
+}
+
+.lotOptionImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.lotOptionCard:hover .lotOptionImage img {
+  transform: scale(1.05);
+}
+
+.lotOptionImage > span {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.lotOptionContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+}
+
+.lotOptionContent > span {
+  margin-bottom: 8px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lotOptionContent h3 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+  font-size: 1.55rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.lotOptionContent strong {
+  display: block;
+  margin-top: 10px;
+  color: var(--color-primary-dark, #008f43);
+  font-size: 1.15rem;
+}
+
+.lotOptionContent p {
+  margin: 15px 0 0;
+  color: var(--color-muted, #656579);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.lotOptionContent a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--color-dark, #17172f);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.lotOptionContent a:hover {
+  transform: translateY(-2px);
+  background: var(--color-primary, #00a74f);
+}
+
+@media (max-width: 1100px) {
+  .lotOptionCard {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionImage {
+    min-height: 260px;
+  }
+
+  .lotOptionContent a {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 960px) {
+  .lotOptionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionCard {
+    grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .mediaSection {
+    padding: 72px 0;
+  }
+
+  .mediaHeader h2 {
+}
+
+  .projectVideoBox {
+    min-height: 430px;
+  }
+
+  .projectVideoContent {
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+  }
+
+  .projectPlayButton {
+    width: 66px;
+    height: 66px;
+  }
+
+  .lotOptionCard {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionImage {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectVideoCard,
+  .lotOptionCard {
+    border-radius: 18px;
+  }
+
+  .projectVideoBox {
+    min-height: 380px;
+  }
+
+  .projectPlayButton {
+    width: 58px;
+    height: 58px;
+    font-size: 1.15rem;
+  }
+
+  .lotOptionImage {
+    min-height: 235px;
+  }
+
+  .lotOptionContent {
+    padding: 22px;
+  }
+}

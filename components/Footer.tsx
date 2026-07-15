@@ -16,7 +16,7 @@ type SocialLink = {
   href: string;
 };
 
-const logoSrc = "/assets/images/ancosur-logo-white.svg"
+const logoSrc = "/assets/images/ancosur-logo.svg"
 
 
 const companyLinks: FooterLink[] = [
@@ -172,7 +172,9 @@ export default function Footer() {
 
             <div className={styles.memberBox}>
               <span>Miembros de</span>
+              <Link href={"/equipo"}>
               <strong>ANCOSUR Inmobiliaria</strong>
+              </Link>
             </div>
           </div>
         </div>

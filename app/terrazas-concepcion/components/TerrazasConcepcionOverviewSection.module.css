@@ -1,0 +1,539 @@
+.overviewSection {
+  position: relative;
+  width: 100%;
+  padding:
+    100px
+    var(--container-x, clamp(20px, 6vw, 100px));
+  background:
+    radial-gradient(
+      circle at 92% 12%,
+      rgba(0, 167, 79, 0.08),
+      transparent 25%
+    ),
+    #ffffff;
+  box-sizing: border-box;
+  scroll-margin-top: 100px;
+}
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+
+.overviewInner {
+  width: 100%;
+  max-width: var(--container-max, 1180px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.15fr)
+    minmax(340px, 0.65fr);
+  gap: 54px;
+  align-items: start;
+}
+
+.overviewContent {
+  min-width: 0;
+}
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 15px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.overviewContent h2 {
+  max-width: 780px;
+  margin: 0;
+  color: var(--color-dark, #17172f);
+line-height: 1.03;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.overviewDescription {
+  max-width: 760px;
+  margin: 22px 0 0;
+  color: var(--color-muted, #656579);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   DATOS DESTACADOS
+========================================================= */
+
+.overviewFacts {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.overviewFact {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgba(23, 23, 47, 0.1);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow:
+    0 12px 35px rgba(23, 23, 47, 0.06);
+  box-sizing: border-box;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.overviewFact:first-child {
+  border-color: rgba(0, 167, 79, 0.28);
+  background: rgba(0, 167, 79, 0.05);
+}
+
+.overviewFact:hover {
+  border-color: rgba(0, 167, 79, 0.28);
+  transform: translateY(-3px);
+  box-shadow:
+    0 18px 42px rgba(23, 23, 47, 0.09);
+}
+
+.overviewFact span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--color-muted, #656579);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.overviewFact strong {
+  display: block;
+  color: var(--color-dark, #17172f);
+line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   DETALLES DEL PROYECTO
+========================================================= */
+
+.detailsList {
+  margin: 34px 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(23, 23, 47, 0.1);
+  display: grid;
+  list-style: none;
+}
+
+.detailsList li {
+  padding: 17px 0;
+  border-bottom: 1px solid rgba(23, 23, 47, 0.1);
+  display: grid;
+  grid-template-columns:
+    minmax(135px, 0.38fr)
+    minmax(0, 1fr);
+  gap: 20px;
+}
+
+.detailsList strong {
+  color: var(--color-dark, #17172f);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.detailsList span {
+  color: var(--color-muted, #656579);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.overviewActions {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.overviewActions a {
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.overviewActions a:first-child {
+  border: 1px solid var(--color-primary, #00a74f);
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+}
+
+.overviewActions a:last-child {
+  border: 1px solid rgba(23, 23, 47, 0.14);
+  background: #ffffff;
+  color: var(--color-dark, #17172f);
+}
+
+.overviewActions a:hover {
+  transform: translateY(-2px);
+}
+
+.overviewActions a:first-child:hover {
+  background: var(--color-primary-dark, #008f43);
+  box-shadow:
+    0 15px 32px rgba(0, 167, 79, 0.2);
+}
+
+.overviewActions a:last-child:hover {
+  border-color: var(--color-primary, #00a74f);
+  color: var(--color-primary-dark, #008f43);
+}
+
+.overviewActions a:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.25);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   FORMULARIO
+========================================================= */
+
+.overviewForm {
+  position: sticky;
+  top: 105px;
+  min-width: 0;
+  padding: 30px;
+  border: 1px solid rgba(23, 23, 47, 0.09);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 100% 0,
+      rgba(0, 167, 79, 0.22),
+      transparent 32%
+    ),
+    var(--color-dark, #17172f);
+  display: grid;
+  gap: 17px;
+  box-shadow:
+    0 26px 65px rgba(23, 23, 47, 0.2);
+  box-sizing: border-box;
+}
+
+.formHeader {
+  margin-bottom: 4px;
+}
+
+.formHeader > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #55e39a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.formHeader strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.65rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.formHeader p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   CAMPOS
+========================================================= */
+
+.overviewForm label {
+  display: grid;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.overviewForm input,
+.overviewForm select,
+.overviewForm textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 500;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.overviewForm input,
+.overviewForm select {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.overviewForm textarea {
+  min-height: 108px;
+  padding: 13px 14px;
+  resize: vertical;
+}
+
+.overviewForm input::placeholder,
+.overviewForm textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.overviewForm select {
+  cursor: pointer;
+}
+
+.overviewForm select option {
+  background: #ffffff;
+  color: var(--color-dark, #17172f);
+}
+
+.overviewForm input:focus,
+.overviewForm select:focus,
+.overviewForm textarea:focus {
+  border-color: #55e39a;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 0 4px rgba(0, 167, 79, 0.18);
+}
+
+.formTwoColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkbox {
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) !important;
+  align-items: start;
+  gap: 10px !important;
+}
+
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: var(--color-primary, #00a74f);
+}
+
+.checkbox span {
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   BOTÓN DEL FORMULARIO
+========================================================= */
+
+.overviewForm > button {
+  width: 100%;
+  min-height: 51px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.overviewForm > button:hover {
+  background: var(--color-primary-dark, #008f43);
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 34px rgba(0, 167, 79, 0.24);
+}
+
+.overviewForm > button:focus-visible {
+  outline: 3px solid rgba(85, 227, 154, 0.5);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   PANTALLAS MEDIANAS
+========================================================= */
+
+@media (max-width: 1100px) {
+  .overviewInner {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(320px, 0.65fr);
+    gap: 36px;
+  }
+
+  .overviewFacts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 960px) {
+  .overviewSection {
+    padding-block: 84px;
+  }
+
+  .overviewInner {
+    grid-template-columns: 1fr;
+  }
+
+  .overviewForm {
+    position: relative;
+    top: auto;
+    width: min(100%, 720px);
+  }
+
+  .overviewFacts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+  .overviewSection {
+    padding: 68px 16px;
+  }
+
+  .overviewContent h2 {
+}
+
+  .overviewDescription {
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
+
+  .overviewFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .detailsList li {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .overviewActions {
+    flex-direction: column;
+  }
+
+  .overviewActions a {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .formTwoColumns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 480px) {
+  .overviewSection {
+    padding-inline: 14px;
+  }
+
+  .overviewForm {
+    padding: 22px;
+    border-radius: 19px;
+  }
+
+  .formHeader strong {
+    font-size: 1.4rem;
+  }
+
+  .overviewFact {
+    padding: 17px;
+  }
+}
+
+/* =========================================================
+   MOVIMIENTO REDUCIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .overviewFact,
+  .overviewActions a,
+  .overviewForm input,
+  .overviewForm select,
+  .overviewForm textarea,
+  .overviewForm > button {
+    transition: none;
+  }
+
+  .overviewFact:hover,
+  .overviewActions a:hover,
+  .overviewForm > button:hover {
+    transform: none;
+  }
+}

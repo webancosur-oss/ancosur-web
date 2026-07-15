@@ -5,6 +5,7 @@ import "./globals.css";
 import FloatingActions from "@/components/FloatingActions";
 import FloatingPodcast from "@/components/FloatingPodcast";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ||
@@ -159,7 +160,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <body>
         {children}
-
+        <Navbar />
         <FloatingActions />
         <FloatingPodcast />
         <Footer />

@@ -29,7 +29,7 @@ export default function NeoRiveraLocation() {
         <span>Ubicación</span>
 
         <h2 id="neo-rivera-location-title">
-          Tu futuro hogar te espera en La Ribera
+          Tu futuro hogar te espera en NEO RIVERA
         </h2>
 
         <p>

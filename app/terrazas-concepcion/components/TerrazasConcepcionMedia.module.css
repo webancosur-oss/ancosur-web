@@ -1,0 +1,674 @@
+.mediaSection {
+  width: 100%;
+  padding: 100px 0;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(0, 167, 79, 0.07),
+      transparent 28%
+    ),
+    #f5f7f6;
+  box-sizing: border-box;
+  scroll-margin-top: 100px;
+}
+
+/* =========================================================
+   ENCABEZADO PRINCIPAL
+========================================================= */
+
+.mediaHeader {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  max-width: 780px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.mediaHeader > span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mediaHeader h2 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.mediaHeader p {
+  max-width: 670px;
+  margin: 18px auto 0;
+  color: var(--color-muted, #656579);
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.projectVideoCard {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(23, 23, 47, 0.08);
+  border-radius: 26px;
+  background: #111124;
+  box-shadow:
+    0 25px 65px rgba(23, 23, 47, 0.16);
+}
+
+.projectVideoBox {
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  background: #111124;
+}
+
+.projectVideo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #111124;
+  object-fit: cover;
+  object-position: center;
+}
+
+.projectVideoOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 10, 24, 0.03) 10%,
+      rgba(10, 10, 24, 0.18) 46%,
+      rgba(10, 10, 24, 0.9) 100%
+    );
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.projectVideoOverlayHidden {
+  opacity: 0;
+}
+
+/* =========================================================
+   BOTÓN DEL VIDEO
+========================================================= */
+
+.projectPlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  width: 78px;
+  height: 78px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: rgba(0, 167, 79, 0.94);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 16px 35px rgba(0, 0, 0, 0.24);
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    top 0.25s ease,
+    right 0.25s ease,
+    bottom 0.25s ease,
+    left 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.projectPlayButton:hover {
+  background: var(--color-primary-dark, #008f43);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.projectPlayButton:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 4px;
+}
+
+.projectPlayButtonActive {
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  width: 46px;
+  height: 46px;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(17, 17, 36, 0.72);
+  transform: none;
+  backdrop-filter: blur(12px);
+}
+
+.projectPlayButtonActive:hover {
+  background: rgba(0, 167, 79, 0.92);
+  transform: scale(1.07);
+}
+
+/* =========================================================
+   TEXTO SOBRE EL VIDEO
+========================================================= */
+
+.projectVideoContent {
+  position: absolute;
+  right: 36px;
+  bottom: 32px;
+  left: 36px;
+  z-index: 2;
+  max-width: 700px;
+  opacity: 1;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.projectVideoContentHidden {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.projectVideoContent > span {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #55e39a;
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.projectVideoContent h3 {
+  max-width: 680px;
+  margin: 0;
+  color: #ffffff;
+line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.projectVideoContent p {
+  max-width: 620px;
+  margin: 12px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   ENCABEZADO DE LOTES
+========================================================= */
+
+.lotOptionsHeader {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  max-width: 750px;
+  margin: 68px auto 30px;
+  text-align: center;
+}
+
+.lotOptionsHeader > span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.lotOptionsHeader h2 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+line-height: 1.06;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.lotOptionsHeader p {
+  max-width: 640px;
+  margin: 15px auto 0;
+  color: var(--color-muted, #656579);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   CUADRÍCULA DE LOTES
+========================================================= */
+
+.lotOptionsGrid {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.lotOptionCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(23, 23, 47, 0.09);
+  border-radius: 22px;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns:
+    minmax(190px, 0.9fr)
+    minmax(0, 1.1fr);
+  box-shadow:
+    0 16px 45px rgba(23, 23, 47, 0.08);
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.lotOptionCard:hover {
+  border-color: rgba(0, 167, 79, 0.22);
+  transform: translateY(-5px);
+  box-shadow:
+    0 24px 58px rgba(23, 23, 47, 0.13);
+}
+
+/* =========================================================
+   IMAGEN DEL LOTE
+========================================================= */
+
+.lotOptionImage {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  background: #e6ece8;
+}
+
+.lotOptionImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.lotOptionCard:hover .lotOptionImage img {
+  transform: scale(1.05);
+}
+
+.lotOptionImage > span {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  max-width: calc(100% - 32px);
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.14);
+}
+
+/* =========================================================
+   CONTENIDO DEL LOTE
+========================================================= */
+
+.lotOptionContent {
+  min-width: 0;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lotOptionContent > span {
+  margin-bottom: 8px;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lotOptionContent h3 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+  font-size: 1.48rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.lotOptionContent > p {
+  margin: 16px 0 24px;
+  color: var(--color-muted, #656579);
+  font-size: 0.87rem;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   ÁREA Y PRECIO
+========================================================= */
+
+.lotOptionData {
+  width: 100%;
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.lotOptionData > div {
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid rgba(0, 167, 79, 0.08);
+  border-radius: 12px;
+  background: #f2f8f4;
+  box-sizing: border-box;
+}
+
+.lotOptionData span {
+  display: block;
+  margin: 0;
+  color: rgba(23, 23, 47, 0.52);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.lotOptionData strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-primary-dark, #008f43);
+  font-size: 0.98rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   BOTÓN DEL LOTE
+========================================================= */
+
+.lotOptionContent > a {
+  min-height: 44px;
+  margin-top: auto;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--color-dark, #17172f);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.lotOptionContent > a:hover {
+  background: var(--color-primary, #00a74f);
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 28px rgba(0, 167, 79, 0.2);
+}
+
+.lotOptionContent > a:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.25);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   PANTALLAS MEDIANAS
+========================================================= */
+
+@media (max-width: 1100px) {
+  .lotOptionCard {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionImage {
+    min-height: 280px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .lotOptionContent > a {
+    margin-top: 4px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 960px) {
+  .mediaSection {
+    padding: 84px 0;
+  }
+
+  .projectVideoBox {
+    min-height: 480px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .lotOptionsGrid {
+    max-width: 760px;
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionCard {
+    grid-template-columns:
+      minmax(240px, 0.85fr)
+      minmax(0, 1.15fr);
+  }
+
+  .lotOptionImage {
+    min-height: 350px;
+    aspect-ratio: auto;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 720px) {
+  .mediaSection {
+    padding: 68px 0;
+  }
+
+  .mediaHeader {
+    margin-bottom: 28px;
+    text-align: left;
+  }
+
+  .mediaHeader h2 {
+}
+
+  .mediaHeader p {
+    margin-left: 0;
+  }
+
+  .projectVideoCard {
+    border-radius: 20px;
+  }
+
+  .projectVideoBox {
+    min-height: 420px;
+    aspect-ratio: auto;
+  }
+
+  .projectVideoContent {
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
+  }
+
+  .projectVideoContent h3 {
+}
+
+  .projectVideoContent p {
+    font-size: 0.84rem;
+  }
+
+  .projectPlayButton {
+    width: 66px;
+    height: 66px;
+  }
+
+  .projectPlayButtonActive {
+    right: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .lotOptionsHeader {
+    margin-top: 52px;
+    text-align: left;
+  }
+
+  .lotOptionsHeader p {
+    margin-left: 0;
+  }
+
+  .lotOptionCard {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionImage {
+    min-height: 280px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .lotOptionContent {
+    padding: 24px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 480px) {
+  .mediaSection {
+    padding: 58px 0;
+  }
+
+  .mediaHeader,
+  .projectVideoCard,
+  .lotOptionsHeader,
+  .lotOptionsGrid {
+    width: calc(100% - 28px);
+  }
+
+  .projectVideoCard,
+  .lotOptionCard {
+    border-radius: 18px;
+  }
+
+  .projectVideoBox {
+    min-height: 370px;
+  }
+
+  .projectPlayButton {
+    width: 58px;
+    height: 58px;
+  }
+
+  .projectVideoContent {
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+  }
+
+  .projectVideoContent p {
+    display: none;
+  }
+
+  .lotOptionImage {
+    min-height: 230px;
+  }
+
+  .lotOptionContent {
+    padding: 21px;
+  }
+
+  .lotOptionData {
+    grid-template-columns: 1fr;
+  }
+
+  .lotOptionContent > a {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* =========================================================
+   MOVIMIENTO REDUCIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .projectVideoOverlay,
+  .projectPlayButton,
+  .projectVideoContent,
+  .lotOptionCard,
+  .lotOptionImage img,
+  .lotOptionContent > a {
+    transition: none;
+  }
+
+  .projectPlayButton:hover,
+  .projectPlayButtonActive:hover,
+  .lotOptionCard:hover,
+  .lotOptionContent > a:hover {
+    transform: none;
+  }
+
+  .lotOptionCard:hover .lotOptionImage img {
+    transform: none;
+  }
+}

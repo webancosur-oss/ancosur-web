@@ -1,0 +1,19 @@
+.page {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--color-text, #17172f);
+}
+
+.disclaimer {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 0 auto;
+  padding: 30px 0 38px;
+  color: var(--color-muted, #656579);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  text-align: center;
+}

@@ -1,0 +1,407 @@
+/* =========================================================
+   AMENIDADES
+========================================================= */
+
+.amenitiesSection {
+  width: 100%;
+  padding:
+    82px
+    var(--container-x, clamp(20px, 6vw, 100px));
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 167, 79, 0.07),
+      transparent 32%
+    ),
+    #ffffff;
+  box-sizing: border-box;
+}
+
+.amenitiesHeader {
+  max-width: 720px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.amenitiesHeader > span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: var(--color-primary);
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-small);
+}
+
+.amenitiesHeader h2 {
+  margin: 0;
+}
+
+.amenitiesHeader p {
+  max-width: 620px;
+  margin: 15px auto 0;
+  color: var(--color-muted);
+}
+
+.amenitiesCard {
+  width: 100%;
+  max-width: var(--container-max, 1180px);
+  margin: 0 auto;
+  border-radius: 26px;
+  background: #f2f3f2;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  overflow: hidden;
+  box-shadow: 0 26px 75px rgba(23, 23, 47, 0.11);
+}
+
+/* PANEL VERDE */
+
+.amenitiesNumber {
+  min-width: 0;
+  padding: 38px 30px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 255, 255, 0.2),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      var(--color-primary) 0%,
+      var(--color-primary-dark) 100%
+    );
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.amenitiesNumber strong {
+  font-size: 4.3rem;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.amenitiesNumber > span {
+  max-width: 170px;
+  margin-top: 10px;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.amenitiesNumber small {
+  margin-top: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-small);
+}
+
+.amenitiesProgress {
+  width: 100%;
+  height: 4px;
+  margin-top: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+  overflow: hidden;
+}
+
+.amenitiesProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #ffffff;
+  transition: width 0.45s ease;
+}
+
+/* SLIDER */
+
+.amenitiesViewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 360px;
+  max-height: 520px;
+  overflow: hidden;
+  background: #101024;
+}
+
+.amenitiesTrack {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: transform 0.7s
+    cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.amenitySlide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.amenitySlide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  transition: transform 0.8s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.amenitySlide:hover img {
+  transform: scale(1.035);
+}
+
+.amenityOverlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 18, 0.04) 18%,
+      rgba(8, 8, 18, 0.24) 55%,
+      rgba(8, 8, 18, 0.86) 100%
+    );
+  pointer-events: none;
+}
+
+.amenityContent {
+  position: absolute;
+  left: 28px;
+  right: 130px;
+  bottom: 30px;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.amenityContent > span {
+  display: inline-flex;
+  margin-bottom: 5px;
+  color: #00ff78;
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.amenityContent h3 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.amenityContent p {
+  max-width: 560px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-small);
+}
+
+/* FLECHAS */
+
+.amenitiesControls {
+  position: absolute;
+  right: 24px;
+  bottom: 25px;
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+}
+
+.amenitiesControls button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(16, 16, 36, 0.64);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.amenitiesControls button:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* INDICADORES */
+
+.sliderDots {
+  position: absolute;
+  left: 28px;
+  top: 25px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sliderDots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.46);
+  cursor: pointer;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.sliderDots .activeDot {
+  width: 26px;
+  border-radius: 999px;
+  background: var(--color-primary);
+}
+
+/* TABLET */
+
+@media (max-width: 980px) {
+  .amenitiesCard {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+
+  .amenitiesNumber {
+    padding-inline: 24px;
+  }
+
+  .amenitiesNumber strong {
+    font-size: 3.6rem;
+  }
+
+  .amenitiesNumber > span {
+    font-size: 1.25rem;
+  }
+
+  .amenitiesViewport {
+    min-height: 330px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 640px) {
+  .amenitiesSection {
+    padding: 56px 16px;
+  }
+
+  .amenitiesHeader {
+    margin-bottom: 26px;
+    text-align: left;
+  }
+
+  .amenitiesHeader p {
+    margin-left: 0;
+  }
+
+  .amenitiesCard {
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+  }
+
+  .amenitiesNumber {
+    min-height: 132px;
+    padding: 24px;
+  }
+
+  .amenitiesNumber strong {
+    font-size: 3rem;
+  }
+
+  .amenitiesNumber > span {
+    margin-top: 6px;
+    font-size: 1.15rem;
+  }
+
+  .amenitiesProgress {
+    max-width: 220px;
+    margin-top: 15px;
+  }
+
+  .amenitiesNumber small {
+    margin-top: 8px;
+  }
+
+  .amenitiesViewport {
+    min-height: 270px;
+    max-height: none;
+  }
+
+  .amenityContent {
+    left: 20px;
+    right: 90px;
+    bottom: 22px;
+  }
+
+  .amenityContent p {
+    display: none;
+  }
+
+  .amenitiesControls {
+    right: 16px;
+    bottom: 18px;
+  }
+
+  .amenitiesControls button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sliderDots {
+    left: 18px;
+    top: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .amenitiesSection {
+    padding-inline: 14px;
+  }
+
+  .amenitiesViewport {
+    min-height: 250px;
+  }
+
+  .amenityContent {
+    right: 76px;
+  }
+
+  .amenitiesControls {
+    gap: 6px;
+  }
+
+  .amenitiesControls button {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amenitiesTrack,
+  .amenitySlide img,
+  .amenitiesProgress span,
+  .amenitiesControls button,
+  .sliderDots button {
+    transition: none;
+  }
+
+  .amenitySlide:hover img,
+  .amenitiesControls button:hover {
+    transform: none;
+  }
+}

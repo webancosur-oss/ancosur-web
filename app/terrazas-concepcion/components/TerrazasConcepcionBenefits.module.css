@@ -1,0 +1,138 @@
+.benefitsSection {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.benefitsHeader {
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  max-width: 760px;
+  margin: 0 auto 38px;
+  text-align: center;
+}
+
+.benefitsHeader > span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--color-primary, #00a74f);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.benefitsHeader h2 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.benefitsHeader p {
+  margin: 18px auto 0;
+  color: var(--color-muted, #656579);
+  line-height: 1.7;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  width: min(
+    var(--container-max, 1180px),
+    calc(100% - (var(--container-x, 24px) * 2))
+  );
+  margin: 0 auto;
+}
+
+.benefitCard {
+  position: relative;
+  min-height: 260px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid rgba(23, 23, 47, 0.09);
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0, 167, 79, 0.08),
+      rgba(255, 255, 255, 0) 58%
+    ),
+    #ffffff;
+  box-shadow: 0 16px 45px rgba(23, 23, 47, 0.07);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.benefitCard:hover {
+  border-color: rgba(0, 167, 79, 0.28);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 55px rgba(23, 23, 47, 0.11);
+}
+
+.benefitNumber {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 38px;
+  border-radius: 17px;
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(0, 167, 79, 0.2);
+}
+
+.benefitCard h3 {
+  margin: 0;
+  color: var(--color-dark, #17172f);
+  letter-spacing: -0.025em;
+}
+
+.benefitCard p {
+  margin: 12px 0 0;
+  color: var(--color-muted, #656579);
+  line-height: 1.65;
+}
+
+@media (max-width: 960px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .benefitCard:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .benefitsSection {
+    padding: 72px 0;
+  }
+
+
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefitCard:last-child {
+    grid-column: auto;
+  }
+
+  .benefitCard {
+    min-height: auto;
+  }
+
+  .benefitNumber {
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .benefitCard {
+    padding: 22px;
+    border-radius: 18px;
+  }
+}
