@@ -1,0 +1,230 @@
+.information {
+  min-width: 0;
+  width: 100%;
+  padding: 32px;
+  border: 1px solid rgba(23, 23, 47, 0.08);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow:
+    0 22px 60px rgba(23, 23, 47, 0.08);
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: var(--color-primary, #00a74f);
+  font-size: var(--fs-eyebrow, 0.68rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-small, 0.08em);
+  text-transform: uppercase;
+}
+
+.information h1 {
+  margin: 0;
+  color: var(--color-text, #17172f);
+  font-size: 2rem;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.projectData {
+  margin: 25px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.projectData > div {
+  min-width: 0;
+  padding: 14px 15px;
+  border: 1px solid rgba(23, 23, 47, 0.07);
+  border-radius: 12px;
+  background: #f7f9f8;
+}
+
+.projectData dt {
+  margin: 0;
+  color: var(--color-primary, #00a74f);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.projectData dd {
+  margin: 5px 0 0;
+  color: rgba(23, 23, 47, 0.82);
+  font-size: var(--fs-small, 0.76rem);
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  margin-top: 26px;
+}
+
+.description p {
+  margin: 0 0 13px;
+  color: var(--color-muted, rgba(23, 23, 47, 0.68));
+  font-size: var(--fs-body, 0.94rem);
+  line-height: 1.7;
+}
+
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+.documents {
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(23, 23, 47, 0.09);
+}
+
+.documents h2 {
+  margin: 0;
+  color: var(--color-text, #17172f);
+  font-size: var(--fs-h4, 1.1rem);
+  line-height: 1.3;
+}
+
+.documentGrid {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.documentGrid a {
+  min-height: 46px;
+  padding: 0 17px;
+  border: 1px solid var(--color-primary, #00a74f);
+  border-radius: 8px;
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--fs-small, 0.76rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.documentGrid a:hover {
+  border-color: var(--color-primary-dark, #008f43);
+  background: var(--color-primary-dark, #008f43);
+  transform: translateY(-2px);
+  box-shadow:
+    0 13px 28px rgba(0, 167, 79, 0.2);
+}
+
+.documentGrid a:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.23);
+  outline-offset: 3px;
+}
+
+.backButton {
+  width: fit-content;
+  min-height: 42px;
+  margin-top: 26px;
+  padding: 0 17px;
+  border: 1px solid rgba(23, 23, 47, 0.14);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--color-text, #17172f);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--fs-small, 0.76rem);
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.backButton:hover {
+  border-color: var(--color-primary, #00a74f);
+  color: var(--color-primary-dark, #008f43);
+  transform: translateX(-2px);
+}
+
+.backButton:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.22);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .information {
+    padding: 25px;
+    border-radius: 18px;
+  }
+
+  .information h1 {
+    font-size: 1.8rem;
+  }
+
+  .projectData {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  .documentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .documentGrid a {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .information {
+    padding: 20px;
+  }
+
+  .information h1 {
+    font-size: 1.6rem;
+  }
+
+  .description p {
+    font-size: 0.86rem;
+  }
+
+  .backButton {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .documentGrid a,
+  .backButton {
+    transition: none;
+  }
+
+  .documentGrid a:hover,
+  .backButton:hover {
+    transform: none;
+  }
+}

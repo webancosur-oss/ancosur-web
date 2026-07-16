@@ -61,7 +61,7 @@ export default function NeoBaltoOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/neo-balto">
               Respaldo legal
 
               <ArrowRightIcon

@@ -70,7 +70,7 @@ export default function ColinasDeMoroOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/las-colinas-de-moro">
               Respaldo legal
 
               <ArrowRightIcon

@@ -49,7 +49,7 @@ export default function NeoRiveraOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/neo-rivera">
               Respaldo legal
               <ArrowRightIcon
                 size={18}

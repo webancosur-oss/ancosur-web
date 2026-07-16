@@ -71,7 +71,7 @@ export default function NeoEmperatrizOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/neo-emperatriz">
               Respaldo legal
 
               <ArrowRightIcon

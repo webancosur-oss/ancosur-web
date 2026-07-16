@@ -80,7 +80,7 @@ export default function CaminoRealOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/camino-real">
               Respaldo legal
 
               <ArrowRightIcon

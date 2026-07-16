@@ -1,0 +1,120 @@
+.selector {
+  position: sticky;
+  top: 100px;
+  width: 100%;
+  min-width: 0;
+}
+
+.selectorTitle {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-primary, #00a74f);
+  font-size: var(--fs-eyebrow, 0.68rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-small, 0.08em);
+  text-transform: uppercase;
+}
+
+.projectList {
+  display: grid;
+  gap: 7px;
+}
+
+.projectLink,
+.activeProject {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 17px;
+  border: 1px solid rgba(23, 23, 47, 0.06);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: rgba(23, 23, 47, 0.78);
+  font-size: var(--fs-small, 0.76rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.projectLink {
+  background: #f1f3f2;
+}
+
+.projectLink:hover {
+  border-color: rgba(0, 167, 79, 0.25);
+  background: rgba(0, 167, 79, 0.08);
+  color: var(--color-primary-dark, #008f43);
+  transform: translateX(3px);
+}
+
+.activeProject {
+  border-color: var(--color-primary, #00a74f);
+  background: var(--color-primary, #00a74f);
+  color: #ffffff;
+  box-shadow:
+    0 12px 25px rgba(0, 167, 79, 0.18);
+}
+
+.projectLink:focus-visible,
+.activeProject:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.22);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .selector {
+    position: relative;
+    top: auto;
+  }
+
+  .projectList {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+
+  .projectLink,
+  .activeProject {
+    width: auto;
+    min-width: 160px;
+    flex-shrink: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .projectLink:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 640px) {
+  .projectLink,
+  .activeProject {
+    min-width: 145px;
+    min-height: 43px;
+    padding-inline: 14px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projectLink,
+  .activeProject {
+    transition: none;
+  }
+
+  .projectLink:hover {
+    transform: none;
+  }
+}

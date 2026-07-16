@@ -72,7 +72,7 @@ export default function NeoEternaOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/neo-eterna">
               Respaldo legal
 
               <ArrowRightIcon

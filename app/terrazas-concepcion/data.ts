@@ -1,5 +1,5 @@
 export const whatsappTerrazasConcepcion =
-  "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20Las%20Terrazas%20de%20Concepción";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Las%20Terrazas%20de%20Concepción";
 
 export const brochureTerrazasConcepcion =
   "/assets/projects/las-terrazas-de-concepcion/brochure/brochure-las-terrazas-de-concepcion.pdf";

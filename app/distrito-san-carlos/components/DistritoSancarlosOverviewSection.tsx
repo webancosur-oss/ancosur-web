@@ -65,7 +65,7 @@ export default function DistritoSanCarlosOverviewSection() {
               Descargar brochure
             </a>
 
-            <Link href="/portal-de-transparencia">
+            <Link href="/portal-de-transparencia/distrito-san-carlos">
               Respaldo legal
 
               <ArrowRightIcon

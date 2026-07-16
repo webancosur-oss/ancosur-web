@@ -35,10 +35,10 @@ export type CommonArea = {
 ========================================================= */
 
 export const whatsappCaminoReal =
-  "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20Camino%20Real";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Camino%20Real";
 
 export const brochureCaminoReal =
-  "/assets/projects/camino-real/brochure/brochure-camino-real.pdf";
+  "/assets/docs/brochure/camino-real-brochure.pdf";
 
 /* =========================================================
    HERO
