@@ -1,0 +1,257 @@
+.section {
+  padding:
+    clamp(74px, 9vw, 120px)
+    24px;
+  background: #ffffff;
+}
+
+.inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(340px, 0.78fr);
+  align-items: start;
+  gap: clamp(46px, 7vw, 100px);
+}
+
+.content {
+  min-width: 0;
+}
+
+.content > span {
+  color: #00a74f;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+}
+
+.content h2 {
+  margin: 13px 0 0;
+  color: #101a14;
+  font-size:
+    clamp(2rem, 4.2vw, 3.65rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.content > p {
+  margin: 17px 0 0;
+  color: #617068;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.cards {
+  display: grid;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 19px;
+  border: 1px solid #e2eae5;
+  border-radius: 16px;
+  background: #ffffff;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.card:hover {
+  border-color:
+    rgba(0, 167, 79, 0.32);
+  box-shadow:
+    0 18px 40px
+    rgba(22, 56, 37, 0.08);
+  transform: translateY(-2px);
+}
+
+.iconBox {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: #e5f7ed;
+  color: #00a74f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card h3 {
+  margin: 0;
+  color: #101a14;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.card p {
+  margin: 6px 0 0;
+  color: #67736d;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.scheduleCard {
+  padding:
+    clamp(24px, 4vw, 34px);
+  border-radius: 24px;
+  background: #0b2315;
+  color: #ffffff;
+  box-shadow:
+    0 28px 70px
+    rgba(10, 40, 23, 0.2);
+}
+
+.scheduleHeader {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-bottom: 22px;
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+}
+
+.scheduleHeader > svg {
+  flex-shrink: 0;
+  color: #4ee595;
+}
+
+.scheduleHeader span {
+  color:
+    rgba(255, 255, 255, 0.55);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.scheduleHeader h3 {
+  margin: 4px 0 0;
+  color: #ffffff;
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.scheduleList {
+  display: grid;
+  margin-top: 10px;
+}
+
+.scheduleList article {
+  display: grid;
+  grid-template-columns:
+    105px minmax(0, 1fr);
+  gap: 15px;
+  padding: 19px 0;
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+}
+
+.scheduleList article > span {
+  color: #59e69b;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.scheduleList strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.scheduleList p {
+  margin: 6px 0 0;
+  color:
+    rgba(255, 255, 255, 0.61);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.scheduleCard > a {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 24px;
+  border-radius: 12px;
+  background: #00a74f;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.scheduleCard > a:hover {
+  background: #008e43;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scheduleCard {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 70px 16px;
+  }
+
+  .scheduleList article {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+  }
+
+  .iconBox {
+    width: 42px;
+    height: 42px;
+  }
+
+  .scheduleCard {
+    padding: 22px 18px;
+    border-radius: 19px;
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .card,
+  .scheduleCard > a {
+    transition: none;
+  }
+
+  .card:hover,
+  .scheduleCard > a:hover {
+    transform: none;
+  }
+}

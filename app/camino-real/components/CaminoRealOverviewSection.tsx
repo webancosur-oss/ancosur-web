@@ -1,8 +1,16 @@
+"use client";
+
 import {
   ArrowRightIcon,
   DownloadSimpleIcon,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@phosphor-icons/react";
 import Link from "next/link";
+import { useCallback, useState } from "react";
+import type { FormEvent } from "react";
+
+import FeedbackToast, {
+  type FeedbackToastData,
+} from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import {
   brochureCaminoReal,
@@ -14,219 +22,422 @@ import {
 
 import styles from "./CaminoRealOverviewSection.module.css";
 
+const PROJECT_NAME =
+  projectFormData.projectName || "Camino Real";
+
+type ToastState = FeedbackToastData & {
+  id: number;
+};
+
+const SUCCESS_TOAST: FeedbackToastData = {
+  variant: "success",
+  title: "¡Datos enviados correctamente!",
+  message:
+    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+};
+
+const ERROR_TOAST: FeedbackToastData = {
+  variant: "error",
+  title: "No pudimos enviar tus datos",
+  message:
+    "Verifica tu conexión e inténtalo nuevamente.",
+};
+
 export default function CaminoRealOverviewSection() {
+  const [isSending, setIsSending] =
+    useState(false);
+
+  const [toast, setToast] =
+    useState<ToastState | null>(null);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  const showToast = (
+    toastData: FeedbackToastData
+  ) => {
+    setToast({
+      ...toastData,
+      id: Date.now(),
+    });
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (isSending) return;
+
+    const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const fullName = String(
+      formData.get("fullName") ?? ""
+    ).trim();
+
+    const phone = String(
+      formData.get("phone") ?? ""
+    ).replace(/\D/g, "");
+
+    const email = String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
+
+    const selectedInterestValue = String(
+      formData.get("interest") ?? ""
+    ).trim();
+
+    const selectedInterest =
+      projectFormData.interestOptions.find(
+        (option) =>
+          option.value === selectedInterestValue
+      );
+
+    const interest =
+      selectedInterest?.label ||
+      selectedInterestValue;
+
+    const message = String(
+      formData.get("message") ?? ""
+    ).trim();
+
+    const consent =
+      formData.get("consent") ===
+      "accepted";
+
+    const leadData = {
+      fullName,
+      phone,
+      email,
+
+      /*
+       * Se registra en:
+       * leads.proyecto_interes
+       */
+      project: PROJECT_NAME,
+
+      /*
+       * Se registra en:
+       * leads.categoria_interes
+       */
+      interest,
+
+      message:
+        message ||
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+
+      campaign: "camino-real-web",
+
+      source:
+        projectFormData.source ||
+        "camino-real-page",
+
+      consent,
+
+      origen_ruta:
+        window.location.pathname,
+
+      origen_componente:
+        "CaminoRealOverviewSection",
+    };
+
+    try {
+      setIsSending(true);
+      setToast(null);
+
+      const response = await fetch(
+        "/api/leads",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(leadData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error HTTP ${response.status}`
+        );
+      }
+
+      form.reset();
+
+      showToast(SUCCESS_TOAST);
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Camino Real:",
+        error
+      );
+
+      showToast(ERROR_TOAST);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
-    <section
-      className={styles.overviewSection}
-      id="informacion-camino-real"
-      aria-labelledby="camino-real-overview-title"
-    >
-      <div className={styles.overviewInner}>
-        <div className={styles.overviewContent}>
-          <span className={styles.eyebrow}>
-            {projectDescription.eyebrow}
-          </span>
+    <>
+      <section
+        className={styles.overviewSection}
+        id="informacion-camino-real"
+        aria-labelledby="camino-real-overview-title"
+      >
+        <div className={styles.overviewInner}>
+          <div className={styles.overviewContent}>
+            <span className={styles.eyebrow}>
+              {projectDescription.eyebrow}
+            </span>
 
-          <h2 id="camino-real-overview-title">
-            {projectDescription.title}
-          </h2>
+            <h2 id="camino-real-overview-title">
+              {projectDescription.title}
+            </h2>
 
-          <p className={styles.overviewDescription}>
-            {projectDescription.introduction}
-          </p>
-
-          <div className={styles.overviewFacts}>
-            {facts.map((item) => (
-              <div
-                key={item.label}
-                className={styles.overviewFact}
-              >
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.projectText}>
-            {projectDescription.paragraphs.map(
-              (paragraph) => (
-                <p key={paragraph}>
-                  {paragraph}
-                </p>
-              )
-            )}
-          </div>
-
-          <ul className={styles.detailsList}>
-            {details.map((item) => (
-              <li key={item.label}>
-                <strong>{item.label}</strong>
-                <span>{item.value}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.overviewActions}>
-            <a
-              href={brochureCaminoReal}
-              download
+            <p
+              className={
+                styles.overviewDescription
+              }
             >
-              <DownloadSimpleIcon
-                size={18}
-                weight="bold"
-                aria-hidden={true}
+              {projectDescription.introduction}
+            </p>
+
+            <div
+              className={styles.overviewFacts}
+            >
+              {facts.map((item) => (
+                <div
+                  key={item.label}
+                  className={
+                    styles.overviewFact
+                  }
+                >
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.projectText}>
+              {projectDescription.paragraphs.map(
+                (paragraph) => (
+                  <p key={paragraph}>
+                    {paragraph}
+                  </p>
+                )
+              )}
+            </div>
+
+            <ul className={styles.detailsList}>
+              {details.map((item) => (
+                <li key={item.label}>
+                  <strong>{item.label}</strong>
+                  <span>{item.value}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div
+              className={
+                styles.overviewActions
+              }
+            >
+              <a
+                href={brochureCaminoReal}
+                download
+                aria-label="Descargar brochure de Camino Real"
+              >
+                <DownloadSimpleIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+
+                Descargar brochure
+              </a>
+
+              <Link href="/portal-de-transparencia/camino-real">
+                Respaldo legal
+
+                <ArrowRightIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+              </Link>
+            </div>
+          </div>
+
+          <form
+            className={styles.overviewForm}
+            onSubmit={handleSubmit}
+          >
+            <div className={styles.formHeader}>
+              <span>
+                Solicita información
+              </span>
+
+              <strong>
+                {projectFormData.title}
+              </strong>
+
+              <p>
+                {projectFormData.description}
+              </p>
+            </div>
+
+            <label>
+              Nombre completo
+
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Ingresa tu nombre"
+                autoComplete="name"
+                minLength={3}
+                maxLength={80}
+                disabled={isSending}
+                required
+              />
+            </label>
+
+            <div
+              className={
+                styles.formTwoColumns
+              }
+            >
+              <label>
+                Celular
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="987654321"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  pattern="9[0-9]{8}"
+                  minLength={9}
+                  maxLength={9}
+                  title="Ingresa un celular peruano de 9 dígitos que empiece con 9."
+                  disabled={isSending}
+                  required
+                />
+              </label>
+
+              <label>
+                Correo opcional
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
+                  disabled={isSending}
+                />
+              </label>
+            </div>
+
+            <label>
+              Estoy interesado en
+
+              <select
+                name="interest"
+                defaultValue=""
+                disabled={isSending}
+                required
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecciona una opción
+                </option>
+
+                {projectFormData.interestOptions.map(
+                  (option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  )
+                )}
+              </select>
+            </label>
+
+            <label>
+              Mensaje opcional
+
+              <textarea
+                name="message"
+                placeholder="Cuéntanos qué lote buscas o cuándo deseas que te contactemos."
+                rows={4}
+                maxLength={250}
+                disabled={isSending}
+              />
+            </label>
+
+            <label
+              className={styles.checkbox}
+            >
+              <input
+                type="checkbox"
+                name="consent"
+                value="accepted"
+                disabled={isSending}
+                required
               />
 
-              Descargar brochure
-            </a>
+              <span>
+                Acepto ser contactado por
+                ANCOSUR para recibir información
+                comercial sobre Camino Real.
+              </span>
+            </label>
 
-            <Link href="/portal-de-transparencia/camino-real">
-              Respaldo legal
+            <button
+              type="submit"
+              disabled={isSending}
+              aria-busy={isSending}
+            >
+              {isSending
+                ? "Enviando datos..."
+                : "Enviar datos"}
 
               <ArrowRightIcon
                 size={18}
                 weight="bold"
                 aria-hidden={true}
               />
-            </Link>
-          </div>
+            </button>
+          </form>
         </div>
+      </section>
 
-        <form
-          className={styles.overviewForm}
-          action="/api/leads"
-          method="post"
-        >
-          <input
-            type="hidden"
-            name="source"
-            value={projectFormData.source}
-          />
-
-          <input
-            type="hidden"
-            name="project"
-            value={projectFormData.projectName}
-          />
-
-          <div className={styles.formHeader}>
-            <span>Solicita información</span>
-
-            <strong>
-              {projectFormData.title}
-            </strong>
-
-            <p>
-              {projectFormData.description}
-            </p>
-          </div>
-
-          <label>
-            Nombre completo
-
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Ingresa tu nombre"
-              autoComplete="name"
-              minLength={3}
-              maxLength={80}
-              required
-            />
-          </label>
-
-          <div className={styles.formTwoColumns}>
-            <label>
-              Celular
-
-              <input
-                type="tel"
-                name="phone"
-                placeholder="987654321"
-                inputMode="numeric"
-                autoComplete="tel"
-                pattern="9[0-9]{8}"
-                minLength={9}
-                maxLength={9}
-                required
-              />
-            </label>
-
-            <label>
-              Correo opcional
-
-              <input
-                type="email"
-                name="email"
-                placeholder="correo@gmail.com"
-                autoComplete="email"
-                maxLength={120}
-              />
-            </label>
-          </div>
-
-          <label>
-            Estoy interesado en
-
-            <select
-              name="interest"
-              defaultValue=""
-              required
-            >
-              <option value="" disabled>
-                Selecciona una opción
-              </option>
-
-              {projectFormData.interestOptions.map(
-                (option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                )
-              )}
-            </select>
-          </label>
-
-          <label>
-            Mensaje opcional
-
-            <textarea
-              name="message"
-              placeholder="Cuéntanos qué lote buscas o cuándo deseas que te contactemos."
-              rows={4}
-              maxLength={250}
-            />
-          </label>
-
-          <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="consent"
-              value="accepted"
-              required
-            />
-
-            <span>
-              Acepto ser contactado por ANCOSUR
-              para recibir información comercial
-              sobre Camino Real.
-            </span>
-          </label>
-
-          <button type="submit">
-            Enviar datos
-
-            <ArrowRightIcon
-              size={18}
-              weight="bold"
-              aria-hidden={true}
-            />
-          </button>
-        </form>
-      </div>
-    </section>
+      <FeedbackToast
+        key={toast?.id}
+        open={toast !== null}
+        variant={
+          toast?.variant ?? "info"
+        }
+        title={toast?.title ?? ""}
+        message={toast?.message ?? ""}
+        onClose={closeToast}
+      />
+    </>
   );
 }

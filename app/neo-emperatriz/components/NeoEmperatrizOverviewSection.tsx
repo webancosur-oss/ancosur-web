@@ -1,233 +1,466 @@
+"use client";
+
 import {
   ArrowRightIcon,
   DownloadSimpleIcon,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@phosphor-icons/react";
 import Link from "next/link";
+import { useCallback, useState } from "react";
+import type { FormEvent } from "react";
+
+import FeedbackToast, {
+  type FeedbackToastData,
+} from "@/components/ui/FeedbackToast/FeedbackToast";
+
 import {
   brochureNeoEmperatriz,
   details,
   facts,
 } from "../data";
+
 import styles from "../NeoEmperatrizPage.module.css";
 
+const PROJECT_NAME = "Neo Emperatriz";
+
+type ToastState = FeedbackToastData & {
+  id: number;
+};
+
+const SUCCESS_TOAST: FeedbackToastData = {
+  variant: "success",
+  title: "¡Datos enviados correctamente!",
+  message:
+    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+};
+
+const ERROR_TOAST: FeedbackToastData = {
+  variant: "error",
+  title: "No pudimos enviar tus datos",
+  message:
+    "Verifica tu conexión e inténtalo nuevamente.",
+};
+
 export default function NeoEmperatrizOverviewSection() {
+  const [isSending, setIsSending] =
+    useState(false);
+
+  const [toast, setToast] =
+    useState<ToastState | null>(null);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  const showToast = (
+    toastData: FeedbackToastData
+  ) => {
+    setToast({
+      ...toastData,
+      id: Date.now(),
+    });
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (isSending) return;
+
+    const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const fullName = String(
+      formData.get("fullName") ?? ""
+    ).trim();
+
+    const phone = String(
+      formData.get("phone") ?? ""
+    ).replace(/\D/g, "");
+
+    const email = String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
+
+    const interest = String(
+      formData.get("interest") ?? ""
+    ).trim();
+
+    const message = String(
+      formData.get("message") ?? ""
+    ).trim();
+
+    const consent =
+      formData.get("consent") ===
+      "accepted";
+
+    const leadData = {
+      fullName,
+      phone,
+      email,
+      project: PROJECT_NAME,
+      interest,
+
+      message:
+        message ||
+        "Solicitud de información enviada desde la página de Neo Emperatriz.",
+
+      campaign: "neo-emperatriz-web",
+      source: "neo-emperatriz-page",
+      consent,
+
+      origen_ruta:
+        window.location.pathname,
+
+      origen_componente:
+        "NeoEmperatrizOverviewSection",
+    };
+
+    try {
+      setIsSending(true);
+      setToast(null);
+
+      const response = await fetch(
+        "/api/leads",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(leadData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error HTTP ${response.status}`
+        );
+      }
+
+      form.reset();
+
+      showToast(SUCCESS_TOAST);
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Neo Emperatriz:",
+        error
+      );
+
+      showToast(ERROR_TOAST);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
-    <section
-      className={styles.overviewSection}
-      id="informacion-neo-emperatriz"
-      aria-labelledby="neo-emperatriz-overview-title"
-    >
-      <div className={styles.overviewInner}>
-        <div className={styles.overviewContent}>
-          <span className={styles.eyebrow}>
-            Entrega inmediata
-          </span>
+    <>
+      <section
+        className={styles.overviewSection}
+        id="informacion-neo-emperatriz"
+        aria-labelledby="neo-emperatriz-overview-title"
+      >
+        <div className={styles.overviewInner}>
+          <div
+            className={
+              styles.overviewContent
+            }
+          >
+            <span
+              className={styles.eyebrow}
+            >
+              Entrega inmediata
+            </span>
 
-          <h2 id="neo-emperatriz-overview-title">
-            Tu nuevo hogar listo para habitar en San Carlos
-          </h2>
+            <h2 id="neo-emperatriz-overview-title">
+              Tu nuevo hogar listo para habitar
+              en San Carlos
+            </h2>
 
-          <p className={styles.overviewDescription}>
-            Neo Emperatriz combina arquitectura moderna, naturaleza y
-            elegancia en una ubicación estratégica de San Carlos, cerca de la
-            Universidad Continental. Cuenta con departamentos familiares,
-            ambientes amplios y áreas comunes diseñadas para disfrutar una
-            vida más cómoda.
-          </p>
+            <p
+              className={
+                styles.overviewDescription
+              }
+            >
+              Neo Emperatriz combina
+              arquitectura moderna, naturaleza
+              y elegancia en una ubicación
+              estratégica de San Carlos, cerca
+              de la Universidad Continental.
+              Cuenta con departamentos
+              familiares, ambientes amplios y
+              áreas comunes diseñadas para
+              disfrutar una vida más cómoda.
+            </p>
 
-          <div className={styles.overviewFacts}>
-            {facts.map((item) => (
+            {!!facts.length && (
               <div
-                key={`${item.label}-${item.value}`}
-                className={styles.overviewFact}
+                className={
+                  styles.overviewFacts
+                }
               >
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
+                {facts.map((item) => (
+                  <div
+                    key={`${item.label}-${item.value}`}
+                    className={
+                      styles.overviewFact
+                    }
+                  >
+                    <span>
+                      {item.label}
+                    </span>
+
+                    <strong>
+                      {item.value}
+                    </strong>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+
+            {!!details.length && (
+              <ul
+                className={
+                  styles.detailsList
+                }
+              >
+                {details.map((item) => (
+                  <li
+                    key={`${item.label}-${item.value}`}
+                  >
+                    <strong>
+                      {item.label}
+                    </strong>
+
+                    <span>
+                      {item.value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div
+              className={
+                styles.overviewActions
+              }
+            >
+              <a
+                href={
+                  brochureNeoEmperatriz
+                }
+                download
+                aria-label="Descargar brochure de Neo Emperatriz"
+              >
+                <DownloadSimpleIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+
+                Descargar brochure
+              </a>
+
+              <Link href="/portal-de-transparencia/neo-emperatriz">
+                Respaldo legal
+
+                <ArrowRightIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+              </Link>
+            </div>
           </div>
 
-          <ul className={styles.detailsList}>
-            {details.map((item) => (
-              <li key={`${item.label}-${item.value}`}>
-                <strong>{item.label}</strong>
-                <span>{item.value}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.overviewActions}>
-            <a
-              href={brochureNeoEmperatriz}
-              download
-              aria-label="Descargar brochure de Neo Emperatriz"
+          <form
+            className={
+              styles.overviewForm
+            }
+            onSubmit={handleSubmit}
+          >
+            <div
+              className={styles.formHeader}
             >
-              <DownloadSimpleIcon
-                size={18}
-                weight="bold"
-                aria-hidden={true}
+              <span>
+                Solicita información
+              </span>
+
+              <strong>
+                Conoce los últimos
+                departamentos disponibles
+              </strong>
+
+              <p>
+                Completa tus datos y un asesor
+                te brindará información sobre
+                precios, disponibilidad,
+                tipologías y formas de pago.
+              </p>
+            </div>
+
+            <label>
+              Nombre completo
+
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Ingresa tu nombre"
+                autoComplete="name"
+                minLength={3}
+                maxLength={80}
+                disabled={isSending}
+                required
+              />
+            </label>
+
+            <div
+              className={
+                styles.formTwoColumns
+              }
+            >
+              <label>
+                Celular
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="987654321"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  pattern="9[0-9]{8}"
+                  minLength={9}
+                  maxLength={9}
+                  title="Ingresa un número celular peruano de 9 dígitos que comience con 9."
+                  disabled={isSending}
+                  required
+                />
+              </label>
+
+              <label>
+                Correo opcional
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
+                  disabled={isSending}
+                />
+              </label>
+            </div>
+
+            <label>
+              Estoy interesado en
+
+              <select
+                name="interest"
+                defaultValue=""
+                disabled={isSending}
+                required
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecciona una opción
+                </option>
+
+                <option value="Neo Emperatriz - 2 dormitorios">
+                  Departamento de 2
+                  dormitorios
+                </option>
+
+                <option value="Neo Emperatriz - 3 dormitorios">
+                  Departamento de 3
+                  dormitorios
+                </option>
+
+                <option value="Neo Emperatriz - Entrega inmediata">
+                  Departamento con entrega
+                  inmediata
+                </option>
+
+                <option value="Neo Emperatriz - Inversión">
+                  Comprar para inversión
+                </option>
+
+                <option value="Neo Emperatriz - Asesoría personalizada">
+                  Asesoría personalizada
+                </option>
+              </select>
+            </label>
+
+            <label>
+              Mensaje opcional
+
+              <textarea
+                name="message"
+                placeholder="Cuéntanos qué departamento buscas o en qué horario deseas que te contactemos."
+                rows={4}
+                maxLength={250}
+                disabled={isSending}
+              />
+            </label>
+
+            <label
+              className={styles.checkbox}
+            >
+              <input
+                type="checkbox"
+                name="consent"
+                value="accepted"
+                disabled={isSending}
+                required
               />
 
-              Descargar brochure
-            </a>
+              <span>
+                Acepto ser contactado por
+                ANCOSUR para recibir
+                información comercial sobre
+                Neo Emperatriz.
+              </span>
+            </label>
 
-            <Link href="/portal-de-transparencia/neo-emperatriz">
-              Respaldo legal
+            <button
+              type="submit"
+              disabled={isSending}
+              aria-busy={isSending}
+            >
+              {isSending
+                ? "Enviando solicitud..."
+                : "Solicitar información"}
 
               <ArrowRightIcon
                 size={18}
                 weight="bold"
                 aria-hidden={true}
               />
-            </Link>
-          </div>
+            </button>
+          </form>
         </div>
+      </section>
 
-        <form
-          className={styles.overviewForm}
-          action="/api/leads"
-          method="post"
-        >
-          <input
-            type="hidden"
-            name="source"
-            value="neo-emperatriz-page"
-          />
-
-          <input
-            type="hidden"
-            name="project"
-            value="Neo Emperatriz"
-          />
-
-          <div className={styles.formHeader}>
-            <span>Solicita información</span>
-
-            <strong>
-              Conoce los últimos departamentos disponibles
-            </strong>
-
-            <p>
-              Completa tus datos y un asesor te brindará información sobre
-              precios, disponibilidad, tipologías y formas de pago.
-            </p>
-          </div>
-
-          <label>
-            Nombre completo
-
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Ingresa tu nombre"
-              autoComplete="name"
-              minLength={3}
-              maxLength={80}
-              required
-            />
-          </label>
-
-          <div className={styles.formTwoColumns}>
-            <label>
-              Celular
-
-              <input
-                type="tel"
-                name="phone"
-                placeholder="987654321"
-                inputMode="numeric"
-                autoComplete="tel"
-                pattern="9[0-9]{8}"
-                minLength={9}
-                maxLength={9}
-                title="Ingresa un número celular peruano de 9 dígitos que comience con 9."
-                required
-              />
-            </label>
-
-            <label>
-              Correo opcional
-
-              <input
-                type="email"
-                name="email"
-                placeholder="correo@gmail.com"
-                autoComplete="email"
-                maxLength={120}
-              />
-            </label>
-          </div>
-
-          <label>
-            Estoy interesado en
-
-            <select
-              name="interest"
-              defaultValue=""
-              required
-            >
-              <option value="" disabled>
-                Selecciona una opción
-              </option>
-
-              <option value="Neo Emperatriz - 2 dormitorios">
-                Departamento de 2 dormitorios
-              </option>
-
-              <option value="Neo Emperatriz - 3 dormitorios">
-                Departamento de 3 dormitorios
-              </option>
-
-              <option value="Neo Emperatriz - Entrega inmediata">
-                Departamento con entrega inmediata
-              </option>
-
-              <option value="Neo Emperatriz - Inversión">
-                Comprar para inversión
-              </option>
-
-              <option value="Neo Emperatriz - Asesoría personalizada">
-                Asesoría personalizada
-              </option>
-            </select>
-          </label>
-
-          <label>
-            Mensaje opcional
-
-            <textarea
-              name="message"
-              placeholder="Cuéntanos qué departamento buscas o en qué horario deseas que te contactemos."
-              rows={4}
-              maxLength={250}
-            />
-          </label>
-
-          <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="consent"
-              value="accepted"
-              required
-            />
-
-            <span>
-              Acepto ser contactado por ANCOSUR para recibir información
-              comercial sobre Neo Emperatriz.
-            </span>
-          </label>
-
-          <button type="submit">
-            Solicitar información
-
-            <ArrowRightIcon
-              size={18}
-              weight="bold"
-              aria-hidden={true}
-            />
-          </button>
-        </form>
-      </div>
-    </section>
+      <FeedbackToast
+        key={toast?.id}
+        open={toast !== null}
+        variant={
+          toast?.variant ?? "info"
+        }
+        title={toast?.title ?? ""}
+        message={toast?.message ?? ""}
+        onClose={closeToast}
+      />
+    </>
   );
 }

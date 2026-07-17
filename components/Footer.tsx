@@ -29,7 +29,7 @@ const companyLinks: FooterLink[] = [
 const investorLinks: FooterLink[] = [
   { label: "Inversionistas", href: "/inversionistas" },
   { label: "Compra de terrenos", href: "/beneficios" },
-  // { label: "Portal de Transparencia", href: "/portal-de-transparencia" },
+  { label: "Portal de Transparencia", href: "/portal-de-transparencia" },
   { label: "Políticas", href: "/politicas" },
 ];
 

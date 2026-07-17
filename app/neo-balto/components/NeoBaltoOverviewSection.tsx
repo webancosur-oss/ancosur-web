@@ -1,209 +1,453 @@
+"use client";
+
 import {
   ArrowRightIcon,
   DownloadSimpleIcon,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@phosphor-icons/react";
 import Link from "next/link";
-import { brochureNeoBalto, details, facts } from "../data";
+import { useCallback, useState } from "react";
+import type { FormEvent } from "react";
+
+import FeedbackToast, {
+  type FeedbackToastData,
+} from "@/components/ui/FeedbackToast/FeedbackToast";
+
+import {
+  brochureNeoBalto,
+  details,
+  facts,
+} from "../data";
+
 import styles from "../NeoBaltoPage.module.css";
 
+const PROJECT_NAME = "Neo Balto";
+
+type ToastState = FeedbackToastData & {
+  id: number;
+};
+
+const SUCCESS_TOAST: FeedbackToastData = {
+  variant: "success",
+  title: "¡Datos enviados correctamente!",
+  message:
+    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+};
+
+const ERROR_TOAST: FeedbackToastData = {
+  variant: "error",
+  title: "No pudimos enviar tus datos",
+  message:
+    "Verifica tu conexión e inténtalo nuevamente.",
+};
+
 export default function NeoBaltoOverviewSection() {
+  const [isSending, setIsSending] =
+    useState(false);
+
+  const [toast, setToast] =
+    useState<ToastState | null>(null);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  const showToast = (
+    toastData: FeedbackToastData
+  ) => {
+    setToast({
+      ...toastData,
+      id: Date.now(),
+    });
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (isSending) return;
+
+    const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const fullName = String(
+      formData.get("fullName") ?? ""
+    ).trim();
+
+    const phone = String(
+      formData.get("phone") ?? ""
+    ).replace(/\D/g, "");
+
+    const email = String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
+
+    const interest = String(
+      formData.get("interest") ?? ""
+    ).trim();
+
+    const message = String(
+      formData.get("message") ?? ""
+    ).trim();
+
+    const consent =
+      formData.get("consent") ===
+      "accepted";
+
+    const leadData = {
+      fullName,
+      phone,
+      email,
+      project: PROJECT_NAME,
+      interest,
+
+      message:
+        message ||
+        "Solicitud de información enviada desde la página de Neo Balto.",
+
+      campaign: "neo-balto-web",
+      source: "neo-balto-page",
+      consent,
+
+      origen_ruta:
+        window.location.pathname,
+
+      origen_componente:
+        "NeoBaltoOverviewSection",
+    };
+
+    try {
+      setIsSending(true);
+      setToast(null);
+
+      const response = await fetch(
+        "/api/leads",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(leadData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error HTTP ${response.status}`
+        );
+      }
+
+      form.reset();
+
+      showToast(SUCCESS_TOAST);
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Neo Balto:",
+        error
+      );
+
+      showToast(ERROR_TOAST);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   return (
-    <section
-      className={styles.overviewSection}
-      id="informacion-neo-balto"
-    >
-      <div className={styles.overviewInner}>
-        <div className={styles.overviewContent}>
-          <span className={styles.eyebrow}>
-            Vive en familia
-          </span>
+    <>
+      <section
+        className={styles.overviewSection}
+        id="informacion-neo-balto"
+        aria-labelledby="neo-balto-overview-title"
+      >
+        <div className={styles.overviewInner}>
+          <div
+            className={
+              styles.overviewContent
+            }
+          >
+            <span
+              className={styles.eyebrow}
+            >
+              Vive en familia
+            </span>
 
-          <h2>
-            El primer edificio Pet-Centric de Huancayo
-          </h2>
+            <h2 id="neo-balto-overview-title">
+              El primer edificio Pet-Centric
+              de Huancayo
+            </h2>
 
-          <p className={styles.overviewDescription}>
-            Neo Balto es un proyecto diseñado para personas que consideran a
-            sus mascotas parte de la familia. Combina departamentos modernos,
-            acabados pet-friendly y espacios pensados para disfrutar una vida
-            más cómoda, segura y práctica en San Antonio, Huancayo.
-          </p>
+            <p
+              className={
+                styles.overviewDescription
+              }
+            >
+              Neo Balto es un proyecto
+              diseñado para personas que
+              consideran a sus mascotas parte
+              de la familia. Combina
+              departamentos modernos,
+              acabados pet-friendly y espacios
+              pensados para disfrutar una vida
+              más cómoda, segura y práctica en
+              San Antonio, Huancayo.
+            </p>
 
-          <div className={styles.overviewFacts}>
-            {facts.map((item) => (
+            {!!facts.length && (
               <div
-                key={`${item.label}-${item.value}`}
-                className={styles.overviewFact}
+                className={
+                  styles.overviewFacts
+                }
               >
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
+                {facts.map((item) => (
+                  <div
+                    key={`${item.label}-${item.value}`}
+                    className={
+                      styles.overviewFact
+                    }
+                  >
+                    <span>
+                      {item.label}
+                    </span>
+
+                    <strong>
+                      {item.value}
+                    </strong>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+
+            {!!details.length && (
+              <ul
+                className={
+                  styles.detailsList
+                }
+              >
+                {details.map((item) => (
+                  <li
+                    key={`${item.label}-${item.value}`}
+                  >
+                    <strong>
+                      {item.label}
+                    </strong>
+
+                    <span>
+                      {item.value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div
+              className={
+                styles.overviewActions
+              }
+            >
+              <a
+                href={brochureNeoBalto}
+                download
+                aria-label="Descargar brochure de Neo Balto"
+              >
+                <DownloadSimpleIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+
+                Descargar brochure
+              </a>
+
+              <Link href="/portal-de-transparencia/neo-balto">
+                Respaldo legal
+
+                <ArrowRightIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+              </Link>
+            </div>
           </div>
 
-          <ul className={styles.detailsList}>
-            {details.map((item) => (
-              <li key={`${item.label}-${item.value}`}>
-                <strong>{item.label}</strong>
-                <span>{item.value}</span>
-              </li>
-            ))}
-          </ul>
+          <form
+            className={
+              styles.overviewForm
+            }
+            onSubmit={handleSubmit}
+          >
+            <div
+              className={styles.formHeader}
+            >
+              <span>
+                Solicita información
+              </span>
 
-          <div className={styles.overviewActions}>
-            <a href={brochureNeoBalto} download>
-              <DownloadSimpleIcon
-                size={18}
-                weight="bold"
-                aria-hidden={true}
+              <strong>
+                Conoce más sobre Neo Balto
+              </strong>
+
+              <p>
+                Completa tus datos y un asesor
+                se comunicará contigo para
+                brindarte precios,
+                disponibilidad y formas de
+                pago.
+              </p>
+            </div>
+
+            <label>
+              Nombre completo
+
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Ej. Angela Huayra"
+                autoComplete="name"
+                minLength={3}
+                maxLength={80}
+                disabled={isSending}
+                required
+              />
+            </label>
+
+            <div
+              className={
+                styles.formTwoColumns
+              }
+            >
+              <label>
+                Celular
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="987654321"
+                  inputMode="numeric"
+                  autoComplete="tel"
+                  pattern="9[0-9]{8}"
+                  minLength={9}
+                  maxLength={9}
+                  title="Ingresa un número celular peruano de 9 dígitos que comience con 9."
+                  disabled={isSending}
+                  required
+                />
+              </label>
+
+              <label>
+                Correo opcional
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
+                  disabled={isSending}
+                />
+              </label>
+            </div>
+
+            <label>
+              Estoy interesado en
+
+              <select
+                name="interest"
+                defaultValue=""
+                disabled={isSending}
+                required
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecciona una opción
+                </option>
+
+                <option value="Neo Balto - Tipo Impulso">
+                  Tipo Impulso
+                </option>
+
+                <option value="Neo Balto - Tipo Luz">
+                  Tipo Luz
+                </option>
+
+                <option value="Neo Balto - Asesoría personalizada">
+                  Asesoría personalizada
+                </option>
+              </select>
+            </label>
+
+            <label>
+              Mensaje opcional
+
+              <textarea
+                name="message"
+                placeholder="Cuéntanos qué departamento buscas o cuándo deseas que te contactemos."
+                rows={4}
+                maxLength={250}
+                disabled={isSending}
+              />
+            </label>
+
+            <label
+              className={styles.checkbox}
+            >
+              <input
+                type="checkbox"
+                name="consent"
+                value="accepted"
+                disabled={isSending}
+                required
               />
 
-              Descargar brochure
-            </a>
+              <span>
+                Acepto ser contactado por
+                ANCOSUR para recibir
+                información comercial sobre
+                Neo Balto.
+              </span>
+            </label>
 
-            <Link href="/portal-de-transparencia/neo-balto">
-              Respaldo legal
+            <button
+              type="submit"
+              disabled={isSending}
+              aria-busy={isSending}
+            >
+              {isSending
+                ? "Enviando datos..."
+                : "Enviar datos"}
 
               <ArrowRightIcon
                 size={18}
                 weight="bold"
                 aria-hidden={true}
               />
-            </Link>
-          </div>
+            </button>
+          </form>
         </div>
+      </section>
 
-        <form
-          className={styles.overviewForm}
-          action="/api/leads"
-          method="post"
-        >
-          <input
-            type="hidden"
-            name="source"
-            value="neo-balto-page"
-          />
-
-          <input
-            type="hidden"
-            name="project"
-            value="Neo Balto"
-          />
-
-          <div className={styles.formHeader}>
-            <span>Solicita información</span>
-
-            <strong>
-              Conoce más sobre Neo Balto
-            </strong>
-
-            <p>
-              Completa tus datos y un asesor se comunicará contigo para
-              brindarte precios, disponibilidad y formas de pago.
-            </p>
-          </div>
-
-          <label>
-            Nombre completo
-
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Ej. Angela Huayra"
-              autoComplete="name"
-              required
-            />
-          </label>
-
-          <div className={styles.formTwoColumns}>
-            <label>
-              Celular
-
-              <input
-                type="tel"
-                name="phone"
-                placeholder="987654321"
-                inputMode="numeric"
-                autoComplete="tel"
-                pattern="[0-9]{9}"
-                minLength={9}
-                maxLength={9}
-                required
-              />
-            </label>
-
-            <label>
-              Correo opcional
-
-              <input
-                type="email"
-                name="email"
-                placeholder="correo@gmail.com"
-                autoComplete="email"
-              />
-            </label>
-          </div>
-
-          <label>
-            Estoy interesado en
-
-            <select
-              name="interest"
-              required
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Selecciona una opción
-              </option>
-
-              <option value="Neo Balto - Tipo Impulso">
-                Tipo Impulso
-              </option>
-
-              <option value="Neo Balto - Tipo Luz">
-                Tipo Luz
-              </option>
-
-              <option value="Neo Balto - Asesoría personalizada">
-                Asesoría personalizada
-              </option>
-            </select>
-          </label>
-
-          <label>
-            Mensaje opcional
-
-            <textarea
-              name="message"
-              placeholder="Cuéntanos qué departamento buscas o cuándo deseas que te contactemos."
-              maxLength={250}
-            />
-          </label>
-
-          <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="consent"
-              required
-            />
-
-            <span>
-              Acepto ser contactado por ANCOSUR para recibir información
-              comercial sobre Neo Balto.
-            </span>
-          </label>
-
-          <button type="submit">
-            Enviar datos
-
-            <ArrowRightIcon
-              size={18}
-              weight="bold"
-              aria-hidden={true}
-            />
-          </button>
-        </form>
-      </div>
-    </section>
+      <FeedbackToast
+        key={toast?.id}
+        open={toast !== null}
+        variant={
+          toast?.variant ?? "info"
+        }
+        title={toast?.title ?? ""}
+        message={toast?.message ?? ""}
+        onClose={closeToast}
+      />
+    </>
   );
 }

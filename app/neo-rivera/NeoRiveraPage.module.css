@@ -761,6 +761,102 @@ line-height: 1;
   text-align: center;
 }
 
+/* ==== toast ===*/
+.overviewForm button:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+  transform: none;
+  box-shadow: none;
+}
+
+.leadToast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 12000;
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px 18px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #17172f;
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.2);
+  animation: leadToastShow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.toastSuccess {
+  border-color: rgba(0, 167, 79, 0.22);
+  background: #f1fff7;
+}
+
+.toastError {
+  border-color: rgba(215, 25, 32, 0.2);
+  background: #fff4f4;
+}
+
+.toastIcon {
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 1px;
+}
+
+.toastSuccess .toastIcon {
+  color: #00a74f;
+}
+
+.toastError .toastIcon {
+  color: #d71920;
+}
+
+.leadToast > div:last-child {
+  display: grid;
+  gap: 4px;
+}
+
+.leadToast strong {
+  color: #17172f;
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.leadToast span {
+  color: rgba(23, 23, 47, 0.75);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+@keyframes leadToastShow {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 520px) {
+  .leadToast {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+    padding: 14px;
+    border-radius: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leadToast {
+    animation: none;
+  }
+}
+
 /* =========================================================
    TABLET
 ========================================================= */

@@ -1,0 +1,22 @@
+.page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #f5f8f6;
+  color: #101a14;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.page section {
+  scroll-margin-top: 90px;
+}
+
+@media (max-width: 720px) {
+  .page section {
+    scroll-margin-top: 72px;
+  }
+}

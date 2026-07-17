@@ -346,7 +346,7 @@ export default function FAQSection() {
           </div>
 
           <a
-            href="https://wa.me/51971069763"
+            href="https://wa.me/51971069763?text=Hola%2C%20vengo%20del%20Cyber%20House%20de%20ANCOSUR%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20proyectos%20disponibles.%20Me%20interes%C3%B3%20uno%20de%20sus%20proyectos%20y%20quisiera%20recibir%20m%C3%A1s%20detalles."
             target="_blank"
             rel="noopener noreferrer"
             className={styles.faqButton}
