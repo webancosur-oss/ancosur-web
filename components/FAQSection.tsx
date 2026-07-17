@@ -61,21 +61,11 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿Puedo financiar directamente con ANCOSUR?",
-    answer: (
-      <>
-        Sí. Contamos con financiamiento directo en proyectos seleccionados. Un
-        asesor te explicará las condiciones, cuotas y plan de pagos disponible
-        para cada proyecto.
-      </>
-    ),
-  },
-  {
     question: "¿Qué documentos necesito para iniciar mi compra?",
     answer: (
       <>
         Para iniciar solo necesitas presentar tu Documento Nacional de Identidad
-        —DNI—. Luego, nuestro equipo te orientará sobre los demás documentos
+        DNI — CARNET EXTRANJERIA—. Luego, nuestro equipo te orientará sobre los demás documentos
         necesarios según el tipo de financiamiento.
       </>
     ),
@@ -112,17 +102,6 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿Cómo puedo financiar la compra de mi inmueble?",
-    answer: (
-      <>
-        Puedes adquirir tu inmueble mediante crédito hipotecario con el banco de
-        tu preferencia o, en determinados proyectos, acceder a financiamiento
-        directo con ANCOSUR. Te acompañamos durante todo el proceso para que
-        tomes la mejor decisión.
-      </>
-    ),
-  },
-  {
     question: "¿Cómo funciona el financiamiento de mi inmueble?",
     answer: (
       <>
@@ -154,16 +133,6 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿Aceptan crédito hipotecario?",
-    answer: (
-      <>
-        Sí. Puedes adquirir tu departamento mediante crédito hipotecario, sujeto
-        a evaluación bancaria. En ANCOSUR te acompañamos para que el proceso sea
-        más claro y ordenado.
-      </>
-    ),
-  },
-  {
     question: "¿Qué beneficios obtengo al comprar con ANCOSUR?",
     answer: (
       <>
@@ -187,8 +156,7 @@ const faqs: FAQItem[] = [
     question: "¿En qué distritos tienen departamentos en venta?",
     answer: (
       <>
-        Nuestros proyectos se desarrollan principalmente en Huancayo, San
-        Antonio, San Carlos y El Tambo, según disponibilidad comercial.
+        Contamos con proyectos en diversas ubicaciones, incluyendo departamentos y lotes. Lo más importante es ayudarte a encontrar el proyecto que mejor se adapte a tus necesidades.
       </>
     ),
   },
@@ -227,15 +195,6 @@ const faqs: FAQItem[] = [
         Es un edificio diseñado para reducir el consumo de recursos. Puede
         incluir sistemas de ahorro de agua, eficiencia energética y espacios más
         funcionales.
-      </>
-    ),
-  },
-  {
-    question: "¿Qué es financiamiento directo?",
-    answer: (
-      <>
-        Es una modalidad en la que el comprador acuerda pagos directamente con
-        la inmobiliaria, según las condiciones establecidas para cada proyecto.
       </>
     ),
   },

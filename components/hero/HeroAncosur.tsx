@@ -33,7 +33,7 @@ const slides = [
   {
     id: 2,
     title: "El Primer Edificio Wellness de Huancayo",
-    location: "Huancayo",
+    location: "Ribera",
     type: "Desde 57 - 67 m²",
     price: "Desde S/ 211,270",
     logoImage: "/assets/images/neo-rivera.svg",
@@ -63,7 +63,7 @@ const slides = [
   {
     id: 5,
     title: "El Primer Edificio Pet-Centric de Huancayo",
-    location: "El Tambo",
+    location: "San Augustin",
     type: "Desde 54 - 82 m²",
     price: "Desde S/ 169,590",
     logoImage: "/assets/images/neo-balto.svg",

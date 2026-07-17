@@ -3,7 +3,8 @@ import {
   NextResponse,
 } from "next/server";
 
-type ApiPayload = Record<string, unknown>;
+type ApiPayload =
+  Record<string, unknown>;
 
 const getApiBaseUrl = (): string => {
   const apiUrl =
@@ -15,19 +16,27 @@ const getApiBaseUrl = (): string => {
     );
   }
 
-  return apiUrl.replace(/\/+$/, "");
+  return apiUrl.replace(
+    /\/+$/,
+    ""
+  );
 };
 
 const getRequestPayload = async (
   request: NextRequest
 ): Promise<ApiPayload> => {
   const contentType =
-    request.headers.get("content-type") ?? "";
+    request.headers.get(
+      "content-type"
+    ) ?? "";
 
   if (
-    contentType.includes("application/json")
+    contentType.includes(
+      "application/json"
+    )
   ) {
-    const body = await request.json();
+    const body =
+      await request.json();
 
     if (
       typeof body !== "object" ||
@@ -55,17 +64,24 @@ const getRequestPayload = async (
 
     const payload: ApiPayload = {};
 
-    formData.forEach((value, key) => {
-      if (typeof value === "string") {
-        payload[key] = value;
+    formData.forEach(
+      (value, key) => {
+        if (
+          typeof value === "string"
+        ) {
+          payload[key] = value;
+        }
       }
-    });
+    );
 
     return payload;
   }
 
   throw new Error(
-    `Formato no soportado: ${contentType || "sin content-type"}`
+    `Formato no soportado: ${
+      contentType ||
+      "sin content-type"
+    }`
   );
 };
 
@@ -83,7 +99,10 @@ const parseApiResponse = (
   try {
     return JSON.parse(
       responseText
-    ) as Record<string, unknown>;
+    ) as Record<
+      string,
+      unknown
+    >;
   } catch {
     return {
       message: responseText,
@@ -102,7 +121,9 @@ export async function proxyPost(
       getApiBaseUrl();
 
     const payload =
-      await getRequestPayload(request);
+      await getRequestPayload(
+        request
+      );
 
     targetUrl =
       `${apiBaseUrl}${endpoint}`;
@@ -111,41 +132,51 @@ export async function proxyPost(
       `[Next Proxy] POST ${targetUrl}`
     );
 
-    console.log(
-      "[Next Proxy] Payload:",
-      payload
-    );
-
-    const response = await fetch(
-      targetUrl,
-      {
+    const response =
+      await fetch(targetUrl, {
         method: "POST",
         headers: {
           "Content-Type":
             "application/json",
-          Accept: "application/json",
+          Accept:
+            "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(
+          payload
+        ),
         cache: "no-store",
-        signal: AbortSignal.timeout(15000),
-      }
-    );
+        signal:
+          AbortSignal.timeout(
+            15000
+          ),
+      });
 
     const responseText =
       await response.text();
 
     const responseBody =
-      parseApiResponse(responseText);
+      parseApiResponse(
+        responseText
+      );
 
-    console.log(
-      `[Next Proxy] Respuesta ${response.status}:`,
-      responseBody
-    );
+    if (!response.ok) {
+      console.error(
+        "[Next Proxy] Error API:",
+        {
+          endpoint: targetUrl,
+          status:
+            response.status,
+          response:
+            responseBody,
+        }
+      );
+    }
 
     return NextResponse.json(
       responseBody,
       {
-        status: response.status,
+        status:
+          response.status,
       }
     );
   } catch (error) {
@@ -160,7 +191,9 @@ export async function proxyPost(
         targetUrl,
         error: errorMessage,
         apiUrlConfigured:
-          Boolean(process.env.API_URL),
+          Boolean(
+            process.env.API_URL
+          ),
       }
     );
 
@@ -175,7 +208,9 @@ export async function proxyPost(
           targetUrl,
           error: errorMessage,
           apiUrlConfigured:
-            Boolean(process.env.API_URL),
+            Boolean(
+              process.env.API_URL
+            ),
         },
       },
       {

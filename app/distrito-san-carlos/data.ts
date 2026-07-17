@@ -74,35 +74,35 @@ export const amenities = [
     description:
       "Un espacio de entretenimiento para compartir momentos con familiares, amigos y vecinos.",
     image:
-      "/assets/projects/distrito-san-carlos/amenities/sala-de-juegos.webp",
+      "/assets/projects/amenities/distrito-sancarlos/1.webp",
   },
   {
     title: "Zona infantil",
     description:
       "Un ambiente seguro y divertido pensado para el entretenimiento de los niños.",
     image:
-      "/assets/projects/distrito-san-carlos/amenities/zona-infantil.webp",
+      "/assets/projects/amenities/distrito-sancarlos/2.webp",
   },
   {
     title: "Coworking",
     description:
       "Un espacio moderno y funcional para trabajar, estudiar y desarrollar nuevos proyectos.",
     image:
-      "/assets/projects/distrito-san-carlos/amenities/coworking.webp",
+      "/assets/projects/amenities/distrito-sancarlos/3.webp",
   },
   {
     title: "Gimnasio",
     description:
       "Un ambiente equipado para entrenar y mantener una rutina activa sin salir del proyecto.",
     image:
-      "/assets/projects/distrito-san-carlos/amenities/gimnasio.webp",
+      "/assets/projects/amenities/distrito-sancarlos/4.webp",
   },
   {
     title: "Zona de parrillas",
     description:
       "Un espacio para organizar reuniones y compartir momentos especiales en familia.",
     image:
-      "/assets/projects/distrito-san-carlos/amenities/zona-de-parrillas.webp",
+      "/assets/projects/amenities/distrito-sancarlos/5.webp",
   },
 ];
 

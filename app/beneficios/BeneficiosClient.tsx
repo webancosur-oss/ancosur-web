@@ -13,7 +13,6 @@ import {
 } from "react";
 import type { FormEvent } from "react";
 
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import FeedbackToast, {
   type FeedbackToastData,
@@ -933,8 +932,6 @@ export default function BeneficiosClient() {
           </a>
         </section>
       </main>
-
-      <Footer />
 
       {activeBenefit &&
         activeModal && (

@@ -68,21 +68,21 @@ export const amenities = [
     description:
       "Un ingreso moderno, acogedor y diseñado para recibir cómodamente a residentes y mascotas.",
     image:
-      "/assets/projects/neobalto/amenities/lobby-sensorial.webp",
+      "/assets/projects/amenities/neo-balto/1.webp",
   },
   {
     title: "Eco-Pet Wash",
     description:
       "Un espacio práctico ubicado en el primer piso para el cuidado y limpieza de tu mascota.",
     image:
-      "/assets/projects/neobalto/amenities/eco-pet-wash.webp",
+      "/assets/projects/amenities/neo-balto/2.webp",
   },
   {
     title: "Terraza Pet-Friendly",
     description:
       "Una zona al aire libre para compartir, descansar y disfrutar junto a tu mascota.",
     image:
-      "/assets/projects/neobalto/amenities/terraza-pet-friendly.webp",
+      "/assets/projects/amenities/neo-balto/3.webp",
   },
 ];
 

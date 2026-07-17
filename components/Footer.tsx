@@ -201,7 +201,7 @@ export default function Footer() {
 
           <div>
             <Link href="/politicas">Privacidad</Link>
-            <Link href="/terminos-y-condiciones">Términos</Link>
+            <Link href="/politicas/terminos-y-condiciones">Términos</Link>
           </div>
         </div>
       </div>
