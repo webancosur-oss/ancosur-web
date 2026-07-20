@@ -46,7 +46,6 @@
   display: block;
   width: clamp(140px, 12vw, 190px);
   height: auto;
-  filter: brightness(0) invert(1);
 }
 
 .logoText {

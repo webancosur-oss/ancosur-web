@@ -111,7 +111,6 @@ export default function LotesPage() {
         <LotesLeadSection />
       </main>
 
-      <Footer />
     </>
   );
 }

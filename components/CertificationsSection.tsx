@@ -1,130 +1,429 @@
 "use client";
 
+import {
+  CheckCircleIcon,
+  GraduationCapIcon,
+  LeafIcon,
+  SealCheckIcon,
+} from "@phosphor-icons/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import styles from "./CertificationsSection.module.css";
 
-type Certification = {
-  id: number;
-  name: string;
-  subtitle: string;
-  description: string;
-  image: string;
-  href: string;
-  points: string[];
-};
-
-const certifications: Certification[] = [
-  {
-    id: 1,
-    name: "Certificación SGS",
-    subtitle: "Calidad y procesos",
-    description:
-      "Respaldo en control, orden y mejora continua para desarrollar proyectos con mayor confianza.",
-    image: "/assets/certificados/isos.svg",
-    href: "https://www.sgs.com/es-pe",
-    points: ["Control", "Calidad", "Confianza"],
-  },
-  {
-    id: 2,
-    name: "Instituto CAPECO",
-    subtitle: "Formación técnica",
-    description:
-      "Capacitación y actualización para fortalecer el conocimiento técnico de nuestro equipo.",
-    image: "/assets/certificados/capeco.svg",
-    href: "https://www.capeco.org",
-    points: ["Capacitación", "Buenas prácticas", "Respaldo técnico"],
-  },
-];
-
 export default function CertificationsSection() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const currentSection = sectionRef.current;
-
-    if (!currentSection) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
+  const sectionRef =
+    useRef<HTMLElement | null>(
+      null
     );
 
-    observer.observe(currentSection);
+  const [
+    isVisible,
+    setIsVisible,
+  ] = useState(false);
 
-    return () => observer.disconnect();
+  useEffect(() => {
+    const currentSection =
+      sectionRef.current;
+
+    if (!currentSection) {
+      return;
+    }
+
+    const observer =
+      new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+
+    observer.observe(
+      currentSection
+    );
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className={`${styles.section} ${isVisible ? styles.visible : ""}`}
+      className={`${styles.section} ${
+        isVisible
+          ? styles.visible
+          : ""
+      }`}
       id="certificaciones"
     >
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <span>Respaldo ANCOSUR</span>
-          <h2>Certificaciones que respaldan nuestra excelencia</h2>
+      <div
+        className={styles.container}
+      >
+        <div
+          className={styles.header}
+        >
+          <span>
+            Respaldo ANCOSUR
+          </span>
+
+          <h2>
+            Certificaciones que
+            respaldan nuestra forma de
+            trabajar
+          </h2>
+
           <p>
-            Trabajamos con procesos, capacitación y respaldo técnico para darte
-            mayor seguridad al invertir.
+            Aplicamos estándares de
+            calidad, responsabilidad
+            ambiental y formación
+            técnica en el desarrollo de
+            nuestros proyectos.
           </p>
         </div>
 
         <div className={styles.grid}>
-          {certifications.map((item, index) => (
-            <article
-              key={item.id}
-              className={styles.card}
-              style={{ animationDelay: `${index * 140}ms` }}
+          <article
+            className={`${styles.card} ${styles.isoCard}`}
+          >
+            <div
+              className={styles.logoBox}
             >
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.logoBox}
-                aria-label={`Abrir página de ${item.name}`}
+              <Image
+                src="/assets/certificados/isos.svg"
+                alt="Certificaciones ISO 14001 e ISO 9001 otorgadas por SGS"
+                width={520}
+                height={300}
+                className={
+                  styles.isoLogo
+                }
+                sizes="(max-width: 640px) 85vw, 470px"
+              />
+            </div>
+
+            <div
+              className={styles.content}
+            >
+              <span
+                className={
+                  styles.eyebrow
+                }
               >
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={520}
-                  height={300}
-                  className={styles.logo}
-                  sizes="(max-width: 640px) 80vw, 360px"
-                />
-              </a>
+                Calidad y gestión
+                ambiental
+              </span>
 
-              <div className={styles.content}>
-                <span>{item.subtitle}</span>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
+              <h3>
+                Certificaciones ISO
+                otorgadas por SGS
+              </h3>
 
-                <div className={styles.points}>
-                  {item.points.map((point) => (
-                    <small key={point}>{point}</small>
-                  ))}
-                </div>
+              <p
+                className={
+                  styles.introduction
+                }
+              >
+                Estas certificaciones
+                demuestran que ANCOSUR
+                trabaja con procesos
+                evaluados para mantener
+                la calidad y gestionar
+                responsablemente su
+                impacto ambiental.
+              </p>
 
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.button}
+              <div
+                className={styles.isoGrid}
+              >
+                <article
+                  className={
+                    styles.isoItem
+                  }
                 >
-                  Ver respaldo
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+                  <div
+                    className={
+                      styles.isoItemHeader
+                    }
+                  >
+                    <span
+                      className={
+                        styles.isoIcon
+                      }
+                    >
+                      <SealCheckIcon
+                        size={27}
+                        weight="duotone"
+                        aria-hidden="true"
+                      />
+                    </span>
 
+                    <div>
+                      <small>
+                        Gestión de la
+                        calidad
+                      </small>
+
+                      <h4>
+                        ISO 9001
+                      </h4>
+                    </div>
+                  </div>
+
+                  <p>
+                    Certifica que
+                    aplicamos procesos
+                    organizados,
+                    controlados y
+                    orientados a mejorar
+                    continuamente la
+                    calidad de nuestros
+                    servicios.
+                  </p>
+
+                  <div
+                    className={
+                      styles.points
+                    }
+                  >
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Control de procesos
+                    </span>
+
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Mejora continua
+                    </span>
+
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Atención de calidad
+                    </span>
+                  </div>
+                </article>
+
+                <article
+                  className={
+                    styles.isoItem
+                  }
+                >
+                  <div
+                    className={
+                      styles.isoItemHeader
+                    }
+                  >
+                    <span
+                      className={`${styles.isoIcon} ${styles.environmentIcon}`}
+                    >
+                      <LeafIcon
+                        size={27}
+                        weight="duotone"
+                        aria-hidden="true"
+                      />
+                    </span>
+
+                    <div>
+                      <small>
+                        Gestión ambiental
+                      </small>
+
+                      <h4>
+                        ISO 14001
+                      </h4>
+                    </div>
+                  </div>
+
+                  <p>
+                    Certifica que
+                    gestionamos nuestros
+                    procesos considerando
+                    el uso responsable de
+                    recursos y la
+                    reducción del impacto
+                    ambiental.
+                  </p>
+
+                  <div
+                    className={
+                      styles.points
+                    }
+                  >
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Gestión ambiental
+                    </span>
+
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Uso responsable
+                    </span>
+
+                    <span>
+                      <CheckCircleIcon
+                        size={16}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      Mejora sostenible
+                    </span>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </article>
+
+          <article
+            className={`${styles.card} ${styles.capecoCard}`}
+          >
+            <div
+              className={styles.logoBox}
+            >
+              <Image
+                src="/assets/certificados/capeco.svg"
+                alt="Instituto CAPECO"
+                width={420}
+                height={240}
+                className={
+                  styles.capecoLogo
+                }
+                sizes="(max-width: 640px) 75vw, 320px"
+              />
+            </div>
+
+            <div
+              className={styles.content}
+            >
+              <span
+                className={
+                  styles.eyebrow
+                }
+              >
+                Formación técnica
+              </span>
+
+              <h3>
+                Formación con el
+                Instituto CAPECO
+              </h3>
+
+              <p
+                className={
+                  styles.introduction
+                }
+              >
+                Fortalecemos las
+                capacidades de nuestro
+                equipo con capacitación
+                y actualización en
+                buenas prácticas del
+                sector construcción.
+              </p>
+
+              <div
+                className={
+                  styles.capecoDetails
+                }
+              >
+                <span
+                  className={
+                    styles.capecoIcon
+                  }
+                >
+                  <GraduationCapIcon
+                    size={29}
+                    weight="duotone"
+                    aria-hidden="true"
+                  />
+                </span>
+
+                <div>
+                  <strong>
+                    Conocimiento técnico
+                    actualizado
+                  </strong>
+
+                  <p>
+                    Una mejor preparación
+                    nos permite tomar
+                    decisiones más
+                    responsables durante
+                    cada etapa del
+                    proyecto.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className={`${styles.points} ${styles.capecoPoints}`}
+              >
+                <span>
+                  <CheckCircleIcon
+                    size={16}
+                    weight="fill"
+                    aria-hidden="true"
+                  />
+
+                  Capacitación
+                </span>
+
+                <span>
+                  <CheckCircleIcon
+                    size={16}
+                    weight="fill"
+                    aria-hidden="true"
+                  />
+
+                  Buenas prácticas
+                </span>
+
+                <span>
+                  <CheckCircleIcon
+                    size={16}
+                    weight="fill"
+                    aria-hidden="true"
+                  />
+
+                  Respaldo técnico
+                </span>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );

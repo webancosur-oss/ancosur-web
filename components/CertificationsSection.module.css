@@ -1,306 +1,557 @@
 .section {
   position: relative;
+
   width: 100%;
-  padding: clamp(76px, 8vw, 116px) clamp(20px, 6vw, 100px);
-  background:
-    radial-gradient(circle at top right, rgba(0, 167, 79, 0.08), transparent 34%),
-    linear-gradient(180deg, #ffffff 0%, #f8faf8 100%);
-  color: #17172f;
+  padding:
+    clamp(78px, 9vw, 125px)
+    clamp(18px, 5vw, 70px);
+
   overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(0, 167, 79, 0.09),
+      transparent 28%
+    ),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f4f8f6 100%
+    );
+
+  color: #111827;
+}
+
+.section *,
+.section *::before,
+.section *::after {
   box-sizing: border-box;
 }
 
 .container {
-  width: 100%;
-  max-width: 1180px;
+  width: min(1180px, 100%);
   margin: 0 auto;
 }
 
 .header {
   max-width: 760px;
-  margin: 0 auto 46px;
-  text-align: center;
+  margin-bottom:
+    clamp(38px, 5vw, 58px);
+
   opacity: 0;
   transform: translateY(24px);
+
+  transition:
+    opacity 600ms ease,
+    transform 600ms ease;
 }
 
 .visible .header {
-  animation: fadeUp 0.7s ease forwards;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.header span {
-  display: inline-flex;
-  margin-bottom: 14px;
+.header > span {
+  display: block;
+  margin-bottom: 12px;
+
   color: #00a74f;
-  font-size: 0.78rem;
-  
+
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.13em;
 }
 
 .header h2 {
   margin: 0;
-  color: #17172f;  line-height: 0.96;
-  letter-spacing: -0.06em;
-  
-  text-wrap: balance;
+
+  color: #111827;
+
+  font-size:
+    clamp(2rem, 4.2vw, 3.8rem);
+
+  line-height: 1.03;
+  letter-spacing: -0.05em;
 }
 
 .header p {
-  max-width: 620px;
-  margin: 18px auto 0;
-  color: rgba(23, 23, 47, 0.68);  line-height: 1.55;
+  max-width: 680px;
+  margin: 18px 0 0;
+
+  color: #667085;
+
+  font-size:
+    clamp(0.95rem, 1.4vw, 1.08rem);
+
+  line-height: 1.7;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(320px, 0.75fr);
+
+  align-items: stretch;
   gap: 24px;
 }
 
 .card {
   min-width: 0;
-  padding: clamp(24px, 3vw, 34px);
-  border-radius: 30px;
+  overflow: hidden;
+
+  border: 1px solid
+    rgba(0, 167, 79, 0.18);
+
+  border-radius: 28px;
+
   background: #ffffff;
-  border: 1px solid rgba(23, 23, 47, 0.08);
-  box-shadow: 0 20px 56px rgba(23, 23, 47, 0.08);
-  display: grid;
-  gap: 26px;
+
+  box-shadow:
+    0 24px 70px
+    rgba(27, 63, 43, 0.09);
+
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(35px);
+
   transition:
-    transform 0.28s ease,
-    box-shadow 0.28s ease,
-    border-color 0.28s ease;
+    opacity 650ms ease,
+    transform 650ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
 }
 
 .visible .card {
-  animation: fadeUp 0.72s ease forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.visible .card:nth-child(2) {
+  transition-delay: 140ms;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0, 167, 79, 0.18);
-  box-shadow: 0 30px 78px rgba(23, 23, 47, 0.14);
+  border-color:
+    rgba(0, 167, 79, 0.35);
+
+  box-shadow:
+    0 32px 80px
+    rgba(27, 63, 43, 0.14);
 }
 
+/* LOGOS */
+
 .logoBox {
-  min-height: 180px;
+  position: relative;
+
+  width: 100%;
+  min-height: 235px;
+
+  padding: 30px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #ffffff 0%,
+      #f8faf9 100%
+    );
+
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
+
+  border-bottom: 1px solid #e8eeea;
 }
 
-.logo {
-  width: 100%;
-  max-width: 360px;
+.isoLogo {
+  display: block;
+
+  width: min(470px, 100%);
   height: auto;
   max-height: 190px;
+
   object-fit: contain;
 }
 
+.capecoLogo {
+  display: block;
+
+  width: min(310px, 90%);
+  height: auto;
+  max-height: 170px;
+
+  object-fit: contain;
+}
+
+/* CONTENIDO */
+
 .content {
-  text-align: left;
+  min-width: 0;
+  padding:
+    clamp(25px, 4vw, 38px);
 }
 
-.content > span {
-  display: inline-flex;
+.eyebrow {
+  display: block;
   margin-bottom: 10px;
+
   color: #00a74f;
-  font-size: 0.72rem;
-  
+
+  font-size: 0.7rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 
-.content h3 {
+.content > h3 {
   margin: 0;
-  color: #17172f;  line-height: 0.98;
-  letter-spacing: -0.055em;
-  
+
+  color: #151527;
+
+  font-size:
+    clamp(1.55rem, 2.5vw, 2.1rem);
+
+  line-height: 1.16;
+  letter-spacing: -0.035em;
 }
 
-.content p {
+.introduction {
   margin: 14px 0 0;
-  color: rgba(23, 23, 47, 0.68);
-  font-size: 0.98rem;
-  line-height: 1.55;
+
+  color: #707384;
+
+  font-size: 0.94rem;
+  line-height: 1.65;
 }
 
-.points {
-  margin-top: 18px;
+/* COLUMNAS ISO */
+
+.isoGrid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.isoItem {
+  min-width: 0;
+  padding: 21px;
+
+  border: 1px solid #e2e9e5;
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f6faf8
+    );
+
+  transition:
+    border-color 200ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.isoItem:hover {
+  border-color:
+    rgba(0, 167, 79, 0.32);
+
+  box-shadow:
+    0 18px 38px
+    rgba(25, 75, 48, 0.08);
+
+  transform: translateY(-3px);
+}
+
+.isoItemHeader {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 15px;
 }
 
-.points small {
-  padding: 9px 13px;
-  border-radius: 999px;
-  background: rgba(0, 167, 79, 0.08);
+.isoIcon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(0, 167, 79, 0.11);
+
   color: #00a74f;
-  font-size: 0.76rem;
-  
-}
 
-.button {
-  width: fit-content;
-  min-height: 44px;
-  margin-top: 22px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: #17172f;
-  color: #ffffff;
-  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.78rem;
-  
+
+  flex-shrink: 0;
+}
+
+.environmentIcon {
+  background:
+    rgba(48, 156, 92, 0.12);
+
+  color: #198754;
+}
+
+.isoItemHeader > div {
+  min-width: 0;
+}
+
+.isoItemHeader small {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #7b817d;
+
+  font-size: 0.62rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition:
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  letter-spacing: 0.07em;
 }
 
-.button:hover {
-  background: #00a74f;
-  transform: translateY(-2px);
-  box-shadow: 0 14px 34px rgba(0, 167, 79, 0.24);
+.isoItemHeader h4 {
+  margin: 0;
+
+  color: #121d16;
+
+  font-size: 1.3rem;
+  line-height: 1.2;
 }
 
-.trustBox {
-  margin-top: clamp(36px, 5vw, 58px);
-  padding: clamp(28px, 4vw, 42px);
-  border-radius: 30px;
-  background: #17172f;
-  color: #ffffff;
-  text-align: center;
-  box-shadow: 0 28px 80px rgba(23, 23, 47, 0.18);
-  opacity: 0;
-  transform: translateY(24px);
+.isoItem > p {
+  min-height: 92px;
+  margin: 0;
+
+  color: #667068;
+
+  font-size: 0.82rem;
+  line-height: 1.6;
 }
 
-.visible .trustBox {
-  animation: fadeUp 0.75s ease 0.2s forwards;
+/* PUNTOS */
+
+.points {
+  display: grid;
+  gap: 9px;
+
+  margin-top: 18px;
 }
 
-.trustBox h3 {
-  max-width: 620px;
-  margin: 0 auto;
-  color: #ffffff;  line-height: 1;
-  letter-spacing: -0.05em;
-  
-  text-wrap: balance;
+.points span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #34473c;
+
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-.trustBox p {
-  max-width: 640px;
-  margin: 16px auto 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1rem;
+.points svg {
+  flex-shrink: 0;
+  color: #00a74f;
+}
+
+/* CAPECO */
+
+.capecoCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.capecoCard .content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.capecoDetails {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+
+  margin-top: 25px;
+  padding: 18px;
+
+  border: 1px solid #e2e9e5;
+  border-radius: 17px;
+
+  background: #f5faf7;
+}
+
+.capecoIcon {
+  width: 47px;
+  height: 47px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(0, 167, 79, 0.11);
+
+  color: #00a74f;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
+.capecoDetails > div {
+  min-width: 0;
+}
+
+.capecoDetails strong {
+  display: block;
+
+  color: #19251e;
+
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.capecoDetails p {
+  margin: 6px 0 0;
+
+  color: #6d776f;
+
+  font-size: 0.76rem;
   line-height: 1.55;
 }
 
-@media (max-width: 900px) {
+.capecoPoints {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
   .grid {
     grid-template-columns: 1fr;
   }
 
-  .card {
-    text-align: center;
+  .capecoCard {
+    display: grid;
+    grid-template-columns:
+      minmax(280px, 0.75fr)
+      minmax(0, 1.25fr);
   }
 
-  .content {
-    text-align: center;
-  }
-
-  .points {
-    justify-content: center;
-  }
-
-  .button {
-    margin-left: auto;
-    margin-right: auto;
+  .capecoCard .logoBox {
+    min-height: 100%;
+    border-right:
+      1px solid #e8eeea;
+    border-bottom: 0;
   }
 }
 
-@media (max-width: 640px) {
+/* MOBILE */
+
+@media (max-width: 720px) {
   .section {
-    padding: 64px 16px;
+    padding:
+      70px 16px;
   }
 
   .header {
-    margin-bottom: 32px;
-    text-align: left;
-  }
-
-  .header p {
-    margin-left: 0;
-    margin-right: 0;
+    margin-bottom: 34px;
   }
 
   .card {
-    padding: 22px;
-    border-radius: 24px;
+    border-radius: 22px;
   }
 
   .logoBox {
-    min-height: 140px;
+    min-height: 190px;
+    padding: 24px 18px;
   }
 
-  .logo {
-    max-width: 280px;
-    max-height: 160px;
+  .isoLogo {
+    max-height: 150px;
   }
 
   .content {
-    text-align: left;
+    padding: 23px 18px;
   }
 
-  .points {
-    justify-content: flex-start;
+  .isoGrid {
+    grid-template-columns: 1fr;
   }
 
-  .button {
+  .isoItem > p {
+    min-height: auto;
+  }
+
+  .capecoCard {
+    display: block;
+  }
+
+  .capecoCard .logoBox {
+    min-height: 190px;
+
+    border-right: 0;
+    border-bottom:
+      1px solid #e8eeea;
+  }
+}
+
+@media (max-width: 420px) {
+  .section {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .logoBox {
+    min-height: 165px;
+    padding: 20px 14px;
+  }
+
+  .isoLogo {
     width: 100%;
+    max-height: 130px;
   }
 
-  .trustBox {
-    text-align: left;
-    border-radius: 24px;
+  .content {
+    padding: 21px 15px;
+  }
+
+  .isoItem {
+    padding: 17px 15px;
+    border-radius: 16px;
+  }
+
+  .isoIcon {
+    width: 43px;
+    height: 43px;
+  }
+
+  .capecoDetails {
+    padding: 15px;
   }
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
+@media (
+  prefers-reduced-motion: reduce
+) {
   .header,
   .card,
-  .trustBox,
-  .button {
-    animation: none;
+  .isoItem {
     transition: none;
-    transform: none;
   }
 
-  .header,
-  .card,
-  .trustBox {
-    opacity: 1;
+  .card:hover,
+  .isoItem:hover {
+    transform: none;
   }
 }

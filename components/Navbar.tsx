@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
 
-const LOGO_SRC = "/assets/images/ancosur-logo-black.svg";
+const LOGO_SRC = "/assets/images/ancosur-logo.svg";
 
 const WHATSAPP_LINK =
   "https://wa.me/51971069763?text=Hola,%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";

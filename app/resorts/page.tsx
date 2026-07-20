@@ -355,8 +355,6 @@ export default function ResortsPage() {
         </section>
       </main>
 
-      <Footer />
-
       <Script
         id="resorts-scroll-fix"
         strategy="afterInteractive"

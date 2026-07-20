@@ -1,207 +1,665 @@
 "use client";
 
+import {
+  ArrowRightIcon,
+  ArrowUpRightIcon,
+  BuildingsIcon,
+  CertificateIcon,
+  EnvelopeSimpleIcon,
+  FacebookLogoIcon,
+  InstagramLogoIcon,
+  LinkedinLogoIcon,
+  MapPinIcon,
+  PhoneIcon,
+  TiktokLogoIcon,
+  UsersThreeIcon,
+  WhatsappLogoIcon,
+  XLogoIcon,
+  YoutubeLogoIcon,
+} from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./Footer.module.css";
 import { useState } from "react";
+
+import styles from "./Footer.module.css";
 
 type FooterLink = {
   label: string;
   href: string;
 };
 
-type SocialLink = {
-  label: string;
-  image: string;
-  href: string;
-};
-
-const logoSrc = "/assets/images/ancosur-logo.svg"
-
+const logoSrc =
+  "/assets/images/ancosur-logo-black.svg";
 
 const companyLinks: FooterLink[] = [
-  { label: "Departamentos", href: "/departamentos" },
-  { label: "Lotes", href: "/lotes" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Trabaja con nosotros", href: "/trabaja-con-nosotros" },
+  {
+    label: "Departamentos",
+    href: "/departamentos",
+  },
+  {
+    label: "Lotes",
+    href: "/lotes",
+  },
+  {
+    label: "Nosotros",
+    href: "/nosotros",
+  },
+  {
+    label: "Trabaja con nosotros",
+    href: "/trabaja-con-nosotros",
+  },
 ];
 
 const investorLinks: FooterLink[] = [
-  { label: "Inversionistas", href: "/inversionistas" },
-  { label: "Compra de terrenos", href: "/beneficios" },
-  { label: "Portal de Transparencia", href: "/portal-de-transparencia" },
-  { label: "Políticas", href: "/politicas" },
+  {
+    label: "Inversionistas",
+    href: "/inversionistas",
+  },
+  {
+    label: "Compra de terrenos",
+    href: "/beneficios",
+  },
+  {
+    label: "Portal de Transparencia",
+    href: "/portal-de-transparencia",
+  },
+  {
+    label: "Políticas",
+    href: "/politicas",
+  },
 ];
 
-const supportLinks: FooterLink[] = [
-{
-  label: "Libro de Reclamaciones",
-  href: "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
-},  { label: "Certificados", href: "/#certificaciones" },
-];
-
-const socialLinks: SocialLink[] = [
+const socialLinks = [
   {
     label: "Facebook",
-    image: "/assets/icons/facebook.png",
-    href: "https://www.facebook.com/ancosurinmobiliaria",
+    href:
+      "https://www.facebook.com/ancosurinmobiliaria",
+    Icon: FacebookLogoIcon,
   },
   {
     label: "TikTok",
-    image: "/assets/icons/tiktok.png",
-    href: "https://www.tiktok.com/@ancosurinmobiliaria",
+    href:
+      "https://www.tiktok.com/@ancosurinmobiliaria",
+    Icon: TiktokLogoIcon,
   },
   {
     label: "Instagram",
-    image: "/assets/icons/instagram.png",
-    href: "https://www.instagram.com/ancosurinmobiliaria/",
+    href:
+      "https://www.instagram.com/ancosurinmobiliaria/",
+    Icon: InstagramLogoIcon,
   },
   {
     label: "YouTube",
-    image: "/assets/icons/youtube.png",
-    href: "https://youtube.com",
+    href:
+      "https://www.youtube.com/@ancosurinmobiliaria",
+    Icon: YoutubeLogoIcon,
   },
   {
     label: "LinkedIn",
-    image: "/assets/icons/linkedin.png",
-    href: "https://pe.linkedin.com/company/ancosurinmobiliaria",
+    href:
+      "https://pe.linkedin.com/company/ancosurinmobiliaria",
+    Icon: LinkedinLogoIcon,
   },
-   {
-    label: "Twitter",
-    image: "/assets/icons/twitter.png",
+  {
+    label: "X",
     href: "https://x.com/Ancosur_",
+    Icon: XLogoIcon,
+  },
+];
+
+const legalCards = [
+  {
+    label:
+      "Libro de Reclamaciones",
+    description:
+      "Registra una consulta, reclamo o solicitud de atención.",
+    href:
+      "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
+    external: true,
+    Icon: WhatsappLogoIcon,
+  },
+  {
+    label: "Certificados",
+    description:
+      "Conoce los reconocimientos y certificaciones de ANCOSUR.",
+    href: "/#certificaciones",
+    external: false,
+    Icon: CertificateIcon,
   },
 ];
 
 export default function Footer() {
-    const [logoError, setLogoError] = useState(false);
+  const [logoError, setLogoError] =
+    useState(false);
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
-        <div className={styles.brand}>
-           {!logoError ? (
-           <Link href="/" className={styles.logo}>
-  {!logoError ? (
-    <img
-      src={logoSrc}
-      alt="ANCOSUR Inmobiliaria"
-      className={styles.logoImage}
-      onError={() => setLogoError(true)}
-    />
-  ) : (
-    <span className={styles.logoText}>ANCOSUR</span>
-  )}
-</Link>
-            
-          ) : (
-            <span className={styles.logoText}>ANCOSUR</span>
-          )}
-          <p>
-            Desarrollamos proyectos inmobiliarios pensados para vivir, invertir
-            y construir futuro.
-          </p>
+    <footer
+      className={styles.footer}
+    >
+      <div
+        className={styles.curveLine}
+        aria-hidden="true"
+      />
 
-          <div className={styles.socials}>
-            {socialLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={item.label}
-              >
+      <div
+        className={styles.container}
+      >
+        <div
+          className={styles.brandCard}
+        >
+          <div
+            className={
+              styles.brandIdentity
+            }
+          >
+            <Link
+              href="/"
+              className={styles.logo}
+              aria-label="Ir al inicio de ANCOSUR"
+            >
+              {!logoError ? (
                 <Image
-                  src={item.image}
-                  alt={item.label}
-                  width={22}
-                  height={22}
+                  src={logoSrc}
+                  alt="ANCOSUR Inmobiliaria"
+                  width={220}
+                  height={68}
+                  className={
+                    styles.logoImage
+                  }
+                  onError={() =>
+                    setLogoError(true)
+                  }
                 />
-              </a>
-            ))}
-          </div>
-        </div>
+              ) : (
+                <span
+                  className={
+                    styles.logoText
+                  }
+                >
+                  ANCOSUR
+                </span>
+              )}
+            </Link>
 
-        <div className={styles.columns}>
-          <div className={styles.column}>
-            {/* <h3>Nosotros</h3> */}
-            <ul>
-              {companyLinks.map((item) => (
-                <li key={item.label}>
-                  <Link href={item.href}>{item.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div
+              className={
+                styles.brandDescription
+              }
+            >
+              <span>
+                Desarrollamos futuro
+              </span>
 
-          <div className={styles.column}>
-            {/* <h3>Políticas</h3> */}
-            <ul>
-              {investorLinks.map((item) => (
-                <li key={item.label}>
-                  <Link href={item.href}>{item.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className={styles.column}>
-            <h3>Atención al cliente</h3>
-
-            <ul className={styles.contactList}>
-              <li>
-                <span>Teléfono</span>
-                <a href="tel:+51968658098">(+51) 968 658 098</a>
-              </li>
-
-              <li>
-                <span>Correo</span>
-                <a href="mailto:jefe.experiencia.cliente@ancosur.com">jefe.experiencia.cliente@ancosur.com</a>
-              </li>
-            </ul>
+              <p>
+                Creamos proyectos
+                inmobiliarios pensados
+                para vivir, invertir y
+                construir un patrimonio
+                seguro.
+              </p>
+            </div>
           </div>
 
-          <div className={styles.column}>
-            <h3>Oficina de ventas</h3>
+          <div
+            className={
+              styles.brandActions
+            }
+          >
+            <Link
+              href="/departamentos"
+              className={
+                styles.projectsButton
+              }
+            >
+              Conocer proyectos
 
-            <address>
-              Av. San Carlos 1481
-              <br />
-              San Antonio – Huancayo
-            </address>
+              <ArrowRightIcon
+                size={18}
+                weight="bold"
+                aria-hidden="true"
+              />
+            </Link>
 
-            <div className={styles.memberBox}>
-              <span>Miembros de</span>
-              <Link href={"/equipo"}>
-              <strong>ANCOSUR Inmobiliaria</strong>
-              </Link>
+            <div
+              className={
+                styles.socialArea
+              }
+            >
+              <span>
+                Síguenos en redes
+              </span>
+
+              <div
+                className={
+                  styles.socials
+                }
+              >
+                {socialLinks.map(
+                  ({
+                    label,
+                    href,
+                    Icon,
+                  }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                    >
+                      <Icon
+                        size={20}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className={styles.legalCards}>
-          {supportLinks.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              // target="_blank"
-              className={styles.legalCard}
+        <div
+          className={styles.columns}
+        >
+          <div
+            className={styles.column}
+          >
+            <div
+              className={
+                styles.columnHeading
+              }
             >
-              <span>{item.label}</span>
-              <small>Ver información</small>
+              <span>01</span>
+              <h3>Explora ANCOSUR</h3>
+            </div>
+
+            <ul
+              className={
+                styles.linkList
+              }
+            >
+              {companyLinks.map(
+                (item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                    >
+                      <span>
+                        {item.label}
+                      </span>
+
+                      <ArrowRightIcon
+                        size={15}
+                        weight="bold"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+
+          <div
+            className={styles.column}
+          >
+            <div
+              className={
+                styles.columnHeading
+              }
+            >
+              <span>02</span>
+              <h3>Información</h3>
+            </div>
+
+            <ul
+              className={
+                styles.linkList
+              }
+            >
+              {investorLinks.map(
+                (item) => (
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
+                    >
+                      <span>
+                        {item.label}
+                      </span>
+
+                      <ArrowRightIcon
+                        size={15}
+                        weight="bold"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+
+          <div
+            className={styles.column}
+          >
+            <div
+              className={
+                styles.columnHeading
+              }
+            >
+              <span>03</span>
+              <h3>
+                Atención al cliente
+              </h3>
+            </div>
+
+            <div
+              className={
+                styles.contactList
+              }
+            >
+              <a
+                href="tel:+51968658098"
+                className={
+                  styles.contactItem
+                }
+              >
+                <span
+                  className={
+                    styles.contactIcon
+                  }
+                >
+                  <PhoneIcon
+                    size={19}
+                    weight="bold"
+                    aria-hidden="true"
+                  />
+                </span>
+
+                <span
+                  className={
+                    styles.contactContent
+                  }
+                >
+                  <small>
+                    Teléfono
+                  </small>
+
+                  <strong>
+                    (+51) 968 658 098
+                  </strong>
+                </span>
+              </a>
+
+              <a
+                href="mailto:jefe.experiencia.cliente@ancosur.com"
+                className={
+                  styles.contactItem
+                }
+              >
+                <span
+                  className={
+                    styles.contactIcon
+                  }
+                >
+                  <EnvelopeSimpleIcon
+                    size={19}
+                    weight="bold"
+                    aria-hidden="true"
+                  />
+                </span>
+
+                <span
+                  className={
+                    styles.contactContent
+                  }
+                >
+                  <small>Correo</small>
+
+                  <strong>
+                    jefe.experiencia.cliente
+                    @ancosur.com
+                  </strong>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <div
+            className={styles.column}
+          >
+            <div
+              className={
+                styles.columnHeading
+              }
+            >
+              <span>04</span>
+              <h3>
+                Oficina de ventas
+              </h3>
+            </div>
+
+            <div
+              className={
+                styles.officeCard
+              }
+            >
+              <span
+                className={
+                  styles.officeIcon
+                }
+              >
+                <MapPinIcon
+                  size={21}
+                  weight="fill"
+                  aria-hidden="true"
+                />
+              </span>
+
+              <address>
+                <strong>
+                  Sala de ventas
+                </strong>
+
+                <span>
+                  Av. San Carlos 1481
+                </span>
+
+                <small>
+                  San Antonio,
+                  Huancayo
+                </small>
+              </address>
+            </div>
+
+            <Link
+              href="/equipo"
+              className={
+                styles.teamCard
+              }
+            >
+              <span
+                className={
+                  styles.teamIcon
+                }
+              >
+                <UsersThreeIcon
+                  size={27}
+                  weight="fill"
+                  aria-hidden="true"
+                />
+              </span>
+
+              <span
+                className={
+                  styles.teamContent
+                }
+              >
+                <small>
+                  Personas que hacen
+                  posible cada proyecto
+                </small>
+
+                <strong>
+                  Conoce al equipo
+                  ANCOSUR
+                </strong>
+              </span>
+
+              <ArrowUpRightIcon
+                size={19}
+                weight="bold"
+                aria-hidden="true"
+              />
             </Link>
-          ))}
+          </div>
+        </div>
+
+        <div
+          className={
+            styles.legalSection
+          }
+        >
+          <div
+            className={
+              styles.legalHeading
+            }
+          >
+            <div>
+              <span>
+                Atención y transparencia
+              </span>
+
+              <h3>
+                Información importante
+                para nuestros clientes
+              </h3>
+            </div>
+
+          </div>
+
+          <div
+            className={
+              styles.legalCards
+            }
+          >
+            {legalCards.map(
+              ({
+                label,
+                description,
+                href,
+                external,
+                Icon,
+              }) =>
+                external ? (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={
+                      styles.legalCard
+                    }
+                  >
+                    <span
+                      className={
+                        styles.legalIcon
+                      }
+                    >
+                      <Icon
+                        size={25}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+                    </span>
+
+                    <span
+                      className={
+                        styles.legalContent
+                      }
+                    >
+                      <strong>
+                        {label}
+                      </strong>
+
+                      <small>
+                        {description}
+                      </small>
+                    </span>
+
+                    <ArrowUpRightIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ) : (
+                  <Link
+                    key={label}
+                    href={href}
+                    className={
+                      styles.legalCard
+                    }
+                  >
+                    <span
+                      className={
+                        styles.legalIcon
+                      }
+                    >
+                      <Icon
+                        size={25}
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+                    </span>
+
+                    <span
+                      className={
+                        styles.legalContent
+                      }
+                    >
+                      <strong>
+                        {label}
+                      </strong>
+
+                      <small>
+                        {description}
+                      </small>
+                    </span>
+
+                    <ArrowUpRightIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                )
+            )}
+          </div>
         </div>
 
         <div className={styles.bottom}>
           <p>
-            © {new Date().getFullYear()} ANCOSUR Inmobiliaria. Todos los
-            derechos reservados.
+            © {new Date().getFullYear()}{" "}
+            ANCOSUR Inmobiliaria. Todos
+            los derechos reservados.
           </p>
 
           <div>
-            <Link href="/politicas">Privacidad</Link>
-            <Link href="/politicas/terminos-y-condiciones">Términos</Link>
+            <Link href="/politicas">
+              Privacidad
+            </Link>
+
+            <span aria-hidden="true">
+              •
+            </span>
+
+            <Link href="/politicas/terminos-y-condiciones">
+              Términos y condiciones
+            </Link>
           </div>
         </div>
       </div>

@@ -68,8 +68,6 @@ export default function CyberHousePage() {
         <CyberHouseLeadForm />
       </main>
 
-      <Footer />
-
       <Script
         id="cyber-house-event-schema"
         type="application/ld+json"

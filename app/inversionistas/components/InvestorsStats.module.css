@@ -1,0 +1,212 @@
+.section {
+  width: 100%;
+
+  padding:
+    clamp(68px, 8vw, 110px)
+    clamp(18px, 6vw, 90px);
+
+  background: #ffffff;
+}
+
+.heading {
+  width: min(1120px, 100%);
+  max-width: 700px;
+
+  margin:
+    0 auto
+    38px;
+}
+
+.heading > span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #00a74f;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.heading h2 {
+  margin: 0;
+
+  color: #111111;
+
+  font-size:
+    clamp(2rem, 4vw, 3.65rem);
+
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+
+.heading p {
+  max-width: 600px;
+  margin: 16px 0 0;
+
+  color:
+    rgba(17, 17, 17, 0.62);
+
+  line-height: 1.65;
+}
+
+.grid {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  grid-auto-rows: 190px;
+
+  gap: 16px;
+}
+
+.statCard,
+.imageCard {
+  min-width: 0;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+}
+
+.statCard {
+  padding:
+    clamp(24px, 3vw, 36px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statCard strong {
+  display: block;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(2.3rem, 4vw, 4.7rem);
+
+  line-height: 0.92;
+  letter-spacing: -0.075em;
+}
+
+.statCard span {
+  display: block;
+
+  max-width: 250px;
+  margin-top: 10px;
+
+  color:
+    rgba(255, 255, 255, 0.84);
+
+  font-size:
+    clamp(0.85rem, 1.3vw, 1.02rem);
+
+  line-height: 1.25;
+}
+
+.blackCard {
+  background:
+    linear-gradient(
+      135deg,
+      #060606,
+      #171717
+    );
+}
+
+.greenCard {
+  background:
+    linear-gradient(
+      135deg,
+      #008f44,
+      #00b859
+    );
+}
+
+.imageCard {
+  position: relative;
+
+  min-height: 190px;
+
+  background: #e8e8e8;
+}
+
+.image {
+  object-fit: cover;
+
+  transition:
+    transform 500ms ease;
+}
+
+.imageCard:hover .image {
+  transform: scale(1.045);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.34),
+      transparent 60%
+    );
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding: 68px 16px;
+  }
+
+  .heading {
+    margin-bottom: 30px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 170px;
+
+    gap: 12px;
+  }
+
+  .imageCard {
+    min-height: 170px;
+  }
+}
+
+@media (max-width: 420px) {
+  .grid {
+    grid-auto-rows: 156px;
+  }
+
+  .imageCard {
+    min-height: 156px;
+  }
+
+  .statCard {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: none;
+  }
+
+  .imageCard:hover .image {
+    transform: none;
+  }
+}
