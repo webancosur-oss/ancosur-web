@@ -23,8 +23,17 @@ import {
 
 import styles from "../NeoXportPage.module.css";
 
+const PROJECT_NAME = "Neo Xport";
+
 type ToastState = FeedbackToastData & {
   id: number;
+};
+
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
 };
 
 const SUCCESS_TOAST: FeedbackToastData = {
@@ -39,6 +48,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoXportOverviewSection() {
@@ -72,6 +130,14 @@ export default function NeoXportOverviewSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -99,25 +165,20 @@ export default function NeoXportOverviewSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: "Neo Xport",
-      interest,
-      message:
-        "Solicitud de información enviada desde la sección de ubicación de Neo Xport.",
-      campaign: "neo-xport-web",
-      source: "neo-xport-page",
-      consent,
-      origen_ruta:
-        window.location.pathname,
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos deportivos",
+      fuente_prospeccion: "Web",
+      mensaje:
+        message ||
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoXportOverviewSection",
+        `NeoXportOverviewSection - ${PROJECT_NAME}`,
     };
 
     try {
@@ -134,24 +195,34 @@ export default function NeoXportOverviewSection() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Xport:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -165,17 +236,9 @@ export default function NeoXportOverviewSection() {
         id="informacion-neo-xport"
         aria-labelledby="neo-xport-overview-title"
       >
-        <div
-          className={styles.overviewInner}
-        >
-          <div
-            className={
-              styles.overviewContent
-            }
-          >
-            <span
-              className={styles.eyebrow}
-            >
+        <div className={styles.overviewInner}>
+          <div className={styles.overviewContent}>
+            <span className={styles.eyebrow}>
               Vive en movimiento
             </span>
 
@@ -184,11 +247,7 @@ export default function NeoXportOverviewSection() {
               deportivo de Huancayo
             </h2>
 
-            <p
-              className={
-                styles.overviewDescription
-              }
-            >
+            <p className={styles.overviewDescription}>
               Neo Xport es un proyecto
               diseñado para personas que
               buscan un estilo de vida
@@ -202,11 +261,7 @@ export default function NeoXportOverviewSection() {
             </p>
 
             {!!facts.length && (
-              <div
-                className={
-                  styles.overviewFacts
-                }
-              >
+              <div className={styles.overviewFacts}>
                 {facts.map((item) => (
                   <div
                     key={`${item.label}-${item.value}`}
@@ -227,11 +282,7 @@ export default function NeoXportOverviewSection() {
             )}
 
             {!!details.length && (
-              <ul
-                className={
-                  styles.detailsList
-                }
-              >
+              <ul className={styles.detailsList}>
                 {details.map((item) => (
                   <li
                     key={`${item.label}-${item.value}`}
@@ -248,11 +299,7 @@ export default function NeoXportOverviewSection() {
               </ul>
             )}
 
-            <div
-              className={
-                styles.overviewActions
-              }
-            >
+            <div className={styles.overviewActions}>
               <a
                 href={brochureNeoXport}
                 download
@@ -280,16 +327,11 @@ export default function NeoXportOverviewSection() {
           </div>
 
           <form
-            className={
-              styles.overviewForm
-            }
+            className={styles.overviewForm}
             onSubmit={handleSubmit}
+            noValidate
           >
-            <div
-              className={
-                styles.formHeader
-              }
-            >
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -323,11 +365,7 @@ export default function NeoXportOverviewSection() {
               />
             </label>
 
-            <div
-              className={
-                styles.formTwoColumns
-              }
-            >
+            <div className={styles.formTwoColumns}>
               <label>
                 Celular
 
@@ -359,50 +397,7 @@ export default function NeoXportOverviewSection() {
                 />
               </label>
             </div>
-
-            <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                <option value="neo-xport-tipo-impulso">
-                  Tipo Impulso
-                </option>
-
-                <option value="neo-xport-tipo-luz">
-                  Tipo Luz
-                </option>
-
-                <option value="neo-xport-inversion">
-                  Comprar para inversión
-                </option>
-
-                <option value="neo-xport-financiamiento">
-                  Conocer opciones de
-                  financiamiento
-                </option>
-
-                <option value="neo-xport-visita">
-                  Agendar una visita
-                </option>
-
-                <option value="neo-xport-asesoria">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
+            
             <label>
               Mensaje opcional
 
@@ -415,15 +410,13 @@ export default function NeoXportOverviewSection() {
               />
             </label>
 
-            <label
-              className={styles.checkbox}
-            >
+            <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>
@@ -456,9 +449,7 @@ export default function NeoXportOverviewSection() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

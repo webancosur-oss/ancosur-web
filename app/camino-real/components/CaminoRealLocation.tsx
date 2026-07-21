@@ -63,89 +63,97 @@ export default function CaminoRealLocation() {
     });
   };
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+ const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const form = event.currentTarget;
+  const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  const fullName = String(
+    formData.get("fullName") ?? ""
+  ).trim();
+
+  const phone = String(
+    formData.get("phone") ?? ""
+  ).replace(/\D/g, "");
+
+  const interest = String(
+    formData.get("interest") ?? ""
+  ).trim();
+
+  const leadData = {
+    nombres_completos: fullName,
+    telefono: phone,
+    email: "",
+    proyecto_interes: PROJECT_NAME,
+    categoria_interes: interest,
+    fuente_prospeccion: "Web",
+    mensaje: `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+    origen_ruta: window.location.pathname,
+    origen_componente: `CaminoRealLocation - ${PROJECT_NAME}`,
+  };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
+
+    const result = await response
+      .json()
+      .catch(() => null);
+
+    if (!response.ok || result?.success === false) {
+      const apiMessage =
+        result?.message ||
+        result?.data?.error ||
+        `No se pudo enviar la solicitud. Código ${response.status}.`;
+
+      showToast({
+        variant: "error",
+        title: "No pudimos enviar tus datos",
+        message: String(apiMessage),
+      });
+
       return;
     }
 
-    const formData = new FormData(form);
+    form.reset();
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
-
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
-
-    const interest = String(
-      formData.get("interest") ?? ""
-    ).trim();
-
-    const consent =
-      formData.get("consent") === "accepted";
-
-    const leadData = {
-      fullName,
-      phone,
-      email: "",
-
-      // Se registra en leads.proyecto_interes.
-      project: PROJECT_NAME,
-
-      // Se registra en leads.categoria_interes.
-      interest,
-
-      message: `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
-
-      campaign: "camino-real-web",
-      source: "ubicacion-camino-real",
-      consent,
-
-      origen_ruta: window.location.pathname,
-      origen_componente: "CaminoRealLocation",
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(leadData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error HTTP ${response.status}`);
-      }
-
-      form.reset();
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Camino Real:",
-        error
-      );
-
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
-  };
-
+    showToast({
+      variant: "success",
+      title: "¡Datos enviados correctamente!",
+      message:
+        "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    });
+  } catch {
+    showToast({
+      variant: "error",
+      title: "No pudimos conectar con la API",
+      message:
+        "Revisa tu conexión o intenta nuevamente en unos minutos.",
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
   return (
     <>
       <section
@@ -347,19 +355,19 @@ export default function CaminoRealLocation() {
               </label>
 
               <label className={styles.checkbox}>
-                <input
-                  type="checkbox"
-                  name="consent"
-                  value="accepted"
-                  disabled={isSending}
-                  required
-                />
+            <input
+              type="checkbox"
+              name="consent"
+              value="accepted"
+              checked
+              onChange={() => {}}
+            />
 
-                <span>
-                  Acepto ser contactado por ANCOSUR para
-                  recibir información comercial sobre Camino Real.
-                </span>
-              </label>
+            <span>
+              Acepto ser contactado por ANCOSUR para recibir información comercial
+              sobre Camino Real.
+            </span>
+          </label>
 
               <button
                 type="submit"

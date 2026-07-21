@@ -285,145 +285,99 @@ export default function ContactForm({
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) {
-      return;
-    }
+  if (isSending) {
+    return;
+  }
 
-    /*
-     * Campo honeypot contra bots.
-     */
-    if (formData.website) {
-      return;
-    }
+  /*
+   * Campo honeypot contra bots.
+   */
+  if (formData.website) {
+    return;
+  }
 
-    if (!validateForm()) {
-      return;
-    }
+  if (!validateForm()) {
+    return;
+  }
 
-    const fullName =
-      formData.fullName.trim();
+  const fullName = formData.fullName.trim();
 
-    const phone =
-      formData.phone.replace(
-        /\D/g,
-        ""
-      );
+  const phone = formData.phone.replace(
+    /\D/g,
+    ""
+  );
 
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
+  const email = formData.email
+    .trim()
+    .toLowerCase();
 
-    const interest =
-      formData.interest.trim();
+  const interest = formData.interest.trim();
 
-    const message =
-      formData.message.trim();
+  const message = formData.message.trim();
 
-    const leadPayload = {
-      campaign,
-
-      campania_nombre:
-        title,
-
-      fullName,
-
-      phone,
-
-      email,
-
-      project:
-        interest,
-
-      categoria_interes:
-        interest,
-
-      message:
-        message ||
-        "Solicitud de información enviada desde el formulario de contacto.",
-
-      source:
-        "Web",
-
-      fuente_prospeccion:
-        "Web",
-
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        `Formulario ${title}`,
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-      setErrors({});
-
-      /*
-       * Se usa el proxy interno de Next:
-       *
-       * src/app/api/leads/route.ts
-       *
-       * El proxy se conecta con la API
-       * desplegada mediante API_URL.
-       */
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept:
-                "application/json",
-            },
-            body: JSON.stringify(
-              leadPayload
-            ),
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      if (!response.ok) {
-        showToast({
-          variant: "error",
-          title:
-            "No pudimos enviar tus datos",
-          message:
-            result.message ||
-            "Verifica la información e inténtalo nuevamente.",
-        });
-
-        return;
-      }
-
-      setFormData(
-        initialFormData
-      );
-
-      setErrors({});
-
-      showToast(
-        SUCCESS_TOAST
-      );
-    } catch {
-      showToast(
-        ERROR_TOAST
-      );
-    } finally {
-      setIsSending(false);
-    }
+  const leadPayload = {
+    nombres_completos: fullName,
+    telefono: phone,
+    email,
+    proyecto_interes: interest,
+    categoria_interes: interest,
+    fuente_prospeccion: "Web",
+    mensaje:
+      message ||
+      "Solicitud de información enviada desde el formulario de contacto.",
+    origen_ruta: window.location.pathname,
+    origen_componente: `Formulario ${title} - ${campaign}`,
   };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+    setErrors({});
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadPayload),
+    });
+
+    const result = await readApiResponse(response);
+
+    if (!response.ok || result.success === false) {
+      console.error("Error API leads:", result);
+
+      showToast({
+        variant: "error",
+        title: "No pudimos enviar tus datos",
+        message:
+          result.message ||
+          "Verifica la información e inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    setFormData(initialFormData);
+    setErrors({});
+
+    showToast(SUCCESS_TOAST);
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de contacto:",
+      error
+    );
+
+    showToast(ERROR_TOAST);
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>

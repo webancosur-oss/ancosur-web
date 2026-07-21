@@ -31,16 +31,14 @@ type ApiResponse = {
 
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
-  title:
-    "¡Datos enviados correctamente!",
+  title: "¡Datos enviados correctamente!",
   message:
     "Un asesor de ANCOSUR se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
   variant: "error",
-  title:
-    "No pudimos enviar tus datos",
+  title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
 };
@@ -49,9 +47,7 @@ const readApiResponse = async (
   response: Response
 ): Promise<ApiResponse> => {
   const contentType =
-    response.headers.get(
-      "content-type"
-    );
+    response.headers.get("content-type");
 
   if (
     contentType?.includes(
@@ -78,6 +74,27 @@ const readApiResponse = async (
       responseText ||
       "No se recibió una respuesta de la API.",
   };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function ResortsLeadForm() {
@@ -121,6 +138,14 @@ export default function ResortsLeadForm() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -128,8 +153,7 @@ export default function ResortsLeadForm() {
       new FormData(form);
 
     const fullName = String(
-      formData.get("fullName") ??
-        ""
+      formData.get("fullName") ?? ""
     ).trim();
 
     const phone = String(
@@ -143,15 +167,13 @@ export default function ResortsLeadForm() {
       .toLowerCase();
 
     const interest = String(
-      formData.get("interest") ??
-        ""
+      formData.get("interest") ?? ""
     ).trim();
 
     if (fullName.length < 3) {
       showToast({
         variant: "error",
-        title:
-          "Revisa tu nombre",
+        title: "Revisa tu nombre",
         message:
           "Ingresa tus nombres y apellidos.",
       });
@@ -165,8 +187,7 @@ export default function ResortsLeadForm() {
     ) {
       showToast({
         variant: "error",
-        title:
-          "Celular incorrecto",
+        title: "Celular incorrecto",
         message:
           "El celular debe tener 9 dígitos y empezar con 9.",
       });
@@ -177,8 +198,7 @@ export default function ResortsLeadForm() {
     if (!interest) {
       showToast({
         variant: "error",
-        title:
-          "Selecciona una opción",
+        title: "Selecciona una opción",
         message:
           "Indica el proyecto resort de tu interés.",
       });
@@ -187,34 +207,19 @@ export default function ResortsLeadForm() {
     }
 
     const leadPayload = {
-      campaign:
-        "resorts-selva-central-web",
+      nombres_completos: fullName,
 
-      campania_nombre:
-        "Resorts Selva Central",
-
-      fullName,
-
-      phone,
+      telefono: phone,
 
       email,
 
-      project:
-        interest,
+      proyecto_interes: interest,
 
-      proyecto_interes:
-        interest,
+      categoria_interes: "Resorts",
 
-      categoria_interes:
-        interest,
+      fuente_prospeccion: "Web",
 
-      source:
-        "Web",
-
-      fuente_prospeccion:
-        "Web",
-
-      message:
+      mensaje:
         `Solicitud de información sobre ${interest} enviada desde la página de Resorts ANCOSUR.`,
 
       origen_ruta:
@@ -229,35 +234,37 @@ export default function ResortsLeadForm() {
       setToast(null);
 
       const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept:
-                "application/json",
-            },
-            body: JSON.stringify(
-              leadPayload
-            ),
-          }
-        );
+        await fetch("/api/leads", {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+            Accept:
+              "application/json",
+          },
+          body: JSON.stringify(
+            leadPayload
+          ),
+          cache: "no-store",
+        });
 
       const result =
         await readApiResponse(
           response
         );
 
-      if (!response.ok) {
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
         showToast({
           variant: "error",
           title:
             "No pudimos enviar tus datos",
-          message:
-            result.message ||
-            "Verifica la información e inténtalo nuevamente.",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
         });
 
         return;
@@ -395,6 +402,21 @@ export default function ResortsLeadForm() {
             </select>
           </label>
         </div>
+
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            name="consent"
+            value="accepted"
+            checked
+            readOnly
+          />
+
+          <span>
+            Acepto ser contactado por ANCOSUR para recibir información
+            comercial sobre sus proyectos resort.
+          </span>
+        </label>
 
         <button
           type="submit"

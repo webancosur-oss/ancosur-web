@@ -26,6 +26,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -38,6 +45,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoEmperatrizOverviewSection() {
@@ -71,6 +127,14 @@ export default function NeoEmperatrizOverviewSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -98,30 +162,20 @@ export default function NeoEmperatrizOverviewSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: PROJECT_NAME,
-      interest,
-
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos",
+      fuente_prospeccion: "Web",
+      mensaje:
         message ||
-        "Solicitud de información enviada desde la página de Neo Emperatriz.",
-
-      campaign: "neo-emperatriz-web",
-      source: "neo-emperatriz-page",
-      consent,
-
-      origen_ruta:
-        window.location.pathname,
-
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoEmperatrizOverviewSection",
+        `NeoEmperatrizOverviewSection - ${PROJECT_NAME}`,
     };
 
     try {
@@ -138,24 +192,34 @@ export default function NeoEmperatrizOverviewSection() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Emperatriz:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -170,14 +234,8 @@ export default function NeoEmperatrizOverviewSection() {
         aria-labelledby="neo-emperatriz-overview-title"
       >
         <div className={styles.overviewInner}>
-          <div
-            className={
-              styles.overviewContent
-            }
-          >
-            <span
-              className={styles.eyebrow}
-            >
+          <div className={styles.overviewContent}>
+            <span className={styles.eyebrow}>
               Entrega inmediata
             </span>
 
@@ -186,11 +244,7 @@ export default function NeoEmperatrizOverviewSection() {
               en San Carlos
             </h2>
 
-            <p
-              className={
-                styles.overviewDescription
-              }
-            >
+            <p className={styles.overviewDescription}>
               Neo Emperatriz combina
               arquitectura moderna, naturaleza
               y elegancia en una ubicación
@@ -203,17 +257,11 @@ export default function NeoEmperatrizOverviewSection() {
             </p>
 
             {!!facts.length && (
-              <div
-                className={
-                  styles.overviewFacts
-                }
-              >
+              <div className={styles.overviewFacts}>
                 {facts.map((item) => (
                   <div
                     key={`${item.label}-${item.value}`}
-                    className={
-                      styles.overviewFact
-                    }
+                    className={styles.overviewFact}
                   >
                     <span>
                       {item.label}
@@ -228,11 +276,7 @@ export default function NeoEmperatrizOverviewSection() {
             )}
 
             {!!details.length && (
-              <ul
-                className={
-                  styles.detailsList
-                }
-              >
+              <ul className={styles.detailsList}>
                 {details.map((item) => (
                   <li
                     key={`${item.label}-${item.value}`}
@@ -249,15 +293,9 @@ export default function NeoEmperatrizOverviewSection() {
               </ul>
             )}
 
-            <div
-              className={
-                styles.overviewActions
-              }
-            >
+            <div className={styles.overviewActions}>
               <a
-                href={
-                  brochureNeoEmperatriz
-                }
+                href={brochureNeoEmperatriz}
                 download
                 aria-label="Descargar brochure de Neo Emperatriz"
               >
@@ -283,14 +321,11 @@ export default function NeoEmperatrizOverviewSection() {
           </div>
 
           <form
-            className={
-              styles.overviewForm
-            }
+            className={styles.overviewForm}
             onSubmit={handleSubmit}
+            noValidate
           >
-            <div
-              className={styles.formHeader}
-            >
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -323,11 +358,7 @@ export default function NeoEmperatrizOverviewSection() {
               />
             </label>
 
-            <div
-              className={
-                styles.formTwoColumns
-              }
-            >
+            <div className={styles.formTwoColumns}>
               <label>
                 Celular
 
@@ -359,48 +390,7 @@ export default function NeoEmperatrizOverviewSection() {
                 />
               </label>
             </div>
-
-            <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                <option value="Neo Emperatriz - 2 dormitorios">
-                  Departamento de 2
-                  dormitorios
-                </option>
-
-                <option value="Neo Emperatriz - 3 dormitorios">
-                  Departamento de 3
-                  dormitorios
-                </option>
-
-                <option value="Neo Emperatriz - Entrega inmediata">
-                  Departamento con entrega
-                  inmediata
-                </option>
-
-                <option value="Neo Emperatriz - Inversión">
-                  Comprar para inversión
-                </option>
-
-                <option value="Neo Emperatriz - Asesoría personalizada">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
+            
             <label>
               Mensaje opcional
 
@@ -413,15 +403,13 @@ export default function NeoEmperatrizOverviewSection() {
               />
             </label>
 
-            <label
-              className={styles.checkbox}
-            >
+            <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>
@@ -454,9 +442,7 @@ export default function NeoEmperatrizOverviewSection() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

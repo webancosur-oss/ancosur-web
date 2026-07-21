@@ -26,6 +26,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -38,6 +45,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoBaltoOverviewSection() {
@@ -71,6 +127,14 @@ export default function NeoBaltoOverviewSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -98,30 +162,20 @@ export default function NeoBaltoOverviewSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: PROJECT_NAME,
-      interest,
-
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos Pet-Centric",
+      fuente_prospeccion: "Web",
+      mensaje:
         message ||
-        "Solicitud de información enviada desde la página de Neo Balto.",
-
-      campaign: "neo-balto-web",
-      source: "neo-balto-page",
-      consent,
-
-      origen_ruta:
-        window.location.pathname,
-
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoBaltoOverviewSection",
+        `NeoBaltoOverviewSection - ${PROJECT_NAME}`,
     };
 
     try {
@@ -138,24 +192,34 @@ export default function NeoBaltoOverviewSection() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Balto:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -170,14 +234,8 @@ export default function NeoBaltoOverviewSection() {
         aria-labelledby="neo-balto-overview-title"
       >
         <div className={styles.overviewInner}>
-          <div
-            className={
-              styles.overviewContent
-            }
-          >
-            <span
-              className={styles.eyebrow}
-            >
+          <div className={styles.overviewContent}>
+            <span className={styles.eyebrow}>
               Vive en familia
             </span>
 
@@ -186,74 +244,45 @@ export default function NeoBaltoOverviewSection() {
               de Huancayo
             </h2>
 
-            <p
-              className={
-                styles.overviewDescription
-              }
-            >
-              Neo Balto es un proyecto
-              diseñado para personas que
-              consideran a sus mascotas parte
-              de la familia. Combina
-              departamentos modernos,
-              acabados pet-friendly y espacios
-              pensados para disfrutar una vida
-              más cómoda, segura y práctica en
-              San Antonio, Huancayo.
+            <p className={styles.overviewDescription}>
+              Neo Balto es un proyecto diseñado para
+              personas que consideran a sus mascotas parte
+              de la familia. Combina departamentos modernos,
+              acabados pet-friendly y espacios pensados para
+              disfrutar una vida más cómoda, segura y práctica
+              en San Antonio, Huancayo.
             </p>
 
             {!!facts.length && (
-              <div
-                className={
-                  styles.overviewFacts
-                }
-              >
+              <div className={styles.overviewFacts}>
                 {facts.map((item) => (
                   <div
                     key={`${item.label}-${item.value}`}
-                    className={
-                      styles.overviewFact
-                    }
+                    className={styles.overviewFact}
                   >
-                    <span>
-                      {item.label}
-                    </span>
+                    <span>{item.label}</span>
 
-                    <strong>
-                      {item.value}
-                    </strong>
+                    <strong>{item.value}</strong>
                   </div>
                 ))}
               </div>
             )}
 
             {!!details.length && (
-              <ul
-                className={
-                  styles.detailsList
-                }
-              >
+              <ul className={styles.detailsList}>
                 {details.map((item) => (
                   <li
                     key={`${item.label}-${item.value}`}
                   >
-                    <strong>
-                      {item.label}
-                    </strong>
+                    <strong>{item.label}</strong>
 
-                    <span>
-                      {item.value}
-                    </span>
+                    <span>{item.value}</span>
                   </li>
                 ))}
               </ul>
             )}
 
-            <div
-              className={
-                styles.overviewActions
-              }
-            >
+            <div className={styles.overviewActions}>
               <a
                 href={brochureNeoBalto}
                 download
@@ -281,14 +310,11 @@ export default function NeoBaltoOverviewSection() {
           </div>
 
           <form
-            className={
-              styles.overviewForm
-            }
+            className={styles.overviewForm}
             onSubmit={handleSubmit}
+            noValidate
           >
-            <div
-              className={styles.formHeader}
-            >
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -298,11 +324,9 @@ export default function NeoBaltoOverviewSection() {
               </strong>
 
               <p>
-                Completa tus datos y un asesor
-                se comunicará contigo para
-                brindarte precios,
-                disponibilidad y formas de
-                pago.
+                Completa tus datos y un asesor se comunicará
+                contigo para brindarte precios, disponibilidad
+                y formas de pago.
               </p>
             </div>
 
@@ -321,11 +345,7 @@ export default function NeoBaltoOverviewSection() {
               />
             </label>
 
-            <div
-              className={
-                styles.formTwoColumns
-              }
-            >
+            <div className={styles.formTwoColumns}>
               <label>
                 Celular
 
@@ -359,36 +379,6 @@ export default function NeoBaltoOverviewSection() {
             </div>
 
             <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                <option value="Neo Balto - Tipo Impulso">
-                  Tipo Impulso
-                </option>
-
-                <option value="Neo Balto - Tipo Luz">
-                  Tipo Luz
-                </option>
-
-                <option value="Neo Balto - Asesoría personalizada">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
-            <label>
               Mensaje opcional
 
               <textarea
@@ -400,22 +390,18 @@ export default function NeoBaltoOverviewSection() {
               />
             </label>
 
-            <label
-              className={styles.checkbox}
-            >
+            <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>
-                Acepto ser contactado por
-                ANCOSUR para recibir
-                información comercial sobre
-                Neo Balto.
+                Acepto ser contactado por ANCOSUR para recibir
+                información comercial sobre Neo Balto.
               </span>
             </label>
 
@@ -441,9 +427,7 @@ export default function NeoBaltoOverviewSection() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

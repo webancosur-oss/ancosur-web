@@ -16,6 +16,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -28,6 +35,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown }).error ??
+            ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function LotesLeadSection() {
@@ -61,6 +117,14 @@ export default function LotesLeadSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -88,64 +152,58 @@ export default function LotesLeadSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: PROJECT_NAME,
-      interest,
-
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes: interest || "Lotes",
+      fuente_prospeccion: "Web",
+      mensaje:
         message ||
-        "Solicitud de información enviada desde la página de Lotes.",
-
-      campaign: "lotes-web",
-      source: "pagina-lotes",
-      consent,
-
-      origen_ruta:
-        window.location.pathname,
-
+        `Solicitud de información enviada desde la página de Lotes. Interés: ${interest}.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "LotesLeadSection",
+        "LotesLeadSection - Lotes",
     };
 
     try {
       setIsSending(true);
       setToast(null);
 
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-        }
-      );
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(leadData),
+        cache: "no-store",
+      });
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title: "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de lotes:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -316,8 +374,8 @@ export default function LotesLeadSection() {
               type="checkbox"
               name="consent"
               value="accepted"
-              disabled={isSending}
-              required
+              checked
+              readOnly
             />
 
             <span>

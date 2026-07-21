@@ -59,7 +59,7 @@ export const projects: Project[] = [
     type: "Departamento",
     location: "Av. San Carlos n°1481(Cerca a la Universidad Continental)",
     status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/tarjetas/eterna.webp",
+    image: "/assets/projects/tarjetas/emperatriz.webp",
     href: "/neo-emperatriz",
   },
   {

@@ -65,99 +65,91 @@ export default function ColinasDeMoroLocation() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const form = event.currentTarget;
+  const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  const fullName = String(
+    formData.get("fullName") ?? ""
+  ).trim();
+
+  const phone = String(
+    formData.get("phone") ?? ""
+  ).replace(/\D/g, "");
+
+  const interest = String(
+    formData.get("interest") ?? ""
+  ).trim();
+
+  const leadData = {
+    nombres_completos: fullName,
+    telefono: phone,
+    email: "",
+    proyecto_interes: PROJECT_NAME,
+    categoria_interes: interest,
+    fuente_prospeccion: "Web",
+    mensaje: `Solicitud de información sobre ${PROJECT_NAME}. Metraje de interés: ${interest}.`,
+    origen_ruta: window.location.pathname,
+    origen_componente: `ColinasDeMoroLocation - ${PROJECT_NAME}`,
+  };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
+
+    const result = await response
+      .json()
+      .catch(() => null);
+
+    if (!response.ok || result?.success === false) {
+      const apiMessage =
+        result?.message ||
+        result?.data?.error ||
+        `No se pudo enviar la solicitud. Código ${response.status}.`;
+
+      showToast({
+        variant: "error",
+        title: "No pudimos enviar tus datos",
+        message: String(apiMessage),
+      });
+
       return;
     }
 
-    const formData = new FormData(form);
+    form.reset();
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
-
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
-
-    const interest = String(
-      formData.get("interest") ?? ""
-    ).trim();
-
-    const consent =
-      formData.get("consent") === "accepted";
-
-    const leadData = {
-      fullName,
-      phone,
-      email: "",
-
-      /*
-       * Se registra en:
-       * leads.proyecto_interes
-       */
-      project: PROJECT_NAME,
-
-      /*
-       * Se registra en:
-       * leads.categoria_interes
-       */
-      interest,
-
-      message: `Solicitud de información sobre ${PROJECT_NAME}. Metraje de interés: ${interest}.`,
-
-      campaign: "colinas-de-moro-web",
-
-      source: "ubicacion-colinas-de-moro",
-
-      consent,
-
-      origen_ruta: window.location.pathname,
-
-      origen_componente: "ColinasDeMoroLocation",
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(leadData),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
-      }
-
-      form.reset();
-
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Las Colinas de Moro:",
-        error
-      );
-
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
-  };
+    showToast(SUCCESS_TOAST);
+  } catch {
+    showToast({
+      variant: "error",
+      title: "No pudimos conectar con la API",
+      message:
+        "Revisa tu conexión o intenta nuevamente en unos minutos.",
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>
@@ -371,13 +363,12 @@ export default function ColinasDeMoroLocation() {
                   type="checkbox"
                   name="consent"
                   value="accepted"
-                  disabled={isSending}
-                  required
+                  checked
+                  readOnly
                 />
 
                 <span>
-                  Acepto ser contactado por ANCOSUR
-                  para recibir información comercial
+                  Acepto ser contactado por ANCOSUR para recibir información comercial
                   sobre Las Colinas de Moro.
                 </span>
               </label>

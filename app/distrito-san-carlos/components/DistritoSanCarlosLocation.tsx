@@ -34,6 +34,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -46,6 +53,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function DistritoSanCarlosLocation() {
@@ -79,6 +135,14 @@ export default function DistritoSanCarlosLocation() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -92,61 +156,55 @@ export default function DistritoSanCarlosLocation() {
       formData.get("phone") ?? ""
     ).replace(/\D/g, "");
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email: "",
-      project: PROJECT_NAME,
-      interest:
-        "Información general de Distrito San Carlos",
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes: "Departamentos",
+      fuente_prospeccion: "Web",
+      mensaje:
         "Solicitud de información enviada desde la sección de ubicación de Distrito San Carlos.",
-      campaign: "distrito-san-carlos-web",
-      source:
-        "ubicacion-distrito-san-carlos",
-      consent,
-      origen_ruta:
-        window.location.pathname,
-      origen_componente:
-        "DistritoSanCarlosLocation",
+      origen_ruta: window.location.pathname,
+      origen_componente: `DistritoSanCarlosLocation - ${PROJECT_NAME}`,
     };
 
     try {
       setIsSending(true);
       setToast(null);
 
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-        }
-      );
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(leadData),
+      });
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title: "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Distrito San Carlos:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -164,15 +222,12 @@ export default function DistritoSanCarlosLocation() {
           <span>Ubicación</span>
 
           <h2 id="distrito-san-carlos-location-title">
-            Tu futuro hogar te espera en
-            Distrito San Carlos
+            Tu futuro hogar te espera en Distrito San Carlos
           </h2>
 
           <p>
-            Vive conectado en una ubicación
-            estratégica de Huancayo, cerca
-            del Obelisco, Real Plaza,
-            comercios, servicios y las
+            Vive conectado en una ubicación estratégica de Huancayo,
+            cerca del Obelisco, Real Plaza, comercios, servicios y las
             principales vías de la ciudad.
           </p>
         </div>
@@ -189,21 +244,9 @@ export default function DistritoSanCarlosLocation() {
               />
             </div>
 
-            <div
-              className={
-                styles.locationInfo
-              }
-            >
-              <div
-                className={
-                  styles.locationMain
-                }
-              >
-                <div
-                  className={
-                    styles.locationIcon
-                  }
-                >
+            <div className={styles.locationInfo}>
+              <div className={styles.locationMain}>
+                <div className={styles.locationIcon}>
                   <MapPinIcon
                     size={22}
                     weight="fill"
@@ -234,9 +277,7 @@ export default function DistritoSanCarlosLocation() {
                 href={GOOGLE_MAPS_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={
-                  styles.mapButton
-                }
+                className={styles.mapButton}
               >
                 Abrir en Google Maps
 
@@ -249,16 +290,8 @@ export default function DistritoSanCarlosLocation() {
             </div>
           </div>
 
-          <aside
-            className={
-              styles.contactCard
-            }
-          >
-            <div
-              className={
-                styles.formHeader
-              }
-            >
+          <aside className={styles.contactCard}>
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -268,11 +301,8 @@ export default function DistritoSanCarlosLocation() {
               </h3>
 
               <p>
-                Déjanos tus datos y un
-                asesor te brindará
-                información sobre precios,
-                tipologías, disponibilidad y
-                formas de pago.
+                Déjanos tus datos y un asesor te brindará información
+                sobre precios, tipologías, disponibilidad y formas de pago.
               </p>
             </div>
 
@@ -313,32 +343,24 @@ export default function DistritoSanCarlosLocation() {
                 />
               </label>
 
-              <label
-                className={
-                  styles.checkbox
-                }
-              >
+              <label className={styles.checkbox}>
                 <input
                   type="checkbox"
                   name="consent"
                   value="accepted"
-                  disabled={isSending}
-                  required
+                  checked
+                  readOnly
                 />
 
                 <span>
-                  Acepto ser contactado por
-                  ANCOSUR para recibir
-                  información comercial
-                  sobre Distrito San Carlos.
+                  Acepto ser contactado por ANCOSUR para recibir
+                  información comercial sobre Distrito San Carlos.
                 </span>
               </label>
 
               <button
                 type="submit"
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 disabled={isSending}
                 aria-busy={isSending}
               >
@@ -354,23 +376,17 @@ export default function DistritoSanCarlosLocation() {
               </button>
             </form>
 
-            <div
-              className={styles.divider}
-            >
+            <div className={styles.divider}>
               <span>
                 o comunícate directamente
               </span>
             </div>
 
             <a
-              href={
-                whatsappDistritoSanCarlos
-              }
+              href={whatsappDistritoSanCarlos}
               target="_blank"
               rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
+              className={styles.whatsappButton}
             >
               <WhatsappLogoIcon
                 size={20}
@@ -381,9 +397,7 @@ export default function DistritoSanCarlosLocation() {
               Escribir por WhatsApp
             </a>
 
-            <div
-              className={styles.schedule}
-            >
+            <div className={styles.schedule}>
               <ClockIcon
                 size={19}
                 weight="fill"
@@ -415,9 +429,7 @@ export default function DistritoSanCarlosLocation() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

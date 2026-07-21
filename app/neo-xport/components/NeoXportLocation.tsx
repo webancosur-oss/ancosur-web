@@ -33,6 +33,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -45,6 +52,54 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown }).error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoXportLocation() {
@@ -78,6 +133,14 @@ export default function NeoXportLocation() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -95,25 +158,19 @@ export default function NeoXportLocation() {
       formData.get("interest") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email: "",
-      project: PROJECT_NAME,
-      interest,
-      message:
-        "Solicitud de información enviada desde la sección de ubicación de Neo Xport.",
-      campaign: "neo-xport-web",
-      source: "ubicacion-neo-xport",
-      consent,
-      origen_ruta:
-        window.location.pathname,
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos deportivos",
+      fuente_prospeccion: "Web",
+      mensaje:
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}. Enviada desde la sección de ubicación.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoXportLocation",
+        `NeoXportLocation - ${PROJECT_NAME}`,
     };
 
     try {
@@ -130,24 +187,34 @@ export default function NeoXportLocation() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Xport:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -182,9 +249,7 @@ export default function NeoXportLocation() {
         </div>
 
         <div className={styles.grid}>
-          <article
-            className={styles.mapCard}
-          >
+          <article className={styles.mapCard}>
             <div className={styles.map}>
               <iframe
                 src={GOOGLE_MAPS_EMBED}
@@ -195,21 +260,9 @@ export default function NeoXportLocation() {
               />
             </div>
 
-            <div
-              className={
-                styles.locationInfo
-              }
-            >
-              <div
-                className={
-                  styles.locationMain
-                }
-              >
-                <div
-                  className={
-                    styles.locationIcon
-                  }
-                >
+            <div className={styles.locationInfo}>
+              <div className={styles.locationMain}>
+                <div className={styles.locationIcon}>
                   <MapPinIcon
                     size={22}
                     weight="fill"
@@ -240,9 +293,7 @@ export default function NeoXportLocation() {
                 href={GOOGLE_MAPS_LINK}
                 target="_blank"
                 rel="noreferrer"
-                className={
-                  styles.mapButton
-                }
+                className={styles.mapButton}
               >
                 Abrir en Google Maps
 
@@ -256,16 +307,10 @@ export default function NeoXportLocation() {
           </article>
 
           <aside
-            className={
-              styles.contactCard
-            }
+            className={styles.contactCard}
             id="formulario-neo-xport"
           >
-            <div
-              className={
-                styles.formHeader
-              }
-            >
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -284,6 +329,7 @@ export default function NeoXportLocation() {
             <form
               className={styles.form}
               onSubmit={handleSubmit}
+              noValidate
             >
               <label>
                 Nombre completo
@@ -318,59 +364,13 @@ export default function NeoXportLocation() {
                 />
               </label>
 
-              <label>
-                Estoy interesado en
-
-                <select
-                  name="interest"
-                  defaultValue=""
-                  disabled={isSending}
-                  required
-                >
-                  <option
-                    value=""
-                    disabled
-                  >
-                    Selecciona una opción
-                  </option>
-
-                  <option value="neo-xport-2-dormitorios">
-                    Departamento de 2
-                    dormitorios
-                  </option>
-
-                  <option value="neo-xport-3-dormitorios">
-                    Departamento de 3
-                    dormitorios
-                  </option>
-
-                  <option value="neo-xport-inversion">
-                    Comprar para inversión
-                  </option>
-
-                  <option value="neo-xport-financiamiento">
-                    Conocer opciones de
-                    financiamiento
-                  </option>
-
-                  <option value="neo-xport-asesoria">
-                    Necesito asesoría
-                    personalizada
-                  </option>
-                </select>
-              </label>
-
-              <label
-                className={
-                  styles.checkbox
-                }
-              >
+              <label className={styles.checkbox}>
                 <input
                   type="checkbox"
                   name="consent"
                   value="accepted"
-                  disabled={isSending}
-                  required
+                  checked
+                  readOnly
                 />
 
                 <span>
@@ -383,9 +383,7 @@ export default function NeoXportLocation() {
 
               <button
                 type="submit"
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 disabled={isSending}
                 aria-busy={isSending}
               >
@@ -401,9 +399,7 @@ export default function NeoXportLocation() {
               </button>
             </form>
 
-            <div
-              className={styles.divider}
-            >
+            <div className={styles.divider}>
               <span>
                 o comunícate directamente
               </span>
@@ -413,9 +409,7 @@ export default function NeoXportLocation() {
               href={whatsappNeoXport}
               target="_blank"
               rel="noreferrer"
-              className={
-                styles.whatsappButton
-              }
+              className={styles.whatsappButton}
             >
               <WhatsappLogoIcon
                 size={20}
@@ -426,9 +420,7 @@ export default function NeoXportLocation() {
               Escribir por WhatsApp
             </a>
 
-            <div
-              className={styles.schedule}
-            >
+            <div className={styles.schedule}>
               <ClockIcon
                 size={19}
                 weight="fill"
@@ -453,9 +445,7 @@ export default function NeoXportLocation() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

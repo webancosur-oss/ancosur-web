@@ -5,10 +5,7 @@ import {
   DownloadSimpleIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import {
-  useCallback,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import type { FormEvent } from "react";
 
 import FeedbackToast, {
@@ -23,8 +20,17 @@ import {
 
 import styles from "../NeoRiveraPage.module.css";
 
+const PROJECT_NAME = "Neo Rivera";
+
 type ToastState = FeedbackToastData & {
   id: number;
+};
+
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
 };
 
 const SUCCESS_TOAST: FeedbackToastData = {
@@ -41,9 +47,56 @@ const ERROR_TOAST: FeedbackToastData = {
     "Verifica tu conexión e inténtalo nuevamente.",
 };
 
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown }).error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
+};
+
 export default function NeoRiveraOverviewSection() {
-  const [isSending, setIsSending] =
-    useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const [toast, setToast] =
     useState<ToastState | null>(null);
@@ -72,6 +125,14 @@ export default function NeoRiveraOverviewSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -99,59 +160,60 @@ export default function NeoRiveraOverviewSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
-    const payload = {
-      fullName,
-      phone,
+    const leadData = {
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: "Neo Rivera",
-      interest,
-      message:
-        "Solicitud de información enviada desde la sección de ubicación de Neo Rivera.",
-      campaign: "neo-rivera-web",
-      source: "neo-rivera-page",
-      consent,
-      origen_ruta:
-        window.location.pathname,
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos Wellness",
+      fuente_prospeccion: "Web",
+      mensaje:
+        message ||
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoRiveraOverviewSection",
+        `NeoRiveraOverviewSection - ${PROJECT_NAME}`,
     };
 
     try {
       setIsSending(true);
       setToast(null);
 
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(leadData),
+        cache: "no-store",
+      });
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Rivera:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -165,17 +227,9 @@ export default function NeoRiveraOverviewSection() {
         id="informacion-neo-rivera"
         aria-labelledby="neo-rivera-overview-title"
       >
-        <div
-          className={styles.overviewInner}
-        >
-          <div
-            className={
-              styles.overviewContent
-            }
-          >
-            <span
-              className={styles.eyebrow}
-            >
+        <div className={styles.overviewInner}>
+          <div className={styles.overviewContent}>
+            <span className={styles.eyebrow}>
               Vive en bienestar
             </span>
 
@@ -184,11 +238,7 @@ export default function NeoRiveraOverviewSection() {
               Huancayo
             </h2>
 
-            <p
-              className={
-                styles.overviewDescription
-              }
-            >
+            <p className={styles.overviewDescription}>
               Neo Rivera combina diseño
               moderno, baja densidad
               residencial, iluminación natural
@@ -198,11 +248,7 @@ export default function NeoRiveraOverviewSection() {
             </p>
 
             {!!facts.length && (
-              <div
-                className={
-                  styles.overviewFacts
-                }
-              >
+              <div className={styles.overviewFacts}>
                 {facts.map((item) => (
                   <div
                     key={`${item.label}-${item.value}`}
@@ -223,11 +269,7 @@ export default function NeoRiveraOverviewSection() {
             )}
 
             {!!details.length && (
-              <ul
-                className={
-                  styles.detailsList
-                }
-              >
+              <ul className={styles.detailsList}>
                 {details.map((item) => (
                   <li
                     key={`${item.label}-${item.value}`}
@@ -244,11 +286,7 @@ export default function NeoRiveraOverviewSection() {
               </ul>
             )}
 
-            <div
-              className={
-                styles.overviewActions
-              }
-            >
+            <div className={styles.overviewActions}>
               <a
                 href={brochureNeoRivera}
                 download
@@ -276,14 +314,11 @@ export default function NeoRiveraOverviewSection() {
           </div>
 
           <form
-            className={
-              styles.overviewForm
-            }
+            className={styles.overviewForm}
             onSubmit={handleSubmit}
+            noValidate
           >
-            <div
-              className={styles.formHeader}
-            >
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -313,11 +348,7 @@ export default function NeoRiveraOverviewSection() {
               />
             </label>
 
-            <div
-              className={
-                styles.formTwoColumns
-              }
-            >
+            <div className={styles.formTwoColumns}>
               <label>
                 Celular
 
@@ -351,36 +382,6 @@ export default function NeoRiveraOverviewSection() {
             </div>
 
             <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                <option value="Neo Rivera - Tipo Luz">
-                  Tipo Luz
-                </option>
-
-                <option value="Neo Rivera - Tipo Equilibrio">
-                  Tipo Equilibrio
-                </option>
-
-                <option value="Neo Rivera - Asesoría personalizada">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
-            <label>
               Mensaje opcional
 
               <textarea
@@ -392,15 +393,13 @@ export default function NeoRiveraOverviewSection() {
               />
             </label>
 
-            <label
-              className={styles.checkbox}
-            >
+            <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>
@@ -433,9 +432,7 @@ export default function NeoRiveraOverviewSection() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

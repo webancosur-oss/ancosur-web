@@ -19,6 +19,8 @@ import FeedbackToast, {
 import { whatsappNeoRivera } from "../data";
 import styles from "./NeoRiveraLocation.module.css";
 
+const PROJECT_NAME = "Neo Rivera";
+
 const GOOGLE_MAPS_QUERY =
   "Jirón Las Dalias, La Ribera, Huancayo, Junín, Perú";
 
@@ -30,27 +32,77 @@ const GOOGLE_MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${enco
   GOOGLE_MAPS_QUERY
 )}`;
 
-type ApiResponse = {
-  message?: string;
-  error?: string;
+type ToastState = FeedbackToastData & {
+  id: number;
 };
 
-const getRequestErrorMessage = (
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
+const SUCCESS_TOAST: FeedbackToastData = {
+  variant: "success",
+  title: "¡Datos enviados correctamente!",
+  message:
+    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+};
+
+const ERROR_TOAST: FeedbackToastData = {
+  variant: "error",
+  title: "No pudimos enviar tus datos",
+  message:
+    "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
   status: number
 ) => {
-  if (status === 400 || status === 422) {
-    return "Revisa los datos ingresados e inténtalo nuevamente.";
-  }
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown }).error ?? ""
+        )
+      : "";
 
-  if (status === 409) {
-    return "Ya recibimos una solicitud con estos datos. Un asesor se comunicará contigo.";
-  }
-
-  if (status >= 500) {
-    return "Nuestro servicio no está disponible en este momento. Inténtalo nuevamente en unos minutos.";
-  }
-
-  return "No pudimos enviar tu solicitud. Inténtalo nuevamente.";
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoRiveraLocation() {
@@ -58,22 +110,19 @@ export default function NeoRiveraLocation() {
     useState(false);
 
   const [toast, setToast] =
-    useState<FeedbackToastData | null>(
-      null
-    );
+    useState<ToastState | null>(null);
 
   const closeToast = useCallback(() => {
     setToast(null);
   }, []);
 
   const showToast = (
-    data: FeedbackToastData
+    toastData: FeedbackToastData
   ) => {
-    setToast(null);
-
-    window.setTimeout(() => {
-      setToast(data);
-    }, 10);
+    setToast({
+      ...toastData,
+      id: Date.now(),
+    });
   };
 
   const handleSubmit = async (
@@ -84,6 +133,20 @@ export default function NeoRiveraLocation() {
     if (isSending) return;
 
     const form = event.currentTarget;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
+      return;
+    }
+
     const formData = new FormData(form);
 
     const fullName = String(
@@ -94,13 +157,9 @@ export default function NeoRiveraLocation() {
       formData.get("phone") ?? ""
     ).replace(/\D/g, "");
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     if (fullName.length < 3) {
       showToast({
-        variant: "warning",
+        variant: "error",
         title: "Revisa tu nombre",
         message:
           "Ingresa tu nombre completo para continuar.",
@@ -111,7 +170,7 @@ export default function NeoRiveraLocation() {
 
     if (!/^9\d{8}$/.test(phone)) {
       showToast({
-        variant: "warning",
+        variant: "error",
         title: "Celular incorrecto",
         message:
           "Ingresa un celular peruano de 9 dígitos que empiece con 9.",
@@ -120,33 +179,18 @@ export default function NeoRiveraLocation() {
       return;
     }
 
-    if (!consent) {
-      showToast({
-        variant: "warning",
-        title: "Autorización necesaria",
-        message:
-          "Debes aceptar la autorización de contacto para enviar tu solicitud.",
-      });
-
-      return;
-    }
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email: "",
-      project: "Neo Rivera",
-      interest:
-        "Información general de Neo Rivera",
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes: "Departamentos Wellness",
+      fuente_prospeccion: "Web",
+      mensaje:
         "Solicitud de información enviada desde la sección de ubicación de Neo Rivera.",
-      campaign: "neo-rivera-web",
-      source: "ubicacion-neo-rivera",
-      consent: true,
-      origen_ruta:
-        window.location.pathname,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoRiveraLocation",
+        `NeoRiveraLocation - ${PROJECT_NAME}`,
     };
 
     try {
@@ -163,57 +207,35 @@ export default function NeoRiveraLocation() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
       const result =
-        (await response
-          .json()
-          .catch(() => ({}))) as ApiResponse;
+        await readApiResponse(response);
 
-      if (!response.ok) {
-        console.error(
-          "Error de la API:",
-          response.status,
-          result
-        );
-
-        throw new Error(
-          getRequestErrorMessage(
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
             response.status
-          )
-        );
-      }
+          ),
+        });
 
-      console.info(
-        "Lead registrado:",
-        result
-      );
+        return;
+      }
 
       form.reset();
 
-      showToast({
-        variant: "success",
-        title:
-          "¡Datos enviados correctamente!",
-        message:
-          "Recibimos tus datos. Un asesor de ANCOSUR se comunicará contigo pronto.",
-      });
-    } catch (error) {
-      console.error(
-        "Error enviando solicitud de Neo Rivera:",
-        error
-      );
-
-      showToast({
-        variant: "error",
-        title:
-          "No pudimos enviar tus datos",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Verifica tu conexión e inténtalo nuevamente.",
-      });
+      showToast(SUCCESS_TOAST);
+    } catch {
+      showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
     }
@@ -254,21 +276,9 @@ export default function NeoRiveraLocation() {
               />
             </div>
 
-            <div
-              className={
-                styles.locationInfo
-              }
-            >
-              <div
-                className={
-                  styles.locationMain
-                }
-              >
-                <div
-                  className={
-                    styles.locationIcon
-                  }
-                >
+            <div className={styles.locationInfo}>
+              <div className={styles.locationMain}>
+                <div className={styles.locationIcon}>
                   <MapPinIcon
                     size={22}
                     weight="fill"
@@ -297,9 +307,7 @@ export default function NeoRiveraLocation() {
                 href={GOOGLE_MAPS_LINK}
                 target="_blank"
                 rel="noreferrer"
-                className={
-                  styles.mapButton
-                }
+                className={styles.mapButton}
               >
                 Abrir en Google Maps
 
@@ -312,14 +320,8 @@ export default function NeoRiveraLocation() {
             </div>
           </div>
 
-          <aside
-            className={
-              styles.contactCard
-            }
-          >
-            <div
-              className={styles.formHeader}
-            >
+          <aside className={styles.contactCard}>
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -366,23 +368,19 @@ export default function NeoRiveraLocation() {
                   pattern="9[0-9]{8}"
                   minLength={9}
                   maxLength={9}
-                  title="Ingresa un celular peruano de 9 dígitos."
+                  title="Ingresa un celular peruano de 9 dígitos que empiece con 9."
                   disabled={isSending}
                   required
                 />
               </label>
 
-              <label
-                className={
-                  styles.checkbox
-                }
-              >
+              <label className={styles.checkbox}>
                 <input
                   type="checkbox"
                   name="consent"
                   value="accepted"
-                  disabled={isSending}
-                  required
+                  checked
+                  readOnly
                 />
 
                 <span>
@@ -395,9 +393,7 @@ export default function NeoRiveraLocation() {
 
               <button
                 type="submit"
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 disabled={isSending}
                 aria-busy={isSending}
               >
@@ -413,9 +409,7 @@ export default function NeoRiveraLocation() {
               </button>
             </form>
 
-            <div
-              className={styles.divider}
-            >
+            <div className={styles.divider}>
               <span>
                 o comunícate directamente
               </span>
@@ -425,9 +419,7 @@ export default function NeoRiveraLocation() {
               href={whatsappNeoRivera}
               target="_blank"
               rel="noreferrer"
-              className={
-                styles.whatsappButton
-              }
+              className={styles.whatsappButton}
             >
               <WhatsappLogoIcon
                 size={20}
@@ -438,9 +430,7 @@ export default function NeoRiveraLocation() {
               Escribir por WhatsApp
             </a>
 
-            <div
-              className={styles.schedule}
-            >
+            <div className={styles.schedule}>
               <ClockIcon
                 size={19}
                 weight="fill"
@@ -463,10 +453,9 @@ export default function NeoRiveraLocation() {
       </section>
 
       <FeedbackToast
+        key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

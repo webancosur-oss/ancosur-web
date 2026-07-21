@@ -34,6 +34,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -46,6 +53,55 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function NeoBaltoLocation() {
@@ -79,6 +135,14 @@ export default function NeoBaltoLocation() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -92,26 +156,19 @@ export default function NeoBaltoLocation() {
       formData.get("phone") ?? ""
     ).replace(/\D/g, "");
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email: "",
-      project: PROJECT_NAME,
-      interest:
-        "Información general de Neo Balto",
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        "Departamentos Pet-Centric",
+      fuente_prospeccion: "Web",
+      mensaje:
         "Solicitud de información enviada desde la sección de ubicación de Neo Balto.",
-      campaign: "neo-balto-web",
-      source: "ubicacion-neo-balto",
-      consent,
-      origen_ruta:
-        window.location.pathname,
+      origen_ruta: window.location.pathname,
       origen_componente:
-        "NeoBaltoLocation",
+        `NeoBaltoLocation - ${PROJECT_NAME}`,
     };
 
     try {
@@ -128,24 +185,34 @@ export default function NeoBaltoLocation() {
             Accept: "application/json",
           },
           body: JSON.stringify(leadData),
+          cache: "no-store",
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Neo Balto:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -189,19 +256,9 @@ export default function NeoBaltoLocation() {
               />
             </div>
 
-            <div
-              className={styles.locationInfo}
-            >
-              <div
-                className={
-                  styles.locationMain
-                }
-              >
-                <div
-                  className={
-                    styles.locationIcon
-                  }
-                >
+            <div className={styles.locationInfo}>
+              <div className={styles.locationMain}>
+                <div className={styles.locationIcon}>
                   <MapPinIcon
                     size={22}
                     weight="fill"
@@ -232,9 +289,7 @@ export default function NeoBaltoLocation() {
                 href={GOOGLE_MAPS_LINK}
                 target="_blank"
                 rel="noreferrer"
-                className={
-                  styles.mapButton
-                }
+                className={styles.mapButton}
               >
                 Abrir en Google Maps
 
@@ -247,12 +302,8 @@ export default function NeoBaltoLocation() {
             </div>
           </div>
 
-          <aside
-            className={styles.contactCard}
-          >
-            <div
-              className={styles.formHeader}
-            >
+          <aside className={styles.contactCard}>
+            <div className={styles.formHeader}>
               <span>
                 Solicita información
               </span>
@@ -271,6 +322,7 @@ export default function NeoBaltoLocation() {
             <form
               className={styles.form}
               onSubmit={handleSubmit}
+              noValidate
             >
               <label>
                 Nombre completo
@@ -305,15 +357,13 @@ export default function NeoBaltoLocation() {
                 />
               </label>
 
-              <label
-                className={styles.checkbox}
-              >
+              <label className={styles.checkbox}>
                 <input
                   type="checkbox"
                   name="consent"
                   value="accepted"
-                  disabled={isSending}
-                  required
+                  checked
+                  readOnly
                 />
 
                 <span>
@@ -326,9 +376,7 @@ export default function NeoBaltoLocation() {
 
               <button
                 type="submit"
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 disabled={isSending}
                 aria-busy={isSending}
               >
@@ -344,9 +392,7 @@ export default function NeoBaltoLocation() {
               </button>
             </form>
 
-            <div
-              className={styles.divider}
-            >
+            <div className={styles.divider}>
               <span>
                 o comunícate directamente
               </span>
@@ -356,9 +402,7 @@ export default function NeoBaltoLocation() {
               href={whatsappNeoBalto}
               target="_blank"
               rel="noreferrer"
-              className={
-                styles.whatsappButton
-              }
+              className={styles.whatsappButton}
             >
               <WhatsappLogoIcon
                 size={20}
@@ -369,9 +413,7 @@ export default function NeoBaltoLocation() {
               Escribir por WhatsApp
             </a>
 
-            <div
-              className={styles.schedule}
-            >
+            <div className={styles.schedule}>
               <ClockIcon
                 size={19}
                 weight="fill"
@@ -403,9 +445,7 @@ export default function NeoBaltoLocation() {
       <FeedbackToast
         key={toast?.id}
         open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
-        }
+        variant={toast?.variant ?? "info"}
         title={toast?.title ?? ""}
         message={toast?.message ?? ""}
         onClose={closeToast}

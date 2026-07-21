@@ -60,112 +60,101 @@ export default function ColinasDeMoroOverviewSection() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const form = event.currentTarget;
+  const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  const fullName = String(
+    formData.get("fullName") ?? ""
+  ).trim();
+
+  const phone = String(
+    formData.get("phone") ?? ""
+  ).replace(/\D/g, "");
+
+  const email = String(
+    formData.get("email") ?? ""
+  )
+    .trim()
+    .toLowerCase();
+
+  const message = String(
+    formData.get("message") ?? ""
+  ).trim();
+
+  const interest = "Lotes";
+
+  const leadData = {
+    nombres_completos: fullName,
+    telefono: phone,
+    email,
+    proyecto_interes: PROJECT_NAME,
+    categoria_interes: interest,
+    fuente_prospeccion: "Web",
+    mensaje:
+      message ||
+      `Solicitud de información sobre ${PROJECT_NAME}.`,
+    origen_ruta: window.location.pathname,
+    origen_componente: `ColinasDeMoroOverviewSection - ${PROJECT_NAME}`,
+  };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
+
+    const result = await response
+      .json()
+      .catch(() => null);
+
+    if (!response.ok || result?.success === false) {
+      const apiMessage =
+        result?.message ||
+        result?.data?.error ||
+        `No se pudo enviar la solicitud. Código ${response.status}.`;
+
+      showToast({
+        variant: "error",
+        title: "No pudimos enviar tus datos",
+        message: String(apiMessage),
+      });
+
       return;
     }
 
-    const formData = new FormData(form);
+    form.reset();
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
-
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
-
-    const email = String(
-      formData.get("email") ?? ""
-    )
-      .trim()
-      .toLowerCase();
-
-    const interest = String(
-      formData.get("interest") ?? ""
-    ).trim();
-
-    const message = String(
-      formData.get("message") ?? ""
-    ).trim();
-
-    const consent =
-      formData.get("consent") === "accepted";
-
-    const leadData = {
-      fullName,
-      phone,
-      email,
-
-      /*
-       * Se registra en:
-       * leads.proyecto_interes
-       */
-      project: PROJECT_NAME,
-
-      /*
-       * Se registra en:
-       * leads.categoria_interes
-       */
-      interest,
-
+    showToast(SUCCESS_TOAST);
+  } catch {
+    showToast({
+      variant: "error",
+      title: "No pudimos conectar con la API",
       message:
-        message ||
-        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
-
-      campaign: "colinas-de-moro-web",
-
-      source: "colinas-de-moro-page",
-
-      consent,
-
-      origen_ruta: window.location.pathname,
-
-      origen_componente:
-        "ColinasDeMoroOverviewSection",
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(leadData),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
-      }
-
-      form.reset();
-
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Las Colinas de Moro:",
-        error
-      );
-
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
-  };
+        "Revisa tu conexión o intenta nuevamente en unos minutos.",
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>
@@ -310,37 +299,6 @@ export default function ColinasDeMoroOverviewSection() {
             </div>
 
             <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option value="" disabled>
-                  Selecciona una opción
-                </option>
-
-                <option value="Lote de 90 m²">
-                  Lote de 90 m²
-                </option>
-
-                <option value="Lote de 131 m²">
-                  Lote de 131 m²
-                </option>
-
-                <option value="Compra para inversión">
-                  Comprar para inversión
-                </option>
-
-                <option value="Asesoría personalizada">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
-            <label>
               Mensaje opcional
 
               <textarea
@@ -352,21 +310,20 @@ export default function ColinasDeMoroOverviewSection() {
               />
             </label>
 
-            <label className={styles.checkbox}>
-              <input
-                type="checkbox"
-                name="consent"
-                value="accepted"
-                disabled={isSending}
-                required
-              />
+           <label className={styles.checkbox}>
+            <input
+              type="checkbox"
+              name="consent"
+              value="accepted"
+              checked
+              readOnly
+            />
 
-              <span>
-                Acepto ser contactado por ANCOSUR para
-                recibir información comercial sobre
-                Las Colinas de Moro.
-              </span>
-            </label>
+            <span>
+              Acepto ser contactado por ANCOSUR para recibir información comercial
+              sobre Las Colinas de Moro.
+            </span>
+          </label>
 
             <button
               type="submit"

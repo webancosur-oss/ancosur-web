@@ -64,130 +64,121 @@ export default function CaminoRealOverviewSection() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const form = event.currentTarget;
+  const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  const fullName = String(
+    formData.get("fullName") ?? ""
+  ).trim();
+
+  const phone = String(
+    formData.get("phone") ?? ""
+  ).replace(/\D/g, "");
+
+  const email = String(
+    formData.get("email") ?? ""
+  )
+    .trim()
+    .toLowerCase();
+
+  const selectedInterestValue = String(
+    formData.get("interest") ?? ""
+  ).trim();
+
+  const selectedInterest =
+    projectFormData.interestOptions.find(
+      (option) =>
+        option.value === selectedInterestValue
+    );
+
+  const interest =
+    selectedInterest?.label ||
+    selectedInterestValue;
+
+  const message = String(
+    formData.get("message") ?? ""
+  ).trim();
+
+  const leadData = {
+    nombres_completos: fullName,
+
+    telefono: phone,
+
+    email,
+
+    categoria_interes: interest,
+
+    fuente_prospeccion: "Web",
+
+    mensaje:
+      message ||
+      `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
+
+    origen_ruta: window.location.pathname,
+
+    origen_componente: `CaminoRealOverviewSection - ${PROJECT_NAME}`,
+  };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
+
+    const result = await response
+      .json()
+      .catch(() => null);
+
+    if (!response.ok || result?.success === false) {
+      console.error(
+        "Error API Camino Real:",
+        result
+      );
+
+      showToast({
+        variant: "error",
+        title: "No pudimos enviar tus datos",
+        message:
+          result?.message ||
+          `Error HTTP ${response.status}`,
+      });
+
       return;
     }
 
-    const formData = new FormData(form);
+    form.reset();
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
+    showToast(SUCCESS_TOAST);
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Camino Real:",
+      error
+    );
 
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
-
-    const email = String(
-      formData.get("email") ?? ""
-    )
-      .trim()
-      .toLowerCase();
-
-    const selectedInterestValue = String(
-      formData.get("interest") ?? ""
-    ).trim();
-
-    const selectedInterest =
-      projectFormData.interestOptions.find(
-        (option) =>
-          option.value === selectedInterestValue
-      );
-
-    const interest =
-      selectedInterest?.label ||
-      selectedInterestValue;
-
-    const message = String(
-      formData.get("message") ?? ""
-    ).trim();
-
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
-    const leadData = {
-      fullName,
-      phone,
-      email,
-
-      /*
-       * Se registra en:
-       * leads.proyecto_interes
-       */
-      project: PROJECT_NAME,
-
-      /*
-       * Se registra en:
-       * leads.categoria_interes
-       */
-      interest,
-
-      message:
-        message ||
-        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
-
-      campaign: "camino-real-web",
-
-      source:
-        projectFormData.source ||
-        "camino-real-page",
-
-      consent,
-
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        "CaminoRealOverviewSection",
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
-      }
-
-      form.reset();
-
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Camino Real:",
-        error
-      );
-
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
-  };
+    showToast(ERROR_TOAST);
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>
@@ -351,35 +342,6 @@ export default function CaminoRealOverviewSection() {
             </div>
 
             <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                {projectFormData.interestOptions.map(
-                  (option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  )
-                )}
-              </select>
-            </label>
-
-            <label>
               Mensaje opcional
 
               <textarea
@@ -391,20 +353,17 @@ export default function CaminoRealOverviewSection() {
               />
             </label>
 
-            <label
-              className={styles.checkbox}
-            >
+           <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>
-                Acepto ser contactado por
-                ANCOSUR para recibir información
+                Acepto ser contactado por ANCOSUR para recibir información
                 comercial sobre Camino Real.
               </span>
             </label>

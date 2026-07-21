@@ -62,7 +62,7 @@ const INITIAL_FORM: FormDataState = {
   project: "",
   visitTime: "",
   message: "",
-  consent: false,
+  consent: true,
   website: "",
 };
 
@@ -226,11 +226,6 @@ export default function CyberHouseLeadForm() {
         "Selecciona un proyecto.";
     }
 
-    if (!formData.consent) {
-      newErrors.consent =
-        "Debes aceptar ser contactado.";
-    }
-
     setErrors(newErrors);
 
     const errorFields =
@@ -278,137 +273,136 @@ export default function CyberHouseLeadForm() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) {
-      return;
-    }
+  if (isSending) {
+    return;
+  }
 
-    const form =
-      event.currentTarget;
+  const form = event.currentTarget;
 
-    if (formData.website) {
-      return;
-    }
+  if (formData.website) {
+    return;
+  }
 
-    if (!validateForm(form)) {
-      return;
-    }
+  if (!validateForm(form)) {
+    return;
+  }
 
-    const fullName =
-      formData.fullName.trim();
+  const fullName = formData.fullName.trim();
 
-    const phone =
-      formData.phone.replace(
-        /\D/g,
-        ""
-      );
+  const phone = formData.phone.replace(
+    /\D/g,
+    ""
+  );
 
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
+  const email = formData.email
+    .trim()
+    .toLowerCase();
 
-    const project =
-      formData.project.trim();
+  const project = formData.project.trim();
 
-    const visitTime =
-      formData.visitTime.trim();
+  const visitTime =
+    formData.visitTime.trim();
 
-    const additionalMessage =
-      formData.message.trim();
+  const additionalMessage =
+    formData.message.trim();
 
-    const leadPayload = {
-      campaign:
-        "cyber-house-18-julio-2026",
+  const leadPayload = {
+    nombres_completos: fullName,
 
-      campania_nombre:
-        "Cyber House ANCOSUR - 18 de julio de 2026",
+    telefono: phone,
 
-      fullName,
-      phone,
-      email,
-      project,
+    email,
 
-      proyecto_interes:
-        project,
+    proyecto_interes: project,
 
-      categoria_interes:
-        project,
+    categoria_interes:
+      "Cyber House",
 
-      source: "Web",
+    fuente_prospeccion: "Web",
 
-      fuente_prospeccion:
-        "Web",
+    mensaje:
+      `Registro para Cyber House ANCOSUR. Proyecto de interés: ${project}. Horario estimado de visita: ${
+        visitTime || "Por coordinar"
+      }.${
+        additionalMessage
+          ? ` Mensaje: ${additionalMessage}`
+          : ""
+      }`,
 
-      message:
-        `Registro para Cyber House ANCOSUR. Proyecto de interés: ${project}. Horario estimado de visita: ${
-          visitTime ||
-          "Por coordinar"
-        }.${
-          additionalMessage
-            ? ` Mensaje: ${additionalMessage}`
-            : ""
-        }`,
+    origen_ruta:
+      window.location.pathname,
 
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        "Formulario Cyber House",
-    };
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-              Accept:
-                "application/json",
-            },
-            body: JSON.stringify(
-              leadPayload
-            ),
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      if (!response.ok) {
-        showToast({
-          variant: "error",
-          title:
-            "No pudimos registrar tu asistencia",
-          message:
-            result.message ||
-            "Verifica los datos e inténtalo nuevamente.",
-        });
-
-        return;
-      }
-
-      setFormData(INITIAL_FORM);
-      setErrors({});
-
-      showToast(SUCCESS_TOAST);
-    } catch {
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
+    origen_componente:
+      "Formulario Cyber House",
   };
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response = await fetch(
+      "/api/leads",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+          Accept:
+            "application/json",
+        },
+        body: JSON.stringify(
+          leadPayload
+        ),
+      }
+    );
+
+    const result =
+      await readApiResponse(response);
+
+    if (
+      !response.ok ||
+      result?.success === false
+    ) {
+      const resultData =
+        result?.data as
+          | { error?: string }
+          | undefined;
+
+      const apiMessage =
+        result?.message ||
+        resultData?.error ||
+        `No se pudo enviar la solicitud. Código ${response.status}.`;
+
+      showToast({
+        variant: "error",
+        title:
+          "No pudimos registrar tu asistencia",
+        message: String(apiMessage),
+      });
+
+      return;
+    }
+
+    setFormData(INITIAL_FORM);
+    setErrors({});
+
+    showToast(SUCCESS_TOAST);
+  } catch {
+    showToast({
+      variant: "error",
+      title:
+        "No pudimos conectar con la API",
+      message:
+        "Revisa tu conexión o intenta nuevamente en unos minutos.",
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>
@@ -849,36 +843,29 @@ export default function CyberHouseLeadForm() {
               </div>
             </div>
 
-            <label
-              className={
-                styles.checkbox
-              }
-            >
+            <label className={styles.checkbox}>
               <input
                 type="checkbox"
                 name="consent"
-                checked={
-                  formData.consent
-                }
-                onChange={(event) =>
-                  updateField(
-                    "consent",
-                    event.target.checked
-                  )
-                }
-                disabled={
-                  isSending
-                }
+                checked
+                readOnly
               />
 
               <span>
-                Acepto ser contactado
-                por ANCOSUR para
-                recibir información
-                sobre el Cyber House y
-                sus proyectos.
+                Acepto ser contactado por ANCOSUR para recibir información sobre el
+                Cyber House y sus proyectos.
               </span>
             </label>
+
+          {errors.consent && (
+            <small
+              className={
+                styles.error
+              }
+            >
+              {errors.consent}
+            </small>
+          )}
 
             {errors.consent && (
               <small

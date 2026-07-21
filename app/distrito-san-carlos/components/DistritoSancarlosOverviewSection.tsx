@@ -26,6 +26,13 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
@@ -38,6 +45,57 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (
+    contentType?.includes("application/json")
+  ) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function DistritoSanCarlosOverviewSection() {
@@ -71,6 +129,14 @@ export default function DistritoSanCarlosOverviewSection() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message:
+          "Completa correctamente los campos requeridos.",
+      });
+
       return;
     }
 
@@ -98,26 +164,21 @@ export default function DistritoSanCarlosOverviewSection() {
       formData.get("message") ?? ""
     ).trim();
 
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
     const leadData = {
-      fullName,
-      phone,
+      nombres_completos: fullName,
+      telefono: phone,
       email,
-      project: PROJECT_NAME,
-      interest,
-      message:
+      proyecto_interes: PROJECT_NAME,
+      categoria_interes:
+        interest || "Departamentos",
+      fuente_prospeccion: "Web",
+      mensaje:
         message ||
-        "Solicitud de información enviada desde la página de Distrito San Carlos.",
-      campaign: "distrito-san-carlos-web",
-      source: "distrito-san-carlos-page",
-      consent,
+        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
       origen_ruta:
         window.location.pathname,
       origen_componente:
-        "DistritoSanCarlosOverviewSection",
+        `DistritoSanCarlosOverviewSection - ${PROJECT_NAME}`,
     };
 
     try {
@@ -137,21 +198,30 @@ export default function DistritoSanCarlosOverviewSection() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       form.reset();
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Distrito San Carlos:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -346,48 +416,6 @@ export default function DistritoSanCarlosOverviewSection() {
             </div>
 
             <label>
-              Estoy interesado en
-
-              <select
-                name="interest"
-                defaultValue=""
-                disabled={isSending}
-                required
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecciona una opción
-                </option>
-
-                <option value="Distrito San Carlos - Tipo Impulso">
-                  Tipo Impulso
-                </option>
-
-                <option value="Distrito San Carlos - Tipo Equilibrio">
-                  Tipo Equilibrio
-                </option>
-
-                <option value="Distrito San Carlos - Tipo Espacio">
-                  Tipo Espacio
-                </option>
-
-                <option value="Distrito San Carlos - Triplex">
-                  Triplex
-                </option>
-
-                <option value="Distrito San Carlos - Penthouse">
-                  Penthouse
-                </option>
-
-                <option value="Distrito San Carlos - Asesoría personalizada">
-                  Asesoría personalizada
-                </option>
-              </select>
-            </label>
-
-            <label>
               Mensaje opcional
 
               <textarea
@@ -406,8 +434,8 @@ export default function DistritoSanCarlosOverviewSection() {
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                disabled={isSending}
-                required
+                checked
+                readOnly
               />
 
               <span>

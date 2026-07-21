@@ -37,12 +37,19 @@ type ProjectOption = {
   label: string;
 };
 
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  data?: unknown;
+};
+
 const initialFormData: LeadFormData = {
   fullName: "",
   phone: "",
   email: "",
   project: "",
-  consent: false,
+  consent: true,
 };
 
 const projectOptions: ProjectOption[] = [
@@ -88,6 +95,57 @@ const ERROR_TOAST: FeedbackToastData = {
   title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get("content-type");
+
+  if (
+    contentType?.includes("application/json")
+  ) {
+    try {
+      return await response.json();
+    } catch {
+      return {
+        success: false,
+        message:
+          "La API devolvió una respuesta no válida.",
+      };
+    }
+  }
+
+  const responseText = await response.text();
+
+  return {
+    success: response.ok,
+    message:
+      responseText ||
+      "No se recibió una respuesta de la API.",
+  };
+};
+
+const getApiErrorMessage = (
+  result: ApiResponse | null,
+  status: number
+) => {
+  const dataError =
+    result?.data &&
+    typeof result.data === "object" &&
+    "error" in result.data
+      ? String(
+          (result.data as { error?: unknown })
+            .error ?? ""
+        )
+      : "";
+
+  return (
+    result?.message ||
+    dataError ||
+    `No se pudo enviar la solicitud. Código ${status}.`
+  );
 };
 
 export default function DepartamentosLeadForm() {
@@ -182,12 +240,21 @@ export default function DepartamentosLeadForm() {
         "Selecciona un proyecto.";
     }
 
-    if (!formData.consent) {
-      newErrors.consent =
-        "Debes aceptar ser contactado.";
-    }
-
     setErrors(newErrors);
+
+    const errorMessage =
+      newErrors.fullName ||
+      newErrors.phone ||
+      newErrors.email ||
+      newErrors.project;
+
+    if (errorMessage) {
+      showToast({
+        variant: "error",
+        title: "Revisa tus datos",
+        message: errorMessage,
+      });
+    }
 
     return (
       Object.keys(newErrors).length === 0
@@ -214,39 +281,24 @@ export default function DepartamentosLeadForm() {
         : `Solicitud de información sobre ${projectName} enviada desde la página de Departamentos.`;
 
     const leadPayload = {
-      fullName:
+      nombres_completos:
         formData.fullName.trim(),
 
-      phone:
-        formData.phone.replace(
-          /\D/g,
-          ""
-        ),
+      telefono:
+        formData.phone.replace(/\D/g, ""),
 
       email:
         formData.email
           .trim()
           .toLowerCase(),
 
-      /*
-       * Debe guardarse en:
-       * proyecto_interes
-       */
-      project: projectName,
+      proyecto_interes: projectName,
 
-      /*
-       * Debe guardarse en:
-       * categoria_interes
-       */
-      interest: "Departamentos",
+      categoria_interes: "Departamentos",
 
-      message,
+      fuente_prospeccion: "Web",
 
-      campaign: "departamentos-web",
-
-      source: "pagina-departamentos",
-
-      consent: formData.consent,
+      mensaje: message,
 
       origen_ruta:
         window.location.pathname,
@@ -274,22 +326,30 @@ export default function DepartamentosLeadForm() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
+      const result =
+        await readApiResponse(response);
+
+      if (
+        !response.ok ||
+        result?.success === false
+      ) {
+        showToast({
+          variant: "error",
+          title: "No pudimos enviar tus datos",
+          message: getApiErrorMessage(
+            result,
+            response.status
+          ),
+        });
+
+        return;
       }
 
       setFormData(initialFormData);
       setErrors({});
 
       showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de departamentos:",
-        error
-      );
-
+    } catch {
       showToast(ERROR_TOAST);
     } finally {
       setIsSending(false);
@@ -507,14 +567,8 @@ export default function DepartamentosLeadForm() {
           <input
             type="checkbox"
             name="consent"
-            checked={formData.consent}
-            disabled={isSending}
-            onChange={(event) =>
-              updateField(
-                "consent",
-                event.target.checked
-              )
-            }
+            checked
+            readOnly
           />
 
           <span>
@@ -523,12 +577,6 @@ export default function DepartamentosLeadForm() {
             comercial.
           </span>
         </label>
-
-        {errors.consent && (
-          <small className={styles.error}>
-            {errors.consent}
-          </small>
-        )}
 
         <button
           type="submit"

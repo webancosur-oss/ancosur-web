@@ -285,97 +285,81 @@ export default function PromoLeadPopup() {
     );
   };
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+ const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const isValid = validateForm();
+  const isValid = validateForm();
 
-    if (!isValid) return;
+  if (!isValid) return;
 
-    const cleanMessage =
-      formData.message.trim();
+  const cleanMessage = formData.message.trim();
 
-    const leadData = {
-      fullName:
-        formData.fullName.trim(),
-
-      phone:
-        formData.phone.replace(
-          /\D/g,
-          ""
-        ),
-
-      email:
-        formData.email
-          .trim()
-          .toLowerCase(),
-
-      project: formData.project,
-
-      interest: formData.project,
-
-      message:
-        cleanMessage ||
-        `Solicitud de información enviada desde el popup de campaña sobre ${formData.project}.`,
-
-      campaign: activeCampaign.id,
-
-      source: "popup-campania",
-
-      consent: true,
-
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        `Popup ${activeCampaign.eyebrow}`,
-    };
-
-    try {
-      setIsSending(true);
-      setErrors({});
-      setToast(null);
-
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}`
-        );
-      }
-
-      setFormData(initialFormData);
-      setErrors({});
-      setIsVisible(false);
-      registerPopupAsClosed();
-
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario del popup:",
-        error
-      );
-
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
-    }
+  const leadData = {
+    nombres_completos: formData.fullName.trim(),
+    telefono: formData.phone.replace(/\D/g, ""),
+    email: formData.email.trim().toLowerCase(),
+    proyecto_interes: formData.project,
+    categoria_interes: formData.project,
+    fuente_prospeccion: "Web",
+    mensaje:
+      cleanMessage ||
+      `Solicitud de información enviada desde el popup de campaña sobre ${formData.project}.`,
+    origen_ruta: window.location.pathname,
+    origen_componente: `Popup ${activeCampaign.eyebrow} - ${activeCampaign.id}`,
   };
+
+  try {
+    setIsSending(true);
+    setErrors({});
+    setToast(null);
+
+    const response = await fetch("/api/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(leadData),
+    });
+
+    const responseData = await response.json().catch(() => null);
+
+    if (!response.ok || !responseData?.success) {
+      console.error("Error API leads:", responseData);
+
+      throw new Error(
+        responseData?.message ||
+          `Error HTTP ${response.status}`
+      );
+    }
+
+    setFormData(initialFormData);
+    setErrors({});
+    setIsVisible(false);
+    registerPopupAsClosed();
+
+    showToast(SUCCESS_TOAST);
+  } catch (error) {
+    console.error(
+      "Error enviando formulario del popup:",
+      error
+    );
+
+    showToast({
+      ...ERROR_TOAST,
+      message:
+        error instanceof Error
+          ? error.message
+          : ERROR_TOAST.message,
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
 
   return (
     <>
