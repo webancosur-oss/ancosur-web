@@ -1,4 +1,3 @@
-
 import Typologies from "./Typologies";
 import styles from "./NeoEternaMedia.module.css";
 
@@ -6,40 +5,38 @@ export default function NeoEternaMedia() {
   return (
     <section
       className={styles.section}
-      id="tipologias-neo-eterna"
-      aria-labelledby="neo-eterna-media-title"
+      id="tipologias-neo-balto"
+      aria-labelledby="neo-balto-media-title"
     >
       <div className={styles.header}>
-        <span>Conoce Neo Eterna</span>
+        <span>Conoce Neo Balto</span>
 
-        <h2 id="neo-eterna-media-title">
-          Descubre el proyecto y encuentra tu tipología ideal
+        <h2 id="neo-balto-media-title">
+          Descubre el proyecto y encuentra tu
+          tipología ideal
         </h2>
 
         <p>
-          Conoce la propuesta de Neo Eterna en el corazón de la zona
-          universitaria y elige el departamento que mejor se adapte a tu etapa
-          de vida, tus estudios o tus objetivos de inversión.
+          Conoce la propuesta Pet-Centric de
+          Neo Balto y elige el departamento
+          que mejor se adapte a tu estilo de
+          vida y al de tu mascota.
         </p>
       </div>
 
       <div className={styles.grid}>
         <article className={styles.videoCard}>
           <div className={styles.videoBox}>
-            <img
-              src="https://placehold.co/1200x675/dce7e2/17172f.webp?text=Video+Neo+Eterna"
-              alt="Presentación del proyecto Neo Eterna"
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/RxGXy5GGt6c?si=qBdB5gzVwI_3qASw"
+              title="Presentación del proyecto Neo Balto"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             />
-
-            <div className={styles.videoOverlay} />
-
-            <button
-              type="button"
-              className={styles.playButton}
-              aria-label="Reproducir video de Neo Eterna"
-            >
-              <span aria-hidden={true}>▶</span>
-            </button>
 
             <div className={styles.videoBadge}>
               Presentación del proyecto
@@ -47,32 +44,36 @@ export default function NeoEternaMedia() {
           </div>
 
           <div className={styles.videoContent}>
-            <span>Proyecto Neo Eterna</span>
+            <span>Proyecto Neo Balto</span>
 
             <h3>
-              Inversión inteligente en el corazón de la zona universitaria
+              Vive en familia en el primer
+              edificio Pet-Centric de Huancayo
             </h3>
 
             <p>
-              Descubre un proyecto moderno y funcional ubicado cerca de las
-              principales universidades de Huancayo, pensado para estudiantes,
-              profesionales, padres de familia e inversionistas.
+              Descubre su arquitectura,
+              ubicación, amenidades
+              pet-friendly y departamentos
+              diseñados para compartir una
+              vida más cómoda junto a tu
+              mascota.
             </p>
 
             <div className={styles.videoStats}>
               <div>
                 <span>Ambientes</span>
-                <strong>1, 2 y 3 ambientes</strong>
+                <strong>2 ambientes</strong>
               </div>
 
               <div>
                 <span>Área</span>
-                <strong>Desde 41 m² hasta 78 m²</strong>
+                <strong>Desde 43 m²</strong>
               </div>
 
               <div>
                 <span>Concepto</span>
-                <strong>Hub Universitario</strong>
+                <strong>Pet-Centric</strong>
               </div>
             </div>
           </div>
@@ -81,7 +82,7 @@ export default function NeoEternaMedia() {
         <div className={styles.typologyColumn}>
           <Typologies
             mode="compact"
-            projectHref="#informacion-neo-eterna"
+            projectHref="#informacion-neo-balto"
           />
         </div>
       </div>

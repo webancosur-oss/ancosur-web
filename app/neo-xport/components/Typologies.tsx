@@ -1,7 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import ActionButton from "@/components/buttons/ActionButton";
 import {
   ArrowLeftIcon,
@@ -10,12 +8,11 @@ import {
 import {
   useCallback,
   useEffect,
-  useRef,
   useState,
   type KeyboardEvent,
-  type PointerEvent,
 } from "react";
 
+import { typologies } from "../data";
 import styles from "./Typologies.module.css";
 
 type TypologiesProps = {
@@ -23,88 +20,35 @@ type TypologiesProps = {
   projectHref?: string;
 };
 
-type PointerPosition = {
-  x: number;
-  y: number;
-};
-
-type Typology = {
-  id: string;
-  type: string;
-  title: string;
-  area: string;
-  concept: string;
-  audience: string;
-  design: string;
-  tag: string;
-  image: string;
-};
+type Typology = (typeof typologies)[number];
 
 const AUTOPLAY_DELAY = 5200;
-const SWIPE_THRESHOLD = 55;
-
-const typologies: Typology[] = [
-  {
-    id: "impulso",
-    type: "Tipo Impulso",
-    title: "Muévete hacia tu próximo hogar",
-    area: "61 m²",
-    concept:
-      "Una distribución funcional para quienes buscan independencia, comodidad y un estilo de vida activo cerca de todo.",
-    audience:
-      "Personas independientes, parejas e inversionistas",
-    design:
-      "Ambientes funcionales y bien distribuidos",
-    tag: "61 m²",
-    image:
-      "/assets/projects/neo-xport/typologies/tipo-impulso.webp",
-  },
-  {
-    id: "luz",
-    type: "Tipo Luz",
-    title: "Más espacio para vivir a tu ritmo",
-    area: "68 m²",
-    concept:
-      "Un departamento con mayor amplitud e iluminación natural, diseñado para disfrutar una vida cómoda, dinámica y familiar.",
-    audience:
-      "Parejas, familias jóvenes y profesionales",
-    design:
-      "Mayor amplitud e iluminación natural",
-    tag: "68 m²",
-    image:
-      "/assets/projects/neo-xport/typologies/tipo-luz.webp",
-  },
-];
 
 export default function Typologies({
   mode = "compact",
-  projectHref = "#informacion-neo-xport",
+  projectHref = "#informacion-neo-balto",
 }: TypologiesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
-
-  const pointerStartRef =
-    useRef<PointerPosition | null>(null);
+  const [selectedTypology, setSelectedTypology] =
+    useState<Typology | null>(null);
 
   const totalTypologies = typologies.length;
-  const hasMultipleTypologies =
-    totalTypologies > 1;
+  const hasMultipleTypologies = totalTypologies > 1;
+  const activeTypology = typologies[activeIndex];
 
-  const activeTypology =
-    typologies[activeIndex];
+  const closeImageModal = useCallback(() => {
+    setSelectedTypology(null);
+  }, []);
 
   const goToSlide = useCallback(
     (index: number) => {
       if (!totalTypologies) return;
 
       const nextIndex =
-        (index + totalTypologies) %
-        totalTypologies;
+        (index + totalTypologies) % totalTypologies;
 
       setActiveIndex(nextIndex);
-      setDragOffset(0);
     },
     [totalTypologies]
   );
@@ -113,26 +57,18 @@ export default function Typologies({
     if (!hasMultipleTypologies) return;
 
     goToSlide(activeIndex - 1);
-  }, [
-    activeIndex,
-    goToSlide,
-    hasMultipleTypologies,
-  ]);
+  }, [activeIndex, goToSlide, hasMultipleTypologies]);
 
   const goNext = useCallback(() => {
     if (!hasMultipleTypologies) return;
 
     goToSlide(activeIndex + 1);
-  }, [
-    activeIndex,
-    goToSlide,
-    hasMultipleTypologies,
-  ]);
+  }, [activeIndex, goToSlide, hasMultipleTypologies]);
 
   useEffect(() => {
     if (
       isPaused ||
-      isDragging ||
+      selectedTypology ||
       !hasMultipleTypologies
     ) {
       return;
@@ -146,154 +82,43 @@ export default function Typologies({
       );
     }, AUTOPLAY_DELAY);
 
-    return () =>
+    return () => {
       window.clearInterval(timer);
+    };
   }, [
     hasMultipleTypologies,
-    isDragging,
     isPaused,
+    selectedTypology,
     totalTypologies,
   ]);
 
-  const resetDrag = () => {
-    pointerStartRef.current = null;
-    setIsDragging(false);
-    setDragOffset(0);
-  };
+  useEffect(() => {
+    if (!selectedTypology) return;
 
-  const handlePointerDown = (
-    event: PointerEvent<HTMLDivElement>
-  ) => {
-    if (!hasMultipleTypologies) return;
-
-    const target =
-      event.target as HTMLElement;
-
-    if (
-      target.closest("button") ||
-      target.closest("a")
-    ) {
-      return;
-    }
-
-    if (
-      event.pointerType === "mouse" &&
-      event.button !== 0
-    ) {
-      return;
-    }
-
-    pointerStartRef.current = {
-      x: event.clientX,
-      y: event.clientY,
+    const handleKeyDown = (
+      event: globalThis.KeyboardEvent
+    ) => {
+      if (event.key === "Escape") {
+        closeImageModal();
+      }
     };
 
-    setIsPaused(true);
-    setIsDragging(true);
-    setDragOffset(0);
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
 
-    event.currentTarget.setPointerCapture(
-      event.pointerId
-    );
-  };
-
-  const handlePointerMove = (
-    event: PointerEvent<HTMLDivElement>
-  ) => {
-    if (
-      !pointerStartRef.current ||
-      !isDragging
-    ) {
-      return;
-    }
-
-    const differenceX =
-      event.clientX -
-      pointerStartRef.current.x;
-
-    const differenceY =
-      event.clientY -
-      pointerStartRef.current.y;
-
-    const isVerticalGesture =
-      Math.abs(differenceY) >
-      Math.abs(differenceX);
-
-    if (
-      isVerticalGesture &&
-      Math.abs(differenceY) > 12
-    ) {
-      setDragOffset(0);
-      return;
-    }
-
-    event.preventDefault();
-    setDragOffset(differenceX);
-  };
-
-  const handlePointerUp = (
-    event: PointerEvent<HTMLDivElement>
-  ) => {
-    if (!pointerStartRef.current) return;
-
-    const differenceX =
-      event.clientX -
-      pointerStartRef.current.x;
-
-    const differenceY =
-      event.clientY -
-      pointerStartRef.current.y;
-
-    const isHorizontalSwipe =
-      Math.abs(differenceX) >
-        SWIPE_THRESHOLD &&
-      Math.abs(differenceX) >
-        Math.abs(differenceY);
-
-    resetDrag();
-    setIsPaused(false);
-
-    if (
-      event.currentTarget.hasPointerCapture(
-        event.pointerId
-      )
-    ) {
-      event.currentTarget.releasePointerCapture(
-        event.pointerId
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown
       );
-    }
 
-    if (!isHorizontalSwipe) return;
-
-    if (differenceX < 0) {
-      goNext();
-    } else {
-      goPrevious();
-    }
-  };
-
-  const handlePointerCancel = (
-    event: PointerEvent<HTMLDivElement>
-  ) => {
-    resetDrag();
-    setIsPaused(false);
-
-    if (
-      event.currentTarget.hasPointerCapture(
-        event.pointerId
-      )
-    ) {
-      event.currentTarget.releasePointerCapture(
-        event.pointerId
-      );
-    }
-  };
+      document.body.style.overflow = "";
+    };
+  }, [closeImageModal, selectedTypology]);
 
   const handleKeyDown = (
     event: KeyboardEvent<HTMLDivElement>
   ) => {
-    if (!hasMultipleTypologies) return;
-
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       goPrevious();
@@ -307,253 +132,168 @@ export default function Typologies({
 
   if (!activeTypology) return null;
 
-  const sliderTransform = `translate3d(calc(-${
+  const sliderTransform = `translate3d(-${
     activeIndex * 100
-  }% + ${dragOffset}px), 0, 0)`;
+  }%, 0, 0)`;
 
   return (
-    <section
-      className={`${styles.typologies} ${
-        mode === "compact"
-          ? styles.compact
-          : ""
-      }`}
-      aria-label="Tipologías de departamentos de Neo Xport"
-      onPointerEnter={() =>
-        setIsPaused(true)
-      }
-      onPointerLeave={() => {
-        if (!isDragging) {
-          setIsPaused(false);
-        }
-      }}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
-    >
-      <div
-        className={`${styles.visual} ${
-          isDragging
-            ? styles.dragging
-            : ""
-        }`}
-        role="region"
-        aria-label="Galería de tipologías de Neo Xport"
-        tabIndex={
-          hasMultipleTypologies ? 0 : -1
-        }
-        onKeyDown={handleKeyDown}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={
-          handlePointerCancel
-        }
+    <>
+      <section
+        className={styles.typologies}
+        data-mode={mode}
+        aria-label="Tipologías de departamentos Neo Balto"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => {
+          if (!selectedTypology) {
+            setIsPaused(false);
+          }
+        }}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => {
+          if (!selectedTypology) {
+            setIsPaused(false);
+          }
+        }}
       >
         <div
-          className={styles.visualTrack}
-          style={{
-            transform: sliderTransform,
-            transition: isDragging
-              ? "none"
-              : undefined,
-          }}
+          className={styles.visual}
+          role="region"
+          aria-label="Slider de tipologías Neo Balto"
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
         >
-          {typologies.map(
-            (typology, index) => (
+          <div
+            className={styles.visualTrack}
+            style={{
+              transform: sliderTransform,
+            }}
+          >
+            {typologies.map((typology, index) => (
               <article
                 key={typology.id}
-                className={
-                  styles.visualSlide
-                }
-                aria-hidden={
-                  index !== activeIndex
-                }
+                className={styles.visualSlide}
+                aria-hidden={index !== activeIndex}
               >
-                <img
-                  src={typology.image}
-                  alt={`Plano del ${typology.type} de Neo Xport, ${typology.area}`}
-                  className={styles.image}
-                  width={1200}
-                  height={800}
-                  loading={
-                    index === 0
-                      ? "eager"
-                      : "lazy"
+                <button
+                  type="button"
+                  className={styles.imageButton}
+                  onClick={() =>
+                    setSelectedTypology(typology)
                   }
-                  draggable={false}
-                />
+                  aria-label={`Ver imagen ampliada de ${typology.type}`}
+                >
+                  <img
+                    src={typology.image}
+                    alt={`${typology.type} de Neo Balto`}
+                    className={styles.image}
+                    draggable={false}
+                  />
+                </button>
 
                 <div
-                  className={
-                    styles.imageOverlay
-                  }
+                  className={styles.imageOverlay}
                   aria-hidden={true}
                 />
 
-                <div
-                  className={
-                    styles.visualTop
-                  }
-                >
-                  <span>
-                    {typology.tag}
-                  </span>
+                <div className={styles.visualTop}>
+                  <span>{typology.tag}</span>
                 </div>
 
-                <div
-                  className={`${styles.visualTitle} ${
-                    !hasMultipleTypologies
-                      ? styles.visualTitleSingle
-                      : ""
-                  }`}
-                >
-                  <span>
-                    Departamento
-                  </span>
-
-                  <h3>
-                    {typology.type}
-                  </h3>
-
-                  <strong>
-                    {typology.area}
-                  </strong>
+                <div className={styles.visualTitle}>
+                  <span>{typology.type}</span>
+                  <h3>{typology.title}</h3>
                 </div>
               </article>
-            )
+            ))}
+          </div>
+
+          <div className={styles.counter}>
+            {String(activeIndex + 1).padStart(2, "0")} /{" "}
+            {String(totalTypologies).padStart(2, "0")}
+          </div>
+
+          {hasMultipleTypologies && (
+            <div className={styles.controls}>
+              <button
+                type="button"
+                onClick={goPrevious}
+                aria-label="Ver tipología anterior"
+              >
+                <ArrowLeftIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+              </button>
+
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Ver siguiente tipología"
+              >
+                <ArrowRightIcon
+                  size={18}
+                  weight="bold"
+                  aria-hidden={true}
+                />
+              </button>
+            </div>
           )}
         </div>
 
-        {hasMultipleTypologies && (
-          <div className={styles.counter}>
-            {String(
-              activeIndex + 1
-            ).padStart(2, "0")}{" "}
-            /{" "}
-            {String(
-              totalTypologies
-            ).padStart(2, "0")}
-          </div>
-        )}
-
-        {hasMultipleTypologies && (
-          <div className={styles.controls}>
-            <button
-              type="button"
-              onClick={goPrevious}
-              aria-label="Tipología anterior"
-            >
-              <ArrowLeftIcon
-                size={18}
-                weight="bold"
-                aria-hidden={true}
-              />
-            </button>
-
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Siguiente tipología"
-            >
-              <ArrowRightIcon
-                size={18}
-                weight="bold"
-                aria-hidden={true}
-              />
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div
-        key={activeTypology.id}
-        className={styles.content}
-      >
         <div
-          className={
-            styles.contentHeader
-          }
+          key={activeTypology.id}
+          className={styles.content}
         >
-          <span>
-            Tipologías Neo Xport
-          </span>
-
-          <strong>
-            Elige el depa que se mueve
-            contigo
-          </strong>
-        </div>
-
-        <div
-          className={
-            styles.activeTypology
-          }
-        >
-          <span>
-            {activeTypology.type}
-          </span>
-
-          <strong>
-            {activeTypology.title}
-          </strong>
-        </div>
-
-        <p className={styles.concept}>
-          {activeTypology.concept}
-        </p>
-
-        <div className={styles.details}>
-          <div>
-            <span>Área</span>
+          <div className={styles.contentHeader}>
+            <span>Tipologías Neo Balto</span>
 
             <strong>
-              {activeTypology.area}
+              Encuentra el departamento ideal para ti y tu
+              mascota
             </strong>
           </div>
 
-          <div>
-            <span>Ideal para</span>
+          <p className={styles.concept}>
+            {activeTypology.concept}
+          </p>
 
-            <strong>
-              {activeTypology.audience}
-            </strong>
+          <div className={styles.details}>
+            <div>
+              <span>Ideal para</span>
+              <strong>{activeTypology.audience}</strong>
+            </div>
+
+            <div>
+              <span>Diseño</span>
+              <strong>{activeTypology.design}</strong>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.design}>
-          <span>Diseño</span>
+          <div className={styles.ctaArea}>
+            <ActionButton
+              href={projectHref}
+              icon={ArrowRightIcon}
+              iconPosition="right"
+              variant="light"
+              size="md"
+              mobileSize="sm"
+              className={styles.ctaButton}
+            >
+              Quiero esta tipología
+            </ActionButton>
 
-          <strong>
-            {activeTypology.design}
-          </strong>
-        </div>
+            <span className={styles.ctaHint}>
+              Recibe precios y disponibilidad
+            </span>
+          </div>
 
-        <div className={styles.ctaArea}>
-          <ActionButton
-            href={projectHref}
-            icon={ArrowRightIcon}
-            iconPosition="right"
-            variant="light"
-            size="md"
-            mobileSize="sm"
-            className={styles.ctaButton}
-          >
-            Quiero esta tipología
-          </ActionButton>
-
-          <span className={styles.ctaHint}>
-            Recibe precios y
-            disponibilidad
-          </span>
-        </div>
-
-        {hasMultipleTypologies && (
-          <div
-            className={styles.dots}
-            aria-label="Seleccionar tipología"
-          >
-            {typologies.map(
-              (typology, index) => (
+          {hasMultipleTypologies && (
+            <div
+              className={styles.dots}
+              aria-label="Seleccionar tipología"
+            >
+              {typologies.map((typology, index) => (
                 <button
                   key={typology.id}
                   type="button"
@@ -564,19 +304,48 @@ export default function Typologies({
                   }
                   aria-label={`Ver ${typology.type}`}
                   aria-current={
-                    index === activeIndex
-                      ? "true"
-                      : undefined
+                    index === activeIndex ? "true" : undefined
                   }
-                  onClick={() =>
-                    goToSlide(index)
-                  }
+                  onClick={() => goToSlide(index)}
                 />
-              )
-            )}
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {selectedTypology && (
+        <div
+          className={styles.imageModalOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Imagen ampliada de ${selectedTypology.type}`}
+          onClick={closeImageModal}
+        >
+          <div
+            className={styles.imageModal}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles.imageModalClose}
+              onClick={closeImageModal}
+              aria-label="Cerrar imagen"
+            >
+              ×
+            </button>
+
+            <img
+              src={selectedTypology.image}
+              alt={`${selectedTypology.type} ampliada`}
+            />
+
+            <p className={styles.imageModalCaption}>
+              {selectedTypology.type}
+            </p>
           </div>
-        )}
-      </div>
-    </section>
+        </div>
+      )}
+    </>
   );
 }

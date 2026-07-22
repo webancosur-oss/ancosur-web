@@ -64,39 +64,42 @@ export const details = [
 
 export const amenities = [
   {
-    title: "Sala de entretenimiento",
-    description:
-      "Un ambiente cómodo y moderno para compartir, descansar y disfrutar momentos de recreación.",
-    image:
-      "/assets/projects/neoeterna/amenities/sala-entretenimiento.webp",
+    title: "Bar Privado",
+    image: "/assets/projects/amenities/neo-eterna/bar-privado.webp",
   },
   {
-    title: "Bar privado",
-    description:
-      "Un espacio exclusivo para reuniones, encuentros y momentos especiales.",
-    image:
-      "/assets/projects/neoeterna/amenities/bar-privado.webp",
-  },
-  {
-    title: "Zona de parrillas",
-    description:
-      "Un área pensada para compartir reuniones y disfrutar con amigos o familiares.",
-    image:
-      "/assets/projects/neoeterna/amenities/zona-parrillas.webp",
-  },
-  {
-    title: "Sky Garden",
-    description:
-      "Un espacio al aire libre para relajarte, desconectarte y disfrutar la vista de la ciudad.",
-    image:
-      "/assets/projects/neoeterna/amenities/sky-garden.webp",
+    title: "Biciparking",
+    image: "/assets/projects/amenities/neo-eterna/biciparking.webp",
   },
   {
     title: "Lobby",
-    description:
-      "Un ingreso moderno y acogedor que brinda una excelente primera impresión.",
+    image: "/assets/projects/amenities/neo-eterna/lobby.webp",
+  },
+  {
+    title: "Sala de Entretenimiento",
     image:
-      "/assets/projects/neoeterna/amenities/lobby.webp",
+      "/assets/projects/amenities/neo-eterna/sala-entretenimiento.webp",
+  },
+  {
+    title: "Sala de Juegos",
+    image: "/assets/projects/amenities/neo-eterna/sala-juegos.webp",
+  },
+  {
+    title: "Sky Garden",
+    image: "/assets/projects/amenities/neo-eterna/sky-garden.webp",
+  },
+  {
+    title: "Zona Fitness",
+    image: "/assets/projects/amenities/neo-eterna/zona-fitness.webp",
+  },
+  {
+    title: "Zona de Fogatas",
+    image: "/assets/projects/amenities/neo-eterna/zona-fogatas.webp",
+  },
+  {
+    title: "Zona de Parrillas",
+    image:
+      "/assets/projects/amenities/neo-eterna/zona-parrilas.webp",
   },
 ];
 
@@ -148,74 +151,69 @@ export const floorPlans = [
 
 export const typologies = [
   {
-    id: "impulso",
-    type: "Tipo Impulso",
-    title: "Tu primer gran paso",
-    concept:
-      "Una distribución compacta y funcional para independizarte o comenzar tu primera inversión inmobiliaria.",
-    audience:
-      "Universitarios, jóvenes independientes e inversionistas",
-    design:
-      "Desde 41 m² con espacios prácticos y sin áreas desperdiciadas",
-    tag: "Ideal para empezar",
-    image:
-      "/assets/projects/neoeterna/typologies/tipo-impulso.webp",
-  },
-  {
     id: "equilibrio",
     type: "Tipo Equilibrio",
-    title: "Armonía entre vida y trabajo",
+    title: "Vive con equilibrio cerca de todo",
     concept:
-      "Un hogar versátil donde puedes estudiar, trabajar y disfrutar de tu vida personal.",
+      "Una distribución funcional para quienes buscan comodidad, ubicación estratégica y una vida conectada.",
     audience:
-      "Profesionales, estudiantes y parejas jóvenes",
+      "Estudiantes, profesionales, parejas y familias jóvenes",
     design:
-      "Ambientes flexibles que se adaptan a diferentes rutinas",
-    tag: "Vida y trabajo",
-    image:
-      "/assets/projects/neoeterna/typologies/tipo-equilibrio.webp",
+      "Ambientes funcionales, modernos y bien distribuidos",
+    tag: "Ubicación estratégica",
+    image: "/assets/projects/tipologias/eterna/equilibrio.webp",
   },
   {
     id: "espacio",
     type: "Tipo Espacio",
-    title: "Conecta con los que amas",
+    title: "Más amplitud para tu rutina",
     concept:
-      "Una propuesta con mayor amplitud para quienes disfrutan compartir cada momento en casa.",
+      "Una tipología pensada para quienes buscan ambientes amplios y mayor comodidad en la zona universitaria.",
     audience:
-      "Familias jóvenes, parejas y anfitriones",
+      "Familias, profesionales e inversionistas",
     design:
-      "Ambientes amplios, cómodos y pensados para compartir",
-    tag: "Más amplitud",
-    image:
-      "/assets/projects/neoeterna/typologies/tipo-espacio.webp",
+      "Espacios amplios, distribución cómoda y ambientes versátiles",
+    tag: "Más espacio",
+    image: "/assets/projects/tipologias/eterna/espacio.webp",
+  },
+  {
+    id: "impulso",
+    type: "Tipo Impulso",
+    title: "Tu primer depa en San Carlos",
+    concept:
+      "Una distribución compacta y funcional para independizarte o iniciar una inversión con alta demanda.",
+    audience:
+      "Estudiantes, jóvenes profesionales e inversionistas",
+    design:
+      "Espacios inteligentes, prácticos y fáciles de mantener",
+    tag: "Ideal para empezar",
+    image: "/assets/projects/tipologias/eterna/impulso.webp",
   },
   {
     id: "luz",
     type: "Tipo Luz",
-    title: "Energía que inspira",
+    title: "Ambientes iluminados para vivir mejor",
     concept:
-      "Un hogar con iluminación natural y una sensación de amplitud que mejora tu bienestar diario.",
+      "Una propuesta moderna con mayor iluminación natural y espacios cómodos para disfrutar cada día.",
     audience:
-      "Creativos, profesionales y amantes del bienestar",
+      "Parejas, familias jóvenes y profesionales",
     design:
-      "Iluminación natural, acabados claros y amplitud visual",
-    tag: "Más bienestar",
-    image:
-      "/assets/projects/neoeterna/typologies/tipo-luz.webp",
+      "Iluminación natural, ambientes cómodos y diseño moderno",
+    tag: "Más iluminación",
+    image: "/assets/projects/tipologias/eterna/luz.webp",
   },
   {
     id: "tiempo",
     type: "Tipo Tiempo",
-    title: "Eficiencia en cada detalle",
+    title: "Vive conectado a tu ritmo",
     concept:
-      "Una distribución práctica que facilita tus actividades y aprovecha cada espacio.",
+      "Una tipología pensada para quienes valoran ubicación, comodidad y una distribución eficiente.",
     audience:
-      "Familias, profesionales y personas con rutinas dinámicas",
+      "Profesionales, estudiantes e inversionistas",
     design:
-      "Hasta 78 m² con ambientes funcionales e inteligentes",
-    tag: "Práctico y funcional",
-    image:
-      "/assets/projects/neoeterna/typologies/tipo-tiempo.webp",
+      "Distribución eficiente, ambientes prácticos y estilo moderno",
+    tag: "Vida eficiente",
+    image: "/assets/projects/tipologias/eterna/tiempo.webp",
   },
 ];
 

@@ -1,38 +1,42 @@
-
 import Typologies from "./Typologies";
 import styles from "./NeoRiveraMedia.module.css";
 
 export default function NeoRiveraMedia() {
   return (
-    <section className={styles.section} id="tipologias-neo-rivera">
+    <section
+      className={styles.section}
+      id="tipologias-neo-balto"
+      aria-labelledby="neo-balto-media-title"
+    >
       <div className={styles.header}>
-        <span>Conoce Neo Rivera</span>
+        <span>Conoce Neo Balto</span>
 
-        <h2>Descubre el proyecto y encuentra tu tipología ideal</h2>
+        <h2 id="neo-balto-media-title">
+          Descubre el proyecto y encuentra tu
+          tipología ideal
+        </h2>
 
         <p>
-          Conoce la propuesta wellness de Neo Rivera y elige la distribución
-          que mejor se adapte a tu estilo de vida.
+          Conoce la propuesta Pet-Centric de
+          Neo Balto y elige el departamento
+          que mejor se adapte a tu estilo de
+          vida y al de tu mascota.
         </p>
       </div>
 
       <div className={styles.grid}>
         <article className={styles.videoCard}>
           <div className={styles.videoBox}>
-            <img
-              src="https://placehold.co/1200x675/dce7e2/17172f.webp?text=Video+Neo+Rivera"
-              alt="Presentación del proyecto Neo Rivera"
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/tYWVRRRBmZQ?si=ABI8bMWyDRyKtYrg"
+              title="Presentación del proyecto Neo Balto"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             />
-
-            <div className={styles.videoOverlay} />
-
-            <button
-              type="button"
-              className={styles.playButton}
-              aria-label="Reproducir video de Neo Rivera"
-            >
-              <span aria-hidden={true}>▶</span>
-            </button>
 
             <div className={styles.videoBadge}>
               Presentación del proyecto
@@ -40,29 +44,36 @@ export default function NeoRiveraMedia() {
           </div>
 
           <div className={styles.videoContent}>
-            <span>Proyecto Neo Rivera</span>
+            <span>Proyecto Neo Balto</span>
 
-            <h3>Vive en bienestar en La Ribera</h3>
+            <h3>
+              Vive en familia en el primer
+              edificio Pet-Centric de Huancayo
+            </h3>
 
             <p>
-              Descubre su arquitectura, ubicación, amenidades y propuesta
-              residencial diseñada para una vida más tranquila.
+              Descubre su arquitectura,
+              ubicación, amenidades
+              pet-friendly y departamentos
+              diseñados para compartir una
+              vida más cómoda junto a tu
+              mascota.
             </p>
 
             <div className={styles.videoStats}>
               <div>
-                <span>Tipología</span>
-                <strong>2 dormitorios</strong>
+                <span>Ambientes</span>
+                <strong>2 ambientes</strong>
               </div>
 
               <div>
                 <span>Área</span>
-                <strong>Desde 57 m²</strong>
+                <strong>Desde 43 m²</strong>
               </div>
 
               <div>
                 <span>Concepto</span>
-                <strong>Wellness</strong>
+                <strong>Pet-Centric</strong>
               </div>
             </div>
           </div>
@@ -71,7 +82,7 @@ export default function NeoRiveraMedia() {
         <div className={styles.typologyColumn}>
           <Typologies
             mode="compact"
-            projectHref="#informacion-neo-rivera"
+            projectHref="#informacion-neo-balto"
           />
         </div>
       </div>

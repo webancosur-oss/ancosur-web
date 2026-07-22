@@ -56,39 +56,53 @@ export const details = [
 
 export const amenities = [
   {
-    title: "Lobby Wellness",
-    description:
-      "Un ingreso moderno y acogedor que conecta diseño, calma y bienestar.",
-    image:
-      "/assets/projects/neorivera/amenities/lobby-wellness.webp",
+    title: "Área de Lectura",
+    image: "/assets/projects/amenities/neo-rivera/area-lectura.webp",
   },
   {
-    title: "Wellness Gym",
-    description:
-      "Un espacio equipado para entrenar y mantener una rutina activa.",
-    image:
-      "/assets/projects/neorivera/amenities/wellness-gym.webp",
+    title: "Gimnasio",
+    image: "/assets/projects/amenities/neo-rivera/gimansio.webp",
   },
   {
-    title: "Terraza Wellness",
-    description:
-      "Una zona al aire libre para descansar, compartir y desconectarte.",
-    image:
-      "/assets/projects/neorivera/amenities/terraza-wellness.webp",
+    title: "Lobby",
+    image: "/assets/projects/amenities/neo-rivera/lobby.webp",
   },
   {
-    title: "Spa Eco Wash",
-    description:
-      "Un ambiente funcional pensado para el cuidado y bienestar diario.",
-    image:
-      "/assets/projects/neorivera/amenities/spa-eco-wash.webp",
+    title: "Spa",
+    image: "/assets/projects/amenities/neo-rivera/spa.webp",
   },
   {
-    title: "Zona de Lectura",
-    description:
-      "Un lugar tranquilo para leer, trabajar o disfrutar momentos de calma.",
-    image:
-      "/assets/projects/neorivera/amenities/zona-lectura.webp",
+    title: "Terraza",
+    image: "/assets/projects/amenities/neo-rivera/terraza.webp",
+  },
+];
+
+export const typologies = [
+  {
+    id: "equilibrio",
+    type: "Tipo Equilibrio",
+    title: "Vive en equilibrio y bienestar",
+    concept:
+      "Una distribución funcional pensada para vivir con tranquilidad, comodidad y conexión con un estilo de vida wellness.",
+    audience:
+      "Parejas, familias jóvenes y personas que buscan tranquilidad residencial",
+    design:
+      "Ambientes funcionales, iluminación natural y espacios pensados para el bienestar",
+    tag: "Wellness",
+    image: "/assets/projects/tipologias/rivera/equilibrio.webp",
+  },
+  {
+    id: "luz",
+    type: "Tipo Luz",
+    title: "Más luz para vivir mejor",
+    concept:
+      "Un departamento moderno con ambientes iluminados y una distribución pensada para disfrutar cada día.",
+    audience:
+      "Familias jóvenes, parejas y profesionales",
+    design:
+      "Iluminación natural, espacios cómodos y diseño moderno",
+    tag: "Más iluminación",
+    image: "/assets/projects/tipologias/rivera/luz.webp",
   },
 ];
 

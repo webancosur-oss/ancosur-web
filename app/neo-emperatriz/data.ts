@@ -2,7 +2,7 @@ export const whatsappNeoEmperatriz =
   "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Neo%20Emperatriz";
 
 export const brochureNeoEmperatriz =
-  "/assets/projects/neoemperatriz/brochure/brochure-neo-emperatriz.pdf";
+  "/assets/projects/tipologias/neo-emperatriz/brochure/brochure-neo-emperatriz.pdf";
 
 export const hero = {
   logo: "/assets/images/neo-emperatriz.svg",
@@ -67,39 +67,35 @@ export const details = [
 
 export const amenities = [
   {
-    title: "Bar privado",
-    description:
-      "Un espacio moderno y exclusivo para compartir reuniones y momentos especiales con familiares y amigos.",
-    image:
-      "/assets/projects/neoemperatriz/amenities/bar-privado.webp",
+    title: "Bar",
+    image: "/assets/projects/amenities/neo-emperatriz/bar.webp",
   },
   {
-    title: "Zona de fogata",
-    description:
-      "Un ambiente acogedor para relajarte y disfrutar encuentros al aire libre.",
+    title: "Comedor al Aire Libre",
     image:
-      "/assets/projects/neoemperatriz/amenities/zona-de-fogata.webp",
+      "/assets/projects/amenities/neo-emperatriz/comedor-aire-libre.webp",
   },
   {
-    title: "Terraza BBQ",
-    description:
-      "Una terraza diseñada para disfrutar parrillas, celebraciones y reuniones especiales.",
-    image:
-      "/assets/projects/neoemperatriz/amenities/terraza-bbq.webp",
+    title: "Gimnasio",
+    image: "/assets/projects/amenities/neo-emperatriz/gimansio.webp",
   },
   {
-    title: "Terraza social",
-    description:
-      "Un espacio abierto para descansar, conversar y disfrutar momentos en comunidad.",
-    image:
-      "/assets/projects/neoemperatriz/amenities/terraza-social.webp",
+    title: "Juegos",
+    image: "/assets/projects/amenities/neo-emperatriz/juegos.webp",
   },
   {
     title: "Lobby",
-    description:
-      "Un ingreso elegante y acogedor que refleja el diseño residencial de Neo Emperatriz.",
+    image: "/assets/projects/amenities/neo-emperatriz/lobby.webp",
+  },
+  {
+    title: "Sala de Juegos",
     image:
-      "/assets/projects/neoemperatriz/amenities/lobby.webp",
+      "/assets/projects/amenities/neo-emperatriz/sala-juegos.webp",
+  },
+  {
+    title: "Zona de Parrillas",
+    image:
+      "/assets/projects/amenities/neo-emperatriz/zona-parrilas.webp",
   },
 ];
 
@@ -113,14 +109,14 @@ export const floorPlans = [
     type: "2 dormitorios",
     area: "Desde 67 m²",
     image:
-      "/assets/projects/neoemperatriz/plans/tipo-1-2-dormitorios.webp",
+      "/assets/projects/tipologias/neo-emperatriz/plans/tipo-1-2-dormitorios.webp",
   },
   {
     name: "Tipo 2",
     type: "3 dormitorios",
     area: "Hasta 109 m²",
     image:
-      "/assets/projects/neoemperatriz/plans/tipo-2-3-dormitorios.webp",
+      "/assets/projects/tipologias/neo-emperatriz/plans/tipo-2-3-dormitorios.webp",
   },
 ];
 
@@ -130,32 +126,74 @@ export const floorPlans = [
 
 export const typologies = [
   {
-    id: "tipo-1",
-    type: "Tipo 1",
-    title: "Comodidad para cada momento",
+    id: "big-family",
+    type: "Big Family",
+    title: "Big Family",
     concept:
-      "Un departamento funcional con ambientes bien distribuidos para disfrutar una vida cómoda en familia.",
+      "Un departamento pensado para familias que buscan mayor amplitud, comodidad y espacios para compartir juntos.",
     audience:
-      "Parejas jóvenes, familias pequeñas y profesionales",
+      "Familias numerosas y personas que buscan mayor espacio",
     design:
-      "Desde 67 m² con 2 dormitorios y espacios funcionales",
-    tag: "2 dormitorios",
+      "Espacios amplios y funcionales diseñados para disfrutar en familia",
+    tag: "Familia",
     image:
-      "/assets/projects/neoemperatriz/typologies/tipo-1-2-dormitorios.webp",
+      "/assets/projects/tipologias/emperatriz/big-family.webp",
   },
   {
-    id: "tipo-2",
-    type: "Tipo 2",
-    title: "Más espacio para tu familia",
+    id: "family-short",
+    type: "Family Short",
+    title: "Family Short",
     concept:
-      "Una distribución amplia pensada para familias que buscan comodidad, privacidad y ambientes para compartir.",
+      "Una distribución práctica y funcional para disfrutar de un hogar cómodo, moderno y pensado para la vida en familia.",
     audience:
-      "Familias modernas y personas que buscan mayor amplitud",
+      "Familias pequeñas y parejas jóvenes",
     design:
-      "Hasta 109 m² con 3 dormitorios y ambientes amplios",
-    tag: "3 dormitorios",
+      "Ambientes funcionales que aprovechan cada espacio del departamento",
+    tag: "Familia",
     image:
-      "/assets/projects/neoemperatriz/typologies/tipo-2-3-dormitorios.webp",
+      "/assets/projects/tipologias/emperatriz/family-short.webp",
+  },
+  {
+    id: "liberty",
+    type: "Liberty",
+    title: "Liberty",
+    concept:
+      "Un espacio diseñado para quienes buscan independencia, comodidad y libertad para vivir a su propio ritmo.",
+    audience:
+      "Jóvenes independientes y profesionales",
+    design:
+      "Distribución funcional pensada para una vida práctica y dinámica",
+    tag: "Independencia",
+    image:
+      "/assets/projects/tipologias/emperatriz/liberty.webp",
+  },
+  {
+    id: "minimalist",
+    type: "Minimalist",
+    title: "Minimalist",
+    concept:
+      "Un departamento de estilo moderno y funcional que aprovecha cada ambiente para ofrecer una experiencia de vida práctica y confortable.",
+    audience:
+      "Personas que buscan practicidad, orden y un estilo de vida moderno",
+    design:
+      "Espacios optimizados con una distribución eficiente y funcional",
+    tag: "Minimalista",
+    image:
+      "/assets/projects/tipologias/emperatriz/minimalist.webp",
+  },
+  {
+    id: "roomies",
+    type: "Roomies",
+    title: "Roomies",
+    concept:
+      "Una propuesta ideal para compartir vivienda sin renunciar a la comodidad, privacidad y espacios propios.",
+    audience:
+      "Amigos, roomies, estudiantes y jóvenes profesionales",
+    design:
+      "Espacios pensados para convivir, compartir y mantener la privacidad",
+    tag: "Compartido",
+    image:
+      "/assets/projects/tipologias/emperatriz/roomies.webp",
   },
 ];
 

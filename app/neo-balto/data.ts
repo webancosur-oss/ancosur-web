@@ -64,25 +64,16 @@ export const details = [
 
 export const amenities = [
   {
-    title: "Lobby sensorial",
-    description:
-      "Un ingreso moderno, acogedor y diseñado para recibir cómodamente a residentes y mascotas.",
-    image:
-      "/assets/projects/amenities/neo-balto/1.webp",
+    title: "Lobby Sensorial",
+    image: "/assets/projects/amenities/neo-balto/lobby.webp",
   },
   {
-    title: "Eco-Pet Wash",
-    description:
-      "Un espacio práctico ubicado en el primer piso para el cuidado y limpieza de tu mascota.",
-    image:
-      "/assets/projects/amenities/neo-balto/2.webp",
+    title: "Spa Pet Wash",
+    image: "/assets/projects/amenities/neo-balto/spa.webp",
   },
   {
     title: "Terraza Pet-Friendly",
-    description:
-      "Una zona al aire libre para compartir, descansar y disfrutar junto a tu mascota.",
-    image:
-      "/assets/projects/amenities/neo-balto/3.webp",
+    image: "/assets/projects/amenities/neo-balto/terraza.webp",
   },
 ];
 
@@ -113,18 +104,17 @@ export const floorPlans = [
 
 export const typologies = [
   {
-    id: "impulso",
-    type: "Tipo Impulso",
-    title: "Tu primer gran paso",
+    id: "equilibrio",
+    type: "Tipo Equilibrio",
+    title: "Comodidad para vivir con tu mascota",
     concept:
-      "Una distribución compacta y funcional para independizarte o comenzar tu camino como inversionista.",
+      "Una distribución funcional pensada para vivir con equilibrio, comodidad y conexión con tu estilo pet-friendly.",
     audience:
-      "Jóvenes independientes, parejas y pequeños inversionistas",
+      "Parejas, familias jóvenes y personas que buscan un hogar cómodo junto a su mascota",
     design:
-      "Espacios inteligentes, funcionales y fáciles de mantener",
-    tag: "Ideal para empezar",
-    image:
-      "/assets/projects/neobalto/typologies/tipo-impulso.webp",
+      "Espacios funcionales, buena distribución y acabados pensados para una vida práctica",
+    tag: "Funcional y cómodo",
+    image: "/assets/projects/tipologias/balto/equilibrio.webp",
   },
   {
     id: "luz",
@@ -137,8 +127,7 @@ export const typologies = [
     design:
       "Iluminación natural, ambientes amplios y acabados pet-friendly",
     tag: "Más bienestar",
-    image:
-      "/assets/projects/neobalto/typologies/tipo-luz.webp",
+    image: "/assets/projects/tipologias/balto/luz.webp",
   },
 ];
 

@@ -12,27 +12,38 @@ import {
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
+
 import { amenities } from "../data";
 import styles from "./DistritoSanCarlosAmenities.module.css";
 
 const AUTOPLAY_DELAY = 5000;
 const DRAG_THRESHOLD = 55;
+const CLICK_THRESHOLD = 8;
 
 type PointerStart = {
   x: number;
   y: number;
 };
 
+type Amenity = (typeof amenities)[number];
+
 export default function DistritoSanCarlosAmenitiesSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [selectedAmenity, setSelectedAmenity] =
+    useState<Amenity | null>(null);
 
   const pointerStartRef = useRef<PointerStart | null>(null);
+  const hasMovedRef = useRef(false);
 
   const totalAmenities = amenities.length;
   const hasMultipleAmenities = totalAmenities > 1;
+
+  const closeModal = useCallback(() => {
+    setSelectedAmenity(null);
+  }, []);
 
   const goToSlide = useCallback(
     (index: number) => {
@@ -51,26 +62,19 @@ export default function DistritoSanCarlosAmenitiesSlider() {
     if (!hasMultipleAmenities) return;
 
     goToSlide(activeIndex - 1);
-  }, [
-    activeIndex,
-    goToSlide,
-    hasMultipleAmenities,
-  ]);
+  }, [activeIndex, goToSlide, hasMultipleAmenities]);
 
   const goNext = useCallback(() => {
     if (!hasMultipleAmenities) return;
 
     goToSlide(activeIndex + 1);
-  }, [
-    activeIndex,
-    goToSlide,
-    hasMultipleAmenities,
-  ]);
+  }, [activeIndex, goToSlide, hasMultipleAmenities]);
 
   useEffect(() => {
     if (
       isPaused ||
       isDragging ||
+      selectedAmenity ||
       !hasMultipleAmenities
     ) {
       return;
@@ -89,8 +93,33 @@ export default function DistritoSanCarlosAmenitiesSlider() {
     hasMultipleAmenities,
     isDragging,
     isPaused,
+    selectedAmenity,
     totalAmenities,
   ]);
+
+  useEffect(() => {
+    if (!selectedAmenity) return;
+
+    const handleKeyDown = (
+      event: globalThis.KeyboardEvent
+    ) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+
+      document.body.style.overflow = "";
+    };
+  }, [closeModal, selectedAmenity]);
 
   const resetDrag = () => {
     pointerStartRef.current = null;
@@ -106,7 +135,7 @@ export default function DistritoSanCarlosAmenitiesSlider() {
     const target = event.target as HTMLElement;
 
     if (
-      target.closest("button") ||
+      target.closest("[data-slider-control='true']") ||
       target.closest("a")
     ) {
       return;
@@ -123,6 +152,8 @@ export default function DistritoSanCarlosAmenitiesSlider() {
       x: event.clientX,
       y: event.clientY,
     };
+
+    hasMovedRef.current = false;
 
     setIsPaused(true);
     setIsDragging(true);
@@ -149,9 +180,15 @@ export default function DistritoSanCarlosAmenitiesSlider() {
     const differenceY =
       event.clientY - pointerStartRef.current.y;
 
+    if (
+      Math.abs(differenceX) > CLICK_THRESHOLD ||
+      Math.abs(differenceY) > CLICK_THRESHOLD
+    ) {
+      hasMovedRef.current = true;
+    }
+
     const isVerticalMovement =
-      Math.abs(differenceY) >
-      Math.abs(differenceX);
+      Math.abs(differenceY) > Math.abs(differenceX);
 
     if (
       isVerticalMovement &&
@@ -178,8 +215,7 @@ export default function DistritoSanCarlosAmenitiesSlider() {
 
     const isHorizontalSwipe =
       Math.abs(differenceX) > DRAG_THRESHOLD &&
-      Math.abs(differenceX) >
-        Math.abs(differenceY);
+      Math.abs(differenceX) > Math.abs(differenceY);
 
     resetDrag();
     setIsPaused(false);
@@ -234,6 +270,21 @@ export default function DistritoSanCarlosAmenitiesSlider() {
     }
   };
 
+  const handleSlideClick = (
+    item: Amenity,
+    index: number
+  ) => {
+    if (index !== activeIndex) return;
+
+    if (hasMovedRef.current) {
+      hasMovedRef.current = false;
+      return;
+    }
+
+    setIsPaused(true);
+    setSelectedAmenity(item);
+  };
+
   if (!totalAmenities) return null;
 
   const sliderTransform = `translate3d(calc(-${
@@ -241,185 +292,190 @@ export default function DistritoSanCarlosAmenitiesSlider() {
   }% + ${dragOffset}px), 0, 0)`;
 
   return (
-    <section
-      className={styles.amenitiesSection}
-      aria-labelledby="distrito-san-carlos-amenities-title"
-    >
-      <div className={styles.amenitiesHeader}>
-        <span>Áreas comunes</span>
-
-        <h2 id="distrito-san-carlos-amenities-title">
-          Todo lo que necesitas dentro de tu propio distrito
-        </h2>
-
-        <p>
-          Disfruta espacios para compartir, trabajar, entrenar y vivir en
-          familia sin alejarte de tu hogar.
-        </p>
-      </div>
-
-      <div
-        className={styles.amenitiesCard}
-        onPointerEnter={() => setIsPaused(true)}
-        onPointerLeave={() => {
-          if (!isDragging) {
-            setIsPaused(false);
-          }
-        }}
-        onFocus={() => setIsPaused(true)}
-        onBlur={() => setIsPaused(false)}
+    <>
+      <section
+        className={styles.amenitiesSection}
+        aria-labelledby="distrito-san-carlos-amenities-title"
       >
-        <div className={styles.amenitiesNumber}>
-          <strong>+{totalAmenities}</strong>
-
+        <div className={styles.amenitiesHeader}>
           <span>Áreas comunes</span>
 
-          <div className={styles.amenitiesProgress}>
-            <span
-              style={{
-                width: `${
-                  ((activeIndex + 1) /
-                    totalAmenities) *
-                  100
-                }%`,
-              }}
-            />
-          </div>
+          <h2 id="distrito-san-carlos-amenities-title">
+            Todo lo que necesitas dentro de tu propio distrito
+          </h2>
 
-          <small>
-            {String(activeIndex + 1).padStart(
-              2,
-              "0"
-            )}{" "}
-            /{" "}
-            {String(totalAmenities).padStart(
-              2,
-              "0"
-            )}
-          </small>
+          <p>
+            Disfruta espacios para compartir, trabajar, entrenar
+            y vivir en familia sin alejarte de tu hogar.
+          </p>
         </div>
 
         <div
-          className={`${styles.amenitiesViewport} ${
-            isDragging ? styles.dragging : ""
-          }`}
-          tabIndex={0}
-          role="region"
-          aria-label="Galería de áreas comunes de Distrito San Carlos"
-          onKeyDown={handleKeyDown}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
+          className={styles.amenitiesCard}
+          onPointerEnter={() => setIsPaused(true)}
+          onPointerLeave={() => {
+            if (!isDragging && !selectedAmenity) {
+              setIsPaused(false);
+            }
+          }}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => {
+            if (!selectedAmenity) {
+              setIsPaused(false);
+            }
+          }}
         >
-          <div
-            className={styles.amenitiesTrack}
-            style={{
-              transform: sliderTransform,
-              transition: isDragging
-                ? "none"
-                : undefined,
-            }}
-          >
-            {amenities.map((item, index) => (
-              <article
-                key={item.title}
-                className={styles.amenitySlide}
-                aria-hidden={
-                  index !== activeIndex
-                }
-              >
-                <img
-                  src={item.image}
-                  alt={`${item.title} de Distrito San Carlos`}
-                  width={1600}
-                  height={900}
-                  loading={
-                    index === 0
-                      ? "eager"
-                      : "lazy"
-                  }
-                  draggable={false}
-                />
+          <div className={styles.amenitiesNumber}>
+            <strong>+{totalAmenities}</strong>
 
-                <div
-                  className={styles.amenityOverlay}
-                />
+            <span>Áreas comunes</span>
 
-                <div
-                  className={styles.amenityContent}
-                >
-                  <span>Área común</span>
+            <div className={styles.amenitiesProgress}>
+              <span
+                style={{
+                  width: `${
+                    ((activeIndex + 1) / totalAmenities) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
 
-                  <h3>{item.title}</h3>
-
-                  {item.description && (
-                    <p>{item.description}</p>
-                  )}
-                </div>
-              </article>
-            ))}
+            <small>
+              {String(activeIndex + 1).padStart(2, "0")} /{" "}
+              {String(totalAmenities).padStart(2, "0")}
+            </small>
           </div>
 
-          {hasMultipleAmenities && (
-            <>
-              <div
-                className={styles.amenitiesControls}
-              >
-                <button
-                  type="button"
-                  onClick={goPrevious}
-                  aria-label="Área común anterior"
+          <div
+            className={`${styles.amenitiesViewport} ${
+              isDragging ? styles.dragging : ""
+            }`}
+            tabIndex={0}
+            role="region"
+            aria-label="Galería de áreas comunes de Distrito San Carlos"
+            onKeyDown={handleKeyDown}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerCancel}
+          >
+            <div
+              className={styles.amenitiesTrack}
+              style={{
+                transform: sliderTransform,
+                transition: isDragging ? "none" : undefined,
+              }}
+            >
+              {amenities.map((item, index) => (
+                <article
+                  key={item.title}
+                  className={styles.amenitySlide}
+                  aria-hidden={index !== activeIndex}
+                  onClick={() =>
+                    handleSlideClick(item, index)
+                  }
                 >
-                  <ArrowLeftIcon
-                    size={19}
-                    weight="bold"
-                    aria-hidden={true}
+                  <img
+                    src={item.image}
+                    alt={`${item.title} de Distrito San Carlos`}
+                    width={1600}
+                    height={900}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    draggable={false}
                   />
-                </button>
+                </article>
+              ))}
+            </div>
 
-                <button
-                  type="button"
-                  onClick={goNext}
-                  aria-label="Siguiente área común"
-                >
-                  <ArrowRightIcon
-                    size={19}
-                    weight="bold"
-                    aria-hidden={true}
-                  />
-                </button>
-              </div>
-
-              <div
-                className={styles.sliderDots}
-                aria-label="Seleccionar área común"
-              >
-                {amenities.map((item, index) => (
+            {hasMultipleAmenities && (
+              <>
+                <div className={styles.amenitiesControls}>
                   <button
-                    key={item.title}
                     type="button"
-                    aria-label={`Ver ${item.title}`}
-                    aria-current={
-                      index === activeIndex
-                        ? "true"
-                        : undefined
-                    }
-                    className={
-                      index === activeIndex
-                        ? styles.activeDot
-                        : ""
-                    }
-                    onClick={() =>
-                      goToSlide(index)
-                    }
-                  />
-                ))}
-              </div>
-            </>
-          )}
+                    data-slider-control="true"
+                    onClick={goPrevious}
+                    aria-label="Área común anterior"
+                  >
+                    <ArrowLeftIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden={true}
+                    />
+                  </button>
+
+                  <button
+                    type="button"
+                    data-slider-control="true"
+                    onClick={goNext}
+                    aria-label="Siguiente área común"
+                  >
+                    <ArrowRightIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden={true}
+                    />
+                  </button>
+                </div>
+
+                <div
+                  className={styles.sliderDots}
+                  aria-label="Seleccionar área común"
+                >
+                  {amenities.map((item, index) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      data-slider-control="true"
+                      aria-label={`Ver ${item.title}`}
+                      aria-current={
+                        index === activeIndex
+                          ? "true"
+                          : undefined
+                      }
+                      className={
+                        index === activeIndex
+                          ? styles.activeDot
+                          : ""
+                      }
+                      onClick={() => goToSlide(index)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {selectedAmenity && (
+        <div
+          className={styles.amenityModalOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Imagen completa de ${selectedAmenity.title}`}
+          onClick={closeModal}
+        >
+          <div
+            className={styles.amenityModal}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles.amenityModalClose}
+              onClick={closeModal}
+              aria-label="Cerrar imagen"
+            >
+              ×
+            </button>
+
+            <img
+              src={selectedAmenity.image}
+              alt={`${selectedAmenity.title} ampliada`}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

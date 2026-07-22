@@ -1,50 +1,42 @@
-
 import Typologies from "./Typologies";
 import styles from "./NeoEmperatrizMedia.module.css";
 
-export default function NeoEmperatrizMedia() {
+export default function NeoEmperatriz() {
   return (
     <section
       className={styles.section}
-      id="tipologias-neo-emperatriz"
-      aria-labelledby="neo-emperatriz-media-title"
+      id="tipologias-neo-balto"
+      aria-labelledby="neo-balto-media-title"
     >
       <div className={styles.header}>
-        <span>Conoce Neo Emperatriz</span>
+        <span>Conoce Neo Balto</span>
 
-        <h2 id="neo-emperatriz-media-title">
-          Descubre tu nuevo hogar listo para habitar
+        <h2 id="neo-balto-media-title">
+          Descubre el proyecto y encuentra tu
+          tipología ideal
         </h2>
 
         <p>
-          Conoce la propuesta residencial de Neo Emperatriz y elige el
-          departamento que mejor se adapte a tu familia, con espacios amplios,
-          acabados modernos y entrega inmediata en San Carlos.
+          Conoce la propuesta Pet-Centric de
+          Neo Balto y elige el departamento
+          que mejor se adapte a tu estilo de
+          vida y al de tu mascota.
         </p>
       </div>
 
       <div className={styles.grid}>
         <article className={styles.videoCard}>
           <div className={styles.videoBox}>
-            <img
-              src="/assets/projects/neo-emperatriz/video/portada-neo-emperatriz.webp"
-              alt="Presentación del proyecto Neo Emperatriz"
-              width={1200}
-              height={675}
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/xF_qADTtxrQ?si=EtOKjyISo7xMzNk9"
+              title="Presentación del proyecto Neo Balto"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             />
-
-            <div
-              className={styles.videoOverlay}
-              aria-hidden={true}
-            />
-
-            <button
-              type="button"
-              className={styles.playButton}
-              aria-label="Reproducir video de Neo Emperatriz"
-            >
-              <span aria-hidden={true}>▶</span>
-            </button>
 
             <div className={styles.videoBadge}>
               Presentación del proyecto
@@ -52,32 +44,36 @@ export default function NeoEmperatrizMedia() {
           </div>
 
           <div className={styles.videoContent}>
-            <span>Proyecto Neo Emperatriz</span>
+            <span>Proyecto Neo Balto</span>
 
             <h3>
-              Naturaleza y elegancia en un hogar listo para habitar
+              Vive en familia en el primer
+              edificio Pet-Centric de Huancayo
             </h3>
 
             <p>
-              Descubre un edificio residencial ubicado en San Carlos, cerca de
-              la Universidad Continental, con departamentos familiares,
-              ambientes amplios y áreas comunes para disfrutar cada día.
+              Descubre su arquitectura,
+              ubicación, amenidades
+              pet-friendly y departamentos
+              diseñados para compartir una
+              vida más cómoda junto a tu
+              mascota.
             </p>
 
             <div className={styles.videoStats}>
               <div>
                 <span>Ambientes</span>
-                <strong>2 y 3 dormitorios</strong>
+                <strong>2 ambientes</strong>
               </div>
 
               <div>
                 <span>Área</span>
-                <strong>Desde 67 m² hasta 109 m²</strong>
+                <strong>Desde 43 m²</strong>
               </div>
 
               <div>
-                <span>Estado</span>
-                <strong>Entrega inmediata</strong>
+                <span>Concepto</span>
+                <strong>Pet-Centric</strong>
               </div>
             </div>
           </div>
@@ -86,7 +82,7 @@ export default function NeoEmperatrizMedia() {
         <div className={styles.typologyColumn}>
           <Typologies
             mode="compact"
-            projectHref="#informacion-neo-emperatriz"
+            projectHref="#informacion-neo-balto"
           />
         </div>
       </div>

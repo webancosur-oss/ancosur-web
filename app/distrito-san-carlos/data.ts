@@ -70,39 +70,27 @@ export const details = [
 
 export const amenities = [
   {
-    title: "Sala de juegos",
-    description:
-      "Un espacio de entretenimiento para compartir momentos con familiares, amigos y vecinos.",
-    image:
-      "/assets/projects/amenities/distrito-sancarlos/1.webp",
+    title: "Bar",
+    image: "/assets/projects/amenities/distrito-sancarlos/bar.webp",
   },
   {
-    title: "Zona infantil",
-    description:
-      "Un ambiente seguro y divertido pensado para el entretenimiento de los niños.",
+    title: "Cocina Gourmet",
     image:
-      "/assets/projects/amenities/distrito-sancarlos/2.webp",
+      "/assets/projects/amenities/distrito-sancarlos/cocina-gourmet.webp",
   },
   {
-    title: "Coworking",
-    description:
-      "Un espacio moderno y funcional para trabajar, estudiar y desarrollar nuevos proyectos.",
-    image:
-      "/assets/projects/amenities/distrito-sancarlos/3.webp",
+    title: "Comedor",
+    image: "/assets/projects/amenities/distrito-sancarlos/comedor.webp",
   },
   {
-    title: "Gimnasio",
-    description:
-      "Un ambiente equipado para entrenar y mantener una rutina activa sin salir del proyecto.",
+    title: "Sala de Juegos",
     image:
-      "/assets/projects/amenities/distrito-sancarlos/4.webp",
+      "/assets/projects/amenities/distrito-sancarlos/sala-juegos.webp",
   },
   {
-    title: "Zona de parrillas",
-    description:
-      "Un espacio para organizar reuniones y compartir momentos especiales en familia.",
+    title: "Sala de Reuniones",
     image:
-      "/assets/projects/amenities/distrito-sancarlos/5.webp",
+      "/assets/projects/amenities/distrito-sancarlos/sala-reuniones.webp",
   },
 ];
 
@@ -154,46 +142,69 @@ export const floorPlans = [
 
 export const typologies = [
   {
-    id: "impulso",
-    type: "Tipo Impulso",
-    title: "Tu primer gran paso",
-    concept:
-      "Una distribución funcional para iniciar una nueva etapa, independizarte o realizar tu primera inversión inmobiliaria.",
-    audience:
-      "Parejas jóvenes, profesionales e inversionistas",
-    design:
-      "Desde 54 m² con ambientes prácticos y bien distribuidos",
-    tag: "Ideal para empezar",
-    image:
-      "/assets/projects/distrito-san-carlos/typologies/tipo-impulso.webp",
-  },
-  {
     id: "equilibrio",
     type: "Tipo Equilibrio",
-    title: "Armonía entre familia y trabajo",
+    title: "Vive con equilibrio en la ciudad",
     concept:
-      "Un hogar versátil que integra espacios para descansar, compartir y trabajar cómodamente.",
+      "Una distribución funcional para quienes buscan comodidad, conexión y una vida práctica cerca de todo.",
     audience:
-      "Familias jóvenes y profesionales que realizan trabajo remoto",
+      "Familias jóvenes, parejas y personas que buscan vivir en una zona estratégica",
     design:
-      "Ambientes flexibles que evolucionan con tus necesidades",
-    tag: "Vida y trabajo",
-    image:
-      "/assets/projects/distrito-san-carlos/typologies/tipo-equilibrio.webp",
+      "Ambientes bien distribuidos, funcionales y pensados para el día a día",
+    tag: "Vida conectada",
+    image: "/assets/projects/tipologias/distrito1/equilibrio.webp",
   },
   {
     id: "espacio",
     type: "Tipo Espacio",
-    title: "Más amplitud para compartir",
+    title: "Más amplitud para tu familia",
     concept:
-      "Una distribución pensada para quienes necesitan mayor comodidad y ambientes para disfrutar en familia.",
+      "Una tipología pensada para quienes valoran ambientes amplios, comodidad y una mejor distribución.",
     audience:
-      "Familias modernas y personas que disfrutan recibir visitas",
+      "Familias que buscan mayor espacio y confort",
     design:
-      "Ambientes amplios, cómodos y conectados",
+      "Espacios amplios, distribución eficiente y ambientes cómodos",
     tag: "Más amplitud",
-    image:
-      "/assets/projects/distrito-san-carlos/typologies/tipo-espacio.webp",
+    image: "/assets/projects/tipologias/distrito1/espacio.webp",
+  },
+  {
+    id: "impulso",
+    type: "Tipo Impulso",
+    title: "Tu primer gran paso",
+    concept:
+      "Una distribución práctica para independizarte, vivir conectado o iniciar tu primera inversión inmobiliaria.",
+    audience:
+      "Jóvenes independientes, parejas e inversionistas",
+    design:
+      "Espacios inteligentes, funcionales y fáciles de mantener",
+    tag: "Ideal para empezar",
+    image: "/assets/projects/tipologias/distrito1/impulso.webp",
+  },
+  {
+    id: "penthouse1",
+    type: "Penthouse 1",
+    title: "Exclusividad en lo más alto",
+    concept:
+      "Una propuesta premium para quienes buscan mayor privacidad, amplitud y una experiencia superior de vivienda.",
+    audience:
+      "Familias y compradores que buscan una vivienda exclusiva",
+    design:
+      "Ambientes amplios, diseño moderno y mayor privacidad",
+    tag: "Exclusivo",
+    image: "/assets/projects/tipologias/distrito1/penthouse1.webp",
+  },
+  {
+    id: "penthouse2",
+    type: "Penthouse 2",
+    title: "Vive con mayor amplitud",
+    concept:
+      "Una tipología exclusiva diseñada para disfrutar espacios superiores y una vida más cómoda.",
+    audience:
+      "Familias que buscan una vivienda premium y diferenciada",
+    design:
+      "Distribución amplia, acabados modernos y espacios de mayor confort",
+    tag: "Premium",
+    image: "/assets/projects/tipologias/distrito1/penthouse2.webp",
   },
 ];
 

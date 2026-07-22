@@ -12,32 +12,31 @@ export default function NeoBaltoMedia() {
         <span>Conoce Neo Balto</span>
 
         <h2 id="neo-balto-media-title">
-          Descubre el proyecto y encuentra tu tipología ideal
+          Descubre el proyecto y encuentra tu
+          tipología ideal
         </h2>
 
         <p>
-          Conoce la propuesta Pet-Centric de Neo Balto y elige el departamento
-          que mejor se adapte a tu estilo de vida y al de tu mascota.
+          Conoce la propuesta Pet-Centric de
+          Neo Balto y elige el departamento
+          que mejor se adapte a tu estilo de
+          vida y al de tu mascota.
         </p>
       </div>
 
       <div className={styles.grid}>
         <article className={styles.videoCard}>
           <div className={styles.videoBox}>
-            <img
-              src="https://placehold.co/1200x675/dce7e2/17172f.webp?text=Video+Neo+Balto"
-              alt="Presentación del proyecto Neo Balto"
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/L9fbx4e3ifw?si=IfJ4pAHq2wrBmVjY"
+              title="Presentación del proyecto Neo Balto"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             />
-
-            <div className={styles.videoOverlay} />
-
-            <button
-              type="button"
-              className={styles.playButton}
-              aria-label="Reproducir video de Neo Balto"
-            >
-              <span aria-hidden={true}>▶</span>
-            </button>
 
             <div className={styles.videoBadge}>
               Presentación del proyecto
@@ -48,13 +47,17 @@ export default function NeoBaltoMedia() {
             <span>Proyecto Neo Balto</span>
 
             <h3>
-              Vive en familia en el primer edificio Pet-Centric de Huancayo
+              Vive en familia en el primer
+              edificio Pet-Centric de Huancayo
             </h3>
 
             <p>
-              Descubre su arquitectura, ubicación, amenidades pet-friendly y
-              departamentos diseñados para compartir una vida más cómoda junto
-              a tu mascota.
+              Descubre su arquitectura,
+              ubicación, amenidades
+              pet-friendly y departamentos
+              diseñados para compartir una
+              vida más cómoda junto a tu
+              mascota.
             </p>
 
             <div className={styles.videoStats}>

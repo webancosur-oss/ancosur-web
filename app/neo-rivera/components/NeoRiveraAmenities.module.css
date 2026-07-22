@@ -4,9 +4,8 @@
 
 .amenitiesSection {
   width: 100%;
-  padding:
-    82px
-    var(--container-x, clamp(20px, 6vw, 100px));
+  padding: 82px var(--container-x, clamp(20px, 6vw, 100px));
+
   background:
     radial-gradient(
       circle at top right,
@@ -14,21 +13,38 @@
       transparent 32%
     ),
     #ffffff;
+
   box-sizing: border-box;
+
+  scroll-margin-top: 100px;
 }
 
+/* =========================================================
+   HEADER
+========================================================= */
+
 .amenitiesHeader {
+  width: 100%;
   max-width: 720px;
-  margin: 0 auto 32px;
+
+  margin: 0 auto 34px;
+
   text-align: center;
 }
 
 .amenitiesHeader > span {
   display: inline-flex;
+
   margin-bottom: 10px;
+
   color: var(--color-primary);
+
   font-size: var(--fs-eyebrow);
+
+  line-height: 1;
+
   text-transform: uppercase;
+
   letter-spacing: var(--tracking-small);
 }
 
@@ -38,27 +54,71 @@
 
 .amenitiesHeader p {
   max-width: 620px;
+
   margin: 15px auto 0;
+
   color: var(--color-muted);
+
+  line-height: 1.6;
 }
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .amenitiesCard {
   width: 100%;
   max-width: var(--container-max, 1180px);
+
   margin: 0 auto;
-  border-radius: 26px;
-  background: #f2f3f2;
+
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+
+  grid-template-columns:
+    260px
+    minmax(0, 1fr);
+
   overflow: hidden;
-  box-shadow: 0 26px 75px rgba(23, 23, 47, 0.11);
+
+  border-radius: 26px;
+
+  background: #101024;
+
+  box-shadow:
+    0 26px 75px
+    rgba(23, 23, 47, 0.11);
+
+  box-sizing: border-box;
 }
 
-/* PANEL VERDE */
+/* =========================================================
+   PANEL VERDE
+========================================================= */
 
 .amenitiesNumber {
+  position: relative;
+
+  z-index: 3;
+
   min-width: 0;
+  min-height: 100%;
+
   padding: 38px 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  box-sizing: border-box;
+
+  color: #ffffff;
+
   background:
     radial-gradient(
       circle at top right,
@@ -70,163 +130,277 @@
       var(--color-primary) 0%,
       var(--color-primary-dark) 100%
     );
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .amenitiesNumber strong {
+  display: block;
+
+  margin: 0;
+
+  color: #ffffff;
+
   font-size: 4.3rem;
+
+  font-weight: 700;
+
   line-height: 0.9;
+
   letter-spacing: -0.06em;
 }
 
 .amenitiesNumber > span {
+  display: block;
+
   max-width: 170px;
+
   margin-top: 10px;
+
+  color: #ffffff;
+
   font-size: 1.5rem;
+
+  font-weight: 400;
+
   line-height: 1;
 }
 
 .amenitiesNumber small {
+  display: block;
+
   margin-top: 13px;
-  color: rgba(255, 255, 255, 0.7);
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
   font-size: var(--fs-small);
+
+  line-height: 1.3;
 }
+
+/* =========================================================
+   PROGRESO
+========================================================= */
 
 .amenitiesProgress {
   width: 100%;
+  max-width: 200px;
+
   height: 4px;
+
   margin-top: 24px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.24);
+
   overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.24);
 }
 
 .amenitiesProgress span {
   display: block;
+
+  width: 0;
+
   height: 100%;
+
   border-radius: inherit;
+
   background: #ffffff;
-  transition: width 0.45s ease;
+
+  transition:
+    width 0.45s ease;
 }
 
-/* SLIDER */
+/* =========================================================
+   VIEWPORT
+========================================================= */
 
 .amenitiesViewport {
   position: relative;
+
   width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: 360px;
-  max-height: 520px;
+
+  min-width: 0;
+
+  height:
+    clamp(380px, 42vw, 560px);
+
   overflow: hidden;
+
   background: #101024;
+
+  box-sizing: border-box;
+
+  /*
+   * Permite scroll vertical en móvil
+   * pero conserva swipe horizontal.
+   */
+
+  touch-action: pan-y;
+
+  cursor: pointer;
 }
 
-.amenitiesTrack {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  transition: transform 0.7s
-    cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
+.amenitiesViewport:focus-visible {
+  outline: 3px solid
+    rgba(0, 167, 79, 0.45);
+
+  outline-offset: -3px;
 }
+
+/* =========================================================
+   TRACK
+========================================================= */
+
+.amenitiesTrack {
+  display: flex;
+
+  width: 100%;
+
+  height: 100%;
+
+  will-change: transform;
+
+  transition:
+    transform
+    0.7s
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.dragging .amenitiesTrack {
+  transition: none;
+}
+
+/* =========================================================
+   SLIDE
+========================================================= */
 
 .amenitySlide {
   position: relative;
-  flex: 0 0 100%;
+
+  flex:
+    0 0 100%;
+
   width: 100%;
+
   height: 100%;
+
   min-width: 0;
+
   overflow: hidden;
+
+  background: #101024;
+
+  box-sizing: border-box;
+
+  cursor: zoom-in;
 }
 
+/* =========================================================
+   IMAGEN SLIDER
+========================================================= */
+
 .amenitySlide img {
+  position: absolute;
+
+  inset: 0;
+
   display: block;
+
   width: 100%;
+
   height: 100%;
-  aspect-ratio: 16 / 9;
+
+  margin: 0;
+
+  padding: 0;
+
+  border: 0;
+
   object-fit: cover;
-  object-position: center;
-  pointer-events: none;
+
+  object-position: center center;
+
   user-select: none;
-  transition: transform 0.8s
-    cubic-bezier(0.22, 1, 0.36, 1);
+
+  pointer-events: none;
+
+  -webkit-user-drag: none;
+
+  transform:
+    scale(1.015);
+
+  transition:
+    transform
+    0.5s
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
 }
 
 .amenitySlide:hover img {
-  transform: scale(1.035);
+  transform:
+    scale(1.03);
 }
 
-.amenityOverlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(8, 8, 18, 0.04) 18%,
-      rgba(8, 8, 18, 0.24) 55%,
-      rgba(8, 8, 18, 0.86) 100%
-    );
-  pointer-events: none;
-}
-
-.amenityContent {
-  position: absolute;
-  left: 28px;
-  right: 130px;
-  bottom: 30px;
-  z-index: 2;
-  color: #ffffff;
-}
-
-.amenityContent > span {
-  display: inline-flex;
-  margin-bottom: 5px;
-  color: #00ff78;
-  font-size: var(--fs-small);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.amenityContent h3 {
-  margin: 0;
-  color: #ffffff;
-}
-
-.amenityContent p {
-  max-width: 560px;
-  margin-top: 8px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--fs-small);
-}
-
-/* FLECHAS */
+/* =========================================================
+   CONTROLES
+========================================================= */
 
 .amenitiesControls {
   position: absolute;
+
   right: 24px;
-  bottom: 25px;
-  z-index: 4;
+
+  bottom: 24px;
+
+  z-index: 20;
+
   display: flex;
+
+  align-items: center;
+
   gap: 8px;
 }
 
 .amenitiesControls button {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+
+  height: 44px;
+
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50%;
-  background: rgba(16, 16, 36, 0.64);
-  color: #ffffff;
+
   display: grid;
+
   place-items: center;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+
+  background:
+    rgba(16, 16, 36, 0.72);
+
+  color: #ffffff;
+
   cursor: pointer;
-  backdrop-filter: blur(12px);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
   transition:
     background 0.25s ease,
     border-color 0.25s ease,
@@ -234,46 +408,256 @@
 }
 
 .amenitiesControls button:hover {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
+  background:
+    var(--color-primary);
+
+  border-color:
+    var(--color-primary);
+
+  transform:
+    translateY(-2px);
 }
 
-/* INDICADORES */
+.amenitiesControls button:focus-visible {
+  outline:
+    3px solid
+    rgba(0, 167, 79, 0.45);
+
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   DOTS
+========================================================= */
 
 .sliderDots {
   position: absolute;
+
   left: 28px;
+
   top: 25px;
-  z-index: 4;
+
+  z-index: 20;
+
   display: flex;
+
   align-items: center;
+
   gap: 7px;
 }
 
 .sliderDots button {
   width: 8px;
+
   height: 8px;
+
   padding: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.46);
+
+  border: 0;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.55);
+
   cursor: pointer;
+
   transition:
     width 0.25s ease,
-    background 0.25s ease;
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.sliderDots button:hover {
+  background: #ffffff;
+
+  transform:
+    scale(1.1);
 }
 
 .sliderDots .activeDot {
   width: 26px;
-  border-radius: 999px;
-  background: var(--color-primary);
+
+  background:
+    var(--color-primary);
 }
 
-/* TABLET */
+/* =========================================================
+   MODAL OVERLAY
+========================================================= */
 
-@media (max-width: 980px) {
+.amenityModalOverlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 999999;
+
+  width: 100vw;
+
+  height: 100dvh;
+
+  padding: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  background:
+    rgba(0, 0, 0, 0.92);
+
+  cursor: zoom-out;
+
+  animation:
+    modalFadeIn
+    0.2s
+    ease
+    both;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.amenityModal {
+  position: relative;
+
+  width: 100%;
+
+  height: 100%;
+
+  max-width: 1600px;
+
+  max-height: 900px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  cursor: default;
+}
+
+/* =========================================================
+   IMAGEN DEL MODAL
+========================================================= */
+
+.amenityModal img {
+  display: block;
+
+  width: auto;
+
+  height: auto;
+
+  max-width: 100%;
+
+  max-height: 100%;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+
+  box-shadow:
+    0 30px 100px
+    rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   BOTÓN CERRAR
+========================================================= */
+
+.amenityModalClose {
+  position: absolute;
+
+  top: 15px;
+
+  right: 15px;
+
+  z-index: 50;
+
+  width: 48px;
+
+  height: 48px;
+
+  padding: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.25);
+
+  border-radius: 50%;
+
+  background:
+    rgba(16, 16, 36, 0.85);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.amenityModalClose:hover {
+  background:
+    var(--color-primary);
+
+  transform:
+    scale(1.08);
+}
+
+.amenityModalClose:focus-visible {
+  outline:
+    3px solid
+    rgba(255, 255, 255, 0.7);
+
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   ANIMACIÓN MODAL
+========================================================= */
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   TABLET GRANDE
+========================================================= */
+
+@media (max-width: 1100px) {
   .amenitiesCard {
-    grid-template-columns: 210px minmax(0, 1fr);
+    grid-template-columns:
+      220px
+      minmax(0, 1fr);
   }
 
   .amenitiesNumber {
@@ -281,27 +665,108 @@
   }
 
   .amenitiesNumber strong {
-    font-size: 3.6rem;
+    font-size: 3.8rem;
   }
 
   .amenitiesNumber > span {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
   }
 
   .amenitiesViewport {
-    min-height: 330px;
+    height:
+      clamp(360px, 45vw, 500px);
+  }
+
+  .amenityModalOverlay {
+    padding: 24px;
   }
 }
 
-/* MOBILE */
+/* =========================================================
+   TABLET
+========================================================= */
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .amenitiesSection {
-    padding: 56px 16px;
+    padding:
+      72px
+      var(--container-x, 5vw);
+  }
+
+  .amenitiesCard {
+    grid-template-columns:
+      190px
+      minmax(0, 1fr);
+
+    border-radius: 22px;
+  }
+
+  .amenitiesNumber {
+    padding:
+      30px
+      20px;
+  }
+
+  .amenitiesNumber strong {
+    font-size: 3.3rem;
+  }
+
+  .amenitiesNumber > span {
+    font-size: 1.15rem;
+  }
+
+  .amenitiesViewport {
+    height:
+      clamp(330px, 48vw, 440px);
+  }
+
+  .amenitiesControls {
+    right: 18px;
+
+    bottom: 18px;
+  }
+
+  .amenitiesControls button {
+    width: 42px;
+
+    height: 42px;
+  }
+
+  .sliderDots {
+    left: 20px;
+
+    top: 20px;
+  }
+
+  .amenityModalOverlay {
+    padding: 20px;
+  }
+
+  .amenityModalClose {
+    top: 10px;
+
+    right: 10px;
+
+    width: 44px;
+
+    height: 44px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .amenitiesSection {
+    padding:
+      60px
+      16px;
   }
 
   .amenitiesHeader {
     margin-bottom: 26px;
+
     text-align: left;
   }
 
@@ -310,13 +775,19 @@
   }
 
   .amenitiesCard {
+    display: grid;
+
     grid-template-columns: 1fr;
+
     border-radius: 20px;
   }
 
   .amenitiesNumber {
-    min-height: 132px;
-    padding: 24px;
+    min-height: 125px;
+
+    padding:
+      24px
+      20px;
   }
 
   .amenitiesNumber strong {
@@ -325,83 +796,237 @@
 
   .amenitiesNumber > span {
     margin-top: 6px;
-    font-size: 1.15rem;
+
+    font-size: 1.1rem;
   }
 
   .amenitiesProgress {
     max-width: 220px;
-    margin-top: 15px;
+
+    margin-top: 14px;
   }
 
   .amenitiesNumber small {
     margin-top: 8px;
   }
 
+  /* =======================================================
+     SLIDER MOBILE
+  ======================================================= */
+
   .amenitiesViewport {
-    min-height: 270px;
-    max-height: none;
+    height: auto;
+
+    aspect-ratio: 16 / 10;
+
+    touch-action: pan-y;
   }
 
-  .amenityContent {
-    left: 20px;
-    right: 90px;
-    bottom: 22px;
+  .amenitySlide {
+    aspect-ratio: 16 / 10;
   }
 
-  .amenityContent p {
-    display: none;
+  .amenitySlide img {
+    transform: none;
+
+    object-fit: cover;
+
+    object-position: center center;
+  }
+
+  .amenitySlide:hover img {
+    transform: none;
   }
 
   .amenitiesControls {
-    right: 16px;
-    bottom: 18px;
-  }
+    right: 14px;
 
-  .amenitiesControls button {
-    width: 36px;
-    height: 36px;
-  }
+    bottom: 14px;
 
-  .sliderDots {
-    left: 18px;
-    top: 18px;
-  }
-}
-
-@media (max-width: 420px) {
-  .amenitiesSection {
-    padding-inline: 14px;
-  }
-
-  .amenitiesViewport {
-    min-height: 250px;
-  }
-
-  .amenityContent {
-    right: 76px;
-  }
-
-  .amenitiesControls {
     gap: 6px;
   }
 
   .amenitiesControls button {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+
+    height: 38px;
+  }
+
+  .sliderDots {
+    left: 16px;
+
+    top: 16px;
+  }
+
+  /* =======================================================
+     MODAL MOBILE
+  ======================================================= */
+
+  .amenityModalOverlay {
+    padding: 10px;
+  }
+
+  .amenityModal {
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    max-height: 90dvh;
+  }
+
+  .amenityModal img {
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
+
+    max-height: 86dvh;
+
+    object-fit: contain;
+
+    border-radius: 6px;
+  }
+
+  .amenityModalClose {
+    top: -8px;
+
+    right: 2px;
+
+    width: 40px;
+
+    height: 40px;
   }
 }
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 480px) {
+  .amenitiesSection {
+    padding:
+      50px
+      14px;
+  }
+
+  .amenitiesCard {
+    border-radius: 18px;
+  }
+
+  .amenitiesNumber {
+    min-height: 115px;
+
+    padding:
+      20px
+      16px;
+  }
+
+  .amenitiesNumber strong {
+    font-size: 2.7rem;
+  }
+
+  .amenitiesNumber > span {
+    font-size: 1rem;
+  }
+
+  .amenitiesViewport {
+    aspect-ratio: 4 / 3;
+  }
+
+  .amenitySlide {
+    aspect-ratio: 4 / 3;
+  }
+
+  .amenitiesControls {
+    right: 12px;
+
+    bottom: 12px;
+  }
+
+  .amenitiesControls button {
+    width: 35px;
+
+    height: 35px;
+  }
+
+  .sliderDots {
+    left: 13px;
+
+    top: 13px;
+  }
+
+  .amenityModalOverlay {
+    padding: 8px;
+  }
+
+  .amenityModal {
+    max-height: 88dvh;
+  }
+
+  .amenityModal img {
+    max-height: 84dvh;
+  }
+
+  .amenityModalClose {
+    top: -5px;
+
+    right: 0;
+
+    width: 38px;
+
+    height: 38px;
+  }
+}
+
+/* =========================================================
+   PANTALLAS MUY PEQUEÑAS
+========================================================= */
+
+@media (max-width: 360px) {
+  .amenitiesViewport {
+    aspect-ratio: 1 / 1;
+  }
+
+  .amenitySlide {
+    aspect-ratio: 1 / 1;
+  }
+
+  .amenityModalOverlay {
+    padding: 5px;
+  }
+
+  .amenityModal img {
+    max-height: 82dvh;
+  }
+}
+
+/* =========================================================
+   REDUCIR MOVIMIENTO
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .amenitiesTrack,
   .amenitySlide img,
   .amenitiesProgress span,
   .amenitiesControls button,
-  .sliderDots button {
+  .sliderDots button,
+  .amenityModalOverlay,
+  .amenityModalClose {
     transition: none;
+
+    animation: none;
   }
 
-  .amenitySlide:hover img,
-  .amenitiesControls button:hover {
+  .amenitySlide:hover img {
+    transform: none;
+  }
+
+  .amenitiesControls button:hover,
+  .sliderDots button:hover,
+  .amenityModalClose:hover {
     transform: none;
   }
 }

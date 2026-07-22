@@ -113,50 +113,69 @@ export const projectDescription = {
 
 export const typologies = [
   {
-    id: "impulso",
-
-    type: "Tipo Impulso",
-
-    title: "Muévete hacia tu próximo hogar",
-
-    area: "61 m²",
-
+    id: "impulso1",
+    type: "Tipo Impulso 1",
+    title: "Vive en movimiento",
     concept:
-      "Una distribución funcional para quienes buscan independencia, comodidad y un estilo de vida activo cerca de todo.",
-
+      "Una distribución compacta y funcional para quienes buscan un estilo de vida activo y moderno.",
     audience:
-      "Personas independientes, parejas e inversionistas",
-
+      "Jóvenes profesionales, deportistas e inversionistas",
     design:
-      "Ambientes funcionales y bien distribuidos",
-
-    tag: "61 m²",
-
-    image:
-      "/assets/projects/neo-xport/typologies/tipo-impulso.webp",
+      "Espacios inteligentes, prácticos y fáciles de mantener",
+    tag: "Activo y funcional",
+    image: "/assets/projects/tipologias/xport/impulso1.webp",
   },
   {
-    id: "luz",
-
-    type: "Tipo Luz",
-
-    title: "Más espacio para vivir a tu ritmo",
-
-    area: "68 m²",
-
+    id: "impulso2",
+    type: "Tipo Impulso 2",
+    title: "Tu primer depa deportivo",
     concept:
-      "Un departamento con mayor amplitud e iluminación natural, diseñado para disfrutar una vida cómoda, dinámica y familiar.",
-
+      "Una opción moderna para independizarte o invertir frente al Polideportivo Wanka.",
     audience:
-      "Parejas, familias jóvenes y profesionales",
-
+      "Jóvenes independientes, parejas e inversionistas",
     design:
-      "Mayor amplitud e iluminación natural",
-
-    tag: "68 m²",
-
-    image:
-      "/assets/projects/neo-xport/typologies/tipo-luz.webp",
+      "Distribución eficiente, ambientes prácticos y diseño dinámico",
+    tag: "Ideal para invertir",
+    image: "/assets/projects/tipologias/xport/impulso2.webp",
+  },
+  {
+    id: "luz1",
+    type: "Tipo Luz 1",
+    title: "Más luz para tu ritmo diario",
+    concept:
+      "Una tipología con ambientes iluminados y cómodos para vivir cerca del movimiento de la ciudad.",
+    audience:
+      "Parejas, profesionales y personas con estilo de vida activo",
+    design:
+      "Iluminación natural, espacios funcionales y diseño moderno",
+    tag: "Más bienestar",
+    image: "/assets/projects/tipologias/xport/luz1.webp",
+  },
+  {
+    id: "luz2",
+    type: "Tipo Luz 2",
+    title: "Comodidad para vivir activo",
+    concept:
+      "Una propuesta moderna con espacios bien distribuidos para vivir, entrenar y disfrutar cerca de todo.",
+    audience:
+      "Familias jóvenes, parejas y deportistas",
+    design:
+      "Ambientes cómodos, buena distribución y espacios funcionales",
+    tag: "Vida activa",
+    image: "/assets/projects/tipologias/xport/luz2.webp",
+  },
+  {
+    id: "luz3",
+    type: "Tipo Luz 3",
+    title: "Más amplitud para compartir",
+    concept:
+      "Un departamento moderno para quienes buscan más comodidad, iluminación y conexión con un estilo de vida dinámico.",
+    audience:
+      "Familias jóvenes, parejas y compradores que buscan mayor amplitud",
+    design:
+      "Ambientes iluminados, distribución cómoda y diseño contemporáneo",
+    tag: "Más amplitud",
+    image: "/assets/projects/tipologias/xport/luz3.webp",
   },
 ];
 
@@ -166,59 +185,28 @@ export const typologies = [
 
 export const amenities = [
   {
-    id: "fitness-xport",
-
-    title: "Fitness Xport",
-
-    description:
-      "Un espacio equipado para entrenar, mantenerte activo y complementar tu rutina deportiva sin salir de casa.",
-
-    image:
-      "/assets/projects/neo-xport/amenities/fitness-xport.webp",
+    title: "Área de Ejercicio",
+    image: "/assets/projects/amenities/neo-xport/area-ejercicio.webp",
   },
   {
-    id: "zona-recuperacion",
-
-    title: "Zona de recuperación",
-
-    description:
-      "Un ambiente pensado para descansar, recuperar energía y cuidar tu bienestar después de cada entrenamiento.",
-
-    image:
-      "/assets/projects/neo-xport/amenities/zona-recuperacion.webp",
+    title: "Lobby",
+    image: "/assets/projects/amenities/neo-xport/lobby.webp",
   },
   {
-    id: "bar-privado",
-
-    title: "Bar privado",
-
-    description:
-      "Un espacio moderno para compartir, relajarte y disfrutar momentos especiales con familiares y amigos.",
-
-    image:
-      "/assets/projects/neo-xport/amenities/bar-privado.webp",
+    title: "Sala de Juegos",
+    image: "/assets/projects/amenities/neo-xport/sala-juegos.webp",
   },
   {
-    id: "sala-juegos",
-
-    title: "Sala de juegos",
-
-    description:
-      "Un ambiente de entretenimiento diseñado para divertirte, desconectarte y compartir dentro del edificio.",
-
-    image:
-      "/assets/projects/neo-xport/amenities/sala-juegos.webp",
+    title: "Terraza",
+    image: "/assets/projects/amenities/neo-xport/terraza.webp",
   },
   {
-    id: "terraza-xport",
-
-    title: "Terraza Xport",
-
-    description:
-      "Una terraza con parrillas y espacios de reunión para disfrutar del aire libre y celebrar momentos especiales.",
-
-    image:
-      "/assets/projects/neo-xport/amenities/terraza-xport.webp",
+    title: "Zona de Descanso",
+    image: "/assets/projects/amenities/neo-xport/zona-descanso.webp",
+  },
+  {
+    title: "Zona de Parrillas",
+    image: "/assets/projects/amenities/neo-xport/zona-parrillas.webp",
   },
 ];
 

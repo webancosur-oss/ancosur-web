@@ -4,8 +4,8 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   PlayCircleIcon,
-  QuotesIcon,
 } from "@phosphor-icons/react";
+
 import {
   useCallback,
   useEffect,
@@ -14,6 +14,7 @@ import {
   type CSSProperties,
   type PointerEvent,
 } from "react";
+
 import styles from "./TrustStatsTestimonials.module.css";
 
 type StatItem = {
@@ -85,8 +86,6 @@ const testimonials: TestimonialItem[] = [
     iframeSrc:
       "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F4148433428738238%2F&show_text=false&width=267&t=0",
   },
-
-  
   {
     id: 3,
     name: "Familia ANCOSUR",
@@ -117,92 +116,162 @@ function AnimatedCounter({
     if (!start) return;
 
     let animationFrame = 0;
+
     const duration = 1700;
     const startTime = performance.now();
 
     const animate = (currentTime: number) => {
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-      const currentValue = Math.round(easedProgress * value);
+      const progress = Math.min(
+        (currentTime - startTime) / duration,
+        1
+      );
+
+      const easedProgress =
+        1 - Math.pow(1 - progress, 3);
+
+      const currentValue = Math.round(
+        easedProgress * value
+      );
 
       setCount(currentValue);
 
       if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
+        animationFrame =
+          requestAnimationFrame(animate);
       }
     };
 
-    animationFrame = requestAnimationFrame(animate);
+    animationFrame =
+      requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animationFrame);
+    return () =>
+      cancelAnimationFrame(animationFrame);
   }, [start, value]);
 
   return (
     <span className={styles.valueGroup}>
       <span className={styles.valueMain}>
-        {prefix && <span className={styles.valuePrefix}>{prefix}</span>}
-        <span className={styles.valueNumber}>{count}</span>
+        {prefix && (
+          <span className={styles.valuePrefix}>
+            {prefix}
+          </span>
+        )}
+
+        <span className={styles.valueNumber}>
+          {count}
+        </span>
       </span>
 
-      {suffix && <span className={styles.valueSuffix}>{suffix}</span>}
+      {suffix && (
+        <span className={styles.valueSuffix}>
+          {suffix}
+        </span>
+      )}
     </span>
   );
 }
 
 export default function TrustStatsTestimonials() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const pointerStartXRef = useRef<number | null>(null);
+  const sectionRef =
+    useRef<HTMLElement | null>(null);
 
-  const [startCounter, setStartCounter] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const pointerStartXRef =
+    useRef<number | null>(null);
 
-  const activeTestimonial = testimonials[activeIndex];
+  const [startCounter, setStartCounter] =
+    useState(false);
+
+  const [activeIndex, setActiveIndex] =
+    useState(0);
+
+  const activeTestimonial =
+    testimonials[activeIndex];
+
+  /* =========================================================
+     ACTIVAR CONTADORES
+  ========================================================= */
 
   useEffect(() => {
-    const currentSection = sectionRef.current;
+    const currentSection =
+      sectionRef.current;
 
     if (!currentSection) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStartCounter(true);
-          observer.disconnect();
+    const observer =
+      new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setStartCounter(true);
+            observer.disconnect();
+          }
+        },
+        {
+          threshold: 0.25,
         }
-      },
-      {
-        threshold: 0.25,
-      }
-    );
+      );
 
     observer.observe(currentSection);
 
-    return () => observer.disconnect();
+    return () =>
+      observer.disconnect();
   }, []);
 
-  const goToTestimonial = useCallback((index: number) => {
-    const total = testimonials.length;
-    const nextIndex = (index + total) % total;
+  /* =========================================================
+     NAVEGACIÓN
+  ========================================================= */
 
-    setActiveIndex(nextIndex);
-  }, []);
+  const goToTestimonial =
+    useCallback((index: number) => {
+      const total =
+        testimonials.length;
+
+      const nextIndex =
+        (index + total) % total;
+
+      setActiveIndex(nextIndex);
+    }, []);
 
   const goNext = useCallback(() => {
-    goToTestimonial(activeIndex + 1);
-  }, [activeIndex, goToTestimonial]);
+    goToTestimonial(
+      activeIndex + 1
+    );
+  }, [
+    activeIndex,
+    goToTestimonial,
+  ]);
 
   const goPrev = useCallback(() => {
-    goToTestimonial(activeIndex - 1);
-  }, [activeIndex, goToTestimonial]);
+    goToTestimonial(
+      activeIndex - 1
+    );
+  }, [
+    activeIndex,
+    goToTestimonial,
+  ]);
 
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    pointerStartXRef.current = event.clientX;
+  /* =========================================================
+     SWIPE
+  ========================================================= */
+
+  const handlePointerDown = (
+    event: PointerEvent<HTMLDivElement>
+  ) => {
+    pointerStartXRef.current =
+      event.clientX;
   };
 
-  const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
-    if (pointerStartXRef.current === null) return;
+  const handlePointerUp = (
+    event: PointerEvent<HTMLDivElement>
+  ) => {
+    if (
+      pointerStartXRef.current === null
+    ) {
+      return;
+    }
 
-    const difference = event.clientX - pointerStartXRef.current;
+    const difference =
+      event.clientX -
+      pointerStartXRef.current;
 
     if (Math.abs(difference) > 55) {
       if (difference < 0) {
@@ -216,24 +285,53 @@ export default function TrustStatsTestimonials() {
   };
 
   return (
-    <section ref={sectionRef} className={styles.section} id="confianza">
+    <section
+      ref={sectionRef}
+      className={styles.section}
+      id="confianza"
+    >
       <div className={styles.container}>
-        <div className={styles.header}>
-          <span>ANCOSUR en cifras</span>
 
-          <h2>Confianza que crece con cada proyecto</h2>
+        {/* =====================================================
+            HEADER PRINCIPAL
+        ====================================================== */}
+
+        <div className={styles.header}>
+          <span>
+            ANCOSUR en cifras
+          </span>
+
+          <h2>
+            Confianza que crece con cada proyecto
+          </h2>
 
           <p>
-            Resultados, experiencia y clientes reales que respaldan nuestro
+            Resultados, experiencia y clientes
+            reales que respaldan nuestro
             compromiso inmobiliario.
           </p>
         </div>
 
+        {/* =====================================================
+            CONTENIDO PRINCIPAL
+        ====================================================== */}
+
         <div className={styles.contentGrid}>
+
+          {/* ===================================================
+              ESTADÍSTICAS
+          ==================================================== */}
+
           <div className={styles.statsPanel}>
             <div className={styles.panelHeader}>
-              <span>Resultados reales</span>
-              <h3>Cifras que respaldan nuestro crecimiento</h3>
+              <span>
+                Resultados reales
+              </span>
+
+              <h3>
+                Cifras que respaldan
+                nuestro crecimiento
+              </h3>
             </div>
 
             <div className={styles.statsGrid}>
@@ -243,11 +341,16 @@ export default function TrustStatsTestimonials() {
                   className={styles.statCard}
                   style={
                     {
-                      "--accent-color": stat.accent,
+                      "--accent-color":
+                        stat.accent,
                     } as CSSProperties
                   }
                 >
-                  <div className={styles.statIcon}>
+                  <div
+                    className={
+                      styles.statIcon
+                    }
+                  >
                     <AnimatedCounter
                       value={stat.value}
                       prefix={stat.prefix}
@@ -256,91 +359,234 @@ export default function TrustStatsTestimonials() {
                     />
                   </div>
 
-                  <div className={styles.statText}>
-                    <h4>{stat.label}</h4>
-                    <p>{stat.description}</p>
+                  <div
+                    className={
+                      styles.statText
+                    }
+                  >
+                    <h4>
+                      {stat.label}
+                    </h4>
+
+                    <p>
+                      {stat.description}
+                    </p>
                   </div>
                 </article>
               ))}
             </div>
           </div>
 
+          {/* ===================================================
+              TESTIMONIOS
+          ==================================================== */}
+
           <div
-            className={styles.testimonialPanel}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
+            className={
+              styles.testimonialPanel
+            }
+            onPointerDown={
+              handlePointerDown
+            }
+            onPointerUp={
+              handlePointerUp
+            }
             onPointerCancel={() => {
-              pointerStartXRef.current = null;
+              pointerStartXRef.current =
+                null;
             }}
           >
-            <div className={styles.videoBox}>
-              <div className={styles.videoBadge}>
-                <PlayCircleIcon size={18} weight="fill" aria-hidden="true" />
-                Video
-              </div>
 
-              <iframe
-                key={activeTestimonial.id}
-                className={styles.facebookVideo}
-                src={activeTestimonial.iframeSrc}
-                title={`Testimonio de ${activeTestimonial.name}`}
-                scrolling="no"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="strict-origin-when-cross-origin"
-              />
-            </div>
+            {/* =================================================
+                VIDEO + TEXTO AL COSTADO
+            ================================================== */}
 
-            <div className={styles.quoteBox}>
-              <div className={styles.quoteIcon}>
-                <QuotesIcon size={28} weight="fill" aria-hidden="true" />
-              </div>
+            <div
+              className={
+                styles.testimonialContent
+              }
+            >
 
-              <p className={styles.quote}>{activeTestimonial.quote}</p>
+              {/* ===============================================
+                  VIDEO
+              ================================================ */}
 
-              <div className={styles.clientInfo}>
-                <strong>{activeTestimonial.name}</strong>
-                <span>{activeTestimonial.project}</span>
-              </div>
-
-              <div className={styles.controls}>
-                <button
-                  type="button"
-                  className={styles.controlButton}
-                  onClick={goPrev}
-                  aria-label="Testimonio anterior"
+              <div
+                className={styles.videoBox}
+              >
+                <div
+                  className={
+                    styles.videoBadge
+                  }
                 >
-                  <ArrowLeftIcon size={19} weight="bold" aria-hidden="true" />
-                </button>
+                  <PlayCircleIcon
+                    size={18}
+                    weight="fill"
+                    aria-hidden="true"
+                  />
 
-                <div className={styles.counter}>
-                  <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
-                  <span>/ {String(testimonials.length).padStart(2, "0")}</span>
+                  Video
                 </div>
 
-                <button
-                  type="button"
-                  className={styles.controlButton}
-                  onClick={goNext}
-                  aria-label="Siguiente testimonio"
-                >
-                  <ArrowRightIcon size={19} weight="bold" aria-hidden="true" />
-                </button>
+                <iframe
+                  key={
+                    activeTestimonial.id
+                  }
+                  className={
+                    styles.facebookVideo
+                  }
+                  src={
+                    activeTestimonial.iframeSrc
+                  }
+                  title={`Testimonio de ${activeTestimonial.name}`}
+                  scrolling="no"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </div>
 
-              <div className={styles.dots} aria-label="Lista de testimonios">
-                {testimonials.map((testimonial, index) => (
+              {/* ===============================================
+                  TEXTO DEL TESTIMONIO
+              ================================================ */}
+
+              <div
+                className={
+                  styles.quoteBox
+                }
+              >
+
+                <div
+                  className={
+                    styles.quoteHeading
+                  }
+                >
+                  <span>
+                    Testimonio
+                  </span>
+
+                  <h2>
+                    Así recibieron
+                    su nuevo hogar
+                  </h2>
+                </div>
+
+                <p
+                  className={
+                    styles.quote
+                  }
+                >
+                  “{activeTestimonial.quote}”
+                </p>
+
+                <div
+                  className={
+                    styles.clientInfo
+                  }
+                >
+                  <strong>
+                    {activeTestimonial.name}
+                  </strong>
+
+                  <span>
+                    {activeTestimonial.project}
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    styles.controls
+                  }
+                >
                   <button
-                    key={testimonial.id}
                     type="button"
-                    className={`${styles.dot} ${
-                      activeIndex === index ? styles.activeDot : ""
-                    }`}
-                    onClick={() => goToTestimonial(index)}
-                    aria-label={`Ver testimonio ${index + 1}`}
-                  />
-                ))}
+                    className={
+                      styles.controlButton
+                    }
+                    onClick={goPrev}
+                    aria-label="Testimonio anterior"
+                  >
+                    <ArrowLeftIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  <div
+                    className={
+                      styles.counter
+                    }
+                  >
+                    <strong>
+                      {String(
+                        activeIndex + 1
+                      ).padStart(2, "0")}
+                    </strong>
+
+                    <span>
+                      /{" "}
+                      {String(
+                        testimonials.length
+                      ).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={
+                      styles.controlButton
+                    }
+                    onClick={goNext}
+                    aria-label="Siguiente testimonio"
+                  >
+                    <ArrowRightIcon
+                      size={19}
+                      weight="bold"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
+
+                <div
+                  className={styles.dots}
+                  aria-label="Lista de testimonios"
+                >
+                  {testimonials.map(
+                    (
+                      testimonial,
+                      index
+                    ) => (
+                      <button
+                        key={
+                          testimonial.id
+                        }
+                        type="button"
+                        className={`${styles.dot} ${
+                          activeIndex ===
+                          index
+                            ? styles.activeDot
+                            : ""
+                        }`}
+                        onClick={() =>
+                          goToTestimonial(
+                            index
+                          )
+                        }
+                        aria-label={`Ver testimonio ${
+                          index + 1
+                        }`}
+                        aria-current={
+                          activeIndex ===
+                          index
+                            ? "true"
+                            : undefined
+                        }
+                      />
+                    )
+                  )}
+                </div>
               </div>
             </div>
           </div>

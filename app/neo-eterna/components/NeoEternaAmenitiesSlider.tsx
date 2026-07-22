@@ -3,94 +3,224 @@
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  XIcon,
 } from "@phosphor-icons/react";
+
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
-  type KeyboardEvent,
   type PointerEvent,
+  type KeyboardEvent,
 } from "react";
+
 import { amenities } from "../data";
 import styles from "./NeoEternaAmenities.module.css";
 
 const AUTOPLAY_DELAY = 5000;
 const DRAG_THRESHOLD = 55;
+const CLICK_THRESHOLD = 8;
 
 type PointerStart = {
   x: number;
   y: number;
 };
 
-export default function NeoBaltoAmenitiesSlider() {
+type Amenity = (typeof amenities)[number];
+
+export default function NeoEternaAmenitiesSlider() {
+  /* =========================================================
+     ESTADOS
+  ========================================================= */
+
   const [activeIndex, setActiveIndex] = useState(0);
+
   const [isPaused, setIsPaused] = useState(false);
+
   const [isDragging, setIsDragging] = useState(false);
+
   const [dragOffset, setDragOffset] = useState(0);
 
-  const pointerStartRef = useRef<PointerStart | null>(null);
+  const [selectedAmenity, setSelectedAmenity] =
+    useState<Amenity | null>(null);
+
+  /* =========================================================
+     REFS
+  ========================================================= */
+
+  const pointerStartRef =
+    useRef<PointerStart | null>(null);
+
+  const hasMovedRef = useRef(false);
+
+  const pointerIdRef = useRef<number | null>(null);
+
+  /* =========================================================
+     DATOS
+  ========================================================= */
 
   const totalAmenities = amenities.length;
+
+  const hasMultipleAmenities =
+    totalAmenities > 1;
+
+  /* =========================================================
+     MODAL
+  ========================================================= */
+
+  const openModal = useCallback(
+    (item: Amenity) => {
+      setSelectedAmenity(item);
+      setIsPaused(true);
+      setDragOffset(0);
+    },
+    []
+  );
+
+  const closeModal = useCallback(() => {
+    setSelectedAmenity(null);
+    setIsPaused(false);
+  }, []);
+
+  /* =========================================================
+     CAMBIAR SLIDE
+  ========================================================= */
 
   const goToSlide = useCallback(
     (index: number) => {
       if (!totalAmenities) return;
 
       const nextIndex =
-        (index + totalAmenities) % totalAmenities;
+        (index + totalAmenities) %
+        totalAmenities;
 
       setActiveIndex(nextIndex);
+
       setDragOffset(0);
     },
     [totalAmenities]
   );
 
   const goPrevious = useCallback(() => {
+    if (!hasMultipleAmenities) return;
+
     goToSlide(activeIndex - 1);
-  }, [activeIndex, goToSlide]);
+  }, [
+    activeIndex,
+    goToSlide,
+    hasMultipleAmenities,
+  ]);
 
   const goNext = useCallback(() => {
+    if (!hasMultipleAmenities) return;
+
     goToSlide(activeIndex + 1);
-  }, [activeIndex, goToSlide]);
+  }, [
+    activeIndex,
+    goToSlide,
+    hasMultipleAmenities,
+  ]);
+
+  /* =========================================================
+     AUTOPLAY
+  ========================================================= */
 
   useEffect(() => {
     if (
       isPaused ||
       isDragging ||
-      totalAmenities <= 1
+      selectedAmenity ||
+      !hasMultipleAmenities
     ) {
       return;
     }
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) =>
-        current === totalAmenities - 1
+        current >= totalAmenities - 1
           ? 0
           : current + 1
       );
     }, AUTOPLAY_DELAY);
 
-    return () => window.clearInterval(timer);
-  }, [isPaused, isDragging, totalAmenities]);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [
+    isPaused,
+    isDragging,
+    selectedAmenity,
+    hasMultipleAmenities,
+    totalAmenities,
+  ]);
 
-  const resetDrag = () => {
-    pointerStartRef.current = null;
-    setIsDragging(false);
-    setDragOffset(0);
-  };
+  /* =========================================================
+     ESCAPE + BLOQUEAR SCROLL
+  ========================================================= */
+
+  useEffect(() => {
+    if (!selectedAmenity) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const handleKeyDown = (
+      event: globalThis.KeyboardEvent
+    ) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+
+      document.body.style.overflow = "";
+    };
+  }, [
+    selectedAmenity,
+    closeModal,
+  ]);
+
+  /* =========================================================
+     POINTER DOWN
+  ========================================================= */
 
   const handlePointerDown = (
     event: PointerEvent<HTMLDivElement>
   ) => {
-    const target = event.target as HTMLElement;
+    if (!hasMultipleAmenities) return;
+
+    const target =
+      event.target as HTMLElement;
+
+    /*
+     * No iniciar swipe desde controles.
+     */
 
     if (
-      target.closest("button") ||
-      target.closest("a")
+      target.closest(
+        "[data-slider-control='true']"
+      )
     ) {
       return;
     }
+
+    /*
+     * Mouse:
+     * solo botón izquierdo.
+     */
 
     if (
       event.pointerType === "mouse" &&
@@ -104,63 +234,134 @@ export default function NeoBaltoAmenitiesSlider() {
       y: event.clientY,
     };
 
-    setIsDragging(true);
+    pointerIdRef.current =
+      event.pointerId;
+
+    hasMovedRef.current = false;
+
+    setIsDragging(false);
+
     setDragOffset(0);
+
+    setIsPaused(true);
 
     event.currentTarget.setPointerCapture(
       event.pointerId
     );
   };
 
+  /* =========================================================
+     POINTER MOVE
+  ========================================================= */
+
   const handlePointerMove = (
     event: PointerEvent<HTMLDivElement>
   ) => {
     if (
       !pointerStartRef.current ||
-      !isDragging
+      pointerIdRef.current !==
+        event.pointerId
     ) {
       return;
     }
 
     const differenceX =
-      event.clientX - pointerStartRef.current.x;
+      event.clientX -
+      pointerStartRef.current.x;
 
     const differenceY =
-      event.clientY - pointerStartRef.current.y;
+      event.clientY -
+      pointerStartRef.current.y;
 
-    const isVerticalMovement =
-      Math.abs(differenceY) >
-      Math.abs(differenceX);
+    /*
+     * Todavía no se considera drag.
+     */
 
     if (
-      isVerticalMovement &&
-      Math.abs(differenceY) > 12
+      Math.abs(differenceX) <
+        CLICK_THRESHOLD &&
+      Math.abs(differenceY) <
+        CLICK_THRESHOLD
     ) {
-      setDragOffset(0);
       return;
     }
 
+    /*
+     * Si el movimiento vertical es mayor,
+     * no convertirlo en swipe.
+     */
+
+    if (
+      Math.abs(differenceY) >
+        Math.abs(differenceX)
+    ) {
+      return;
+    }
+
+    /*
+     * Desde aquí se considera drag.
+     */
+
+    hasMovedRef.current = true;
+
+    setIsDragging(true);
+
     event.preventDefault();
+
     setDragOffset(differenceX);
   };
+
+  /* =========================================================
+     POINTER UP
+  ========================================================= */
 
   const handlePointerUp = (
     event: PointerEvent<HTMLDivElement>
   ) => {
-    if (!pointerStartRef.current) return;
+    if (
+      !pointerStartRef.current ||
+      pointerIdRef.current !==
+        event.pointerId
+    ) {
+      return;
+    }
+
+    const startX =
+      pointerStartRef.current.x;
+
+    const startY =
+      pointerStartRef.current.y;
 
     const differenceX =
-      event.clientX - pointerStartRef.current.x;
+      event.clientX - startX;
 
     const differenceY =
-      event.clientY - pointerStartRef.current.y;
+      event.clientY - startY;
+
+    const wasClick =
+      Math.abs(differenceX) <
+        CLICK_THRESHOLD &&
+      Math.abs(differenceY) <
+        CLICK_THRESHOLD &&
+      !hasMovedRef.current;
 
     const isHorizontalSwipe =
-      Math.abs(differenceX) > DRAG_THRESHOLD &&
+      Math.abs(differenceX) >
+        DRAG_THRESHOLD &&
       Math.abs(differenceX) >
         Math.abs(differenceY);
 
-    resetDrag();
+    /*
+     * Guardar si fue click antes
+     * de resetear los refs.
+     */
+
+    const clickedIndex =
+      activeIndex;
+
+    /*
+     * Liberar pointer.
+     */
 
     if (
       event.currentTarget.hasPointerCapture(
@@ -172,20 +373,57 @@ export default function NeoBaltoAmenitiesSlider() {
       );
     }
 
-    if (!isHorizontalSwipe) return;
+    pointerStartRef.current = null;
 
-    if (differenceX < 0) {
-      goNext();
-    } else {
-      goPrevious();
+    pointerIdRef.current = null;
+
+    setIsDragging(false);
+
+    setDragOffset(0);
+
+    /*
+     * CLICK REAL
+     *
+     * Aquí abrimos el popup.
+     */
+
+    if (wasClick) {
+      const selected =
+        amenities[clickedIndex];
+
+      if (selected) {
+        openModal(selected);
+      }
+
+      return;
     }
+
+    /*
+     * SWIPE
+     */
+
+    if (isHorizontalSwipe) {
+      if (differenceX < 0) {
+        goNext();
+      } else {
+        goPrevious();
+      }
+    }
+
+    /*
+     * Reactivar autoplay.
+     */
+
+    setIsPaused(false);
   };
+
+  /* =========================================================
+     POINTER CANCEL
+  ========================================================= */
 
   const handlePointerCancel = (
     event: PointerEvent<HTMLDivElement>
   ) => {
-    resetDrag();
-
     if (
       event.currentTarget.hasPointerCapture(
         event.pointerId
@@ -195,9 +433,25 @@ export default function NeoBaltoAmenitiesSlider() {
         event.pointerId
       );
     }
+
+    pointerStartRef.current = null;
+
+    pointerIdRef.current = null;
+
+    hasMovedRef.current = false;
+
+    setIsDragging(false);
+
+    setDragOffset(0);
+
+    setIsPaused(false);
   };
 
-  const handleKeyDown = (
+  /* =========================================================
+     TECLADO SLIDER
+  ========================================================= */
+
+  const handleSliderKeyDown = (
     event: KeyboardEvent<HTMLDivElement>
   ) => {
     if (event.key === "ArrowLeft") {
@@ -209,189 +463,369 @@ export default function NeoBaltoAmenitiesSlider() {
       event.preventDefault();
       goNext();
     }
+
+    if (
+      event.key === "Enter" ||
+      event.key === " "
+    ) {
+      event.preventDefault();
+
+      const selected =
+        amenities[activeIndex];
+
+      if (selected) {
+        openModal(selected);
+      }
+    }
   };
 
-  if (!totalAmenities) return null;
+  /* =========================================================
+     OVERLAY MODAL
+  ========================================================= */
+
+  const handleOverlayClick = () => {
+    closeModal();
+  };
+
+  /* =========================================================
+     SI NO HAY DATOS
+  ========================================================= */
+
+  if (!totalAmenities) {
+    return null;
+  }
+
+  /* =========================================================
+     TRANSFORMACIÓN
+  ========================================================= */
 
   const sliderTransform = `translate3d(calc(-${
     activeIndex * 100
   }% + ${dragOffset}px), 0, 0)`;
 
+  /* =========================================================
+     RENDER
+  ========================================================= */
+
   return (
-    <section
-      className={styles.amenitiesSection}
-      aria-labelledby="amenities-title"
-    >
-      <div className={styles.amenitiesHeader}>
-        <span>Amenidades</span>
-
-        <h2 id="amenities-title">
-          Espacios creados para tu bienestar diario
-        </h2>
-
-        <p>
-          Ambientes pensados para relajarte,
-          mantenerte activo y disfrutar una mejor
-          experiencia dentro de tu hogar.
-        </p>
-      </div>
-
-      <div
-        className={styles.amenitiesCard}
-        onPointerEnter={() => setIsPaused(true)}
-        onPointerLeave={() => {
-          if (!isDragging) {
-            setIsPaused(false);
-          }
-        }}
-        onFocus={() => setIsPaused(true)}
-        onBlur={() => setIsPaused(false)}
+    <>
+      <section
+        className={styles.amenitiesSection}
+        aria-labelledby="distrito-san-carlos-amenities-title"
       >
-        <div className={styles.amenitiesNumber}>
-          <strong>{totalAmenities}</strong>
-          <span>Áreas comunes</span>
-
-          <div className={styles.amenitiesProgress}>
-            <span
-              style={{
-                width: `${
-                  ((activeIndex + 1) /
-                    totalAmenities) *
-                  100
-                }%`,
-              }}
-            />
-          </div>
-
-          <small>
-            {String(activeIndex + 1).padStart(
-              2,
-              "0"
-            )}{" "}
-            /{" "}
-            {String(totalAmenities).padStart(
-              2,
-              "0"
-            )}
-          </small>
-        </div>
+        {/* ===================================================
+            HEADER
+        =================================================== */}
 
         <div
-          className={`${styles.amenitiesViewport} ${
-            isDragging ? styles.dragging : ""
-          }`}
-          tabIndex={0}
-          role="region"
-          aria-label="Galería de amenidades"
-          onKeyDown={handleKeyDown}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerCancel}
+          className={styles.amenitiesHeader}
         >
+          <span>
+            Áreas comunes
+          </span>
+
+          <h2 id="distrito-san-carlos-amenities-title">
+            Todo lo que necesitas dentro de tu propio distrito
+          </h2>
+
+          <p>
+            Disfruta espacios para compartir,
+            trabajar, entrenar y vivir en familia
+            sin alejarte de tu hogar.
+          </p>
+        </div>
+
+        {/* ===================================================
+            CARD
+        =================================================== */}
+
+        <div
+          className={styles.amenitiesCard}
+          onPointerEnter={() => {
+            if (!selectedAmenity) {
+              setIsPaused(true);
+            }
+          }}
+          onPointerLeave={() => {
+            if (
+              !isDragging &&
+              !selectedAmenity
+            ) {
+              setIsPaused(false);
+            }
+          }}
+        >
+          {/* =================================================
+              PANEL VERDE
+          ================================================= */}
+
           <div
-            className={styles.amenitiesTrack}
-            style={{
-              transform: sliderTransform,
-              transition: isDragging
-                ? "none"
-                : undefined,
-            }}
+            className={
+              styles.amenitiesNumber
+            }
           >
-            {amenities.map((item, index) => (
-              <article
-                key={item.title}
-                className={styles.amenitySlide}
-                aria-hidden={
-                  index !== activeIndex
-                }
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  width={1600}
-                  height={900}
-                  loading={
-                    index === 0
-                      ? "eager"
-                      : "lazy"
+            <strong>
+              +{totalAmenities}
+            </strong>
+
+            <span>
+              Áreas comunes
+            </span>
+
+            <div
+              className={
+                styles.amenitiesProgress
+              }
+            >
+              <span
+                style={{
+                  width: `${
+                    ((activeIndex + 1) /
+                      totalAmenities) *
+                    100
+                  }%`,
+                }}
+              />
+            </div>
+
+            <small>
+              {String(
+                activeIndex + 1
+              ).padStart(2, "0")}{" "}
+              /{" "}
+              {String(
+                totalAmenities
+              ).padStart(2, "0")}
+            </small>
+          </div>
+
+          {/* =================================================
+              VIEWPORT
+          ================================================= */}
+
+          <div
+            className={`
+              ${styles.amenitiesViewport}
+              ${
+                isDragging
+                  ? styles.dragging
+                  : ""
+              }
+            `}
+            tabIndex={0}
+            role="region"
+            aria-label="Galería de áreas comunes"
+            onKeyDown={
+              handleSliderKeyDown
+            }
+            onPointerDown={
+              handlePointerDown
+            }
+            onPointerMove={
+              handlePointerMove
+            }
+            onPointerUp={
+              handlePointerUp
+            }
+            onPointerCancel={
+              handlePointerCancel
+            }
+          >
+            {/* =================================================
+                TRACK
+            ================================================= */}
+
+            <div
+              className={
+                styles.amenitiesTrack
+              }
+              style={{
+                transform:
+                  sliderTransform,
+
+                transition: isDragging
+                  ? "none"
+                  : undefined,
+              }}
+            >
+              {amenities.map(
+                (item, index) => (
+                  <article
+                    key={`${item.title}-${index}`}
+                    className={
+                      styles.amenitySlide
+                    }
+                    aria-hidden={
+                      index !==
+                      activeIndex
+                    }
+                  >
+                    <img
+                      src={item.image}
+                      alt={`${item.title} de Distrito San Carlos`}
+                      width={1600}
+                      height={900}
+                      loading={
+                        index === 0
+                          ? "eager"
+                          : "lazy"
+                      }
+                      draggable={false}
+                    />
+                  </article>
+                )
+              )}
+            </div>
+
+            {/* =================================================
+                CONTROLES
+            ================================================= */}
+
+            {hasMultipleAmenities && (
+              <>
+                <div
+                  className={
+                    styles.amenitiesControls
                   }
-                  draggable={false}
-                />
-
-                <div
-                  className={styles.amenityOverlay}
-                />
-
-                <div
-                  className={styles.amenityContent}
                 >
-                  <span>Amenidad</span>
-                  <h3>{item.title}</h3>
+                  <button
+                    type="button"
+                    data-slider-control="true"
+                    onPointerDown={(event) =>
+                      event.stopPropagation()
+                    }
+                    onClick={
+                      goPrevious
+                    }
+                    aria-label="Área común anterior"
+                  >
+                    <ArrowLeftIcon
+                      size={19}
+                      weight="bold"
+                    />
+                  </button>
 
-                  {item.description && (
-                    <p>{item.description}</p>
+                  <button
+                    type="button"
+                    data-slider-control="true"
+                    onPointerDown={(event) =>
+                      event.stopPropagation()
+                    }
+                    onClick={goNext}
+                    aria-label="Siguiente área común"
+                  >
+                    <ArrowRightIcon
+                      size={19}
+                      weight="bold"
+                    />
+                  </button>
+                </div>
+
+                {/* =================================================
+                    DOTS
+                ================================================= */}
+
+                <div
+                  className={
+                    styles.sliderDots
+                  }
+                  aria-label="Seleccionar área común"
+                >
+                  {amenities.map(
+                    (item, index) => (
+                      <button
+                        key={`${item.title}-${index}`}
+                        type="button"
+                        data-slider-control="true"
+                        onPointerDown={(
+                          event
+                        ) =>
+                          event.stopPropagation()
+                        }
+                        onClick={() =>
+                          goToSlide(
+                            index
+                          )
+                        }
+                        aria-label={`Ver ${item.title}`}
+                        aria-current={
+                          index ===
+                          activeIndex
+                            ? "true"
+                            : undefined
+                        }
+                        className={
+                          index ===
+                          activeIndex
+                            ? styles.activeDot
+                            : ""
+                        }
+                      />
+                    )
                   )}
                 </div>
-              </article>
-            ))}
-          </div>
-
-          <div
-            className={styles.amenitiesControls}
-          >
-            <button
-              type="button"
-              onClick={goPrevious}
-              aria-label="Amenidad anterior"
-            >
-              <ArrowLeftIcon
-                size={19}
-                weight="bold"
-                aria-hidden={true}
-              />
-            </button>
-
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Siguiente amenidad"
-            >
-              <ArrowRightIcon
-                size={19}
-                weight="bold"
-                aria-hidden={true}
-              />
-            </button>
-          </div>
-
-          <div
-            className={styles.sliderDots}
-            aria-label="Seleccionar amenidad"
-          >
-            {amenities.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                aria-label={`Ver ${item.title}`}
-                aria-current={
-                  index === activeIndex
-                    ? "true"
-                    : undefined
-                }
-                className={
-                  index === activeIndex
-                    ? styles.activeDot
-                    : ""
-                }
-                onClick={() =>
-                  goToSlide(index)
-                }
-              />
-            ))}
+              </>
+            )}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* =====================================================
+          POPUP / MODAL
+      ===================================================== */}
+
+      {selectedAmenity && (
+        <div
+          className={
+            styles.amenityModalOverlay
+          }
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Imagen ampliada de ${selectedAmenity.title}`}
+          onClick={
+            handleOverlayClick
+          }
+        >
+          <div
+            className={
+              styles.amenityModal
+            }
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            {/* ===============================================
+                CERRAR
+            =============================================== */}
+
+            <button
+              type="button"
+              className={
+                styles.amenityModalClose
+              }
+              onClick={closeModal}
+              aria-label="Cerrar imagen"
+            >
+              <XIcon
+                size={24}
+                weight="bold"
+              />
+            </button>
+
+            {/* ===============================================
+                IMAGEN COMPLETA
+            =============================================== */}
+
+            <img
+              src={
+                selectedAmenity.image
+              }
+              alt={`${selectedAmenity.title} ampliada`}
+              draggable={false}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
