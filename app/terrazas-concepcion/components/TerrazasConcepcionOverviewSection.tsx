@@ -304,7 +304,7 @@ export default function TerrazasConcepcionOverviewSection() {
                 Descargar brochure
               </a>
 
-              <Link href="/portal-de-transparencia">
+              <Link href="/portal-de-transparencia/las-terrazas-de-concepcion">
                 Respaldo legal
 
                 <ArrowRightIcon

@@ -26,37 +26,17 @@ export default function CaminoRealMedia() {
 
       <article className={styles.projectVideoCard}>
         <div className={styles.projectVideoBox}>
-          <img
-            src="/assets/projects/camino-real/media/portada-camino-real.webp"
-            alt="Vista general del proyecto Camino Real Residencial"
-            width={1600}
-            height={900}
+          <iframe
+            src="https://www.youtube.com/embed/XX6JkY2VpF8?si=SF8QSt33_8txb4F2"
+            title="Video Camino Real Residencial"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
           />
-
-          <div
-            className={styles.projectVideoOverlay}
-            aria-hidden={true}
-          />
-
-          <button
-            type="button"
-            className={styles.projectPlayButton}
-            aria-label="Reproducir presentación de Camino Real Residencial"
-          >
-            <span aria-hidden={true}>▶</span>
-          </button>
-
-          <div className={styles.projectVideoContent}>
-            <span>Camino Real Residencial</span>
-
-            <h3>
-              Lotes desde 90 m² hasta 178 m² en una urbanización completa de
-              El Tambo
-            </h3>
-          </div>
         </div>
       </article>
 
+      {/*
       <div className={styles.lotOptionsGrid}>
         {lotOptions.map((lot) => (
           <article
@@ -91,6 +71,7 @@ export default function CaminoRealMedia() {
           </article>
         ))}
       </div>
+      */}
     </section>
   );
 }

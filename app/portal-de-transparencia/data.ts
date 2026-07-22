@@ -1157,7 +1157,7 @@ export const transparencyProjects: TransparencyProject[] = [
   {
     slug: "las-terrazas-de-concepcion",
     name: "Las Terrazas de Concepción",
-    projectRoute: "/las-terrazas-de-concepcion",
+    projectRoute: "/terrazas-concepcion",
     companyName: "ANCOSUR S.A.C.",
     ruc: "20606690526",
     fiscalAddress: "Av. San Carlos N.° 1481",

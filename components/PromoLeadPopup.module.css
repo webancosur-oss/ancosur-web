@@ -24,24 +24,24 @@
 .popup {
   position: relative;
   z-index: 2;
-  width: min(980px, 94vw);
-  max-height: 90dvh;
+  width: min(1120px, 94vw);
+  height: min(860px, 92vh);
   border-radius: 22px;
-  background: #ffffff;
+  background: #fff;
   overflow: hidden;
   display: grid;
-  grid-template-columns:
-    minmax(0, 1fr)
-    minmax(340px, 0.78fr);
-  box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.4);
+  grid-template-columns: 52% 48%;
+  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.4);
   animation: popupShow 0.35s ease;
 }
 
 .imageSide {
   position: relative;
-  min-height: 500px;
-  background: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #fff;
   overflow: hidden;
 }
 
@@ -88,15 +88,15 @@
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 500px;
-  object-fit: cover;
+  object-fit: fill;
+  object-position: center center;
 }
 
 .formSide {
-  max-height: 90dvh;
-  padding: 34px;
+  height: 100%;
   overflow-y: auto;
-  background: #ffffff;
+  padding: 34px;
+  background: #fff;
   box-sizing: border-box;
 }
 

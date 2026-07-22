@@ -1,39 +1,9 @@
 "use client";
 
-
-import {
-  PauseIcon,
-  PlayIcon,
-} from "@phosphor-icons/react";
-import { useRef, useState } from "react";
-
-import {
-  lotOptions,
-  projectMedia,
-} from "../data";
-
+import { lotOptions } from "../data";
 import styles from "./TerrazasConcepcionMedia.module.css";
 
 export default function TerrazasConcepcionMedia() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleVideoToggle = async () => {
-    const video = videoRef.current;
-
-    if (!video) return;
-
-    try {
-      if (video.paused) {
-        await video.play();
-      } else {
-        video.pause();
-      }
-    } catch {
-      setIsPlaying(false);
-    }
-  };
-
   return (
     <section
       className={styles.mediaSection}
@@ -56,79 +26,17 @@ export default function TerrazasConcepcionMedia() {
 
       <article className={styles.projectVideoCard}>
         <div className={styles.projectVideoBox}>
-          <video
-            ref={videoRef}
-            className={styles.projectVideo}
-            poster={projectMedia.poster}
-            preload="metadata"
-            playsInline
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            onEnded={() => setIsPlaying(false)}
-            aria-label="Presentación de Las Terrazas de Concepción"
-          >
-            <source
-              src={projectMedia.video}
-              type="video/mp4"
-            />
-
-            Tu navegador no permite reproducir este video.
-          </video>
-
-          <div
-            className={`${styles.projectVideoOverlay} ${
-              isPlaying
-                ? styles.projectVideoOverlayHidden
-                : ""
-            }`}
-            aria-hidden={true}
+          <iframe
+            src="https://www.youtube.com/embed/FouN2jqorSQ?si=Is9bq-zmVkPwEKKE"
+            title="Presentación de Las Terrazas de Concepción"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
           />
-
-          <button
-            type="button"
-            className={`${styles.projectPlayButton} ${
-              isPlaying
-                ? styles.projectPlayButtonActive
-                : ""
-            }`}
-            onClick={handleVideoToggle}
-            aria-label={
-              isPlaying
-                ? "Pausar presentación de Las Terrazas de Concepción"
-                : "Reproducir presentación de Las Terrazas de Concepción"
-            }
-          >
-            {isPlaying ? (
-              <PauseIcon
-                size={22}
-                weight="fill"
-                aria-hidden={true}
-              />
-            ) : (
-              <PlayIcon
-                size={27}
-                weight="fill"
-                aria-hidden={true}
-              />
-            )}
-          </button>
-
-          <div
-            className={`${styles.projectVideoContent} ${
-              isPlaying
-                ? styles.projectVideoContentHidden
-                : ""
-            }`}
-          >
-            <span>{projectMedia.badge}</span>
-
-            <h3>{projectMedia.title}</h3>
-
-            <p>{projectMedia.description}</p>
-          </div>
         </div>
       </article>
 
+      {/*
       <div className={styles.lotOptionsHeader}>
         <span>Opciones de terrenos</span>
 
@@ -178,6 +86,7 @@ export default function TerrazasConcepcionMedia() {
                     <strong>{lot.price}</strong>
                   </div>
                 )}
+
               </div>
 
               <p>{lot.description}</p>
@@ -189,6 +98,7 @@ export default function TerrazasConcepcionMedia() {
           </article>
         ))}
       </div>
+      */}
     </section>
   );
 }

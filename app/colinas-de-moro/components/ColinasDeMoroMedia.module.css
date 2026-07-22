@@ -26,7 +26,7 @@
 .mediaHeader h2 {
   margin: 0;
   color: var(--color-dark, #17172f);
-line-height: 1.05;
+  line-height: 1.05;
   letter-spacing: -0.045em;
   text-wrap: balance;
 }
@@ -36,6 +36,8 @@ line-height: 1.05;
   color: var(--color-muted, #656579);
   line-height: 1.75;
 }
+
+/* ================= VIDEO ================= */
 
 .projectVideoCard {
   width: min(
@@ -51,87 +53,18 @@ line-height: 1.05;
 
 .projectVideoBox {
   position: relative;
-  min-height: 560px;
-  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
 }
 
-.projectVideoBox > img {
-  position: absolute;
-  inset: 0;
+.projectVideoBox iframe {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s ease;
+  border: 0;
+  display: block;
 }
 
-.projectVideoCard:hover .projectVideoBox > img {
-  transform: scale(1.035);
-}
-
-.projectVideoOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 10, 24, 0.05) 25%,
-    rgba(10, 10, 24, 0.85) 100%
-  );
-}
-
-.projectPlayButton {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 78px;
-  height: 78px;
-  padding-left: 5px;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
-  background: rgba(0, 167, 79, 0.92);
-  color: #ffffff;
-  font-size: 1.45rem;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.24);
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
-}
-
-.projectPlayButton:hover {
-  background: var(--color-primary-dark, #008f43);
-  transform: translate(-50%, -50%) scale(1.08);
-}
-
-.projectVideoContent {
-  position: absolute;
-  left: 36px;
-  right: 36px;
-  bottom: 32px;
-  z-index: 2;
-  max-width: 680px;
-}
-
-.projectVideoContent span {
-  display: inline-block;
-  margin-bottom: 9px;
-  color: #55e39a;
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.projectVideoContent h3 {
-  margin: 0;
-  color: #ffffff;
-line-height: 1.08;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
+/* ========================================= */
 
 .lotOptionsGrid {
   display: grid;
@@ -276,22 +209,8 @@ line-height: 1.08;
     padding: 72px 0;
   }
 
-  .mediaHeader h2 {
-}
-
-  .projectVideoBox {
-    min-height: 430px;
-  }
-
-  .projectVideoContent {
-    left: 22px;
-    right: 22px;
-    bottom: 22px;
-  }
-
-  .projectPlayButton {
-    width: 66px;
-    height: 66px;
+  .projectVideoCard {
+    border-radius: 18px;
   }
 
   .lotOptionCard {
@@ -306,17 +225,7 @@ line-height: 1.08;
 @media (max-width: 480px) {
   .projectVideoCard,
   .lotOptionCard {
-    border-radius: 18px;
-  }
-
-  .projectVideoBox {
-    min-height: 380px;
-  }
-
-  .projectPlayButton {
-    width: 58px;
-    height: 58px;
-    font-size: 1.15rem;
+    border-radius: 16px;
   }
 
   .lotOptionImage {

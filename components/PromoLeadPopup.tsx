@@ -15,6 +15,7 @@ import FeedbackToast, {
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import styles from "./PromoLeadPopup.module.css";
+import Link from "next/link";
 
 type PopupCampaign = {
   id: string;
@@ -56,7 +57,7 @@ const campaigns: PopupCampaign[] = [
     title: "Quiero participar",
     eyebrow: "Campaña exclusiva",
     description:
-      "Déjanos tus datos para recibir mayor información sobre esta campaña y los proyectos disponibles de ANCOSUR.",
+      "Déjanos tus datos para recibir mayor información.",
     image: "/assets/campanias/campaniajulio.png",
     imageAlt:
       "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
@@ -431,20 +432,13 @@ export default function PromoLeadPopup() {
               <Image
                 key={activeCampaign.id}
                 src={activeCampaign.image}
-                alt={
-                  activeCampaign.imageAlt
-                }
-                width={
-                  activeCampaign.imageWidth
-                }
-                height={
-                  activeCampaign.imageHeight
-                }
-                className={
-                  styles.popupImage
-                }
+                alt={activeCampaign.imageAlt}
+                width={activeCampaign.imageWidth}
+                height={activeCampaign.imageHeight}
                 priority
-                sizes="(max-width: 520px) calc(100vw - 20px), (max-width: 900px) 640px, 560px"
+                quality={100}
+                className={styles.popupImage}
+                sizes="(max-width:900px)100vw,52vw"
               />
             </div>
 
@@ -632,10 +626,7 @@ export default function PromoLeadPopup() {
                     <option value="Lotes">
                       Lotes
                     </option>
-
-                    <option value="Inversión inmobiliaria">
-                      Inversión inmobiliaria
-                    </option>
+                    
                   </select>
 
                   {errors.project && (
@@ -701,33 +692,30 @@ export default function PromoLeadPopup() {
                   )}
                 </div>
 
-                <label
-                  className={
-                    styles.checkbox
-                  }
-                >
+                <label className={styles.checkbox}>
                   <input
                     type="checkbox"
-                    checked={
-                      formData.consent
-                    }
+                    checked={formData.consent}
                     disabled={isSending}
                     onChange={(event) =>
-                      setFormData(
-                        (previous) => ({
-                          ...previous,
-                          consent:
-                            event.target
-                              .checked,
-                        })
-                      )
+                      setFormData((previous) => ({
+                        ...previous,
+                        consent: event.target.checked,
+                      }))
                     }
                   />
 
                   <span>
-                    Acepto ser contactado por
-                    ANCOSUR para recibir
-                    información comercial.
+                    Acepto los{" "}
+                    <Link
+                      href="/politicas/politica-de-privacidad"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.termsLink}
+                    >
+                      términos y la política de privacidad
+                    </Link>{" "}
+                    y autorizo ser contactado por ANCOSUR para recibir información comercial.
                   </span>
                 </label>
 

@@ -36,8 +36,8 @@
 
 .header {
   max-width: 760px;
-  margin-bottom:
-    clamp(38px, 5vw, 58px);
+  margin: 0 auto clamp(38px, 5vw, 58px);
+  text-align: center;
 
   opacity: 0;
   transform: translateY(24px);
@@ -55,36 +55,22 @@
 .header > span {
   display: block;
   margin-bottom: 12px;
-
   color: #00a74f;
-
-  font-size: 0.75rem;
-  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.13em;
 }
 
 .header h2 {
   margin: 0;
-
   color: #111827;
-
-  font-size:
-    clamp(2rem, 4.2vw, 3.8rem);
-
   line-height: 1.03;
   letter-spacing: -0.05em;
 }
 
 .header p {
   max-width: 680px;
-  margin: 18px 0 0;
-
+  margin: 18px auto 0;
   color: #667085;
-
-  font-size:
-    clamp(0.95rem, 1.4vw, 1.08rem);
-
   line-height: 1.7;
 }
 

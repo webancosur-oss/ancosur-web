@@ -1,4 +1,3 @@
-
 import { lotOptions } from "../data";
 import styles from "./ColinasDeMoroMedia.module.css";
 
@@ -25,36 +24,17 @@ export default function ColinasDeMoroMedia() {
 
       <article className={styles.projectVideoCard}>
         <div className={styles.projectVideoBox}>
-          <img
-            src="/assets/projects/colinas-de-moro/media/portada-colinas-de-moro.webp"
-            alt="Vista general del proyecto Las Colinas de Moro"
-            width={1600}
-            height={900}
+          <iframe
+            src="https://www.youtube.com/embed/gqU3CO_s8Gw?si=0aAVeVL9YD4Gtqmd"
+            title="Video Las Colinas de Moro"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
           />
-
-          <div
-            className={styles.projectVideoOverlay}
-            aria-hidden={true}
-          />
-
-          <button
-            type="button"
-            className={styles.projectPlayButton}
-            aria-label="Reproducir presentación de Las Colinas de Moro"
-          >
-            <span aria-hidden={true}>▶</span>
-          </button>
-
-          <div className={styles.projectVideoContent}>
-            <span>Las Colinas de Moro</span>
-
-            <h3>
-              Lotes desde 90 m² hasta 285 m² en una zona con proyección
-            </h3>
-          </div>
         </div>
       </article>
 
+      {/*
       <div className={styles.lotOptionsGrid}>
         {lotOptions.map((lot) => (
           <article
@@ -89,6 +69,7 @@ export default function ColinasDeMoroMedia() {
           </article>
         ))}
       </div>
+      */}
     </section>
   );
 }

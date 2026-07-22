@@ -1,0 +1,1088 @@
+/* =========================================================
+   COMPRAMOS TU TERRENO
+   ANCOSUR
+========================================================= */
+
+.page {
+  --green: #00a74f;
+  --green-dark: #008f43;
+  --green-light: #19c86a;
+
+  width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      circle at 8% 16%,
+      #00a74f21,
+      #0000 28%
+    ),
+    radial-gradient(
+      circle at 92% 72%,
+      #00a74f12,
+      #0000 30%
+    ),
+    linear-gradient(
+      120deg,
+      #06170e 0%,
+      #0b120e 50%,
+      #07100b 100%
+    );
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  min-height: 620px;
+
+  padding:
+    160px
+    clamp(24px, 6vw, 90px)
+    90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 15% 35%,
+      rgba(0, 167, 79, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 70%,
+      rgba(0, 167, 79, 0.08),
+      transparent 35%
+    ),
+    linear-gradient(
+      120deg,
+      #06170e 0%,
+      #0b120e 50%,
+      #07100b 100%
+    );
+}
+
+
+/* Línea superior */
+
+.hero::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 167, 79, 0.5),
+      transparent
+    );
+}
+
+
+/* Glow */
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -180px;
+
+  width: 800px;
+  height: 400px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 167, 79, 0.15),
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.heroContent {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    900px,
+    100%
+  );
+
+  margin: 0 auto;
+}
+
+
+/* Categoría */
+
+.heroContent > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 24px;
+
+  color: var(--green);
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+
+/* Líneas laterales */
+
+.heroContent > span::before,
+.heroContent > span::after {
+  content: "";
+
+  width: 34px;
+  height: 1px;
+
+  background:
+    var(--green);
+}
+
+
+.heroContent > span::before {
+  margin-right: 13px;
+}
+
+
+.heroContent > span::after {
+  margin-left: 13px;
+}
+
+
+/* Título */
+
+.heroContent h1 {
+  max-width: 850px;
+
+  margin:
+    0
+    auto
+    26px;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      2.6rem,
+      6vw,
+      5.4rem
+    );
+
+  line-height: 0.98;
+
+  font-weight: 800;
+
+  letter-spacing: -0.055em;
+}
+
+
+/* Descripción */
+
+.heroContent p {
+  max-width: 680px;
+
+  margin: 0 auto;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.62
+    );
+
+  font-size:
+    clamp(
+      0.95rem,
+      1.5vw,
+      1.08rem
+    );
+
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.formSection {
+  position: relative;
+
+  width: min(
+    100%,
+    1000px
+  );
+
+  margin: 0 auto;
+
+  padding:
+    90px
+    24px
+    120px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form {
+  position: relative;
+
+  width: 100%;
+
+  padding:
+    clamp(
+      28px,
+      5vw,
+      56px
+    );
+
+  border-radius: 32px;
+
+  background:
+    radial-gradient(
+      circle at 8% 16%,
+      rgba(0, 167, 79, 0.09),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 72%,
+      rgba(0, 167, 79, 0.06),
+      transparent 30%
+    ),
+    rgba(
+      255,
+      255,
+      255,
+      0.035
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  box-shadow:
+    0 30px 90px
+    rgba(
+      0,
+      0,
+      0,
+      0.28
+    );
+
+  backdrop-filter:
+    blur(20px);
+
+  -webkit-backdrop-filter:
+    blur(20px);
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.header {
+  max-width: 680px;
+
+  margin:
+    0
+    auto
+    42px;
+
+  text-align: center;
+}
+
+
+/* Categoría */
+
+.header > span {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: var(--green);
+
+  font-size: 0.67rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+}
+
+
+/* Título */
+
+.header h2 {
+  margin:
+    0
+    0
+    16px;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      3.2rem
+    );
+
+  line-height: 1.05;
+
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
+}
+
+
+/* Texto */
+
+.header p {
+  max-width: 580px;
+
+  margin: 0 auto;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.56
+    );
+
+  font-size: 0.92rem;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.formGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+/* =========================================================
+   INPUTS Y SELECT
+========================================================= */
+
+.form input:not(
+  [type="checkbox"]
+) {
+  width: 100%;
+  min-width: 0;
+  height: 56px;
+
+  padding:
+    0
+    17px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border-radius: 14px;
+
+  outline: none;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.2
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.88rem;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.form select {
+  width: 100%;
+  min-width: 0;
+  height: 56px;
+
+  padding:
+    0
+    17px;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border-radius: 14px;
+
+  outline: none;
+
+  background:
+    #0b1710;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.82
+    );
+
+  font-family: inherit;
+
+  font-size: 0.88rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* Placeholder */
+
+.form input:not(
+  [type="checkbox"]
+)::placeholder,
+.form textarea::placeholder {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.38
+    );
+}
+
+
+/* Focus */
+
+.form input:not(
+  [type="checkbox"]
+):focus,
+.form select:focus,
+.form textarea:focus {
+  border-color:
+    rgba(
+      0,
+      167,
+      79,
+      0.75
+    );
+
+  background:
+    rgba(
+      0,
+      167,
+      79,
+      0.045
+    );
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      0,
+      167,
+      79,
+      0.1
+    );
+}
+
+
+/* Disabled */
+
+.form input:disabled,
+.form select:disabled,
+.form textarea:disabled {
+  opacity: 0.55;
+
+  cursor:
+    not-allowed;
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+========================================================= */
+
+.form input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+
+.form input[type="number"]::-webkit-inner-spin-button,
+.form input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form textarea {
+  width: 100%;
+
+  min-height: 140px;
+
+  margin-top: 14px;
+
+  padding:
+    16px
+    17px;
+
+  resize: vertical;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
+
+  border-radius: 14px;
+
+  outline: none;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.2
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.88rem;
+
+  line-height: 1.6;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkbox {
+  margin-top: 20px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+
+/* Checkbox */
+
+.checkbox input {
+  width: 18px;
+  height: 18px;
+
+  flex:
+    0 0
+    18px;
+
+  margin-top: 2px;
+
+  accent-color:
+    var(--green);
+
+  cursor: pointer;
+}
+
+
+/* Texto */
+
+.checkbox span {
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.52
+    );
+
+  font-size: 0.73rem;
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+  margin-top: 18px;
+
+  padding:
+    13px
+    16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(
+      220,
+      50,
+      50,
+      0.1
+    );
+
+  border:
+    1px solid
+    rgba(
+      255,
+      80,
+      80,
+      0.25
+    );
+
+  color:
+    #ffb4b4;
+
+  font-size: 0.78rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success {
+  margin-top: 18px;
+
+  padding:
+    14px
+    16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(
+      0,
+      167,
+      79,
+      0.1
+    );
+
+  border:
+    1px solid
+    rgba(
+      0,
+      167,
+      79,
+      0.3
+    );
+
+  color:
+    #75e7a9;
+
+  font-size: 0.78rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.form button {
+  width: 100%;
+
+  min-height: 56px;
+
+  margin-top: 24px;
+
+  padding:
+    0
+    24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00a74f,
+      #008f43
+    );
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 0.88rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 14px 35px
+    rgba(
+      0,
+      167,
+      79,
+      0.18
+    );
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.form button:hover:not(
+  :disabled
+) {
+  transform:
+    translateY(-2px);
+
+  background:
+    linear-gradient(
+      135deg,
+      #19c86a,
+      #00a74f
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(
+      0,
+      167,
+      79,
+      0.28
+    );
+}
+
+
+.form button:active:not(
+  :disabled
+) {
+  transform:
+    translateY(0)
+    scale(0.99);
+}
+
+
+.form button:disabled {
+  opacity: 0.55;
+
+  cursor:
+    not-allowed;
+
+  box-shadow:
+    none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: 560px;
+
+    padding:
+      140px
+      30px
+      80px;
+  }
+
+  .formSection {
+    width:
+      min(
+        100%,
+        760px
+      );
+
+    padding:
+      70px
+      20px
+      90px;
+  }
+
+  .form {
+    padding:
+      36px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .hero {
+    min-height: 520px;
+
+    padding:
+      125px
+      20px
+      70px;
+  }
+
+  .heroContent > span {
+    font-size: 0.58rem;
+
+    letter-spacing: 0.1em;
+  }
+
+  .heroContent > span::before,
+  .heroContent > span::after {
+    width: 18px;
+  }
+
+  .heroContent h1 {
+    font-size:
+      clamp(
+        2.2rem,
+        11vw,
+        3.5rem
+      );
+
+    line-height: 1;
+  }
+
+  .heroContent p {
+    font-size: 0.88rem;
+
+    line-height: 1.65;
+  }
+
+  .formSection {
+    width:
+      calc(
+        100% - 24px
+      );
+
+    padding:
+      60px
+      0
+      80px;
+  }
+
+  .form {
+    padding:
+      28px
+      18px;
+
+    border-radius: 24px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .header h2 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .form input:not(
+    [type="checkbox"]
+  ),
+  .form select {
+    height: 54px;
+  }
+
+  .form textarea {
+    min-height: 130px;
+  }
+
+  .checkbox {
+    gap: 10px;
+  }
+
+  .checkbox span {
+    font-size: 0.7rem;
+  }
+}
+
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 390px) {
+  .hero {
+    padding:
+      115px
+      16px
+      60px;
+  }
+
+  .heroContent h1 {
+    font-size: 2.15rem;
+  }
+
+  .formSection {
+    width:
+      calc(
+        100% - 20px
+      );
+  }
+
+  .form {
+    padding:
+      24px
+      14px;
+
+    border-radius: 20px;
+  }
+
+  .header h2 {
+    font-size: 1.8rem;
+  }
+
+  .form button {
+    min-height: 52px;
+  }
+}
+
+
+/* =========================================================
+   ACCESIBILIDAD
+========================================================= */
+
+.form input:focus-visible,
+.form select:focus-visible,
+.form textarea:focus-visible,
+.form button:focus-visible,
+.checkbox input:focus-visible {
+  outline:
+    2px solid
+    var(--green);
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCIR MOVIMIENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .form input,
+  .form select,
+  .form textarea,
+  .form button {
+    transition: none;
+  }
+}
