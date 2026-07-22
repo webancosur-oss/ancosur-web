@@ -24,7 +24,7 @@ export const facts = [
   },
   {
     label: "Precio",
-    value: "Desde S/ 169,590",
+    value: "Desde S/ 191.300",
   },
 ];
 

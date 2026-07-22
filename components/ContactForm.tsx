@@ -67,7 +67,7 @@ const initialFormData: LeadFormData = {
   email: "",
   interest: "",
   message: "",
-  consent: false,
+  consent: true,
   website: "",
 };
 

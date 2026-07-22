@@ -55,7 +55,7 @@ export const neoRivera = {
     },
     {
       label: "Precio",
-      value: "Desde S/ 211,270",
+      value: "Desde S/ 224.690",
     },
     {
       label: "Privacidad",

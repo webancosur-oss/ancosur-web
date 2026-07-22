@@ -71,7 +71,7 @@ const initialFormData: FormData = {
   email: "",
   project: "",
   message: "",
-  consent: false,
+  consent: true,
 };
 
 const SUCCESS_TOAST: FeedbackToastData = {
