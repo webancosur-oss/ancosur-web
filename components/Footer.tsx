@@ -97,22 +97,6 @@ export default function Footer() {
     <footer className={styles.footer}>
 
       {/* =====================================================
-          ARCO SUPERIOR
-          EL FOOTER ES LA BASE VERDE
-          Y ESTAS SON LAS 3 CAPAS SUPERIORES
-      ===================================================== */}
-
-      <div
-        className={styles.rainbowArc}
-        aria-hidden="true"
-      >
-        <span className={styles.arcOne} />
-        <span className={styles.arcTwo} />
-        <span className={styles.arcThree} />
-      </div>
-
-
-      {/* =====================================================
           CONTENIDO
       ===================================================== */}
 

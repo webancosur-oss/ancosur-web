@@ -58,7 +58,7 @@ const campaigns: PopupCampaign[] = [
     eyebrow: "Campaña exclusiva",
     description:
       "Déjanos tus datos para recibir mayor información.",
-    image: "/assets/campanias/campaniajulio.png",
+    image: "/assets/campanias/campania.webp",
     imageAlt:
       "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
     imageWidth: 1080,

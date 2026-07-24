@@ -61,7 +61,7 @@ export default function FloatingPromo({
         aria-label="Conocer el Cyber House de ANCOSUR"
       >
         <Image
-          src="/assets/floating/leonitov2.svg"
+          src="/assets/floating/leonito.svg"
           alt="Leonito invitando al Cyber House de ANCOSUR"
           width={1057}
           height={1409}
@@ -71,7 +71,7 @@ export default function FloatingPromo({
         />
 
         <Image
-          src="/assets/floating/leonitov1.svg"
+          src="/assets/floating/leonito.svg"
           alt="Leonito invitando al Cyber House de ANCOSUR"
           width={1086}
           height={1448}

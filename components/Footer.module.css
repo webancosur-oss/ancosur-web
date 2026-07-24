@@ -1,1549 +1,496 @@
-/* =========================================================
-   FOOTER ANCOSUR
-========================================================= */
+/*==================================================
+  FOOTER ANCOSUR
+==================================================*/
 
-.footer {
-  --green-dark: #006b35;
-  --green-deep: #008c45;
-  --green: #00a74f;
-  --green-medium: #18b967;
-  --green-light: #25c878;
-  --green-soft: #54d993;
+.footer{
+  --primary:#00A74F;
+  --primary-dark:#006B35;
+  --primary-soft:#EAF8F0;
+  --text:#102017;
+  --text-light:#6E7C73;
+  --border:rgba(0,107,53,.12);
 
-  position: relative;
-
-  width: 100%;
-
-  margin-top: 105px;
-
-  padding-top: 0;
-
-  background:
-    linear-gradient(
-      145deg,
-      #f7faf8 0%,
-      #ffffff 48%,
-      #f2f8f4 100%
-    );
-
-  color: #102017;
-
-  overflow: hidden;
+  position:relative;
+  width:100%;
+  margin-top:70px;
+  background: #006B35;
+  color:var(--text);
+  overflow:hidden;
 }
 
-
-/* =========================================================
-   ARCO SUPERIOR
-   =========================================================
-
-   IMPORTANTE:
-
-   Las 3 capas forman el arco mediante elementos
-   independientes superpuestos.
-
-   No se utiliza:
-   - SVG
-   - Imagen
-   - clip-path
-   - mask
-   - pseudo-elementos
-
-   Cada capa utiliza:
-   - position: absolute
-   - width
-   - height
-   - top
-   - left
-   - border-radius
-
-   La curvatura se mantiene limpia y suave.
-========================================================= */
-
-.rainbowArc {
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 150px;
-
-  overflow: hidden;
-
-  pointer-events: none;
-
-  z-index: 1;
+.container{
+  width:min(1240px,calc(100% - 48px));
+  margin:auto;
+  padding:38px 0 22px;
 }
 
+/*==================================================
+  CABECERA
+==================================================*/
 
-/* =========================================================
-   CAPA 1
-   EXTERIOR
-   VERDE OSCURO
-========================================================= */
-
-.arcOne {
-  position: absolute;
-
-  top: 50px;
-  left: 0;
-
-  width: 100%;
-  height: 100px;
-
-  border-radius:
-    100px 100px 0 0;
-
-  background:
-    var(--green-dark);
-
-  box-sizing: border-box;
-
-  z-index: 1;
+.brandCard{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:40px;
+  padding-bottom:28px;
+  border-bottom:1px solid var(--border);
 }
 
-
-/* =========================================================
-   CAPA 2
-   INTERMEDIA
-   VERDE ANCOSUR
-========================================================= */
-
-.arcTwo {
-  position: absolute;
-
-  top: 66px;
-  left: 0;
-
-  width: 100%;
-  height: 84px;
-
-  border-radius:
-    100px 100px 0 0;
-
-  background:
-    var(--green);
-
-  box-sizing: border-box;
-
-  z-index: 2;
+.brandIdentity{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  flex:1;
 }
 
-
-/* =========================================================
-   CAPA 3
-   INTERIOR
-   VERDE CLARO
-========================================================= */
-
-.arcThree {
-  position: absolute;
-
-  top: 82px;
-  left: 0;
-
-  width: 100%;
-  height: 68px;
-
-  border-radius:
-    100px 100px 0 0;
-
-  background:
-    var(--green-light);
-
-  box-sizing: border-box;
-
-  z-index: 3;
+.logo{
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
 }
 
-
-/* =========================================================
-   CONTENEDOR
-========================================================= */
-
-.container {
-  position: relative;
-
-  z-index: 5;
-
-  width:
-    min(
-      1280px,
-      calc(100% - 64px)
-    );
-
-  margin:
-    0 auto;
-
-  padding:
-    42px 0 22px;
+.logoImage{
+  width:170px;
+  height:auto;
 }
 
-
-/* =========================================================
-   MARCA
-========================================================= */
-
-.brandCard {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 40px;
-
-  padding-bottom: 26px;
-
-  border-bottom:
-    1px solid
-    rgba(0, 90, 45, 0.1);
+.logoText{
+  font-size:1.8rem;
+  font-weight:800;
+  color:var(--primary-dark);
 }
 
-
-.brandIdentity {
-  display: flex;
-
-  align-items: center;
-
-  gap: 26px;
-
-  min-width: 0;
+.brandDescription{
+  padding-left:24px;
+  border-left:1px solid var(--border);
 }
 
-
-.logo {
-  display: inline-flex;
-
-  align-items: center;
-
-  flex-shrink: 0;
+.brandDescription span{
+  display:block;
+  margin-bottom:6px;
+  color:var(--primary-dark);
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
-
-.logoImage {
-  width: 175px;
-
-  height: auto;
-
-  object-fit: contain;
+.brandDescription p{
+  max-width:420px;
+  margin:0;
+  color:var(--text-light);
+  font-size:.78rem;
+  line-height:1.6;
 }
 
+/*==================================================
+  ACCIONES
+==================================================*/
 
-.logoText {
-  color:
-    var(--green-dark);
-
-  font-size: 1.8rem;
-
-  font-weight: 900;
+.brandActions{
+  display:flex;
+  align-items:center;
+  gap:22px;
 }
 
-
-.brandDescription {
-  padding-left: 26px;
-
-  border-left:
-    1px solid
-    rgba(0, 90, 45, 0.14);
+.projectsButton{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 18px;
+  border-radius:999px;
+  background:var(--primary);
+  color:#fff;
+  font-size:.75rem;
+  font-weight:700;
+  text-decoration:none;
+  transition:.25s;
 }
 
-
-.brandDescription > span {
-  display: block;
-
-  margin-bottom: 4px;
-
-  color:
-    var(--green-dark);
-
-  font-size: 0.68rem;
-
-  font-weight: 800;
-
-  letter-spacing: 0.13em;
-
-  text-transform: uppercase;
+.projectsButton:hover{
+  background:var(--primary-dark);
+  transform:translateY(-2px);
 }
 
+/*==================================================
+  REDES
+==================================================*/
 
-.brandDescription p {
-  max-width: 420px;
-
-  margin: 0;
-
-  color:
-    rgba(16, 32, 23, 0.58);
-
-  font-size: 0.76rem;
-
-  line-height: 1.5;
+.socialArea{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-
-/* =========================================================
-   ACCIONES
-========================================================= */
-
-.brandActions {
-  display: flex;
-
-  align-items: center;
-
-  gap: 24px;
-
-  flex-shrink: 0;
+.socialArea span{
+  font-size:.65rem;
+  font-weight:700;
+  color:var(--text-light);
 }
 
-
-.projectsButton {
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  padding:
-    10px 16px;
-
-  border-radius:
-    999px;
-
-  background:
-    var(--green);
-
-  color:
-    #ffffff;
-
-  font-size: 0.74rem;
-
-  font-weight: 700;
-
-  text-decoration: none;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease;
+.socials{
+  display:flex;
+  gap:6px;
 }
 
-
-.projectsButton:hover {
-  background:
-    var(--green-dark);
-
-  transform:
-    translateY(-2px);
+.socials a{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--primary-soft);
+  color:var(--primary-dark);
+  transition:.25s;
 }
 
-
-/* =========================================================
-   REDES SOCIALES
-========================================================= */
-
-.socialArea {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
+.socials a:hover{
+  background:var(--primary);
+  color:#fff;
+  transform:translateY(-2px);
 }
 
+/*==================================================
+  COLUMNAS
+==================================================*/
 
-.socialArea > span {
-  color:
-    rgba(16, 32, 23, 0.48);
-
-  font-size: 0.66rem;
-
-  font-weight: 700;
+.columns{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:34px;
+  padding:34px 0;
 }
 
-
-.socials {
-  display: flex;
-
-  align-items: center;
-
-  gap: 5px;
+.columnHeading{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:16px;
 }
 
-
-.socials a {
-  width: 30px;
-
-  height: 30px;
-
-  display: grid;
-
-  place-items: center;
-
-  border-radius: 50%;
-
-  color:
-    var(--green-dark);
-
-  background:
-    rgba(0, 167, 79, 0.07);
-
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
+.columnHeading span{
+  color:var(--primary);
+  font-size:.62rem;
+  font-weight:800;
 }
 
-
-.socials a:hover {
-  color:
-    #ffffff;
-
-  background:
-    var(--green);
-
-  transform:
-    translateY(-2px);
+.columnHeading h3{
+  margin:0;
+  font-size:.84rem;
+  font-weight:800;
 }
 
-
-/* =========================================================
-   COLUMNAS
-========================================================= */
-
-.columns {
-  display: grid;
-
-  grid-template-columns:
-    1.1fr
-    1.1fr
-    1fr
-    1.15fr;
-
-  gap: 34px;
-
-  padding:
-    28px 0;
+.linkList{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-
-.columnHeading {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  margin-bottom: 14px;
+.linkList a{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-decoration:none;
+  color:var(--text-light);
+  font-size:.75rem;
+  transition:.25s;
 }
 
-
-.columnHeading span {
-  color:
-    var(--green);
-
-  font-size: 0.58rem;
-
-  font-weight: 800;
+.linkList a svg{
+  opacity:0;
+  transform:translateX(-6px);
+  transition:.25s;
 }
 
-
-.columnHeading h3 {
-  margin: 0;
-
-  color:
-    #102017;
-
-  font-size: 0.8rem;
-
-  font-weight: 800;
+.linkList a:hover{
+  color:var(--primary-dark);
 }
 
-
-.linkList {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-
-  margin: 0;
-
-  padding: 0;
-
-  list-style: none;
+.linkList a:hover svg{
+  opacity:1;
+  transform:translateX(0);
 }
 
+/*==================================================
+  CONTACTO
+==================================================*/
 
-.linkList a {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 10px;
-
-  color:
-    rgba(16, 32, 23, 0.56);
-
-  font-size: 0.73rem;
-
-  text-decoration: none;
-
-  transition:
-    color 0.2s ease;
+.contactList{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-
-.linkList a svg {
-  opacity: 0;
-
-  transform:
-    translateX(-4px);
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+.contactItem{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:inherit;
 }
 
-
-.linkList a:hover {
-  color:
-    var(--green-dark);
+.contactIcon,
+.officeIcon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--primary-soft);
+  color:var(--primary-dark);
+  flex-shrink:0;
 }
 
-
-.linkList a:hover svg {
-  opacity: 1;
-
-  transform:
-    translateX(0);
+.contactContent{
+  display:flex;
+  flex-direction:column;
 }
 
-
-/* =========================================================
-   CONTACTO
-========================================================= */
-
-.contactList {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 12px;
+.contactContent small{
+  color:var(--text-light);
+  font-size:.65rem;
 }
 
-
-.contactItem {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  color: inherit;
-
-  text-decoration: none;
+.contactContent strong{
+  color:var(--text);
+  font-size:.75rem;
+  font-weight:700;
 }
 
+/*==================================================
+  OFICINA
+==================================================*/
 
-.contactIcon {
-  width: 31px;
-
-  height: 31px;
-
-  display: grid;
-
-  place-items: center;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  color:
-    var(--green-dark);
-
-  background:
-    rgba(0, 167, 79, 0.08);
+.officeCard{
+  display:flex;
+  gap:12px;
+  margin-bottom:18px;
 }
 
-
-.contactContent {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2px;
-
-  min-width: 0;
+.officeCard address{
+  font-style:normal;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
 }
 
-
-.contactContent small {
-  color:
-    rgba(16, 32, 23, 0.42);
-
-  font-size: 0.6rem;
+.officeCard strong{
+  font-size:.78rem;
 }
-
-
-.contactContent strong {
-  color:
-    rgba(16, 32, 23, 0.76);
-
-  font-size: 0.7rem;
-
-  font-weight: 700;
-
-  overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   OFICINA
-========================================================= */
-
-.officeCard {
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 9px;
-
-  margin-bottom: 12px;
-}
-
-
-.officeIcon {
-  width: 31px;
-
-  height: 31px;
-
-  display: grid;
-
-  place-items: center;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  color:
-    var(--green-dark);
-
-  background:
-    rgba(0, 167, 79, 0.08);
-}
-
-
-.officeCard address {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 2px;
-
-  font-style: normal;
-}
-
-
-.officeCard strong {
-  color:
-    #102017;
-
-  font-size: 0.73rem;
-}
-
 
 .officeCard span,
-.officeCard small {
-  color:
-    rgba(16, 32, 23, 0.5);
-
-  font-size: 0.68rem;
+.officeCard small{
+  color:var(--text-light);
+  font-size:.72rem;
 }
 
+/*==================================================
+  EQUIPO
+==================================================*/
 
-/* =========================================================
-   EQUIPO
-========================================================= */
-
-.teamCard {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
-
-  padding:
-    9px 11px;
-
-  border:
-    1px solid
-    rgba(0, 167, 79, 0.12);
-
-  border-radius:
-    13px;
-
-  color:
-    inherit;
-
-  text-decoration: none;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
+.teamCard{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  text-decoration:none;
+  color:inherit;
+  transition:.25s;
 }
 
-
-.teamCard:hover {
-  border-color:
-    rgba(0, 167, 79, 0.3);
-
-  background:
-    rgba(0, 167, 79, 0.04);
+.teamCard:hover{
+  border-color:var(--primary);
+  background:var(--primary-soft);
 }
 
-
-.teamIcon {
-  color:
-    var(--green);
+.teamIcon{
+  color:var(--primary);
 }
 
-
-.teamContent {
-  display: flex;
-
-  flex: 1;
-
-  flex-direction: column;
-
-  gap: 2px;
+.teamContent{
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
-
-.teamContent small {
-  color:
-    rgba(16, 32, 23, 0.45);
-
-  font-size: 0.57rem;
-
-  line-height: 1.3;
+.teamContent small{
+  font-size:.63rem;
+  color:var(--text-light);
 }
 
-
-.teamContent strong {
-  color:
-    var(--green-dark);
-
-  font-size: 0.68rem;
+.teamContent strong{
+  font-size:.72rem;
+  color:var(--primary-dark);
 }
 
+/*==================================================
+  LEGAL
+==================================================*/
 
-/* =========================================================
-   LEGAL
-========================================================= */
-
-.legalSection {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 25px;
-
-  padding:
-    16px 0;
-
-  border-top:
-    1px solid
-    rgba(0, 90, 45, 0.1);
-
-  border-bottom:
-    1px solid
-    rgba(0, 90, 45, 0.1);
+.legalSection{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  padding:22px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
 }
 
-
-.legalHeading span {
-  display: block;
-
-  margin-bottom: 3px;
-
-  color:
-    var(--green);
-
-  font-size: 0.56rem;
-
-  font-weight: 800;
-
-  letter-spacing: 0.1em;
-
-  text-transform: uppercase;
+.legalHeading span{
+  display:block;
+  color:var(--primary);
+  font-size:.62rem;
+  font-weight:800;
+  margin-bottom:4px;
+  text-transform:uppercase;
 }
 
-
-.legalHeading h3 {
-  margin: 0;
-
-  color:
-    rgba(16, 32, 23, 0.68);
-
-  font-size: 0.72rem;
-
-  font-weight: 700;
+.legalHeading h3{
+  margin:0;
+  font-size:.82rem;
+  font-weight:700;
 }
 
-
-/* =========================================================
-   TARJETAS LEGALES
-   SOLO ICONOS
-========================================================= */
-
-.legalCards {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
+.legalCards{
+  display:flex;
+  gap:12px;
 }
 
-
-.legalCard {
-  width: 46px;
-
-  height: 46px;
-
-  display: grid;
-
-  place-items: center;
-
-  border:
-    1px solid
-    rgba(0, 167, 79, 0.13);
-
-  border-radius:
-    13px;
-
-  color:
-    var(--green-dark);
-
-  background:
-    rgba(0, 167, 79, 0.04);
-
-  text-decoration: none;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+.legalCard{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--primary-soft);
+  color:var(--primary-dark);
+  text-decoration:none;
+  transition:.25s;
 }
 
-
-.legalCard:hover {
-  background:
-    rgba(0, 167, 79, 0.1);
-
-  border-color:
-    rgba(0, 167, 79, 0.3);
-
-  transform:
-    translateY(-2px);
+.legalCard:hover{
+  background:var(--primary);
+  color:#fff;
+  transform:translateY(-2px);
 }
 
-
-/* Ocultar texto.
-   Se mantienen únicamente los iconos. */
-
-.legalContent {
-  display: none;
+.legalCard span,
+.legalCard svg:last-child{
+  display:none;
 }
 
+/*==================================================
+  BOTTOM
+==================================================*/
 
-/* =========================================================
-   BOTTOM
-========================================================= */
-
-.bottom {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-
-  padding-top:
-    16px;
+.bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding-top:20px;
 }
 
-
-.bottom p {
-  margin: 0;
-
-  color:
-    rgba(16, 32, 23, 0.42);
-
-  font-size: 0.61rem;
+.bottom p{
+  margin:0;
+  color:var(--text-light);
+  font-size:.68rem;
 }
 
-
-.bottom > div {
-  display: flex;
-
-  align-items: center;
-
-  gap: 9px;
+.bottom>div{
+  display:flex;
+  gap:12px;
 }
-
 
 .bottom a,
-.bottom span {
-  color:
-    rgba(16, 32, 23, 0.48);
-
-  font-size: 0.61rem;
-
-  text-decoration: none;
+.bottom span{
+  color:var(--text-light);
+  text-decoration:none;
+  font-size:.68rem;
 }
 
-
-.bottom a:hover {
-  color:
-    var(--green-dark);
+.bottom a:hover{
+  color:var(--primary-dark);
 }
 
+/*==================================================
+  RESPONSIVE
+==================================================*/
 
-/* =========================================================
-   DESKTOP GRANDE
-   1440px+
-========================================================= */
+@media (max-width:1024px){
 
-@media (min-width: 1440px) {
-
-  .rainbowArc {
-    height: 175px;
+  .columns{
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
   }
 
-
-  .arcOne {
-    top: 55px;
-
-    height: 120px;
-
-    border-radius:
-      120px 120px 0 0;
+  .brandCard{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-
-  .arcTwo {
-    top: 74px;
-
-    height: 101px;
-
-    border-radius:
-      120px 120px 0 0;
-  }
-
-
-  .arcThree {
-    top: 93px;
-
-    height: 82px;
-
-    border-radius:
-      120px 120px 0 0;
+  .brandActions{
+    width:100%;
+    justify-content:space-between;
   }
 
 }
 
+@media (max-width:768px){
 
-/* =========================================================
-   DESKTOP
-   1024px — 1439px
-========================================================= */
-
-@media (min-width: 1024px) and (max-width: 1439px) {
-
-  .rainbowArc {
-    height: 150px;
+  .container{
+    width:calc(100% - 32px);
+    padding:30px 0 18px;
   }
 
-
-  .arcOne {
-    top: 50px;
-
-    height: 100px;
-
-    border-radius:
-      100px 100px 0 0;
+  .brandIdentity{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-
-  .arcTwo {
-    top: 66px;
-
-    height: 84px;
-
-    border-radius:
-      100px 100px 0 0;
+  .brandDescription{
+    padding-left:0;
+    padding-top:16px;
+    border-left:0;
+    border-top:1px solid var(--border);
   }
 
-
-  .arcThree {
-    top: 82px;
-
-    height: 68px;
-
-    border-radius:
-      100px 100px 0 0;
+  .columns{
+    grid-template-columns:1fr;
+    gap:24px;
   }
 
-}
-
-
-/* =========================================================
-   TABLET
-   768px — 1023px
-========================================================= */
-
-@media (min-width: 768px) and (max-width: 1023px) {
-
-  .footer {
-    margin-top: 85px;
+  .brandActions{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-
-  .rainbowArc {
-    height: 120px;
+  .projectsButton{
+    width:100%;
+    justify-content:center;
   }
 
-
-  .arcOne {
-    top: 40px;
-
-    height: 80px;
-
-    border-radius:
-      80px 80px 0 0;
+  .socialArea{
+    width:100%;
+    justify-content:space-between;
   }
 
-
-  .arcTwo {
-    top: 53px;
-
-    height: 67px;
-
-    border-radius:
-      80px 80px 0 0;
+  .legalSection{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
-
-  .arcThree {
-    top: 66px;
-
-    height: 54px;
-
-    border-radius:
-      80px 80px 0 0;
-  }
-
-
-  .container {
-    width:
-      min(
-        calc(100% - 40px),
-        900px
-      );
-  }
-
-
-  .brandCard {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      22px;
-  }
-
-
-  .brandActions {
-    width:
-      100%;
-
-    justify-content:
-      space-between;
-  }
-
-
-  .columns {
-    grid-template-columns:
-      repeat(2, 1fr);
-
-    gap:
-      28px 32px;
-  }
-
-}
-
-
-/* =========================================================
-   TABLET PEQUEÑO
-   768px — 1023px
-========================================================= */
-
-@media (max-width: 768px) {
-
-  .footer {
-    margin-top:
-      80px;
-  }
-
-
-  .container {
-    width:
-      calc(100% - 32px);
-
-    padding-top:
-      35px;
-  }
-
-
-  .brandIdentity {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      15px;
-  }
-
-
-  .brandDescription {
-    padding-top:
-      13px;
-
-    padding-left:
-      0;
-
-    border-top:
-      1px solid
-      rgba(0, 90, 45, 0.12);
-
-    border-left:
-      0;
-  }
-
-
-  .brandActions {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      16px;
-  }
-
-
-  .columns {
-    grid-template-columns:
-      repeat(2, 1fr);
-
-    padding:
-      24px 0;
-  }
-
-
-  .legalSection {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      15px;
-  }
-
-
-  .legalCards {
-    width:
-      100%;
-  }
-
-
-  .bottom {
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      11px;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   481px — 767px
-========================================================= */
-
-@media (min-width: 481px) and (max-width: 767px) {
-
-  .rainbowArc {
-    height:
-      92px;
-  }
-
-
-  .arcOne {
-    top:
-      31px;
-
-    height:
-      61px;
-
-    border-radius:
-      60px 60px 0 0;
-  }
-
-
-  .arcTwo {
-    top:
-      41px;
-
-    height:
-      51px;
-
-    border-radius:
-      60px 60px 0 0;
-  }
-
-
-  .arcThree {
-    top:
-      51px;
-
-    height:
-      41px;
-
-    border-radius:
-      60px 60px 0 0;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   Hasta 480px
-========================================================= */
-
-@media (max-width: 480px) {
-
-  .footer {
-    margin-top:
-      65px;
-  }
-
-
-  .rainbowArc {
-    height:
-      76px;
-  }
-
-
-  .arcOne {
-    top:
-      26px;
-
-    height:
-      50px;
-
-    border-radius:
-      50px 50px 0 0;
-  }
-
-
-  .arcTwo {
-    top:
-      34px;
-
-    height:
-      42px;
-
-    border-radius:
-      50px 50px 0 0;
-  }
-
-
-  .arcThree {
-    top:
-      42px;
-
-    height:
-      34px;
-
-    border-radius:
-      50px 50px 0 0;
-  }
-
-
-  .container {
-    width:
-      calc(100% - 24px);
-
-    padding:
-      28px 0 18px;
-  }
-
-
-  .brandCard {
-    padding-bottom:
-      20px;
-  }
-
-
-  .logoImage {
-    width:
-      150px;
-  }
-
-
-  .brandDescription p {
-    font-size:
-      0.72rem;
-
-    line-height:
-      1.5;
-  }
-
-
-  .projectsButton {
-    width:
-      100%;
-
-    justify-content:
-      center;
-  }
-
-
-  .socialArea {
-    width:
-      100%;
-
-    justify-content:
-      space-between;
-  }
-
-
-  .socialArea > span {
-    font-size:
-      0.62rem;
-  }
-
-
-  .socials {
-    gap:
-      4px;
-  }
-
-
-  .socials a {
-    width:
-      28px;
-
-    height:
-      28px;
-  }
-
-
-  .columns {
-    grid-template-columns:
-      1fr;
-
-    gap:
-      22px;
-
-    padding:
-      22px 0;
-  }
-
-
-  .columnHeading {
-    margin-bottom:
-      11px;
-  }
-
-
-  .linkList {
-    gap:
-      7px;
-  }
-
-
-  .contactList {
-    gap:
-      11px;
-  }
-
-
-  .legalSection {
-    padding:
-      15px 0;
-  }
-
-
-  .legalCards {
-    gap:
-      8px;
-  }
-
-
-  .legalCard {
-    width:
-      43px;
-
-    height:
-      43px;
-  }
-
-
-  .bottom {
-    padding-top:
-      15px;
-  }
-
-
-  .bottom p {
-    line-height:
-      1.5;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE EXTRA PEQUEÑO
-   Hasta 360px
-========================================================= */
-
-@media (max-width: 360px) {
-
-  .container {
-    width:
-      calc(100% - 20px);
-  }
-
-
-  .rainbowArc {
-    height:
-      68px;
-  }
-
-
-  .arcOne {
-    top:
-      23px;
-
-    height:
-      45px;
-
-    border-radius:
-      45px 45px 0 0;
-  }
-
-
-  .arcTwo {
-    top:
-      30px;
-
-    height:
-      38px;
-
-    border-radius:
-      45px 45px 0 0;
-  }
-
-
-  .arcThree {
-    top:
-      37px;
-
-    height:
-      31px;
-
-    border-radius:
-      45px 45px 0 0;
-  }
-
-
-  .brandDescription p {
-    font-size:
-      0.69rem;
-  }
-
-
-  .legalCard {
-    width:
-      41px;
-
-    height:
-      41px;
-  }
-
-
-  .bottom > div {
-    flex-wrap:
-      wrap;
-  }
-
-}
-
-
-/* =========================================================
-   ACCESIBILIDAD
-========================================================= */
-
-.projectsButton:focus-visible,
-.socials a:focus-visible,
-.linkList a:focus-visible,
-.contactItem:focus-visible,
-.teamCard:focus-visible,
-.legalCard:focus-visible,
-.bottom a:focus-visible {
-
-  outline:
-    2px solid
-    var(--green);
-
-  outline-offset:
-    3px;
-}
-
-
-/* =========================================================
-   REDUCIR MOVIMIENTO
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  .projectsButton,
-  .socials a,
-  .linkList a,
-  .teamCard,
-  .legalCard {
-
-    transition:
-      none;
+  .bottom{
+    flex-direction:column;
+    align-items:flex-start;
   }
 
 }
