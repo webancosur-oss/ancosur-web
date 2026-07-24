@@ -1,234 +1,267 @@
-.floatingWrapper {
-  position: fixed;
-  left: clamp(14px, 2vw, 30px);
-  bottom: clamp(14px, 2vw, 30px);
-  z-index: 9000;
+.floatingWrapper{
+  position:fixed;
 
-  width: clamp(
+  /* Pegado a la pantalla */
+  left:0;
+  bottom:0;
+
+  z-index:9000;
+
+  width:clamp(
     160px,
     14vw,
     210px
   );
 
-  filter: drop-shadow(
+  filter:drop-shadow(
     0 14px 22px
-    rgba(0, 0, 0, 0.24)
+    rgba(0,0,0,.24)
   );
 }
 
-.floatingPromo {
-  position: relative;
+.floatingPromo{
+  position:relative;
 
-  display: block;
-  width: 100%;
+  display:block;
+  width:100%;
 
-  text-decoration: none;
-  cursor: pointer;
+  color:inherit;
+  text-decoration:none;
+  cursor:pointer;
 
-  touch-action: manipulation;
-  -webkit-tap-highlight-color:
-    transparent;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 
-  transform-origin: bottom left;
+  transform-origin:bottom left;
 
   transition:
     transform 180ms ease,
     filter 180ms ease;
 }
 
-.image {
-  display: block;
+.image{
+  display:block;
 
-  width: 100%;
-  max-width: none;
-  height: auto;
+  width:100%;
+  max-width:none;
+  height:auto;
 
-  object-fit: contain;
+  margin:0;
+  padding:0;
 
-  user-select: none;
-  pointer-events: none;
+  object-fit:contain;
+  object-position:left bottom;
+
+  user-select:none;
+  pointer-events:none;
 }
 
-.desktopImage {
-  display: block;
+.desktopImage{
+  display:block;
 }
 
-.mobileImage {
-  display: none;
+.mobileImage{
+  display:none;
 }
 
-.closeButton {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  z-index: 4;
+/*==================================================
+  BOTÓN CERRAR
+==================================================*/
 
-  width: 34px;
-  height: 34px;
-  padding: 0;
+.closeButton{
+  position:absolute;
 
-  border: 2px solid #ffffff;
-  border-radius: 50%;
+  /*
+    Se mantiene dentro para evitar
+    que genere separación con el borde.
+  */
+  top:4px;
+  right:4px;
 
-  background: #111111;
-  color: #ffffff;
+  z-index:4;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  width:34px;
+  height:34px;
+  padding:0;
 
-  cursor: pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  border:2px solid #ffffff;
+  border-radius:50%;
+
+  background:#111111;
+  color:#ffffff;
+
+  cursor:pointer;
 
   box-shadow:
     0 7px 18px
-    rgba(0, 0, 0, 0.3);
+    rgba(0,0,0,.3);
 
   transition:
     background 180ms ease,
     color 180ms ease,
     transform 180ms ease;
 
-  touch-action: manipulation;
-  -webkit-tap-highlight-color:
-    transparent;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 
-.closeButton:hover {
-  background: #00a74f;
-  color: #ffffff;
+.closeButton:hover{
+  background:#00a74f;
+  color:#ffffff;
 
-  transform: scale(1.08);
+  transform:scale(1.08);
 }
 
-.closeButton:active {
-  transform: scale(0.94);
+.closeButton:active{
+  transform:scale(.94);
 }
 
-.floatingPromo:hover {
+/*==================================================
+  HOVER DEL PROMOCIONAL
+==================================================*/
+
+.floatingPromo:hover{
   transform:
-    translateY(-6px)
-    scale(1.04);
+    translateY(-4px)
+    scale(1.025);
 }
 
-.floatingPromo:focus-visible {
-  outline: 3px solid #00a74f;
-  outline-offset: 5px;
+.floatingPromo:focus-visible{
+  outline:3px solid #00a74f;
+  outline-offset:3px;
 
-  border-radius: 18px;
+  border-radius:18px;
 }
 
-.closeButton:focus-visible {
-  outline: 3px solid
-    rgba(0, 167, 79, 0.45);
-
-  outline-offset: 4px;
+.closeButton:focus-visible{
+  outline:3px solid rgba(0,167,79,.45);
+  outline-offset:3px;
 }
 
-/* Tablet */
+/*==================================================
+  TABLET
+==================================================*/
 
-@media (max-width: 1024px) {
-  .floatingWrapper {
-    left: 16px;
-    bottom: 16px;
+@media (max-width:1024px){
 
-    width: clamp(
+  .floatingWrapper{
+    left:0;
+    bottom:0;
+
+    width:clamp(
       150px,
       19vw,
       185px
     );
   }
 
-  .closeButton {
-    width: 32px;
-    height: 32px;
+  .closeButton{
+    top:3px;
+    right:3px;
 
-    top: -7px;
-    right: -7px;
+    width:32px;
+    height:32px;
   }
 }
 
-/* Mobile */
+/*==================================================
+  MÓVIL
+==================================================*/
 
-@media (max-width: 640px) {
-  .floatingWrapper {
-    left: 8px;
+@media (max-width:640px){
 
-    bottom: calc(
-      8px +
-      env(
-        safe-area-inset-bottom
-      )
-    );
+  .floatingWrapper{
+    left:0;
 
-    width: clamp(
+    /*
+      Queda pegado al fondo, respetando
+      únicamente el área segura del dispositivo.
+    */
+    bottom:env(safe-area-inset-bottom);
+
+    width:clamp(
       155px,
       45vw,
       195px
     );
   }
 
-  .desktopImage {
-    display: none;
+  .desktopImage{
+    display:none;
   }
 
-  .mobileImage {
-    display: block;
+  .mobileImage{
+    display:block;
   }
 
-  .closeButton {
-    top: -4px;
-    right: -4px;
+  .closeButton{
+    top:3px;
+    right:3px;
 
-    width: 34px;
-    height: 34px;
+    width:32px;
+    height:32px;
+  }
+
+  .floatingPromo:hover{
+    transform:none;
   }
 }
 
-/* Celulares pequeños */
+/*==================================================
+  CELULARES PEQUEÑOS
+==================================================*/
 
-@media (max-width: 380px) {
-  .floatingWrapper {
-    left: 5px;
+@media (max-width:380px){
 
-    bottom: calc(
-      5px +
-      env(
-        safe-area-inset-bottom
-      )
-    );
+  .floatingWrapper{
+    left:0;
+    bottom:env(safe-area-inset-bottom);
 
-    width: clamp(
+    width:clamp(
       140px,
       43vw,
       165px
     );
   }
 
-  .closeButton {
-    width: 32px;
-    height: 32px;
+  .closeButton{
+    width:30px;
+    height:30px;
   }
 }
 
-/* Celulares muy pequeños */
+/*==================================================
+  CELULARES MUY PEQUEÑOS
+==================================================*/
 
-@media (max-width: 320px) {
-  .floatingWrapper {
-    width: 135px;
+@media (max-width:320px){
+
+  .floatingWrapper{
+    left:0;
+    bottom:env(safe-area-inset-bottom);
+
+    width:135px;
   }
 }
 
-@media (
-  prefers-reduced-motion: reduce
-) {
+/*==================================================
+  REDUCIR MOVIMIENTO
+==================================================*/
+
+@media (prefers-reduced-motion:reduce){
+
   .floatingPromo,
-  .closeButton {
-    transition: none;
+  .closeButton{
+    transition:none;
   }
 
   .floatingPromo:hover,
   .closeButton:hover,
-  .closeButton:active {
-    transform: none;
+  .closeButton:active{
+    transform:none;
   }
 }

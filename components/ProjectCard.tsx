@@ -65,9 +65,9 @@ export default function ProjectCard({ project }: Props) {
 
             <span>{project.address}</span>
 
-            <div className={styles.status}>
+            {/* <div className={styles.status}>
               {statusLabel[project.status]}
-            </div>
+            </div> */}
           </div>
 
           <div className={styles.features}>

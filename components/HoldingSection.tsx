@@ -2,228 +2,266 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+
 import styles from "./HoldingSection.module.css";
 
-type PlatformId =
-  | "inmobiliario"
-  | "construccion"
-  | "resort"
-  | "arquitectura"
-  | "gestion"
-  | "podcast";
-
-type Accent =
-  | "greenBrand"
-  | "greenForest"
-  | "greenFresh"
-  | "greenOlive"
-  | "greenDeep"
-  | "greenLime";
-
-type Platform = {
-  id: PlatformId;
-  label: string;
-  description: string;
-};
+type CompanyId =
+  | "ancosur"
+  | "straton"
+  | "zagari"
+  | "darkham"
+  | "sulpaa"
+  | "tercer-espacio";
 
 type Company = {
+  id: CompanyId;
   name: string;
   category: string;
-  platform: PlatformId;
   description: string;
   href: string;
-  accent: Accent;
   logo: string;
+  background: string;
+  tone: string;
 };
-
-const platforms: Platform[] = [
-  {
-    id: "inmobiliario",
-    label: "Inmobiliario",
-    description: "ANCOSUR",
-  },
-  {
-    id: "construccion",
-    label: "Construcción",
-    description: "STRATON",
-  },
-  {
-    id: "resort",
-    label: "Resort",
-    description: "ZAGARI",
-  },
-  {
-    id: "arquitectura",
-    label: "Diseño & arquitectura",
-    description: "DARKHAM",
-  },
-  {
-    id: "gestion",
-    label: "Inversión & gestión",
-    description: "SULPAA",
-  },
-  {
-    id: "podcast",
-    label: "Podcast & comunidad",
-    description: "TERCER ESPACIO",
-  },
-];
 
 const companies: Company[] = [
   {
+    id: "ancosur",
     name: "ANCOSUR",
     category: "Desarrollo inmobiliario",
-    platform: "inmobiliario",
     description:
-      "Proyectos inmobiliarios para vivir, invertir y construir futuro.",
+      "Creamos proyectos inmobiliarios para vivir, invertir y construir un patrimonio seguro.",
     href: "/nosotros",
-    accent: "greenBrand",
     logo: "/assets/images/ancosur-logo.svg",
+    background: "/assets/holding/ancosur.webp",
+    tone: "#00a74f",
   },
   {
+    id: "straton",
     name: "STRATON",
     category: "Construcción",
-    platform: "construccion",
-    description: "Construcción de proyectos con eficiencia, técnica y calidad.",
+    description:
+      "Ejecutamos proyectos de construcción con eficiencia, precisión técnica y altos estándares de calidad.",
     href: "#",
-    accent: "greenForest",
     logo: "/assets/images/straton.svg",
+    background: "/assets/holding/straton.webp",
+    tone: "#185d36",
   },
   {
+    id: "zagari",
     name: "ZAGARI",
-    category: "Resort",
-    platform: "resort",
+    category: "Resort y turismo",
     description:
-      "Proyectos turísticos que conectan inversión, naturaleza y experiencia.",
+      "Desarrollamos experiencias turísticas que conectan inversión, naturaleza y bienestar.",
     href: "https://zagari.pe/",
-    accent: "greenFresh",
     logo: "/assets/images/zagari.svg",
+    background: "/assets/holding/zagari.webp",
+    tone: "#4aaa72",
   },
   {
+    id: "darkham",
     name: "DARKHAM",
-    category: "Diseño & arquitectura",
-    platform: "arquitectura",
+    category: "Diseño y arquitectura",
     description:
-      "Diseño arquitectónico que transforma ideas en espacios con identidad.",
+      "Transformamos conceptos en espacios arquitectónicos funcionales, contemporáneos y con identidad.",
     href: "#",
-    accent: "greenDeep",
     logo: "/assets/images/darkham.svg",
+    background: "/assets/holding/darkham.webp",
+    tone: "#073d25",
   },
   {
+    id: "sulpaa",
     name: "SULPAA",
-    category: "Inversión & gestión",
-    platform: "gestion",
+    category: "Inversión y gestión",
     description:
-      "Gestión estratégica de proyectos e inversiones para generar valor.",
+      "Gestionamos proyectos e inversiones mediante estrategias orientadas al crecimiento y la generación de valor.",
     href: "https://sulpaa.com/",
-    accent: "greenOlive",
     logo: "/assets/images/sulpaa.svg",
+    background: "/assets/holding/sulpaa.webp",
+    tone: "#718f43",
   },
   {
+    id: "tercer-espacio",
     name: "TERCER ESPACIO",
-    category: "Podcast & comunidad",
-    platform: "podcast",
+    category: "Podcast y comunidad",
     description:
-      "Un espacio de conversación, ideas y comunidad impulsado por ANCOSUR.",
+      "Un espacio de conversación, conocimiento y comunidad donde compartimos nuevas perspectivas.",
     href: "https://open.spotify.com/show/4MlsSTgEjZAUKhd9SsQ5tp",
-    accent: "greenLime",
     logo: "/assets/images/tercer-espacio.svg",
+    background: "/assets/holding/tercer-espacio.webp",
+    tone: "#9dbb4d",
   },
 ];
 
 export default function HoldingSection() {
-  const [activePlatform, setActivePlatform] =
-    useState<PlatformId>("inmobiliario");
+  const [activeCompanyId, setActiveCompanyId] =
+    useState<CompanyId>("ancosur");
 
-  const activeCompany = useMemo(() => {
-    return (
-      companies.find((company) => company.platform === activePlatform) ??
-      companies[0]
-    );
-  }, [activePlatform]);
+  const activeCompany = useMemo(
+    () =>
+      companies.find(
+        (company) => company.id === activeCompanyId,
+      ) ?? companies[0],
+    [activeCompanyId],
+  );
 
-  const activeInfo =
-    platforms.find((item) => item.id === activePlatform) ?? platforms[0];
-
+  const isExternal = activeCompany.href.startsWith("http");
   const hasWebsite = activeCompany.href !== "#";
 
   return (
-    <section className={`${styles.section} ${styles[activeCompany.accent]}`}>
+    <section
+      className={styles.section}
+      style={
+        {
+          "--active-tone": activeCompany.tone,
+        } as React.CSSProperties
+      }
+    >
+      {/* FONDO */}
+
+      <div className={styles.background}>
+        {companies.map((company) => (
+          <Image
+            key={company.id}
+            src={company.background}
+            alt=""
+            fill
+            priority={company.id === "ancosur"}
+            sizes="100vw"
+            className={`${styles.backgroundImage} ${
+              activeCompanyId === company.id
+                ? styles.backgroundImageActive
+                : ""
+            }`}
+          />
+        ))}
+      </div>
+
+      <div
+        className={styles.backgroundOverlay}
+        aria-hidden="true"
+      />
+
+      <div
+        className={styles.backgroundGlow}
+        aria-hidden="true"
+      />
+
       <div className={styles.container}>
-        <div className={styles.header}>
-          <span>Ecosistema empresarial</span>
-          <h2>Nuestro Holding</h2>
-          <p>
-            Empresas especializadas en inmobiliaria, construcción, diseño,
-            turismo, inversión y comunidad.
-          </p>
-        </div>
+        {/* INFORMACIÓN */}
 
-        <div className={styles.layout}>
-          <aside className={styles.sidebar}>
-            <div className={styles.sidebarTop}>
-              <small>Unidad activa</small>
-              <strong>{activeInfo.label}</strong>
-              <p>{activeInfo.description}</p>
-            </div>
+        <div className={styles.content}>
+          <span className={styles.eyebrow}>
+            Ecosistema empresarial
+          </span>
 
-            <div className={styles.platforms}>
-              {platforms.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setActivePlatform(item.id)}
-                  className={`${styles.platformItem} ${
-                    activePlatform === item.id ? styles.activePlatform : ""
-                  }`}
-                >
-                  <strong>{String(index + 1).padStart(2, "0")}</strong>
-
-                  <span>
-                    {item.label}
-                    <small>{item.description}</small>
-                  </span>
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          <div className={styles.content}>
-            <article className={styles.featureCard}>
-              <small className={styles.category}>{activeCompany.category}</small>
-
-              <div className={styles.featureLogo}>
-                <Image
-                  src={activeCompany.logo}
-                  alt={activeCompany.name}
-                  width={620}
-                  height={260}
-                  className={styles.featureLogoImage}
-                  priority
-                />
-              </div>
-
-              <p>{activeCompany.description}</p>
-
-              {hasWebsite ? (
-                <a
-                  href={activeCompany.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.link}
-                >
-                  Conocer más
-                  <span aria-hidden="true">→</span>
-                </a>
-              ) : (
-                <span className={`${styles.link} ${styles.linkDisabled}`}>
-                  Próximamente
-                  <span aria-hidden="true">→</span>
-                </span>
-              )}
-            </article>
+          <div className={styles.activeLogo}>
+            <Image
+              key={activeCompany.id}
+              src={activeCompany.logo}
+              alt={activeCompany.name}
+              width={440}
+              height={170}
+              className={styles.activeLogoImage}
+              priority
+            />
           </div>
+
+          <span className={styles.category}>
+            {activeCompany.category}
+          </span>
+
+          <h2>{activeCompany.name}</h2>
+
+          <p>{activeCompany.description}</p>
+
+          {hasWebsite ? (
+            <a
+              href={activeCompany.href}
+              target={isExternal ? "_blank" : undefined}
+              rel={
+                isExternal
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+              className={styles.mainButton}
+            >
+              Visitar sitio
+
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M7 17 17 7M9 7h8v8"
+                />
+              </svg>
+            </a>
+          ) : (
+            <span
+              className={`${styles.mainButton} ${styles.disabledButton}`}
+            >
+              Próximamente
+            </span>
+          )}
         </div>
+
+        {/* SELECTOR DE EMPRESAS */}
+
+        <nav
+          className={styles.companyNavigation}
+          aria-label="Empresas del Holding"
+        >
+          {companies.map((company, index) => {
+            const isActive =
+              activeCompanyId === company.id;
+
+            return (
+              <button
+                key={company.id}
+                type="button"
+                className={`${styles.companyButton} ${
+                  isActive
+                    ? styles.companyButtonActive
+                    : ""
+                }`}
+                style={
+                  {
+                    "--company-tone": company.tone,
+                  } as React.CSSProperties
+                }
+                onClick={() =>
+                  setActiveCompanyId(company.id)
+                }
+                onMouseEnter={() =>
+                  setActiveCompanyId(company.id)
+                }
+                aria-label={`Mostrar ${company.name}`}
+                aria-pressed={isActive}
+              >
+                <span className={styles.companyNumber}>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span className={styles.companyLogo}>
+                  <Image
+                    src={company.logo}
+                    alt={company.name}
+                    width={180}
+                    height={90}
+                    className={styles.companyLogoImage}
+                  />
+                </span>
+
+                <span className={styles.companyText}>
+                  <strong>{company.name}</strong>
+                  <small>{company.category}</small>
+                </span>
+              </button>
+            );
+          })}
+        </nav>
       </div>
     </section>
   );

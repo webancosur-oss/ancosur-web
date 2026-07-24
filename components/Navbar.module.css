@@ -109,24 +109,33 @@
     box-shadow 0.38s ease;
 }
 
-
 /* =========================================================
    ESTADO SCROLL DESKTOP
 ========================================================= */
 
 .navbarScrolled {
+
+  width: 100%;
+
   padding: 0;
+
+  display: flex;
+
+  justify-content: center;
+
 }
 
 .navbarScrolled .navbarShell {
+
   width: 100%;
 
-  max-width: none;
+  max-width: 100%;
 
   min-height: 72px;
 
-  padding:
-    7px clamp(24px, 5vw, 70px);
+  margin: 0 auto;
+
+  padding: 7px max(20px, calc((100vw - 1240px) / 2));
 
   border-radius: 0;
 
@@ -134,12 +143,12 @@
     radial-gradient(
       circle at 8% 16%,
       #00a74f21,
-      #0000 28%
+      transparent 28%
     ),
     radial-gradient(
       circle at 92% 72%,
       #00a74f12,
-      #0000 30%
+      transparent 30%
     ),
     linear-gradient(
       120deg,
@@ -148,25 +157,19 @@
       #07100b 100%
     );
 
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
+  border: 0;
 
-  border-bottom:
-    1px solid
-    rgba(0, 167, 79, 0.25);
+  border-bottom: 1px solid rgba(0,167,79,.25);
 
   box-shadow:
-    0 14px 45px
-    rgba(0, 0, 0, 0.3);
+    0 14px 45px rgba(0,0,0,.30);
 
-  backdrop-filter:
-    blur(25px);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
 
-  -webkit-backdrop-filter:
-    blur(25px);
+  box-sizing: border-box;
+
 }
-
 
 /* =========================================================
    LOGO

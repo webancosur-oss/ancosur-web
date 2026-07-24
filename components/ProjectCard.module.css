@@ -1,631 +1,1038 @@
 /*==================================================
-CARD
+  CONFIGURACIÓN GENERAL
 ==================================================*/
 
 .card{
+  --green:#00a74f;
+  --green-dark:#008e44;
+  --green-soft:#effaf3;
 
-    position:relative;
+  --text:#122117;
+  --text-soft:#666e68;
+  --border:#e2e8e4;
+  --line:#e8ece9;
+  --white:#ffffff;
 
-    display:flex;
+  position:relative;
 
-    flex-direction:column;
+  width:100%;
+  height:auto;
 
-    overflow:hidden;
+  display:flex;
+  flex-direction:column;
 
-    background:#fff;
+  overflow:hidden;
 
-    border-radius:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
 
-    box-shadow:0 10px 28px rgba(0,0,0,.08);
+  background:var(--white);
 
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease;
+  box-shadow:none;
 
-    height:100%;
-
+  transition:
+    border-color .35s ease,
+    transform .35s ease;
 }
 
 .card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:0 24px 48px rgba(0,0,0,.16);
-
-}
-
-.cardLink{
-
-    display:flex;
-
-    flex-direction:column;
-
-    height:100%;
-
-    color:inherit;
-
-    text-decoration:none;
-
+  border-color:rgba(0,167,79,.42);
 }
 
 /*==================================================
-IMAGE
+  ENLACE PRINCIPAL
+==================================================*/
+
+.cardLink{
+  width:100%;
+  height:auto;
+
+  display:flex;
+  flex-direction:column;
+
+  color:inherit;
+  text-decoration:none;
+}
+
+/*==================================================
+  IMAGEN
 ==================================================*/
 
 .imageBox{
+  position:relative;
 
-    position:relative;
+  width:100%;
+  height:500px;
+  min-height:500px;
 
-    overflow:hidden;
+  flex-shrink:0;
 
-    height:360px;
+  overflow:hidden;
 
-    flex-shrink:0;
+  background:#edf1ee;
 
+  transition:
+    height .45s cubic-bezier(.22,.61,.36,1),
+    min-height .45s cubic-bezier(.22,.61,.36,1);
 }
 
 .image{
+  width:100% !important;
+  height:100% !important;
 
-    object-fit:cover;
+  display:block;
 
-    object-position:center;
+  object-fit:cover;
+  object-position:center;
 
-    transition:
-        transform .7s ease,
-        filter .35s ease;
+  transform:scale(1);
 
-}
-
-.card:hover .image{
-
-    transform:scale(1.08);
-
-    filter:brightness(.92);
-
-}
-
-.overlay{
-
-    position:absolute;
-
-    inset:0;
-
-    background:linear-gradient(
-        to top,
-        rgba(0,0,0,.62),
-        rgba(0,0,0,.15),
-        transparent
-    );
-
+  transition:
+    transform .65s ease,
+    filter .35s ease;
 }
 
 /*==================================================
-STATUS
+  HOVER DE IMAGEN
+==================================================*/
+
+@media (hover:hover) and (pointer:fine){
+
+  .card:hover{
+    transform:translateY(-4px);
+  }
+
+  .card:hover .imageBox{
+    height:410px;
+    min-height:410px;
+  }
+
+  .card:hover .image{
+    transform:scale(1.045);
+    filter:brightness(.94);
+  }
+}
+
+/*==================================================
+  OVERLAY
+==================================================*/
+
+.overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.42) 0%,
+      rgba(0,0,0,.08) 30%,
+      transparent 58%
+    );
+}
+
+/*==================================================
+  ESTADO SOBRE LA IMAGEN
 ==================================================*/
 
 .status{
+  position:absolute;
+  left:20px;
+  bottom:18px;
+  z-index:3;
 
-    display:inline-flex;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 
-    align-items:center;
+  margin:0;
+  padding:0;
 
-    justify-content:center;
+  border:0;
+  border-radius:0;
 
-    align-self:flex-start;
+  background:transparent;
+  color:#ffffff;
 
-    margin-top:8px;
+  font-size:.7rem;
+  font-weight:800;
+  line-height:1.25;
+  letter-spacing:.025em;
+  text-transform:uppercase;
 
-    padding:5px 12px;
-
-    border-radius:999px;
-
-    background:#F2F8F3;
-
-    border:1px solid #D7ECDD;
-
-    color:#00A74F;
-
-    letter-spacing:.05em;
-
-    text-transform:uppercase;
-
-    line-height:1;
-
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
 }
 
 /*==================================================
-CONTENT
+  CONTENIDO
 ==================================================*/
 
 .content{
+  width:100%;
+  height:auto;
 
-    display:flex;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
 
-    flex-direction:column;
+  padding:19px 21px 16px;
 
-    flex:1;
-
-    padding:24px 22px 22px;
-
-    gap:14px;
-
-    background:#fff;
-
-    transition:transform .35s ease;
-
+  background:var(--white);
 }
 
 /*==================================================
-LOGO
+  LOGO
 ==================================================*/
 
 .logo{
+  display:block;
 
-    width:145px;
+  width:140px;
+  max-width:70%;
+  height:48px;
 
-    height:auto;
+  margin:0 auto 1px;
 
-    object-fit:contain;
-
-    margin-bottom:4px;
-
+  object-fit:contain;
+  object-position:center;
 }
 
 /*==================================================
-TITLE
+  TÍTULO
 ==================================================*/
 
 .titleArea{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
 
-    display:flex;
-
-    flex-direction:column;
-
-    gap:4px;
-
+  text-align:center;
 }
 
 .titleArea h3{
+  margin:0;
 
-    margin:0;
+  color:var(--text);
 
-    color:#122117;
+  font-size:1.12rem;
+  font-weight:800;
+  line-height:1.18;
+  letter-spacing:-.02em;
 
-    font-weight:800;
-
-    line-height:1.15;
-
-    transition:color .3s ease;
-
+  transition:color .25s ease;
 }
 
-.card:hover .titleArea h3{
+@media (hover:hover) and (pointer:fine){
 
-    color:#00A74F;
-
+  .card:hover .titleArea h3{
+    color:var(--green);
+  }
 }
 
 /*==================================================
-LOCATION
+  UBICACIÓN
 ==================================================*/
 
 .location{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:3px;
 
-    display:flex;
+  margin:0;
 
-    flex-direction:column;
-
-    gap:2px;
-
+  text-align:center;
 }
 
 .location strong{
+  color:var(--green);
 
-    color:#00A74F;
-
-    font-weight:700;
-
+  font-size:.79rem;
+  font-weight:800;
+  line-height:1.35;
 }
 
 .location span{
+  color:var(--text-soft);
 
-    color:#6b6b6b;
-
-    line-height:1.4;
-
+  font-size:.78rem;
+  line-height:1.35;
 }
 
 /*==================================================
-FEATURES
+  CARACTERÍSTICAS
 ==================================================*/
 
 .features{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
 
-    display:grid;
+  width:100%;
 
-    grid-template-columns:repeat(2,1fr);
+  margin:4px 0 0;
+  padding:0;
 
-    gap:10px;
-
-    padding:14px 0;
-
-    border-top:1px solid #ececec;
-
-    border-bottom:1px solid #ececec;
-
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 
 .feature{
+  min-width:0;
+  min-height:52px;
 
-    display:flex;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 
-    align-items:center;
+  padding:9px 8px;
+}
 
-    gap:8px;
-
+.feature:first-child{
+  border-right:1px solid var(--line);
 }
 
 .feature svg{
+  width:21px;
+  height:21px;
 
-    color:#00A74F;
+  flex-shrink:0;
 
-    flex-shrink:0;
-
+  color:var(--green);
 }
 
 .feature span{
+  color:#434843;
 
-    color:#444;
-
-    font-weight:600;
-
+  font-size:.72rem;
+  font-weight:600;
+  line-height:1.3;
 }
 
 /*==================================================
-PRICE
+  PRECIO
 ==================================================*/
 
+/*
+  Se elimina margin-top:auto.
+  Esa propiedad era la que generaba el espacio vacío.
+*/
+
 .priceBox{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:5px;
 
-    display:flex;
+  width:100%;
+  min-height:38px;
 
-    flex-direction:column;
+  margin:0;
+  padding:3px 0 0;
 
-    gap:2px;
-
-    margin-top:auto;
-
+  text-align:center;
 }
 
 .priceBox small{
+  color:#858d87;
 
-    color:#9d9d9d;
-
-
-    font-weight:700;
-
-    letter-spacing:.08em;
-
-    text-transform:uppercase;
-
+  font-size:.61rem;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.06em;
+  text-transform:uppercase;
 }
 
 .priceBox strong{
+  color:#111111;
 
-    color:#111;
+  font-size:.94rem;
+  font-weight:900;
+  line-height:1.1;
 
-    font-weight:900;
-
-    line-height:1;
-
-    transition:color .3s ease;
-
+  transition:color .25s ease;
 }
 
-.card:hover .priceBox strong{
+@media (hover:hover) and (pointer:fine){
 
-    color:#00A74F;
-
+  .card:hover .priceBox strong{
+    color:var(--green);
+  }
 }
 
 /*==================================================
-BUTTON
+  BOTÓN DENTRO DEL CARD
 ==================================================*/
 
+/*
+  Estado inicial:
+  el botón está oculto y no deja espacio vacío.
+*/
+
 .buttonArea{
+  position:relative;
 
-    position:absolute;
+  width:100%;
+  max-height:0;
 
-    left:18px;
+  display:block;
 
-    right:18px;
+  margin:0;
+  padding:0 21px;
 
-    bottom:18px;
+  overflow:hidden;
 
-    opacity:0;
+  opacity:0;
+  transform:translateY(14px);
 
-    transform:translateY(30px);
+  pointer-events:none;
 
-    pointer-events:none;
+  background:var(--white);
 
-    transition:
-        opacity .35s ease,
-        transform .35s ease;
-
-    z-index:20;
-
+  transition:
+    max-height .42s cubic-bezier(.22,.61,.36,1),
+    padding .42s cubic-bezier(.22,.61,.36,1),
+    opacity .3s ease,
+    transform .38s ease;
 }
 
-.card:hover .buttonArea{
+/*==================================================
+  MOSTRAR BOTÓN EN HOVER
+==================================================*/
+
+@media (hover:hover) and (pointer:fine){
+
+  .card:hover .buttonArea{
+    max-height:74px;
+
+    padding:0 21px 18px;
 
     opacity:1;
-
     transform:translateY(0);
 
     pointer-events:auto;
-
+  }
 }
 
-/* El ActionButton ocupa todo el ancho */
+/*==================================================
+  ESTILO DEL BOTÓN
+==================================================*/
 
 .buttonArea :global(a),
 .buttonArea :global(button){
+  width:100%;
+  min-height:44px;
 
-    width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 
+  padding:9px 16px;
+
+  border:0;
+  border-radius:7px;
+
+  background:var(--green);
+  color:#ffffff;
+
+  font-size:.7rem;
+  font-weight:800;
+  line-height:1;
+  text-align:center;
+  text-decoration:none;
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  transition:
+    background .25s ease,
+    transform .25s ease;
 }
+
+.buttonArea :global(a):hover,
+.buttonArea :global(button):hover{
+  background:var(--green-dark);
+  transform:translateY(-1px);
+}
+
 /*==================================================
-HOVER
+  ESCRITORIO GRANDE
 ==================================================*/
 
-.content{
+@media (min-width:1400px){
 
-    transition:transform .35s ease;
+  .imageBox{
+    height:520px;
+    min-height:520px;
+  }
 
-}
+  @media (hover:hover) and (pointer:fine){
 
-.buttonArea{
+    .card:hover .imageBox{
+      height:425px;
+      min-height:425px;
+    }
+  }
 
-    position:absolute;
+  .logo{
+    width:150px;
+    height:52px;
+  }
 
-    left:18px;
-
-    right:18px;
-
-    bottom:18px;
-
-    opacity:0;
-
-    transform:translateY(25px);
-
-    pointer-events:none;
-
-    transition:
-        opacity .35s ease,
-        transform .35s ease;
-
-}
-
-.card:hover .buttonArea{
-
-    opacity:1;
-
-    transform:translateY(0);
-
-    pointer-events:auto;
-
-}
-
-.card:hover .content{
-
-    transform:translateY(-58px);
-
+  .titleArea h3{
+    font-size:1.18rem;
+  }
 }
 
 /*==================================================
-RESPONSIVE
+  ESCRITORIO MEDIANO
 ==================================================*/
 
 @media (max-width:1200px){
 
-    .imageBox{
+  .imageBox{
+    height:460px;
+    min-height:460px;
+  }
 
-        height:320px;
+  @media (hover:hover) and (pointer:fine){
 
+    .card:hover .imageBox{
+      height:380px;
+      min-height:380px;
     }
+  }
 
-}
+  .content{
+    padding:18px 19px 15px;
+  }
 
-@media (max-width:992px){
+  .buttonArea{
+    padding-inline:19px;
+  }
 
-    .imageBox{
+  @media (hover:hover) and (pointer:fine){
 
-        height:290px;
-
+    .card:hover .buttonArea{
+      padding:
+        0
+        19px
+        17px;
     }
-
-}
-
-@media (max-width:768px){
-
-    .card{
-
-        display:flex;
-
-        flex-direction:column;
-
-    }
-
-    .cardLink{
-
-        display:flex;
-
-        flex-direction:row;
-
-        align-items:stretch;
-
-    }
-
-    /*==============================
-    IMAGEN
-    ==============================*/
-
-    .imageBox{
-
-        width:42%;
-
-        height:auto;
-
-        min-height:220px;
-
-        flex-shrink:0;
-
-    }
-
-    /*==============================
-    CONTENIDO
-    ==============================*/
-
-    .content{
-
-        width:58%;
-
-        padding:18px;
-
-        gap:10px;
-
-        justify-content:center;
-
-    }
-
-    .titleArea h3{
-
-        line-height:1.25;
-
-    }
-
-    .location{
-
-        margin-bottom:10px;
-
-    }
-
-  
-
-    .features{
-
-        grid-template-columns:1fr;
-
-        gap:8px;
-
-        padding:12px 0;
-
-    }
-
-
-    /*==============================
-    BOTÓN
-    ==============================*/
-
-    .buttonArea{
-
-        position:static;
-
-        opacity:1;
-
-        transform:none;
-
-        width:100%;
-
-        padding:16px 18px 18px;
-
-        margin:0;
-
-        pointer-events:auto;
-
-    }
-
-    .buttonArea :global(a),
-    .buttonArea :global(button){
-
-        width:100%;
-
-    }
-
-    .card:hover .content{
-
-        transform:none;
-
-    }
-
-    .card:hover .image{
-
-        transform:none;
-
-    }
-
-}
-
-@media (max-width:480px){
-
-    .imageBox{
-
-        width:38%;
-
-        min-height:180px;
-
-    }
-
-    .content{
-
-        width:62%;
-
-        padding:16px;
-
-    }
-
-   
-
-    .location span{
-
-        display:none;
-
-    }
-
-    .features{
-
-        gap:6px;
-
-    }
-
-    
-
-    .status{
-
-        top:10px;
-
-        left:10px;
-
-        padding:5px 10px;
-
-
-    }
-
+  }
 }
 
 /*==================================================
-REDUCED MOTION
+  TABLET
+==================================================*/
+
+@media (max-width:992px){
+
+  .imageBox{
+    height:420px;
+    min-height:420px;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+
+    .card:hover .imageBox{
+      height:350px;
+      min-height:350px;
+    }
+  }
+
+  .content{
+    gap:9px;
+
+    padding:
+      17px
+      17px
+      14px;
+  }
+
+  .logo{
+    width:125px;
+    height:44px;
+  }
+
+  .titleArea h3{
+    font-size:1.03rem;
+  }
+
+  .location strong,
+  .location span{
+    font-size:.72rem;
+  }
+
+  .feature span{
+    font-size:.66rem;
+  }
+
+  .buttonArea{
+    padding-inline:17px;
+  }
+
+  @media (hover:hover) and (pointer:fine){
+
+    .card:hover .buttonArea{
+      padding:
+        0
+        17px
+        16px;
+    }
+  }
+}
+
+/*==================================================
+  MÓVIL
+==================================================*/
+
+@media (max-width:768px){
+
+  .card{
+    height:auto;
+
+    border-radius:16px;
+
+    transform:none;
+  }
+
+  .card:hover{
+    transform:none;
+  }
+
+  .cardLink{
+    height:auto;
+  }
+
+  .imageBox{
+    height:390px;
+    min-height:390px;
+  }
+
+  .image{
+    transform:none;
+    filter:none;
+  }
+
+  .card:hover .imageBox{
+    height:390px;
+    min-height:390px;
+  }
+
+  .card:hover .image{
+    transform:none;
+    filter:none;
+  }
+
+  .status{
+    left:17px;
+    bottom:15px;
+
+    font-size:.64rem;
+  }
+
+  .content{
+    padding:
+      17px
+      17px
+      13px;
+
+    gap:9px;
+  }
+
+  .logo{
+    width:122px;
+    height:44px;
+  }
+
+  .titleArea h3{
+    font-size:1rem;
+  }
+
+  .location strong,
+  .location span{
+    font-size:.73rem;
+  }
+
+  .feature{
+    min-height:48px;
+  }
+
+  .feature svg{
+    width:19px;
+    height:19px;
+  }
+
+  .feature span{
+    font-size:.66rem;
+  }
+
+  .priceBox{
+    min-height:34px;
+  }
+
+  /*
+    En móvil el botón siempre está visible,
+    pero ocupa menos espacio.
+  */
+
+  .buttonArea{
+    width:100%;
+    max-height:none;
+
+    display:flex;
+    justify-content:center;
+
+    overflow:visible;
+
+    padding:
+      0
+      17px
+      16px;
+
+    opacity:1;
+    transform:none;
+
+    pointer-events:auto;
+  }
+
+  .buttonArea :global(a),
+  .buttonArea :global(button){
+    width:auto;
+    min-width:158px;
+    min-height:37px;
+
+    padding:7px 16px;
+
+    border-radius:999px;
+
+    font-size:.61rem;
+  }
+}
+
+/*==================================================
+  MÓVIL MEDIANO
+==================================================*/
+
+@media (max-width:580px){
+
+  .imageBox,
+  .card:hover .imageBox{
+    height:350px;
+    min-height:350px;
+  }
+
+  .content{
+    padding:
+      16px
+      15px
+      12px;
+  }
+
+  .logo{
+    width:112px;
+    height:41px;
+  }
+
+  .titleArea h3{
+    font-size:.96rem;
+  }
+
+  .location strong,
+  .location span{
+    font-size:.7rem;
+  }
+
+  .feature{
+    min-height:45px;
+  }
+
+  .feature span{
+    font-size:.63rem;
+  }
+
+  .buttonArea{
+    padding:
+      0
+      15px
+      14px;
+  }
+
+  .buttonArea :global(a),
+  .buttonArea :global(button){
+    min-width:148px;
+    min-height:35px;
+
+    font-size:.58rem;
+  }
+}
+
+/*==================================================
+  MÓVIL PEQUEÑO
+==================================================*/
+
+@media (max-width:480px){
+
+  .card{
+    border-radius:14px;
+  }
+
+  .imageBox,
+  .card:hover .imageBox{
+    height:320px;
+    min-height:320px;
+  }
+
+  .status{
+    left:14px;
+    bottom:13px;
+
+    font-size:.58rem;
+  }
+
+  .content{
+    padding:
+      14px
+      13px
+      10px;
+
+    gap:7px;
+  }
+
+  .logo{
+    width:104px;
+    height:38px;
+  }
+
+  .titleArea h3{
+    font-size:.91rem;
+  }
+
+  .location strong,
+  .location span{
+    font-size:.67rem;
+  }
+
+  .feature{
+    min-height:43px;
+
+    padding:7px 5px;
+  }
+
+  .feature svg{
+    width:18px;
+    height:18px;
+  }
+
+  .feature span{
+    font-size:.59rem;
+  }
+
+  .priceBox{
+    min-height:31px;
+  }
+
+  .priceBox small{
+    font-size:.54rem;
+  }
+
+  .priceBox strong{
+    font-size:.82rem;
+  }
+
+  .buttonArea{
+    padding:
+      0
+      13px
+      13px;
+  }
+
+  .buttonArea :global(a),
+  .buttonArea :global(button){
+    min-width:138px;
+    min-height:34px;
+
+    padding:6px 13px;
+
+    font-size:.55rem;
+  }
+}
+
+/*==================================================
+  MÓVIL MUY PEQUEÑO
+==================================================*/
+
+@media (max-width:380px){
+
+  .imageBox,
+  .card:hover .imageBox{
+    height:285px;
+    min-height:285px;
+  }
+
+  .content{
+    padding:
+      13px
+      11px
+      9px;
+  }
+
+  .logo{
+    width:96px;
+    height:36px;
+  }
+
+  .location{
+    flex-direction:column;
+    gap:1px;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .feature{
+    justify-content:flex-start;
+
+    min-height:39px;
+
+    padding:
+      7px
+      13px;
+  }
+
+  .feature:first-child{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .feature span{
+    font-size:.61rem;
+  }
+
+  .priceBox{
+    flex-direction:column;
+    gap:2px;
+  }
+
+  .buttonArea :global(a),
+  .buttonArea :global(button){
+    min-width:132px;
+    min-height:32px;
+
+    font-size:.53rem;
+  }
+}
+
+/*==================================================
+  TABLETS Y DISPOSITIVOS TÁCTILES
+==================================================*/
+
+@media (hover:none){
+
+  .card:hover{
+    transform:none;
+  }
+
+  .card:hover .image{
+    transform:none;
+    filter:none;
+  }
+
+  .buttonArea{
+    max-height:none;
+
+    overflow:visible;
+
+    padding:
+      0
+      21px
+      18px;
+
+    opacity:1;
+    transform:none;
+
+    pointer-events:auto;
+  }
+}
+
+/*==================================================
+  FOCO POR TECLADO
+==================================================*/
+
+.cardLink:focus-visible{
+  outline:3px solid rgba(0,167,79,.27);
+  outline-offset:-3px;
+
+  border-radius:17px;
+}
+
+.buttonArea :global(a):focus-visible,
+.buttonArea :global(button):focus-visible{
+  outline:3px solid rgba(0,167,79,.3);
+  outline-offset:3px;
+}
+
+/*==================================================
+  EXPANSIÓN CON TECLADO
+==================================================*/
+
+@media (hover:hover) and (pointer:fine){
+
+  .card:focus-within{
+    border-color:rgba(0,167,79,.42);
+  }
+
+  .card:focus-within .imageBox{
+    height:410px;
+    min-height:410px;
+  }
+
+  .card:focus-within .buttonArea{
+    max-height:74px;
+
+    padding:
+      0
+      21px
+      18px;
+
+    opacity:1;
+    transform:translateY(0);
+
+    pointer-events:auto;
+  }
+}
+
+/*==================================================
+  REDUCIR MOVIMIENTO
 ==================================================*/
 
 @media (prefers-reduced-motion:reduce){
 
-    .card,
-    .image,
-    .buttonArea,
-    .content{
+  .card,
+  .imageBox,
+  .image,
+  .buttonArea,
+  .titleArea h3,
+  .priceBox strong,
+  .buttonArea :global(a),
+  .buttonArea :global(button){
+    transition:none;
+  }
 
-        transition:none;
-
-    }
-
+  .card:hover,
+  .card:hover .image,
+  .buttonArea :global(a):hover,
+  .buttonArea :global(button):hover{
+    transform:none;
+  }
 }
