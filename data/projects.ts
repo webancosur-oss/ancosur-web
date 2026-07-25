@@ -148,7 +148,7 @@ export const projects: Project[] = [
     status: "EN CONSTRUCCIÓN",
     image: "/assets/projects/tarjetas/moro416.webp",
     logo: "/assets/projects/logos/moro416.webp",
-    href: "/moro-416",
+    href: "/moro416",
   },
 
   {

@@ -757,7 +757,7 @@ export const transparencyProjects: TransparencyProject[] = [
   {
     slug: "moro-416",
     name: "Moro 416",
-    projectRoute: "/moro-416",
+    projectRoute: "/moro416",
     companyName: "ANCOSUR S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
