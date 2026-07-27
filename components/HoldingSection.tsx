@@ -48,70 +48,69 @@ type Company = {
 const companies: Company[] = [
   {
     id: "ancosur",
-    name: "ANCOSUR",
+    name: "",
     category: "Desarrollo inmobiliario",
     description:
-      "Creamos proyectos inmobiliarios para vivir, invertir y construir un patrimonio seguro.",
+      "",
     href: "/nosotros",
     logo: "/assets/images/ancosur-logo.svg",
-    background: "/assets/holding/ancosur.webp",
+    background: "/assets/projects/tarjetas/balto.webp",
     tone: "#00a74f",
   },
   {
     id: "straton",
-    name: "STRATON",
+    name: "",
     category: "Construcción",
     description:
-      "Ejecutamos proyectos con eficiencia, precisión técnica y altos estándares de calidad.",
+      "",
     href: "#",
     logo: "/assets/images/straton.svg",
-    background: "/assets/holding/straton.webp",
+    background: "/assets/projects/tarjetas/rivera.webp",
     tone: "#185d36",
   },
   {
     id: "zagari",
-    name: "ZAGARI",
+    name: "",
     category: "Resort y turismo",
     description:
-      "Desarrollamos experiencias turísticas que conectan inversión, naturaleza y bienestar.",
+      "",
     href: "https://zagari.pe/",
     logo: "/assets/images/zagari.svg",
-    background: "/assets/holding/zagari.webp",
+    background: "/assets/projects/tarjetas/xport.webp",
     tone: "#4aaa72",
   },
   {
     id: "darkham",
-    name: "DARKHAM",
+    name: "",
     category: "Diseño y arquitectura",
     description:
-      "Transformamos conceptos en espacios arquitectónicos funcionales, contemporáneos y con identidad.",
+      "",
     href: "#",
     logo: "/assets/images/darkham.svg",
-    background: "/assets/holding/darkham.webp",
+    background: "/assets/projects/tarjetas/distrito.webp",
     tone: "#073d25",
   },
   {
     id: "sulpaa",
-    name: "SULPAA",
+    name: "",
     category: "Inversión y gestión",
     description:
-      "Gestionamos proyectos e inversiones mediante estrategias orientadas al crecimiento y la generación de valor.",
+      "",
     href: "https://sulpaa.com/",
     logo: "/assets/images/sulpaa.svg",
-    background: "/assets/holding/sulpaa.webp",
+    background: "/assets/projects/tarjetas/origen.webp",
     tone: "#718f43",
   },
   {
     id: "tercer-espacio",
-    name: "TERCER ESPACIO",
+    name: "",
     category: "Podcast y comunidad",
     description:
-      "Un espacio de conversación, conocimiento y comunidad donde compartimos nuevas perspectivas.",
+      "",
     href:
       "https://open.spotify.com/show/4MlsSTgEjZAUKhd9SsQ5tp",
     logo: "/assets/images/tercer-espacio.svg",
-    background:
-      "/assets/holding/tercer-espacio.webp",
+    background: "/assets/projects/tarjetas/emperatriz.webp",
     tone: "#9dbb4d",
   },
 ];

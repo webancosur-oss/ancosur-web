@@ -1,236 +1,513 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-type ApiPayload = Record<string, unknown>;
+type UnknownPayload = Record<string, unknown>;
 
-type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-type ProxyOptions = {
-  requireAuth?: boolean;
+type LeadPayload = {
+  fuente_id: 4;
+  telefono: string;
+  nombre: string;
+  email: string;
+  dni: string;
+  campaña: string;
+  anuncio: string;
+  msj_client: string;
+  comentario: string;
 };
 
-const SESSION_COOKIE_NAME = "ancosur_session";
+type ApiResponse = {
+  success?: boolean;
+  message?: string;
+  error?: string;
+  [key: string]: unknown;
+};
 
-const getApiBaseUrl = (): string => {
-  const apiUrl = process.env.API_URL?.trim();
-
-  if (!apiUrl) {
-    throw new Error(
-      "No existe API_URL en las variables de entorno del frontend.",
-    );
+const getString = (
+  value: unknown,
+): string => {
+  if (
+    typeof value === "string" ||
+    typeof value === "number"
+  ) {
+    return String(value).trim();
   }
 
-  return apiUrl.replace(/\/+$/, "");
+  return "";
 };
 
-const getToken = async () => {
-  const cookieStore = await cookies();
+const firstString = (
+  ...values: unknown[]
+): string => {
+  for (const value of values) {
+    const normalized = getString(value);
 
-  return cookieStore.get(SESSION_COOKIE_NAME)?.value ?? "";
-};
-
-const getRequestPayload = async (
-  request: Request,
-): Promise<ApiPayload> => {
-  const contentType = request.headers.get("content-type") ?? "";
-
-  if (contentType.includes("application/json")) {
-    const body = await request.json();
-
-    if (
-      typeof body !== "object" ||
-      body === null ||
-      Array.isArray(body)
-    ) {
-      throw new Error("El contenido enviado no es válido.");
+    if (normalized) {
+      return normalized;
     }
+  }
 
-    return body as ApiPayload;
+  return "";
+};
+
+const normalizePhone = (
+  value: unknown,
+): string => {
+  return getString(value)
+    .replace(/\D/g, "")
+    .slice(0, 9);
+};
+
+const normalizeDni = (
+  value: unknown,
+): string => {
+  return getString(value)
+    .replace(/\D/g, "")
+    .slice(0, 8);
+};
+
+const normalizeClientMessage = (
+  body: UnknownPayload,
+): string => {
+  const currentValue =
+    body.msj_client;
+
+  if (
+    typeof currentValue === "string" &&
+    currentValue.trim()
+  ) {
+    /*
+     * Si ya viene como JSON convertido a texto,
+     * se envía sin modificarlo.
+     */
+    return currentValue.trim();
   }
 
   if (
-    contentType.includes("multipart/form-data") ||
-    contentType.includes("application/x-www-form-urlencoded")
+    typeof currentValue === "object" &&
+    currentValue !== null
   ) {
-    const formData = await request.formData();
-    const payload: ApiPayload = {};
-
-    formData.forEach((value, key) => {
-      if (typeof value === "string") {
-        payload[key] = value;
-      }
-    });
-
-    return payload;
+    return JSON.stringify(
+      currentValue,
+    );
   }
 
-  return {};
+  return JSON.stringify({
+    interes: firstString(
+      body.interes,
+      body.project,
+      body.proyecto,
+      body.proyecto_interes,
+      body.categoria_interes,
+    ),
+
+    mensaje: firstString(
+      body.message,
+      body.mensaje,
+      body.comentario,
+    ),
+
+    origenRuta: firstString(
+      body.origen_ruta,
+      body.origenRuta,
+    ),
+
+    origenComponente: firstString(
+      body.origen_componente,
+      body.origenComponente,
+    ),
+
+    tipoLead: firstString(
+      body.tipo_lead,
+      body.tipoLead,
+      body.campaign,
+    ),
+
+    areaM2:
+      body.areaM2 ??
+      body.area_m2 ??
+      null,
+
+    precio:
+      body.price ??
+      body.precio ??
+      null,
+
+    moneda:
+      body.currency ??
+      body.moneda ??
+      null,
+
+    ubicacion: firstString(
+      body.location,
+      body.ubicacion,
+      body.district,
+      body.distrito,
+    ),
+
+    referencia: firstString(
+      body.reference,
+      body.referencia,
+    ),
+
+    partidaRegistral: firstString(
+      body.registryNumber,
+      body.partida_registral,
+    ),
+  });
 };
 
-const parseApiResponse = (
+const normalizePayload = (
+  body: UnknownPayload,
+): LeadPayload => {
+  const campaña = firstString(
+    body["campaña"],
+    body.campania,
+    body.campaign,
+    body.campania_nombre,
+    body.campaignName,
+    "Formulario web ANCOSUR",
+  );
+
+  const anuncio = firstString(
+    body.anuncio,
+    body.origen_componente,
+    body.origenComponente,
+    body.source,
+    body.fuente_prospeccion,
+    "Página web ANCOSUR",
+  );
+
+  const comentario = firstString(
+    body.comentario,
+    body.message,
+    body.mensaje,
+    "Cliente interesado registrado desde la página web.",
+  );
+
+  return {
+    fuente_id: 4,
+    telefono: normalizePhone(
+      body.telefono ??
+        body.phone ??
+        body.celular,
+    ),
+
+    nombre: firstString(
+      body.nombre,
+      body.fullName,
+      body.full_name,
+      body.nombres_completos,
+    ),
+
+    email: firstString(
+      body.email,
+      body.correo,
+    ).toLowerCase(),
+
+    dni: normalizeDni(
+      body.dni ??
+        body.documento,
+    ),
+
+    campaña,
+
+    anuncio,
+
+    msj_client:
+      normalizeClientMessage(body),
+
+    comentario,
+  };
+};
+
+const validatePayload = (
+  payload: LeadPayload,
+): string[] => {
+  const errors: string[] = [];
+
+  if (
+    !/^9\d{8}$/.test(
+      payload.telefono,
+    )
+  ) {
+    errors.push(
+      "El celular debe tener 9 dígitos y comenzar con 9.",
+    );
+  }
+
+  if (
+    payload.nombre.length < 3
+  ) {
+    errors.push(
+      "El nombre es obligatorio.",
+    );
+  }
+
+  if (
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      payload.email,
+    )
+  ) {
+    errors.push(
+      "El correo electrónico no es válido.",
+    );
+  }
+
+  /*
+   * El DNI se valida solamente cuando fue enviado.
+   * Así los formularios que todavía no solicitan DNI
+   * también pueden registrar leads.
+   */
+  if (
+    payload.dni &&
+    !/^\d{8}$/.test(payload.dni)
+  ) {
+    errors.push(
+      "El DNI debe tener 8 dígitos.",
+    );
+  }
+
+  if (!payload.campaña) {
+    errors.push(
+      "La campaña es obligatoria.",
+    );
+  }
+
+  return errors;
+};
+
+const parseResponse = (
   responseText: string,
-): Record<string, unknown> => {
-  if (!responseText) {
-    return {
-      success: true,
-      message: "Solicitud procesada correctamente.",
-      data: null,
-    };
+): ApiResponse => {
+  if (!responseText.trim()) {
+    return {};
   }
 
   try {
-    return JSON.parse(responseText) as Record<string, unknown>;
+    const parsed: unknown =
+      JSON.parse(responseText);
+
+    if (
+      typeof parsed === "object" &&
+      parsed !== null &&
+      !Array.isArray(parsed)
+    ) {
+      return parsed as ApiResponse;
+    }
+
+    return {
+      message:
+        "La API respondió correctamente.",
+      data: parsed,
+    };
   } catch {
     return {
-      success: false,
       message: responseText,
-      data: null,
     };
   }
 };
 
-export async function proxyRequest(
-  request: Request | null,
-  endpoint: string,
-  method: HttpMethod,
-  options: ProxyOptions = {},
+export async function proxyPost(
+  request: Request,
 ) {
-  let targetUrl = "";
-
   try {
-    const apiBaseUrl = getApiBaseUrl();
-    const token = await getToken();
+    const apiUrl =
+      process.env.LEADS_API_URL?.trim();
 
-    if (options.requireAuth && !token) {
+    if (!apiUrl) {
       return NextResponse.json(
         {
           success: false,
-          response: "auth.token_required",
-          message: "Token requerido.",
-          data: null,
+          message:
+            "No existe LEADS_API_URL en las variables de entorno.",
         },
         {
-          status: 401,
+          status: 500,
         },
       );
     }
 
-    targetUrl = `${apiBaseUrl}${endpoint}`;
-
-    const headers: HeadersInit = {
-      Accept: "application/json",
-    };
-
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    let body: string | undefined;
+    const contentType =
+      request.headers.get(
+        "content-type",
+      ) ?? "";
 
     if (
-      request &&
-      method !== "GET" &&
-      method !== "DELETE"
+      !contentType.includes(
+        "application/json",
+      )
     ) {
-      const payload = await getRequestPayload(request);
-
-      headers["Content-Type"] = "application/json";
-      body = JSON.stringify(payload);
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "La solicitud debe enviarse como application/json.",
+        },
+        {
+          status: 415,
+        },
+      );
     }
 
-    console.log(`[Next Proxy] ${method} ${targetUrl}`);
+    const rawBody: unknown =
+      await request.json();
 
-    const response = await fetch(targetUrl, {
-      method,
-      headers,
-      body,
-      cache: "no-store",
-    });
+    if (
+      typeof rawBody !== "object" ||
+      rawBody === null ||
+      Array.isArray(rawBody)
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "El contenido enviado no es válido.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
 
-    const responseText = await response.text();
-    const responseBody = parseApiResponse(responseText);
+    const body =
+      rawBody as UnknownPayload;
 
-    if (!response.ok) {
-      console.error("[Next Proxy] Error API:", {
-        endpoint: targetUrl,
-        status: response.status,
-        response: responseBody,
+    const payload =
+      normalizePayload(body);
+
+    const validationErrors =
+      validatePayload(payload);
+
+    if (
+      validationErrors.length > 0
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            validationErrors[0],
+          errors:
+            validationErrors,
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    console.log(
+      "[API Leads] Enviando:",
+      {
+        url: apiUrl,
+        campaña:
+          payload.campaña,
+        anuncio:
+          payload.anuncio,
+        telefono:
+          payload.telefono,
+        email:
+          payload.email,
+      },
+    );
+
+    const externalResponse =
+      await fetch(apiUrl, {
+        method: "POST",
+
+        headers: {
+          Accept:
+            "application/json",
+
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify(
+          payload,
+        ),
+
+        cache: "no-store",
       });
+
+    const responseText =
+      await externalResponse.text();
+
+    const externalData =
+      parseResponse(
+        responseText,
+      );
+
+    if (!externalResponse.ok) {
+      console.error(
+        "[API Leads] La API externa rechazó el lead:",
+        {
+          status:
+            externalResponse.status,
+          data:
+            externalData,
+        },
+      );
+
+      return NextResponse.json(
+        {
+          success: false,
+
+          message:
+            externalData.message ||
+            externalData.error ||
+            "La API rechazó el registro del lead.",
+
+          status:
+            externalResponse.status,
+
+          data:
+            externalData,
+        },
+        {
+          status:
+            externalResponse.status,
+        },
+      );
     }
 
-    return NextResponse.json(responseBody, {
-      status: response.status,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+
+        message:
+          externalData.message ||
+          "Lead registrado correctamente.",
+
+        data:
+          externalData,
+      },
+      {
+        status: 200,
+      },
+    );
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Error desconocido";
+      error instanceof Error
+        ? error.message
+        : "Error desconocido";
 
-    console.error("[Next Proxy] No se pudo conectar:", {
-      targetUrl,
-      error: errorMessage,
-      apiUrlConfigured: Boolean(process.env.API_URL),
-    });
+    console.error(
+      "[API Leads] Error:",
+      error,
+    );
 
     return NextResponse.json(
       {
         success: false,
-        response: "proxy.connection_error",
-        message: "No se pudo conectar con la API de ANCOSUR.",
-        data: {
-          targetUrl,
-          error: errorMessage,
-          apiUrlConfigured: Boolean(process.env.API_URL),
-        },
+
+        message:
+          "No se pudo registrar el lead.",
+
+        error:
+          errorMessage,
       },
       {
-        status: 502,
+        status: 500,
       },
     );
   }
-}
-
-export async function proxyGet(
-  request: Request,
-  endpoint: string,
-  options: ProxyOptions = {},
-) {
-  const { search } = new URL(request.url);
-
-  return proxyRequest(
-    null,
-    `${endpoint}${search}`,
-    "GET",
-    options,
-  );
-}
-
-export async function proxyPost(
-  request: Request,
-  endpoint: string,
-  options: ProxyOptions = {},
-) {
-  return proxyRequest(request, endpoint, "POST", options);
-}
-
-export async function proxyPatch(
-  request: Request,
-  endpoint: string,
-  options: ProxyOptions = {},
-) {
-  return proxyRequest(request, endpoint, "PATCH", options);
-}
-
-export async function proxyPut(
-  request: Request,
-  endpoint: string,
-  options: ProxyOptions = {},
-) {
-  return proxyRequest(request, endpoint, "PUT", options);
-}
-
-export async function proxyDelete(
-  endpoint: string,
-  options: ProxyOptions = {},
-) {
-  return proxyRequest(null, endpoint, "DELETE", options);
 }

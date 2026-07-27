@@ -84,6 +84,17 @@
   transform: translateY(-1px);
 }
 
+.termsLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.termsLink:hover {
+  color: var(--color-primary);
+}
+
 .popupImage {
   display: block;
   width: 100%;

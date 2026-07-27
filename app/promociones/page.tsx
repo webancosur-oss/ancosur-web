@@ -16,6 +16,7 @@ import {
 } from "./data";
 
 import styles from "./CyberHousePage.module.css";
+import CuscoPromoHero from "./components/CuscoPromoHero";
 
 export const metadata: Metadata = {
   title:
@@ -62,9 +63,8 @@ export default function CyberHousePage() {
       <Navbar />
 
       <main className={styles.page}>
+        <CuscoPromoHero />
         <CyberHero />
-        <CyberProjects />
-        <CyberEventInfo />
         <CyberHouseLeadForm />
       </main>
 

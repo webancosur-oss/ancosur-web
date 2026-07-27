@@ -529,7 +529,7 @@ export default function CyberHouseLeadForm() {
                     id="cyber-fullName"
                     name="fullName"
                     type="text"
-                    placeholder="Ej. Angela Huayra"
+                    placeholder="Ej. Miguel Asto"
                     autoComplete="name"
                     minLength={3}
                     maxLength={80}

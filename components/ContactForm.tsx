@@ -90,10 +90,6 @@ const ERROR_TOAST: FeedbackToastData = {
 const interestOptions = [
   "Departamentos",
   "Lotes",
-  "Inversión inmobiliaria",
-  "Entrega inmediata",
-  "Preventa",
-  "Campaña vigente",
 ] as const;
 
 const readApiResponse = async (
@@ -284,7 +280,7 @@ export default function ContactForm({
     }));
   };
 
-  const handleSubmit = async (
+ const handleSubmit = async (
   event: FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault();
@@ -295,8 +291,9 @@ export default function ContactForm({
 
   /*
    * Campo honeypot contra bots.
+   * Los usuarios reales no lo completan.
    */
-  if (formData.website) {
+  if (formData.website.trim()) {
     return;
   }
 
@@ -304,33 +301,72 @@ export default function ContactForm({
     return;
   }
 
-  const fullName = formData.fullName.trim();
+  const fullName =
+    formData.fullName.trim();
 
-  const phone = formData.phone.replace(
-    /\D/g,
-    ""
-  );
+  const phone =
+    formData.phone.replace(
+      /\D/g,
+      ""
+    );
 
-  const email = formData.email
-    .trim()
-    .toLowerCase();
+  const email =
+    formData.email
+      .trim()
+      .toLowerCase();
 
-  const interest = formData.interest.trim();
+  const interest =
+    formData.interest.trim();
 
-  const message = formData.message.trim();
+  const cleanMessage =
+    formData.message.trim();
 
+  /*
+   * Estructura exacta requerida
+   * por CRM Sentinel.
+   */
   const leadPayload = {
-    nombres_completos: fullName,
+    fuente_id: 4,
+
     telefono: phone,
+
+    nombre: fullName,
+
     email,
-    proyecto_interes: interest,
-    categoria_interes: interest,
-    fuente_prospeccion: "Web",
-    mensaje:
-      message ||
-      "Solicitud de información enviada desde el formulario de contacto.",
-    origen_ruta: window.location.pathname,
-    origen_componente: `Formulario ${title} - ${campaign}`,
+
+    dni: "",
+
+    campaña: campaign,
+
+    anuncio:
+      `Formulario web ANCOSUR - ${title}`,
+
+    /*
+     * La API espera msj_client como
+     * un texto JSON, no como objeto.
+     */
+    msj_client: JSON.stringify({
+      interes: interest,
+
+      mensaje:
+        cleanMessage ||
+        "Solicitud de información enviada desde el formulario de contacto.",
+
+      origen_ruta:
+        window.location.pathname,
+
+      origen_componente:
+        `Formulario ${title}`,
+
+      campaña: campaign,
+
+      consentimiento:
+        formData.consent,
+    }),
+
+    comentario:
+      cleanMessage ||
+      `Cliente interesado en ${interest}.`,
   };
 
   try {
@@ -338,42 +374,86 @@ export default function ContactForm({
     setToast(null);
     setErrors({});
 
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(leadPayload),
-    });
+    const response =
+      await fetch(
+        "/api/leads",
+        {
+          method: "POST",
 
-    const result = await readApiResponse(response);
+          headers: {
+            "Content-Type":
+              "application/json",
 
-    if (!response.ok || result.success === false) {
-      console.error("Error API leads:", result);
+            Accept:
+              "application/json",
+          },
+
+          body: JSON.stringify(
+            leadPayload
+          ),
+        }
+      );
+
+    const result =
+      await readApiResponse(
+        response
+      );
+
+    if (
+      !response.ok ||
+      result.success === false
+    ) {
+      console.error(
+        "Error API leads:",
+        {
+          status:
+            response.status,
+
+          response:
+            result,
+
+          payload:
+            leadPayload,
+        }
+      );
 
       showToast({
         variant: "error",
-        title: "No pudimos enviar tus datos",
+
+        title:
+          "No pudimos enviar tus datos",
+
         message:
           result.message ||
-          "Verifica la información e inténtalo nuevamente.",
+          "La API rechazó el registro. Verifica la información e inténtalo nuevamente.",
       });
 
       return;
     }
 
-    setFormData(initialFormData);
+    setFormData(
+      initialFormData
+    );
+
     setErrors({});
 
-    showToast(SUCCESS_TOAST);
+    showToast(
+      SUCCESS_TOAST
+    );
   } catch (error) {
     console.error(
       "Error enviando formulario de contacto:",
       error
     );
 
-    showToast(ERROR_TOAST);
+    showToast({
+      ...ERROR_TOAST,
+
+      message:
+        error instanceof Error
+          ? error.message
+          : ERROR_TOAST.message,
+    });
   } finally {
     setIsSending(false);
   }
@@ -595,7 +675,7 @@ export default function ContactForm({
                     id="fullName"
                     name="fullName"
                     type="text"
-                    placeholder="Ej. Angela Huayra"
+                    placeholder="Ej. Miguel Asto"
                     autoComplete="name"
                     minLength={3}
                     maxLength={70}

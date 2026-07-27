@@ -28,16 +28,22 @@
 
   background:var(--white);
 
-  box-shadow:none;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
 
   transition:
     border-color .35s ease,
-    transform .35s ease;
+    transform .35s ease,
+    box-shadow .35s ease;
 }
 
 .card:hover{
   border-color:rgba(0,167,79,.42);
+
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.09);
 }
+
 
 /*==================================================
   ENLACE PRINCIPAL
@@ -54,27 +60,36 @@
   text-decoration:none;
 }
 
+
 /*==================================================
-  IMAGEN
+  IMAGEN PRINCIPAL
 ==================================================*/
 
 .imageBox{
   position:relative;
 
   width:100%;
-  height:500px;
-  min-height:500px;
+
+  /*
+    Imagen rectangular.
+    5 / 4 = rectangular vertical moderado.
+    Puedes cambiarlo por 4 / 3 si deseas más horizontal.
+  */
+  aspect-ratio:5 / 4;
 
   flex-shrink:0;
 
   overflow:hidden;
 
-  background:#edf1ee;
+  border-radius:18px 18px 0 0;
 
-  transition:
-    height .45s cubic-bezier(.22,.61,.36,1),
-    min-height .45s cubic-bezier(.22,.61,.36,1);
+  background:#edf1ee;
 }
+
+
+/*==================================================
+  IMAGEN
+==================================================*/
 
 .image{
   width:100% !important;
@@ -92,8 +107,9 @@
     filter .35s ease;
 }
 
+
 /*==================================================
-  HOVER DE IMAGEN
+  HOVER DE LA IMAGEN
 ==================================================*/
 
 @media (hover:hover) and (pointer:fine){
@@ -102,16 +118,12 @@
     transform:translateY(-4px);
   }
 
-  .card:hover .imageBox{
-    height:410px;
-    min-height:410px;
-  }
-
   .card:hover .image{
     transform:scale(1.045);
     filter:brightness(.94);
   }
 }
+
 
 /*==================================================
   OVERLAY
@@ -132,6 +144,7 @@
       transparent 58%
     );
 }
+
 
 /*==================================================
   ESTADO SOBRE LA IMAGEN
@@ -162,8 +175,10 @@
   letter-spacing:.025em;
   text-transform:uppercase;
 
-  text-shadow:0 2px 8px rgba(0,0,0,.4);
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.4);
 }
+
 
 /*==================================================
   CONTENIDO
@@ -177,27 +192,54 @@
   flex-direction:column;
   gap:11px;
 
-  padding:19px 21px 16px;
+  padding:
+    14px
+    21px
+    16px;
 
   background:var(--white);
 }
 
+
 /*==================================================
-  LOGO
+  LOGO DEL PROYECTO
 ==================================================*/
+
+.logoContainer{
+  width:100%;
+  min-height:58px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin:0;
+  padding:
+    4px
+    10px;
+
+  overflow:hidden;
+}
+
+
+/*
+  El logo se muestra completo,
+  sin recortarse y sin deformarse.
+*/
 
 .logo{
   display:block;
 
-  width:140px;
-  max-width:70%;
-  height:48px;
+  width:auto;
+  height:auto;
 
-  margin:0 auto 1px;
+  max-width:150px;
+  max-height:42px;
 
   object-fit:contain;
   object-position:center;
 }
+
 
 /*==================================================
   TÍTULO
@@ -222,7 +264,8 @@
   line-height:1.18;
   letter-spacing:-.02em;
 
-  transition:color .25s ease;
+  transition:
+    color .25s ease;
 }
 
 @media (hover:hover) and (pointer:fine){
@@ -231,6 +274,7 @@
     color:var(--green);
   }
 }
+
 
 /*==================================================
   UBICACIÓN
@@ -242,7 +286,9 @@
   align-items:center;
   justify-content:center;
   flex-wrap:wrap;
-  gap:3px;
+  gap:4px;
+
+  width:100%;
 
   margin:0;
 
@@ -250,19 +296,22 @@
 }
 
 .location strong{
-  color:var(--green);
+  color:var(--text);
 
-  font-size:.79rem;
+  font-size:.9rem;
   font-weight:800;
   line-height:1.35;
+  text-transform:uppercase;
 }
 
 .location span{
-  color:var(--text-soft);
+  color:var(--text);
 
-  font-size:.78rem;
+  font-size:.9rem;
+  font-weight:400;
   line-height:1.35;
 }
+
 
 /*==================================================
   CARACTERÍSTICAS
@@ -270,15 +319,23 @@
 
 .features{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
 
   width:100%;
 
-  margin:4px 0 0;
+  margin:
+    4px
+    0
+    0;
+
   padding:0;
 
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+  border-top:
+    1px solid var(--line);
+
+  border-bottom:
+    1px solid var(--line);
 }
 
 .feature{
@@ -290,38 +347,37 @@
   justify-content:center;
   gap:8px;
 
-  padding:9px 8px;
+  padding:
+    9px
+    8px;
 }
 
 .feature:first-child{
-  border-right:1px solid var(--line);
+  border-right:
+    1px solid var(--line);
 }
 
 .feature svg{
-  width:21px;
-  height:21px;
+  width:22px;
+  height:22px;
 
   flex-shrink:0;
 
-  color:var(--green);
+  color:#565b57;
 }
 
 .feature span{
   color:#434843;
 
-  font-size:.72rem;
-  font-weight:600;
+  font-size:.9rem;
+  font-weight:500;
   line-height:1.3;
 }
+
 
 /*==================================================
   PRECIO
 ==================================================*/
-
-/*
-  Se elimina margin-top:auto.
-  Esa propiedad era la que generaba el espacio vacío.
-*/
 
 .priceBox{
   display:flex;
@@ -335,29 +391,32 @@
   min-height:38px;
 
   margin:0;
-  padding:3px 0 0;
+
+  padding:
+    3px
+    0
+    0;
 
   text-align:center;
 }
 
 .priceBox small{
-  color:#858d87;
+  color:#555b57;
 
-  font-size:.61rem;
-  font-weight:700;
+  font-size:.9rem;
+  font-weight:400;
   line-height:1;
-  letter-spacing:.06em;
-  text-transform:uppercase;
 }
 
 .priceBox strong{
   color:#111111;
 
-  font-size:.94rem;
+  font-size:1rem;
   font-weight:900;
   line-height:1.1;
 
-  transition:color .25s ease;
+  transition:
+    color .25s ease;
 }
 
 @media (hover:hover) and (pointer:fine){
@@ -367,14 +426,10 @@
   }
 }
 
+
 /*==================================================
   BOTÓN DENTRO DEL CARD
 ==================================================*/
-
-/*
-  Estado inicial:
-  el botón está oculto y no deja espacio vacío.
-*/
 
 .buttonArea{
   position:relative;
@@ -385,12 +440,17 @@
   display:block;
 
   margin:0;
-  padding:0 21px;
+
+  padding:
+    0
+    21px;
 
   overflow:hidden;
 
   opacity:0;
-  transform:translateY(14px);
+
+  transform:
+    translateY(14px);
 
   pointer-events:none;
 
@@ -403,6 +463,7 @@
     transform .38s ease;
 }
 
+
 /*==================================================
   MOSTRAR BOTÓN EN HOVER
 ==================================================*/
@@ -412,14 +473,20 @@
   .card:hover .buttonArea{
     max-height:74px;
 
-    padding:0 21px 18px;
+    padding:
+      0
+      21px
+      18px;
 
     opacity:1;
-    transform:translateY(0);
+
+    transform:
+      translateY(0);
 
     pointer-events:auto;
   }
 }
+
 
 /*==================================================
   ESTILO DEL BOTÓN
@@ -435,7 +502,9 @@
   justify-content:center;
   gap:8px;
 
-  padding:9px 16px;
+  padding:
+    9px
+    16px;
 
   border:0;
   border-radius:7px;
@@ -443,9 +512,10 @@
   background:var(--green);
   color:#ffffff;
 
-  font-size:.7rem;
+  font-size:.78rem;
   font-weight:800;
   line-height:1;
+
   text-align:center;
   text-decoration:none;
   text-transform:uppercase;
@@ -460,579 +530,7 @@
 .buttonArea :global(a):hover,
 .buttonArea :global(button):hover{
   background:var(--green-dark);
-  transform:translateY(-1px);
-}
 
-/*==================================================
-  ESCRITORIO GRANDE
-==================================================*/
-
-@media (min-width:1400px){
-
-  .imageBox{
-    height:520px;
-    min-height:520px;
-  }
-
-  @media (hover:hover) and (pointer:fine){
-
-    .card:hover .imageBox{
-      height:425px;
-      min-height:425px;
-    }
-  }
-
-  .logo{
-    width:150px;
-    height:52px;
-  }
-
-  .titleArea h3{
-    font-size:1.18rem;
-  }
-}
-
-/*==================================================
-  ESCRITORIO MEDIANO
-==================================================*/
-
-@media (max-width:1200px){
-
-  .imageBox{
-    height:460px;
-    min-height:460px;
-  }
-
-  @media (hover:hover) and (pointer:fine){
-
-    .card:hover .imageBox{
-      height:380px;
-      min-height:380px;
-    }
-  }
-
-  .content{
-    padding:18px 19px 15px;
-  }
-
-  .buttonArea{
-    padding-inline:19px;
-  }
-
-  @media (hover:hover) and (pointer:fine){
-
-    .card:hover .buttonArea{
-      padding:
-        0
-        19px
-        17px;
-    }
-  }
-}
-
-/*==================================================
-  TABLET
-==================================================*/
-
-@media (max-width:992px){
-
-  .imageBox{
-    height:420px;
-    min-height:420px;
-  }
-
-  @media (hover:hover) and (pointer:fine){
-
-    .card:hover .imageBox{
-      height:350px;
-      min-height:350px;
-    }
-  }
-
-  .content{
-    gap:9px;
-
-    padding:
-      17px
-      17px
-      14px;
-  }
-
-  .logo{
-    width:125px;
-    height:44px;
-  }
-
-  .titleArea h3{
-    font-size:1.03rem;
-  }
-
-  .location strong,
-  .location span{
-    font-size:.72rem;
-  }
-
-  .feature span{
-    font-size:.66rem;
-  }
-
-  .buttonArea{
-    padding-inline:17px;
-  }
-
-  @media (hover:hover) and (pointer:fine){
-
-    .card:hover .buttonArea{
-      padding:
-        0
-        17px
-        16px;
-    }
-  }
-}
-
-/*==================================================
-  MÓVIL
-==================================================*/
-
-@media (max-width:768px){
-
-  .card{
-    height:auto;
-
-    border-radius:16px;
-
-    transform:none;
-  }
-
-  .card:hover{
-    transform:none;
-  }
-
-  .cardLink{
-    height:auto;
-  }
-
-  .imageBox{
-    height:390px;
-    min-height:390px;
-  }
-
-  .image{
-    transform:none;
-    filter:none;
-  }
-
-  .card:hover .imageBox{
-    height:390px;
-    min-height:390px;
-  }
-
-  .card:hover .image{
-    transform:none;
-    filter:none;
-  }
-
-  .status{
-    left:17px;
-    bottom:15px;
-
-    font-size:.64rem;
-  }
-
-  .content{
-    padding:
-      17px
-      17px
-      13px;
-
-    gap:9px;
-  }
-
-  .logo{
-    width:122px;
-    height:44px;
-  }
-
-  .titleArea h3{
-    font-size:1rem;
-  }
-
-  .location strong,
-  .location span{
-    font-size:.73rem;
-  }
-
-  .feature{
-    min-height:48px;
-  }
-
-  .feature svg{
-    width:19px;
-    height:19px;
-  }
-
-  .feature span{
-    font-size:.66rem;
-  }
-
-  .priceBox{
-    min-height:34px;
-  }
-
-  /*
-    En móvil el botón siempre está visible,
-    pero ocupa menos espacio.
-  */
-
-  .buttonArea{
-    width:100%;
-    max-height:none;
-
-    display:flex;
-    justify-content:center;
-
-    overflow:visible;
-
-    padding:
-      0
-      17px
-      16px;
-
-    opacity:1;
-    transform:none;
-
-    pointer-events:auto;
-  }
-
-  .buttonArea :global(a),
-  .buttonArea :global(button){
-    width:auto;
-    min-width:158px;
-    min-height:37px;
-
-    padding:7px 16px;
-
-    border-radius:999px;
-
-    font-size:.61rem;
-  }
-}
-
-/*==================================================
-  MÓVIL MEDIANO
-==================================================*/
-
-@media (max-width:580px){
-
-  .imageBox,
-  .card:hover .imageBox{
-    height:350px;
-    min-height:350px;
-  }
-
-  .content{
-    padding:
-      16px
-      15px
-      12px;
-  }
-
-  .logo{
-    width:112px;
-    height:41px;
-  }
-
-  .titleArea h3{
-    font-size:.96rem;
-  }
-
-  .location strong,
-  .location span{
-    font-size:.7rem;
-  }
-
-  .feature{
-    min-height:45px;
-  }
-
-  .feature span{
-    font-size:.63rem;
-  }
-
-  .buttonArea{
-    padding:
-      0
-      15px
-      14px;
-  }
-
-  .buttonArea :global(a),
-  .buttonArea :global(button){
-    min-width:148px;
-    min-height:35px;
-
-    font-size:.58rem;
-  }
-}
-
-/*==================================================
-  MÓVIL PEQUEÑO
-==================================================*/
-
-@media (max-width:480px){
-
-  .card{
-    border-radius:14px;
-  }
-
-  .imageBox,
-  .card:hover .imageBox{
-    height:320px;
-    min-height:320px;
-  }
-
-  .status{
-    left:14px;
-    bottom:13px;
-
-    font-size:.58rem;
-  }
-
-  .content{
-    padding:
-      14px
-      13px
-      10px;
-
-    gap:7px;
-  }
-
-  .logo{
-    width:104px;
-    height:38px;
-  }
-
-  .titleArea h3{
-    font-size:.91rem;
-  }
-
-  .location strong,
-  .location span{
-    font-size:.67rem;
-  }
-
-  .feature{
-    min-height:43px;
-
-    padding:7px 5px;
-  }
-
-  .feature svg{
-    width:18px;
-    height:18px;
-  }
-
-  .feature span{
-    font-size:.59rem;
-  }
-
-  .priceBox{
-    min-height:31px;
-  }
-
-  .priceBox small{
-    font-size:.54rem;
-  }
-
-  .priceBox strong{
-    font-size:.82rem;
-  }
-
-  .buttonArea{
-    padding:
-      0
-      13px
-      13px;
-  }
-
-  .buttonArea :global(a),
-  .buttonArea :global(button){
-    min-width:138px;
-    min-height:34px;
-
-    padding:6px 13px;
-
-    font-size:.55rem;
-  }
-}
-
-/*==================================================
-  MÓVIL MUY PEQUEÑO
-==================================================*/
-
-@media (max-width:380px){
-
-  .imageBox,
-  .card:hover .imageBox{
-    height:285px;
-    min-height:285px;
-  }
-
-  .content{
-    padding:
-      13px
-      11px
-      9px;
-  }
-
-  .logo{
-    width:96px;
-    height:36px;
-  }
-
-  .location{
-    flex-direction:column;
-    gap:1px;
-  }
-
-  .features{
-    grid-template-columns:1fr;
-  }
-
-  .feature{
-    justify-content:flex-start;
-
-    min-height:39px;
-
-    padding:
-      7px
-      13px;
-  }
-
-  .feature:first-child{
-    border-right:0;
-    border-bottom:1px solid var(--line);
-  }
-
-  .feature span{
-    font-size:.61rem;
-  }
-
-  .priceBox{
-    flex-direction:column;
-    gap:2px;
-  }
-
-  .buttonArea :global(a),
-  .buttonArea :global(button){
-    min-width:132px;
-    min-height:32px;
-
-    font-size:.53rem;
-  }
-}
-
-/*==================================================
-  TABLETS Y DISPOSITIVOS TÁCTILES
-==================================================*/
-
-@media (hover:none){
-
-  .card:hover{
-    transform:none;
-  }
-
-  .card:hover .image{
-    transform:none;
-    filter:none;
-  }
-
-  .buttonArea{
-    max-height:none;
-
-    overflow:visible;
-
-    padding:
-      0
-      21px
-      18px;
-
-    opacity:1;
-    transform:none;
-
-    pointer-events:auto;
-  }
-}
-
-/*==================================================
-  FOCO POR TECLADO
-==================================================*/
-
-.cardLink:focus-visible{
-  outline:3px solid rgba(0,167,79,.27);
-  outline-offset:-3px;
-
-  border-radius:17px;
-}
-
-.buttonArea :global(a):focus-visible,
-.buttonArea :global(button):focus-visible{
-  outline:3px solid rgba(0,167,79,.3);
-  outline-offset:3px;
-}
-
-/*==================================================
-  EXPANSIÓN CON TECLADO
-==================================================*/
-
-@media (hover:hover) and (pointer:fine){
-
-  .card:focus-within{
-    border-color:rgba(0,167,79,.42);
-  }
-
-  .card:focus-within .imageBox{
-    height:410px;
-    min-height:410px;
-  }
-
-  .card:focus-within .buttonArea{
-    max-height:74px;
-
-    padding:
-      0
-      21px
-      18px;
-
-    opacity:1;
-    transform:translateY(0);
-
-    pointer-events:auto;
-  }
-}
-
-/*==================================================
-  REDUCIR MOVIMIENTO
-==================================================*/
-
-@media (prefers-reduced-motion:reduce){
-
-  .card,
-  .imageBox,
-  .image,
-  .buttonArea,
-  .titleArea h3,
-  .priceBox strong,
-  .buttonArea :global(a),
-  .buttonArea :global(button){
-    transition:none;
-  }
-
-  .card:hover,
-  .card:hover .image,
-  .buttonArea :global(a):hover,
-  .buttonArea :global(button):hover{
-    transform:none;
-  }
+  transform:
+    translateY(-1px);
 }

@@ -39,7 +39,7 @@ export default function FloatingActions() {
         aria-label="Escribir a ANCOSUR por WhatsApp"
       >
         <WhatsappLogoIcon size={25} weight="fill" aria-hidden="true" />
-        <span>WhatsApp</span>
+        {/* <span>WhatsApp</span> */}
       </a>
 
       <button

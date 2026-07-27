@@ -1,14 +1,12 @@
-import { proxyGet, proxyPost } from "../_shared/proxyPost";
+import {
+  proxyPost,
+} from "../_shared/proxyPost";
 
+export const dynamic =
+  "force-dynamic";
 
-export async function GET(request: Request) {
-  return proxyGet(request, "/api/leads", {
-    requireAuth: true,
-  });
-}
-
-export async function POST(request: Request) {
-  return proxyPost(request, "/api/leads", {
-    requireAuth: false,
-  });
+export async function POST(
+  request: Request,
+) {
+  return proxyPost(request);
 }

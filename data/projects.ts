@@ -7,43 +7,39 @@ export type ProjectStatus =
 
 export type Project = {
   id: number;
-
   name: string;
-
   type: "Departamento" | "Lote" | "Resort" | "Casas";
-
   city: string;
-
   address: string;
-
   bedrooms: string;
-
   area: string;
-
   price: string;
-
   status: ProjectStatus;
-
   image: string;
-
-  logo: string;
-
+  logo?: string;
   href: string;
 };
 
+const deliveredWhatsapp =
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR.%20Estaba%20revisando%20sus%20proyectos%20entregados%20y%20quiero%20conocer%20los%20proyectos%20que%20actualmente%20tienen%20disponibilidad%20para%20vivir%20o%20invertir.";
+
 export const projects: Project[] = [
+  /*==================================================
+    PROYECTOS DISPONIBLES
+  ==================================================*/
+
   {
     id: 1,
     name: "Neo Rivera",
     type: "Departamento",
-    city: "Huancayo",
-    address: "Jr. Dalias - Parque La Rivera",
-    bedrooms: "1, 2 y 3 Dorm.",
-    area: "Desde 42 m²",
-    price: "S/ 269,900",
+    city: "LA RIBERA – ",
+    address: "Jr. Dalias (Al costado del Parque La Rivera)",
+    bedrooms: "2 Dorm.",
+    area: "Desde 57.10 m²",
+    price: "S/ 229,170",
     status: "PRE VENTA",
-    image: "/assets/projects/tarjetas/rivera.webp",
-    logo: "/assets/projects/logos/rivera.webp",
+    image: "/assets/projects/rivera.webp",
+    logo: "/assets/images/neo-rivera.svg",
     href: "/neo-rivera",
   },
 
@@ -53,12 +49,12 @@ export const projects: Project[] = [
     type: "Departamento",
     city: "Huancayo",
     address: "Jr. San Agustín 416",
-    bedrooms: "1, 2 y 3 Dorm.",
-    area: "Desde 45 m²",
-    price: "S/ 289,900",
+    bedrooms: "2 Dorm.",
+    area: "Desde 43 m²",
+    price: "S/ 191,300",
     status: "PRE VENTA",
-    image: "/assets/projects/tarjetas/balto.webp",
-    logo: "/assets/projects/logos/balto.webp",
+    image: "/assets/projects/balto.webp",
+    logo: "/assets/images/neo-balto.svg",
     href: "/neo-balto",
   },
 
@@ -68,12 +64,12 @@ export const projects: Project[] = [
     type: "Departamento",
     city: "Huancayo",
     address: "Av. Chorrillos",
-    bedrooms: "2 y 3 Dorm.",
-    area: "Desde 63 m²",
-    price: "S/ 359,900",
+    bedrooms: "2 Dorm.",
+    area: "Desde 67.84 m²",
+    price: "S/ 228,755",
     status: "EN CONSTRUCCIÓN",
-    image: "/assets/projects/tarjetas/xport.webp",
-    logo: "/assets/projects/logos/xport.webp",
+    image: "/assets/projects/xport.webp",
+    logo: "/assets/images/neo-xport.svg",
     href: "/neo-xport",
   },
 
@@ -83,12 +79,12 @@ export const projects: Project[] = [
     type: "Departamento",
     city: "Huancayo",
     address: "Av. San Carlos",
-    bedrooms: "1, 2 y 3 Dorm.",
-    area: "Desde 43 m²",
-    price: "S/ 279,900",
+    bedrooms: "3 Dorm.",
+    area: "Desde 76.15 m²",
+    price: "S/ 311,292",
     status: "PRE VENTA",
-    image: "/assets/projects/tarjetas/eterna.webp",
-    logo: "/assets/projects/logos/eterna.webp",
+    image: "/assets/projects/eterna.webp",
+    logo: "/assets/images/neo-eterna.svg",
     href: "/neo-eterna",
   },
 
@@ -100,10 +96,10 @@ export const projects: Project[] = [
     address: "Av. San Carlos 1481",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 74 m²",
-    price: "S/ 389,900",
+    price: "Consultar",
     status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/tarjetas/emperatriz.webp",
-    logo: "/assets/projects/logos/emperatriz.webp",
+    image: "/assets/projects/emperatriz.webp",
+    logo: "/assets/images/neo-emperatriz.svg",
     href: "/neo-emperatriz",
   },
 
@@ -113,26 +109,27 @@ export const projects: Project[] = [
     type: "Departamento",
     city: "Huancayo",
     address: "Jr. Libertad 1187",
-    bedrooms: "2 y 3 Dorm.",
-    area: "Desde 67 m²",
-    price: "S/ 365,000",
-    status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/tarjetas/origen.webp",
-    logo: "/assets/projects/logos/origen.webp",
+    bedrooms: "1, 2 y 3 Dorm.",
+    area: "Desde 33 m²",
+    price: "S/ 149,560",
+    status: "EN CONSTRUCCIÓN",
+    image: "/assets/projects/origen.webp",
+    logo: "/assets/images/neo-origen.svg",
     href: "/neo-origen",
   },
-    {
+
+  {
     id: 7,
     name: "Distrito San Carlos",
     type: "Departamento",
     city: "Huancayo",
     address: "Jr. Chacabuco",
-    bedrooms: "1, 2 y 3 Dorm.",
-    area: "Desde 45 m²",
-    price: "S/ 295,000",
+    bedrooms: "2 y 3 Dorm.",
+    area: "Desde 54.24 m²",
+    price: "S/ 226,863",
     status: "PRE VENTA",
-    image: "/assets/projects/tarjetas/distrito.webp",
-    logo: "/assets/projects/logos/distrito.webp",
+    image: "/assets/projects/distrito.webp",
+    logo: "/assets/images/distrito-sancarlos.svg",
     href: "/distrito-san-carlos",
   },
 
@@ -143,11 +140,11 @@ export const projects: Project[] = [
     city: "Huancayo",
     address: "Av. Giráldez",
     bedrooms: "1, 2 y 3 Dorm.",
-    area: "Desde 41 m²",
-    price: "S/ 309,000",
+    area: "Desde 33 m²",
+    price: "S/ 207,900",
     status: "EN CONSTRUCCIÓN",
-    image: "/assets/projects/tarjetas/moro416.webp",
-    logo: "/assets/projects/logos/moro416.webp",
+    image: "/assets/projects/moro.webp",
+    logo: "/assets/images/moro416.svg",
     href: "/moro416",
   },
 
@@ -157,12 +154,12 @@ export const projects: Project[] = [
     type: "Lote",
     city: "El Tambo",
     address: "Huancayo",
-    bedrooms: "-",
-    area: "Desde 120 m²",
-    price: "S/ 79,900",
+    bedrooms: "Lote",
+    area: "Desde 90 m²",
+    price: "S/ 130,000",
     status: "EN CONSTRUCCIÓN",
-    image: "/assets/projects/tarjetas/caminoreal.webp",
-    logo: "/assets/projects/logos/caminoreal.webp",
+    image: "/assets/projects/caminoreal.webp",
+    logo: "/assets/images/camino-real.svg",
     href: "/camino-real",
   },
 
@@ -172,12 +169,12 @@ export const projects: Project[] = [
     type: "Resort",
     city: "San Ramón",
     address: "Chanchamayo",
-    bedrooms: "Suites",
-    area: "Desde 35 m²",
-    price: "Consultar",
+    bedrooms: "Lote",
+    area: "Desde 300 m²",
+    price: "S/ 82,185.54",
     status: "EN CONSTRUCCIÓN",
-    image: "/assets/projects/tarjetas/zagari.webp",
-    logo: "/assets/projects/logos/zagari.webp",
+    image: "/assets/projects/zagari.webp",
+    logo: "/assets/images/zagari.svg",
     href: "https://zagari.pe/",
   },
 
@@ -187,12 +184,12 @@ export const projects: Project[] = [
     type: "Lote",
     city: "Huancayo",
     address: "Huancayo",
-    bedrooms: "-",
-    area: "Desde 120 m²",
-    price: "S/ 65,000",
+    bedrooms: "Lote",
+    area: "Desde 90 m²",
+    price: "S/ 44,144",
     status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/tarjetas/colinasdemoro.webp",
-    logo: "/assets/projects/logos/colinas.webp",
+    image: "/assets/projects/colinas.webp",
+    logo: "/assets/images/colinas-de-moro.svg",
     href: "/colinas-de-moro",
   },
 
@@ -202,162 +199,144 @@ export const projects: Project[] = [
     type: "Lote",
     city: "Concepción",
     address: "Junín",
-    bedrooms: "-",
-    area: "Desde 120 m²",
-    price: "S/ 59,900",
+    bedrooms: "Lote",
+    area: "Desde 82 m²",
+    price: "S/ 18,000",
     status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/tarjetas/terrazas.webp",
-    logo: "/assets/projects/logos/terrazas.webp",
+    image: "/assets/projects/terrazas.webp",
+    logo: "/assets/images/las-terrazas-de-concepcion.svg",
     href: "/terrazas-concepcion",
   },
-    {
-    id: 13,
-    name: "Neo Emperatriz",
-    type: "Departamento",
-    city: "Huancayo",
-    address: "Proyecto Entregado",
-    bedrooms: "2 y 3 Dorm.",
-    area: "74 m²",
-    price: "Entregado",
-    status: "ENTREGADO",
-    image: "/assets/projects/entregados/fachada-neo-emperatriz.webp",
-    logo: "/assets/projects/logos/emperatriz.webp",
-    href: "/neo-emperatriz",
-  },
+
+  /*==================================================
+    PROYECTOS ENTREGADOS
+  ==================================================*/
+
 
   {
-    id: 14,
+    id: 13,
     name: "Neo 18",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "1, 2 y 3 Dorm.",
     area: "Desde 45 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-neo18.webp",
-    logo: "/assets/projects/logos/neo18.webp",
-    href: "/neo-18",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 15,
+    id: 14,
     name: "Alta Luz",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 60 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-altaluz.webp",
-    logo: "/assets/projects/logos/altaluz.webp",
-    href: "/alta-luz",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 16,
+    id: 15,
     name: "Serena",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 70 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-serena.webp",
-    logo: "/assets/projects/logos/serena.webp",
-    href: "/serena",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 17,
+    id: 16,
     name: "Vita",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 70 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-vita.webp",
-    logo: "/assets/projects/logos/vita.webp",
-    href: "/vita",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 18,
+    id: 17,
     name: "Zenda",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 68 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-zenda.webp",
-    logo: "/assets/projects/logos/zenda.webp",
-    href: "/zenda",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 19,
+    id: 18,
     name: "Adamant",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 65 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-adamant.webp",
-    logo: "/assets/projects/logos/adamant.webp",
-    href: "/adamant",
+    href: deliveredWhatsapp,
   },
 
   {
-    id: 20,
+    id: 19,
     name: "Dovle",
     type: "Departamento",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 65 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/fachada-dovle.webp",
-    logo: "/assets/projects/logos/dovle.webp",
-    href: "/dovle",
+    href: deliveredWhatsapp,
+  },
+
+  {
+    id: 20,
+    name: "La Huerta Vista Alegre",
+    type: "Lote",
+    city: "Huancayo",
+    address: "Proyecto entregado",
+    bedrooms: "Lote",
+    area: "120 m²",
+    price: "Entregado",
+    status: "ENTREGADO",
+    logo: "/assets/images/huerta.svg",
+    image: "/assets/projects/entregados/fachada-huerta.webp",
+    href: deliveredWhatsapp,
   },
 
   {
     id: 21,
-    name: "La Huerta Vista Alegre",
-    type: "Lote",
-    city: "Huancayo",
-    address: "Proyecto Entregado",
-    bedrooms: "-",
-    area: "120 m²",
-    price: "Entregado",
-    status: "ENTREGADO",
-    image: "/assets/projects/entregados/fachada-huerta.webp",
-    logo: "/assets/projects/logos/huerta.webp",
-    href: "/la-huerta-vista-alegre",
-  },
-
-  {
-    id: 22,
     name: "+20 Viviendas Unifamiliares",
     type: "Casas",
     city: "Huancayo",
-    address: "Proyecto Entregado",
+    address: "Proyecto entregado",
     bedrooms: "3 Dorm.",
     area: "Desde 90 m²",
     price: "Entregado",
     status: "ENTREGADO",
     image: "/assets/projects/entregados/casas-uni.webp",
-    logo: "/assets/projects/logos/casas.webp",
-    href: "/viviendas-unifamiliares",
+    href: deliveredWhatsapp,
   },
 ];
-

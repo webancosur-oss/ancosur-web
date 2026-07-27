@@ -476,7 +476,7 @@ export default function Moro416OverviewSection() {
               <input
                 type="text"
                 name="fullName"
-                placeholder="Ej. Angela Huayra"
+                placeholder="Ej. Miguel Asto"
                 autoComplete="name"
                 minLength={3}
                 maxLength={80}

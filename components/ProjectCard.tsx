@@ -31,10 +31,7 @@ export default function ProjectCard({ project }: Props) {
 
   return (
     <article className={styles.card}>
-      <Link
-        href={project.href}
-        className={styles.cardLink}
-      >
+      <Link href={project.href} className={styles.cardLink}>
         {/* ===========================
             IMAGEN
         =========================== */}
@@ -56,15 +53,24 @@ export default function ProjectCard({ project }: Props) {
         =========================== */}
 
         <div className={styles.content}>
-          <div className={styles.titleArea}>
-            <h3>{project.name}</h3>
+          {/* Logo del proyecto */}
+       {project.logo && (
+          <div className={styles.logoContainer}>
+            <Image
+              src={project.logo}
+              alt={`Logo de ${project.name}`}
+              width={160}
+              height={50}
+              className={styles.logo}
+            />
           </div>
+        )}
 
           <div className={styles.location}>
             <strong>{project.city}</strong>
-
             <span>{project.address}</span>
 
+            {/* Estado del proyecto */}
             {/* <div className={styles.status}>
               {statusLabel[project.status]}
             </div> */}
@@ -72,26 +78,26 @@ export default function ProjectCard({ project }: Props) {
 
           <div className={styles.features}>
             <div className={styles.feature}>
-              <Bed
-                size={20}
-                weight="regular"
-              />
+              <Bed size={20} weight="regular" />
               <span>{project.bedrooms}</span>
             </div>
 
             <div className={styles.feature}>
-              <ArrowsOutSimple
-                size={20}
-                weight="regular"
-              />
+              <ArrowsOutSimple size={20} weight="regular" />
               <span>{project.area}</span>
             </div>
           </div>
 
+         {project.status === "ENTREGADO" ? (
+          <div className={styles.priceBox}>
+            <strong>Conoce nuestros proyectos disponibles</strong>
+          </div>
+        ) : (
           <div className={styles.priceBox}>
             <small>Desde</small>
             <strong>{project.price}</strong>
           </div>
+        )}
         </div>
       </Link>
 
@@ -105,7 +111,6 @@ export default function ProjectCard({ project }: Props) {
           variant="primary"
           size="md"
           fullWidth
-          icon={ArrowRight}
           iconPosition="right"
         >
           VER PROYECTO

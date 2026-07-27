@@ -347,7 +347,7 @@ export default function NeoRiveraLocation() {
                 <input
                   type="text"
                   name="fullName"
-                  placeholder="Ej. Angela Huayra"
+                  placeholder="Ej. Miguel Asto"
                   autoComplete="name"
                   minLength={3}
                   maxLength={100}

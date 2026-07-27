@@ -2,6 +2,7 @@
 
 import { XIcon } from "@phosphor-icons/react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -15,7 +16,6 @@ import FeedbackToast, {
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import styles from "./PromoLeadPopup.module.css";
-import Link from "next/link";
 
 type PopupCampaign = {
   id: string;
@@ -32,6 +32,7 @@ type FormData = {
   fullName: string;
   phone: string;
   email: string;
+  dni: string;
   project: string;
   message: string;
   consent: boolean;
@@ -70,6 +71,7 @@ const initialFormData: FormData = {
   fullName: "",
   phone: "",
   email: "",
+  dni: "",
   project: "",
   message: "",
   consent: true,
@@ -261,6 +263,17 @@ export default function PromoLeadPopup() {
         "Ingresa un correo válido.";
     }
 
+    const dniClean =
+      formData.dni.replace(/\D/g, "");
+
+    if (!formData.dni.trim()) {
+      newErrors.dni =
+        "Ingresa tu DNI.";
+    } else if (!/^\d{8}$/.test(dniClean)) {
+      newErrors.dni =
+        "El DNI debe tener exactamente 8 dígitos.";
+    }
+
     if (!formData.project) {
       newErrors.project =
         "Selecciona una opción de interés.";
@@ -286,81 +299,139 @@ export default function PromoLeadPopup() {
     );
   };
 
- const handleSubmit = async (
-  event: FormEvent<HTMLFormElement>
-) => {
-  event.preventDefault();
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
 
-  if (isSending) return;
+    if (isSending) return;
 
-  const isValid = validateForm();
+    const isValid = validateForm();
 
-  if (!isValid) return;
+    if (!isValid) return;
 
-  const cleanMessage = formData.message.trim();
+    const cleanMessage =
+      formData.message.trim();
 
-  const leadData = {
-    nombres_completos: formData.fullName.trim(),
-    telefono: formData.phone.replace(/\D/g, ""),
-    email: formData.email.trim().toLowerCase(),
-    proyecto_interes: formData.project,
-    categoria_interes: formData.project,
-    fuente_prospeccion: "Web",
-    mensaje:
-      cleanMessage ||
-      `Solicitud de información enviada desde el popup de campaña sobre ${formData.project}.`,
-    origen_ruta: window.location.pathname,
-    origen_componente: `Popup ${activeCampaign.eyebrow} - ${activeCampaign.id}`,
-  };
+    const leadData = {
+  telefono:
+    formData.phone.replace(
+      /\D/g,
+      "",
+    ),
 
-  try {
-    setIsSending(true);
-    setErrors({});
-    setToast(null);
+  nombre:
+    formData.fullName.trim(),
 
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(leadData),
-    });
+  email:
+    formData.email
+      .trim()
+      .toLowerCase(),
 
-    const responseData = await response.json().catch(() => null);
+  dni:
+    formData.dni
+      ?.replace(/\D/g, "") ||
+    "",
 
-    if (!response.ok || !responseData?.success) {
-      console.error("Error API leads:", responseData);
+  campaña:
+    "Campaña viaje a Cusco 2026",
 
-      throw new Error(
-        responseData?.message ||
-          `Error HTTP ${response.status}`
-      );
-    }
+  anuncio:
+    "Popup web ANCOSUR",
 
-    setFormData(initialFormData);
-    setErrors({});
-    setIsVisible(false);
-    registerPopupAsClosed();
+  msj_client:
+    JSON.stringify({
+      interes:
+        formData.project,
 
-    showToast(SUCCESS_TOAST);
-  } catch (error) {
-    console.error(
-      "Error enviando formulario del popup:",
-      error
-    );
+      mensaje:
+        formData.message,
 
-    showToast({
-      ...ERROR_TOAST,
-      message:
-        error instanceof Error
-          ? error.message
-          : ERROR_TOAST.message,
-    });
-  } finally {
-    setIsSending(false);
-  }
+      origenRuta:
+        window.location.pathname,
+    }),
+
+  comentario:
+    formData.message ||
+    "Cliente interesado.",
 };
+
+    try {
+      setIsSending(true);
+      setErrors({});
+      setToast(null);
+
+     
+            const response = await fetch(
+          "/api/leads",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              Accept:
+                "application/json",
+            },
+
+            body: JSON.stringify(
+              leadData,
+            ),
+          },
+        );
+
+      const contentType =
+        response.headers.get(
+          "content-type"
+        );
+
+      const responseData =
+        contentType?.includes(
+          "application/json"
+        )
+          ? await response.json()
+          : {
+              message:
+                await response.text(),
+            };
+
+      if (!response.ok) {
+        console.error(
+          "Error API CRM Sentinel:",
+          responseData
+        );
+
+        throw new Error(
+          responseData?.message ||
+            responseData?.error ||
+            `Error HTTP ${response.status}`
+        );
+      }
+
+      setFormData(initialFormData);
+      setErrors({});
+      setIsVisible(false);
+      registerPopupAsClosed();
+
+      showToast(SUCCESS_TOAST);
+    } catch (error) {
+      console.error(
+        "Error enviando formulario al CRM:",
+        error
+      );
+
+      showToast({
+        ...ERROR_TOAST,
+        message:
+          error instanceof Error
+            ? error.message
+            : ERROR_TOAST.message,
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <>
@@ -481,7 +552,7 @@ export default function PromoLeadPopup() {
                     id="popup-full-name"
                     name="fullName"
                     type="text"
-                    placeholder="Ej. Angela Huayra"
+                    placeholder="Ej. Miguel Asto"
                     autoComplete="name"
                     value={
                       formData.fullName
@@ -588,6 +659,50 @@ export default function PromoLeadPopup() {
                       }
                     >
                       {errors.email}
+                    </small>
+                  )}
+                </div>
+
+                <div
+                  className={styles.field}
+                >
+                  <label htmlFor="popup-dni">
+                    DNI
+                  </label>
+
+                  <input
+                    id="popup-dni"
+                    name="dni"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    maxLength={8}
+                    placeholder="Ej. 12345678"
+                    value={formData.dni}
+                    disabled={isSending}
+                    onChange={(event) =>
+                      setFormData(
+                        (previous) => ({
+                          ...previous,
+                          dni:
+                            event.target.value
+                              .replace(
+                                /\D/g,
+                                ""
+                              )
+                              .slice(0, 8),
+                        })
+                      )
+                    }
+                  />
+
+                  {errors.dni && (
+                    <small
+                      className={
+                        styles.error
+                      }
+                    >
+                      {errors.dni}
                     </small>
                   )}
                 </div>
@@ -704,8 +819,7 @@ export default function PromoLeadPopup() {
                       }))
                     }
                   />
-
-                  <span>
+                  <span className={styles.termsText}>
                     Acepto los{" "}
                     <Link
                       href="/politicas/politica-de-privacidad"

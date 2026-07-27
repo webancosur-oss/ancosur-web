@@ -1,39 +1,56 @@
 /* =========================================================
-   COMPRAMOS TU TERRENO
-   ANCOSUR
+   COMPRAMOS TU TERRENO — ANCOSUR
+   PALETA MONOCROMÁTICA VERDE
 ========================================================= */
 
 .page {
   --green: #00a74f;
-  --green-dark: #008f43;
-  --green-light: #19c86a;
+  --green-dark: #007d3b;
+  --green-deep: #0b4f2a;
+  --green-forest: #07381e;
+  --green-medium: #2c9d5e;
+  --green-soft: #dff5e7;
+  --green-pale: #f4fbf6;
+  --green-border: #cfe7d7;
+  --green-shadow: rgba(0, 105, 50, 0.14);
+
+  --text: #173126;
+  --muted: #62756a;
+  --white: #ffffff;
 
   width: 100%;
   min-height: 100vh;
-
   overflow: hidden;
-
-  color: #ffffff;
-
-  background:
-    radial-gradient(
-      circle at 8% 16%,
-      #00a74f21,
-      #0000 28%
-    ),
-    radial-gradient(
-      circle at 92% 72%,
-      #00a74f12,
-      #0000 30%
-    ),
-    linear-gradient(
-      120deg,
-      #06170e 0%,
-      #0b120e 50%,
-      #07100b 100%
-    );
+  color: var(--text);
+  background: linear-gradient(180deg, #f8fcf9 0%, #eef8f1 100%);
 }
 
+
+/* =========================================================
+   Terminos
+========================================================= */
+
+.termsLink {
+  color: var(--green-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.termsLink:hover {
+  color: var(--green);
+  text-decoration-thickness: 2px;
+}
+
+.termsLink:focus-visible {
+  outline: 2px solid rgba(0, 167, 79, 0.3);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
 
 /* =========================================================
    HERO
@@ -41,112 +58,58 @@
 
 .hero {
   position: relative;
-
   width: 100%;
-  min-height: 620px;
-
-  padding:
-    160px
-    clamp(24px, 6vw, 90px)
-    90px;
+  min-height: 650px;
+  padding: 165px clamp(24px, 6vw, 90px) 100px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  overflow: hidden;
+  isolation: isolate;
   text-align: center;
 
-  isolation: isolate;
-
-  background:
-    radial-gradient(
-      circle at 15% 35%,
-      rgba(0, 167, 79, 0.18),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 85% 70%,
-      rgba(0, 167, 79, 0.08),
-      transparent 35%
-    ),
-    linear-gradient(
-      120deg,
-      #06170e 0%,
-      #0b120e 50%,
-      #07100b 100%
-    );
+  background: linear-gradient(
+    135deg,
+    var(--green-forest) 0%,
+    var(--green-deep) 48%,
+    var(--green-dark) 100%
+  );
 }
-
-
-/* Línea superior */
 
 .hero::before {
   content: "";
-
   position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 1px;
-
+  inset: 0;
+  z-index: -2;
   background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 167, 79, 0.5),
-      transparent
-    );
-}
-
-
-/* Glow */
-
-.hero::after {
-  content: "";
-
-  position: absolute;
-
-  left: 50%;
-  bottom: -180px;
-
-  width: 800px;
-  height: 400px;
-
-  transform:
-    translateX(-50%);
-
-  background:
-    radial-gradient(
-      ellipse,
-      rgba(0, 167, 79, 0.15),
-      transparent 70%
-    );
-
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.08), transparent 28%),
+    radial-gradient(circle at 85% 78%, rgba(0, 167, 79, 0.18), transparent 32%);
   pointer-events: none;
 }
 
-
-/* =========================================================
-   HERO CONTENT
-========================================================= */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -210px;
+  z-index: -1;
+  width: min(980px, 92vw);
+  height: 390px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(0, 167, 79, 0.2);
+  filter: blur(90px);
+  pointer-events: none;
+}
 
 .heroContent {
   position: relative;
-
   z-index: 2;
-
-  width: min(
-    900px,
-    100%
-  );
-
+  width: min(920px, 100%);
   margin: 0 auto;
 }
-
-
-/* Categoría */
 
 .heroContent > span {
   display: inline-flex;
@@ -154,94 +117,46 @@
   justify-content: center;
 
   margin-bottom: 24px;
+  padding: 10px 18px;
 
-  color: var(--green);
-
-  font-size: 0.7rem;
-  font-weight: 800;
-
-  letter-spacing: 0.18em;
-
-  text-transform: uppercase;
-}
-
-
-/* Líneas laterales */
-
-.heroContent > span::before,
-.heroContent > span::after {
-  content: "";
-
-  width: 34px;
-  height: 1px;
-
-  background:
-    var(--green);
-}
-
-
-.heroContent > span::before {
-  margin-right: 13px;
-}
-
-
-.heroContent > span::after {
-  margin-left: 13px;
-}
-
-
-/* Título */
-
-.heroContent h1 {
-  max-width: 850px;
-
-  margin:
-    0
-    auto
-    26px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
 
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
 
-  font-size:
-    clamp(
-      2.6rem,
-      6vw,
-      5.4rem
-    );
-
-  line-height: 0.98;
-
+  font-size: 0.72rem;
   font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 
-  letter-spacing: -0.055em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
+.heroContent h1 {
+  max-width: 900px;
+  margin: 0 auto 26px;
 
-/* Descripción */
+  color: #ffffff;
+  font-size: clamp(2.7rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+
+  text-shadow: 0 20px 50px rgba(0, 35, 18, 0.32);
+}
 
 .heroContent p {
-  max-width: 680px;
-
+  max-width: 690px;
   margin: 0 auto;
 
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.62
-    );
-
-  font-size:
-    clamp(
-      0.95rem,
-      1.5vw,
-      1.08rem
-    );
-
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(0.96rem, 1.5vw, 1.08rem);
   line-height: 1.75;
+  text-wrap: balance;
 }
-
 
 /* =========================================================
    FORM SECTION
@@ -249,637 +164,374 @@
 
 .formSection {
   position: relative;
+  z-index: 3;
 
-  width: min(
-    100%,
-    1000px
-  );
-
-  margin: 0 auto;
-
-  padding:
-    90px
-    24px
-    120px;
+  width: min(100%, 1080px);
+  margin: -70px auto 0;
+  padding: 0 24px 120px;
 }
 
+.formSection::before,
+.formSection::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(0, 167, 79, 0.09);
+  filter: blur(38px);
+  pointer-events: none;
+}
+
+.formSection::before {
+  top: 60px;
+  left: -80px;
+}
+
+.formSection::after {
+  right: -90px;
+  bottom: 120px;
+}
 
 /* =========================================================
-   FORM
+   FORMULARIO
 ========================================================= */
 
 .form {
   position: relative;
-
   width: 100%;
+  padding: clamp(30px, 5vw, 58px);
 
-  padding:
-    clamp(
-      28px,
-      5vw,
-      56px
-    );
+  overflow: hidden;
 
+  border: 1px solid rgba(0, 125, 59, 0.12);
   border-radius: 32px;
 
-  background:
-    radial-gradient(
-      circle at 8% 16%,
-      rgba(0, 167, 79, 0.09),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 92% 72%,
-      rgba(0, 167, 79, 0.06),
-      transparent 30%
-    ),
-    rgba(
-      255,
-      255,
-      255,
-      0.035
-    );
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
+  background: rgba(255, 255, 255, 0.97);
 
   box-shadow:
-    0 30px 90px
-    rgba(
-      0,
-      0,
-      0,
-      0.28
-    );
+    0 34px 90px var(--green-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
 
-  backdrop-filter:
-    blur(20px);
-
-  -webkit-backdrop-filter:
-    blur(20px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
+.form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background: var(--green);
+}
+
+.form::after {
+  content: "";
+  position: absolute;
+  top: -105px;
+  right: -90px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: rgba(0, 167, 79, 0.06);
+  pointer-events: none;
+}
 
 /* =========================================================
-   FORM HEADER
+   CABECERA DEL FORMULARIO
 ========================================================= */
 
 .header {
-  max-width: 680px;
-
-  margin:
-    0
-    auto
-    42px;
-
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto 42px;
   text-align: center;
 }
 
-
-/* Categoría */
-
 .header > span {
-  display: block;
-
+  display: inline-flex;
   margin-bottom: 14px;
+  padding: 8px 14px;
 
-  color: var(--green);
+  border: 1px solid rgba(0, 167, 79, 0.12);
+  border-radius: 999px;
 
-  font-size: 0.67rem;
+  color: var(--green-dark);
+  background: var(--green-pale);
 
+  font-size: 0.7rem;
   font-weight: 800;
-
   letter-spacing: 0.15em;
-
   text-transform: uppercase;
 }
 
-
-/* Título */
-
 .header h2 {
-  margin:
-    0
-    0
-    16px;
-
-  color: #ffffff;
-
-  font-size:
-    clamp(
-      2rem,
-      4vw,
-      3.2rem
-    );
-
-  line-height: 1.05;
-
+  margin: 0 0 16px;
+  color: var(--green-forest);
+  font-size: clamp(2rem, 4vw, 3.15rem);
   font-weight: 800;
-
-  letter-spacing: -0.04em;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
-
-/* Texto */
-
 .header p {
-  max-width: 580px;
-
+  max-width: 600px;
   margin: 0 auto;
-
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.56
-    );
-
-  font-size: 0.92rem;
-
+  color: var(--muted);
+  font-size: 0.94rem;
   line-height: 1.7;
 }
 
-
 /* =========================================================
-   FORM GRID
+   GRID
 ========================================================= */
 
 .formGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(0, 1fr)
-    );
-
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
-
 /* =========================================================
-   INPUTS Y SELECT
+   INPUTS, SELECT Y TEXTAREA
 ========================================================= */
 
-.form input:not(
-  [type="checkbox"]
-) {
+.form input:not([type="checkbox"]),
+.form select,
+.form textarea {
   width: 100%;
   min-width: 0;
-  height: 56px;
 
-  padding:
-    0
-    17px;
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.1
-    );
-
-  border-radius: 14px;
-
+  border: 1px solid var(--green-border);
   outline: none;
 
-  background:
-    rgba(
-      0,
-      0,
-      0,
-      0.2
-    );
-
-  color: #ffffff;
+  color: var(--text);
+  background: #ffffff;
 
   font-family: inherit;
+  font-size: 0.9rem;
 
-  font-size: 0.88rem;
+  box-shadow: 0 8px 20px rgba(0, 78, 38, 0.035);
 
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    background 0.22s ease;
+
+  box-sizing: border-box;
 }
 
+.form input:not([type="checkbox"]),
+.form select {
+  height: 58px;
+  padding: 0 18px;
+  border-radius: 15px;
+}
+
+.form textarea {
+  min-height: 150px;
+  margin-top: 14px;
+  padding: 17px 18px;
+  resize: vertical;
+  border-radius: 17px;
+  line-height: 1.6;
+}
+
+.form input:not([type="checkbox"])::placeholder,
+.form textarea::placeholder {
+  color: #8fa298;
+}
 
 .form select {
-  width: 100%;
-  min-width: 0;
-  height: 56px;
-
-  padding:
-    0
-    17px;
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.1
-    );
-
-  border-radius: 14px;
-
-  outline: none;
-
-  background:
-    #0b1710;
-
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.82
-    );
-
-  font-family: inherit;
-
-  font-size: 0.88rem;
-
   cursor: pointer;
+  appearance: none;
+  padding-right: 48px;
 
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--green-dark) 50%),
+    linear-gradient(135deg, var(--green-dark) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 25px,
+    calc(100% - 14px) 25px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
 }
 
-
-/* Placeholder */
-
-.form input:not(
-  [type="checkbox"]
-)::placeholder,
-.form textarea::placeholder {
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.38
-    );
+.form input:not([type="checkbox"]):hover:not(:disabled),
+.form select:hover:not(:disabled),
+.form textarea:hover:not(:disabled) {
+  border-color: rgba(0, 167, 79, 0.42);
+  background: #fbfefc;
+  box-shadow: 0 10px 24px rgba(0, 105, 50, 0.06);
 }
 
-
-/* Focus */
-
-.form input:not(
-  [type="checkbox"]
-):focus,
+.form input:not([type="checkbox"]):focus,
 .form select:focus,
 .form textarea:focus {
-  border-color:
-    rgba(
-      0,
-      167,
-      79,
-      0.75
-    );
-
-  background:
-    rgba(
-      0,
-      167,
-      79,
-      0.045
-    );
+  border-color: var(--green);
+  background: #ffffff;
 
   box-shadow:
-    0 0 0 3px
-    rgba(
-      0,
-      167,
-      79,
-      0.1
-    );
+    0 0 0 4px rgba(0, 167, 79, 0.1),
+    0 14px 28px rgba(0, 105, 50, 0.08);
+
+  transform: translateY(-1px);
 }
-
-
-/* Disabled */
 
 .form input:disabled,
 .form select:disabled,
 .form textarea:disabled {
-  opacity: 0.55;
-
-  cursor:
-    not-allowed;
+  opacity: 0.58;
+  cursor: not-allowed;
 }
-
-
-/* =========================================================
-   NUMBER INPUT
-========================================================= */
 
 .form input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
 
-
 .form input[type="number"]::-webkit-inner-spin-button,
 .form input[type="number"]::-webkit-outer-spin-button {
-  opacity: 0.5;
+  opacity: 0.45;
 }
-
-
-/* =========================================================
-   TEXTAREA
-========================================================= */
-
-.form textarea {
-  width: 100%;
-
-  min-height: 140px;
-
-  margin-top: 14px;
-
-  padding:
-    16px
-    17px;
-
-  resize: vertical;
-
-  border:
-    1px solid
-    rgba(
-      255,
-      255,
-      255,
-      0.1
-    );
-
-  border-radius: 14px;
-
-  outline: none;
-
-  background:
-    rgba(
-      0,
-      0,
-      0,
-      0.2
-    );
-
-  color: #ffffff;
-
-  font-family: inherit;
-
-  font-size: 0.88rem;
-
-  line-height: 1.6;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
-
-  box-sizing: border-box;
-}
-
 
 /* =========================================================
    CHECKBOX
 ========================================================= */
 
 .checkbox {
+  position: relative;
+  z-index: 1;
+
   margin-top: 20px;
+  padding: 16px 18px;
 
   display: flex;
   align-items: flex-start;
-
   gap: 12px;
 
+  border: 1px solid rgba(0, 167, 79, 0.14);
+  border-radius: 15px;
+
+  background: var(--green-pale);
   cursor: pointer;
+
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-
-/* Checkbox */
+.checkbox:hover {
+  border-color: rgba(0, 167, 79, 0.34);
+  background: #edf9f1;
+  box-shadow: 0 10px 24px rgba(0, 105, 50, 0.05);
+}
 
 .checkbox input {
-  width: 18px;
-  height: 18px;
-
-  flex:
-    0 0
-    18px;
-
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
   margin-top: 2px;
-
-  accent-color:
-    var(--green);
-
+  accent-color: var(--green);
   cursor: pointer;
 }
 
-
-/* Texto */
-
 .checkbox span {
-  color:
-    rgba(
-      255,
-      255,
-      255,
-      0.52
-    );
-
-  font-size: 0.73rem;
-
-  line-height: 1.55;
+  color: #566b60;
+  font-size: 0.76rem;
+  line-height: 1.6;
 }
 
-
 /* =========================================================
-   ERROR
+   MENSAJES
 ========================================================= */
+
+.error,
+.success {
+  position: relative;
+  z-index: 1;
+  margin-top: 18px;
+  padding: 14px 17px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
 
 .error {
-  margin-top: 18px;
-
-  padding:
-    13px
-    16px;
-
-  border-radius: 12px;
-
-  background:
-    rgba(
-      220,
-      50,
-      50,
-      0.1
-    );
-
-  border:
-    1px solid
-    rgba(
-      255,
-      80,
-      80,
-      0.25
-    );
-
-  color:
-    #ffb4b4;
-
-  font-size: 0.78rem;
-
-  line-height: 1.5;
+  border: 1px solid rgba(190, 45, 45, 0.2);
+  color: #9d2929;
+  background: #fff5f5;
 }
-
-
-/* =========================================================
-   SUCCESS
-========================================================= */
 
 .success {
-  margin-top: 18px;
-
-  padding:
-    14px
-    16px;
-
-  border-radius: 12px;
-
-  background:
-    rgba(
-      0,
-      167,
-      79,
-      0.1
-    );
-
-  border:
-    1px solid
-    rgba(
-      0,
-      167,
-      79,
-      0.3
-    );
-
-  color:
-    #75e7a9;
-
-  font-size: 0.78rem;
-
-  line-height: 1.5;
+  border: 1px solid rgba(0, 167, 79, 0.2);
+  color: var(--green-dark);
+  background: #effbf3;
 }
 
-
 /* =========================================================
-   BUTTON
+   BOTÓN
 ========================================================= */
 
 .form button {
+  position: relative;
+  z-index: 1;
+
   width: 100%;
-
-  min-height: 56px;
-
+  min-height: 58px;
   margin-top: 24px;
-
-  padding:
-    0
-    24px;
+  padding: 0 24px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   border: 0;
-
-  border-radius: 999px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00a74f,
-      #008f43
-    );
+  border-radius: 15px;
 
   color: #ffffff;
+  background: var(--green);
 
   font-family: inherit;
-
-  font-size: 0.88rem;
-
+  font-size: 0.9rem;
   font-weight: 800;
+  letter-spacing: 0.02em;
 
   cursor: pointer;
 
-  box-shadow:
-    0 14px 35px
-    rgba(
-      0,
-      167,
-      79,
-      0.18
-    );
+  box-shadow: 0 16px 36px rgba(0, 167, 79, 0.2);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
-
-.form button:hover:not(
-  :disabled
-) {
-  transform:
-    translateY(-2px);
-
-  background:
-    linear-gradient(
-      135deg,
-      #19c86a,
-      #00a74f
-    );
-
-  box-shadow:
-    0 18px 45px
-    rgba(
-      0,
-      167,
-      79,
-      0.28
-    );
+.form button:hover:not(:disabled) {
+  background: var(--green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(0, 125, 59, 0.25);
 }
 
-
-.form button:active:not(
-  :disabled
-) {
-  transform:
-    translateY(0)
-    scale(0.99);
+.form button:active:not(:disabled) {
+  background: var(--green-deep);
+  transform: translateY(0) scale(0.99);
 }
-
 
 .form button:disabled {
-  opacity: 0.55;
-
-  cursor:
-    not-allowed;
-
-  box-shadow:
-    none;
+  opacity: 0.58;
+  cursor: not-allowed;
+  box-shadow: none;
 }
-
 
 /* =========================================================
    TABLET
@@ -887,94 +539,60 @@
 
 @media (max-width: 900px) {
   .hero {
-    min-height: 560px;
-
-    padding:
-      140px
-      30px
-      80px;
+    min-height: 580px;
+    padding: 145px 30px 100px;
   }
 
   .formSection {
-    width:
-      min(
-        100%,
-        760px
-      );
-
-    padding:
-      70px
-      20px
-      90px;
+    width: min(100%, 780px);
+    margin-top: -54px;
+    padding: 0 20px 90px;
   }
 
   .form {
-    padding:
-      36px;
+    padding: 38px;
   }
 }
 
-
 /* =========================================================
-   MOBILE
+   MÓVIL
 ========================================================= */
 
 @media (max-width: 650px) {
   .hero {
-    min-height: 520px;
-
-    padding:
-      125px
-      20px
-      70px;
+    min-height: 540px;
+    padding: 125px 20px 84px;
   }
 
   .heroContent > span {
-    font-size: 0.58rem;
-
-    letter-spacing: 0.1em;
-  }
-
-  .heroContent > span::before,
-  .heroContent > span::after {
-    width: 18px;
+    padding: 8px 13px;
+    font-size: 0.62rem;
+    letter-spacing: 0.11em;
   }
 
   .heroContent h1 {
-    font-size:
-      clamp(
-        2.2rem,
-        11vw,
-        3.5rem
-      );
-
+    font-size: clamp(2.2rem, 11vw, 3.55rem);
     line-height: 1;
   }
 
   .heroContent p {
-    font-size: 0.88rem;
-
+    font-size: 0.9rem;
     line-height: 1.65;
   }
 
   .formSection {
-    width:
-      calc(
-        100% - 24px
-      );
-
-    padding:
-      60px
-      0
-      80px;
+    width: calc(100% - 20px);
+    margin-top: -46px;
+    padding: 0 0 80px;
   }
 
   .form {
-    padding:
-      28px
-      18px;
+    padding: 30px 18px;
+    border-radius: 25px;
+  }
 
-    border-radius: 24px;
+  .form::before {
+    height: 6px;
   }
 
   .header {
@@ -986,46 +604,44 @@
   }
 
   .header p {
-    font-size: 0.85rem;
+    font-size: 0.86rem;
   }
 
   .formGrid {
     grid-template-columns: 1fr;
-
     gap: 12px;
   }
 
-  .form input:not(
-    [type="checkbox"]
-  ),
+  .form input:not([type="checkbox"]),
   .form select {
-    height: 54px;
+    height: 55px;
+    border-radius: 14px;
   }
 
   .form textarea {
-    min-height: 130px;
+    min-height: 135px;
+    border-radius: 14px;
   }
 
   .checkbox {
+    padding: 14px;
     gap: 10px;
+    border-radius: 14px;
   }
 
-  .checkbox span {
-    font-size: 0.7rem;
+  .form button {
+    min-height: 55px;
+    border-radius: 14px;
   }
 }
 
-
 /* =========================================================
-   MOBILE PEQUEÑO
+   MÓVIL PEQUEÑO
 ========================================================= */
 
 @media (max-width: 390px) {
   .hero {
-    padding:
-      115px
-      16px
-      60px;
+    padding: 115px 16px 72px;
   }
 
   .heroContent h1 {
@@ -1033,18 +649,12 @@
   }
 
   .formSection {
-    width:
-      calc(
-        100% - 20px
-      );
+    width: calc(100% - 14px);
   }
 
   .form {
-    padding:
-      24px
-      14px;
-
-    border-radius: 20px;
+    padding: 26px 14px;
+    border-radius: 21px;
   }
 
   .header h2 {
@@ -1056,7 +666,6 @@
   }
 }
 
-
 /* =========================================================
    ACCESIBILIDAD
 ========================================================= */
@@ -1066,13 +675,9 @@
 .form textarea:focus-visible,
 .form button:focus-visible,
 .checkbox input:focus-visible {
-  outline:
-    2px solid
-    var(--green);
-
+  outline: 3px solid rgba(0, 167, 79, 0.28);
   outline-offset: 3px;
 }
-
 
 /* =========================================================
    REDUCIR MOVIMIENTO
@@ -1082,7 +687,16 @@
   .form input,
   .form select,
   .form textarea,
+  .checkbox,
   .form button {
     transition: none;
+  }
+
+  .form input:focus,
+  .form select:focus,
+  .form textarea:focus,
+  .form button:hover,
+  .form button:active {
+    transform: none;
   }
 }

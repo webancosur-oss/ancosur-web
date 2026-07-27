@@ -396,7 +396,7 @@ export default function DepartamentosLeadForm() {
               <input
                 type="text"
                 name="fullName"
-                placeholder="Ej. Angela Huayra"
+                placeholder="Ej. Miguel Asto"
                 autoComplete="name"
                 minLength={3}
                 maxLength={70}

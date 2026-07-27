@@ -1,13 +1,10 @@
 "use client";
 
-import {
-  XIcon,
-} from "@phosphor-icons/react";
+import { XIcon } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useState,
-} from "react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 import styles from "./FloatingPromo.module.css";
 
@@ -16,32 +13,46 @@ type FloatingPromoProps = {
 };
 
 export default function FloatingPromo({
-  href = "/cyber-house",
+  href = "/promociones",
 }: FloatingPromoProps) {
-  const [
-    isVisible,
-    setIsVisible,
-  ] = useState(true);
+  const pathname = usePathname();
+
+  const [isVisible, setIsVisible] =
+    useState(true);
 
   const closePromo = () => {
     setIsVisible(false);
   };
 
-  if (!isVisible) {
+  /*
+   * Elimina parámetros, hash y barra final para
+   * comparar correctamente la ruta actual.
+   */
+  const targetPath = href
+    .split("?")[0]
+    .split("#")[0]
+    .replace(/\/$/, "");
+
+  const currentPath = pathname
+    .replace(/\/$/, "");
+
+  const isTargetPage =
+    currentPath === targetPath;
+
+  /*
+   * No mostrar si:
+   * 1. El usuario cerró la promoción.
+   * 2. Ya está dentro de la página promocionada.
+   */
+  if (!isVisible || isTargetPage) {
     return null;
   }
 
   return (
-    <div
-      className={
-        styles.floatingWrapper
-      }
-    >
+    <div className={styles.floatingWrapper}>
       <button
         type="button"
-        className={
-          styles.closeButton
-        }
+        className={styles.closeButton}
         onClick={closePromo}
         aria-label="Cerrar promoción del Cyber House"
         title="Cerrar"
@@ -55,9 +66,8 @@ export default function FloatingPromo({
 
       <Link
         href={href}
-        className={
-          styles.floatingPromo
-        }
+        className={styles.floatingPromo}
+        onClick={closePromo}
         aria-label="Conocer el Cyber House de ANCOSUR"
       >
         <Image

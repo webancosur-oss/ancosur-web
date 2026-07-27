@@ -8,8 +8,17 @@ import {
   ShieldCheckIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react";
-import { useCallback, useState } from "react";
-import type { FormEvent } from "react";
+
+import Link from "next/link";
+
+import {
+  useCallback,
+  useState,
+} from "react";
+
+import type {
+  FormEvent,
+} from "react";
 
 import FeedbackToast, {
   type FeedbackToastData,
@@ -22,53 +31,170 @@ import {
 
 import styles from "./CaminoRealLocation.module.css";
 
-const PROJECT_NAME = "Camino Real";
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
 
-const GOOGLE_MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(
-  locationCaminoReal.googleMapsQuery
-)}&output=embed`;
+const SOURCE_ID = 4 as const;
 
-const GOOGLE_MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  locationCaminoReal.googleMapsQuery
-)}`;
+const PROJECT_NAME =
+  "Camino Real";
 
-type ToastState = FeedbackToastData & {
-  id: number;
+const GOOGLE_MAPS_EMBED =
+  `https://www.google.com/maps?q=${encodeURIComponent(
+    locationCaminoReal.googleMapsQuery
+  )}&output=embed`;
+
+const GOOGLE_MAPS_LINK =
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    locationCaminoReal.googleMapsQuery
+  )}`;
+
+/* =========================================================
+   TIPOS
+========================================================= */
+
+type ToastState =
+  FeedbackToastData & {
+    id: number;
+  };
+
+type ApiResponse = {
+  success?: boolean;
+  response?: string;
+  message?: string;
+  error?: string;
+  data?: unknown;
+  [key: string]: unknown;
 };
 
-const SUCCESS_TOAST: FeedbackToastData = {
-  variant: "success",
-  title: "¡Datos enviados correctamente!",
-  message: "Un asesor de ANCOSUR se comunicará contigo pronto.",
+/* =========================================================
+   NOTIFICACIONES
+========================================================= */
+
+const SUCCESS_TOAST:
+  FeedbackToastData = {
+    variant: "success",
+
+    title:
+      "¡Datos enviados correctamente!",
+
+    message:
+      "Un asesor de ANCOSUR se comunicará contigo pronto.",
+  };
+
+const ERROR_TOAST:
+  FeedbackToastData = {
+    variant: "error",
+
+    title:
+      "No pudimos enviar tus datos",
+
+    message:
+      "Verifica tu conexión e inténtalo nuevamente.",
+  };
+
+/* =========================================================
+   LEER RESPUESTA DE LA API
+========================================================= */
+
+const readApiResponse = async (
+  response: Response
+): Promise<ApiResponse> => {
+  const contentType =
+    response.headers.get(
+      "content-type"
+    );
+
+  if (
+    contentType?.includes(
+      "application/json"
+    )
+  ) {
+    try {
+      const result: unknown =
+        await response.json();
+
+      if (
+        typeof result ===
+          "object" &&
+        result !== null &&
+        !Array.isArray(result)
+      ) {
+        return result as ApiResponse;
+      }
+
+      return {
+        success: response.ok,
+        data: result,
+      };
+    } catch {
+      return {
+        success: false,
+
+        message:
+          "La API devolvió una respuesta JSON no válida.",
+      };
+    }
+  }
+
+  const responseText =
+    await response.text();
+
+  return {
+    success: response.ok,
+
+    message:
+      responseText ||
+      (response.ok
+        ? "Solicitud procesada correctamente."
+        : "No se recibió una respuesta válida de la API."),
+  };
 };
 
-const ERROR_TOAST: FeedbackToastData = {
-  variant: "error",
-  title: "No pudimos enviar tus datos",
-  message: "Verifica tu conexión e inténtalo nuevamente.",
-};
+/* =========================================================
+   COMPONENTE
+========================================================= */
 
 export default function CaminoRealLocation() {
-  const [isSending, setIsSending] = useState(false);
-  const [toast, setToast] = useState<ToastState | null>(null);
+  const [
+    isSending,
+    setIsSending,
+  ] = useState(false);
 
-  const closeToast = useCallback(() => {
-    setToast(null);
-  }, []);
+  const [
+    toast,
+    setToast,
+  ] = useState<ToastState | null>(
+    null
+  );
 
-  const showToast = (toastData: FeedbackToastData) => {
+  const closeToast =
+    useCallback(() => {
+      setToast(null);
+    }, []);
+
+  const showToast = (
+    toastData: FeedbackToastData
+  ) => {
     setToast({
       ...toastData,
       id: Date.now(),
     });
   };
 
- const handleSubmit = async (
+  /* =======================================================
+     ENVÍO DEL FORMULARIO
+  ======================================================= */
+
+  const handleSubmit = async (
   event: FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault();
 
-  if (isSending) return;
+  if (isSending) {
+    return;
+  }
 
   const form = event.currentTarget;
 
@@ -79,57 +205,183 @@ export default function CaminoRealLocation() {
 
   const formData = new FormData(form);
 
-  const fullName = String(
-    formData.get("fullName") ?? ""
-  ).trim();
-
   const phone = String(
     formData.get("phone") ?? ""
   ).replace(/\D/g, "");
 
-  const interest = String(
-    formData.get("interest") ?? ""
-  ).trim();
+  const email = String(
+    formData.get("email") ?? ""
+  )
+    .trim()
+    .toLowerCase();
 
+  const consent =
+    formData.get("consent") ===
+    "accepted";
+
+  const phoneRegex = /^9\d{8}$/;
+
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
+
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo electrónico válido.",
+    });
+
+    return;
+  }
+
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title: "Consentimiento requerido",
+      message:
+        "Debes aceptar la política de privacidad para enviar tus datos.",
+    });
+
+    return;
+  }
+
+  /*
+   * El usuario solamente ingresa
+   * teléfono y correo.
+   *
+   * Los demás campos se generan
+   * automáticamente para la API.
+   */
   const leadData = {
-    nombres_completos: fullName,
+    fuente_id: 4,
+
     telefono: phone,
-    email: "",
-    proyecto_interes: PROJECT_NAME,
-    categoria_interes: interest,
-    fuente_prospeccion: "Web",
-    mensaje: `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}.`,
-    origen_ruta: window.location.pathname,
-    origen_componente: `CaminoRealLocation - ${PROJECT_NAME}`,
+
+    email,
+
+    /*
+     * Se genera automáticamente porque
+     * el formulario ya no solicita nombre.
+     */
+    nombre:
+      `Lead web ${PROJECT_NAME}`,
+
+    dni: "",
+
+    campaña:
+      `Proyecto ${PROJECT_NAME}`,
+
+    anuncio:
+      `Formulario ubicación - ${PROJECT_NAME}`,
+
+    msj_client: JSON.stringify({
+      proyecto: PROJECT_NAME,
+
+      telefono: phone,
+
+      correo: email,
+
+      direccion_proyecto:
+        locationCaminoReal.projectAddress,
+
+      referencia_proyecto:
+        locationCaminoReal.projectReference,
+
+      origen_ruta:
+        window.location.pathname,
+
+      origen_componente:
+        `CaminoRealLocation - ${PROJECT_NAME}`,
+
+      consentimiento: consent,
+
+      fuente_id: 4,
+    }),
+
+    comentario:
+      `Cliente interesado en ${PROJECT_NAME}. Teléfono: ${phone}. Correo: ${email}.`,
   };
 
   try {
     setIsSending(true);
     setToast(null);
 
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(leadData),
-    });
+    const response = await fetch(
+      "/api/leads",
+      {
+        method: "POST",
 
-    const result = await response
-      .json()
-      .catch(() => null);
+        headers: {
+          "Content-Type":
+            "application/json",
 
-    if (!response.ok || result?.success === false) {
+          Accept:
+            "application/json",
+        },
+
+        body: JSON.stringify(
+          leadData
+        ),
+      }
+    );
+
+    const result =
+      await readApiResponse(response);
+
+    if (
+      !response.ok ||
+      result.success === false
+    ) {
+      console.error(
+        "Error API Camino Real:",
+        {
+          status: response.status,
+          result,
+          leadData,
+        }
+      );
+
+      const nestedData =
+        typeof result.data ===
+          "object" &&
+        result.data !== null
+          ? result.data as Record<
+              string,
+              unknown
+            >
+          : null;
+
       const apiMessage =
-        result?.message ||
-        result?.data?.error ||
+        result.message ||
+        result.error ||
+        (
+          typeof nestedData?.error ===
+          "string"
+            ? nestedData.error
+            : ""
+        ) ||
         `No se pudo enviar la solicitud. Código ${response.status}.`;
 
       showToast({
         variant: "error",
-        title: "No pudimos enviar tus datos",
-        message: String(apiMessage),
+
+        title:
+          "No pudimos enviar tus datos",
+
+        message:
+          String(apiMessage),
       });
 
       return;
@@ -137,43 +389,78 @@ export default function CaminoRealLocation() {
 
     form.reset();
 
+    showToast(SUCCESS_TOAST);
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Camino Real:",
+      error
+    );
+
     showToast({
-      variant: "success",
-      title: "¡Datos enviados correctamente!",
+      ...ERROR_TOAST,
+
       message:
-        "Un asesor de ANCOSUR se comunicará contigo pronto.",
-    });
-  } catch {
-    showToast({
-      variant: "error",
-      title: "No pudimos conectar con la API",
-      message:
-        "Revisa tu conexión o intenta nuevamente en unos minutos.",
+        error instanceof Error
+          ? error.message
+          : ERROR_TOAST.message,
     });
   } finally {
     setIsSending(false);
   }
 };
+
   return (
     <>
       <section
-        className={styles.section}
+        className={
+          styles.section
+        }
         id="ubicacion-camino-real"
         aria-labelledby="camino-real-location-title"
       >
-        <div className={styles.header}>
-          <span>{locationCaminoReal.eyebrow}</span>
+        {/* =================================================
+            ENCABEZADO
+        ================================================== */}
+
+        <div
+          className={
+            styles.header
+          }
+        >
+          <span>
+            {
+              locationCaminoReal.eyebrow
+            }
+          </span>
 
           <h2 id="camino-real-location-title">
-            {locationCaminoReal.title}
+            {
+              locationCaminoReal.title
+            }
           </h2>
 
-          <p>{locationCaminoReal.description}</p>
+          <p>
+            {
+              locationCaminoReal.description
+            }
+          </p>
         </div>
 
-        <div className={styles.locationFeatures}>
+        {/* =================================================
+            CARACTERÍSTICAS
+        ================================================== */}
+
+        <div
+          className={
+            styles.locationFeatures
+          }
+        >
           <article>
-            <div className={styles.featureIcon}>
+            <div
+              className={
+                styles.featureIcon
+              }
+            >
               <ShieldCheckIcon
                 size={25}
                 weight="fill"
@@ -183,17 +470,29 @@ export default function CaminoRealLocation() {
 
             <div>
               <span>
-                {locationCaminoReal.legalStatus.label}
+                {
+                  locationCaminoReal
+                    .legalStatus
+                    .label
+                }
               </span>
 
               <strong>
-                {locationCaminoReal.legalStatus.value}
+                {
+                  locationCaminoReal
+                    .legalStatus
+                    .value
+                }
               </strong>
             </div>
           </article>
 
           <article>
-            <div className={styles.featureIcon}>
+            <div
+              className={
+                styles.featureIcon
+              }
+            >
               <BuildingsIcon
                 size={25}
                 weight="fill"
@@ -203,21 +502,51 @@ export default function CaminoRealLocation() {
 
             <div>
               <span>
-                {locationCaminoReal.development.label}
+                {
+                  locationCaminoReal
+                    .development
+                    .label
+                }
               </span>
 
               <strong>
-                {locationCaminoReal.development.value}
+                {
+                  locationCaminoReal
+                    .development
+                    .value
+                }
               </strong>
             </div>
           </article>
         </div>
 
-        <div className={styles.grid}>
-          <article className={styles.mapCard}>
-            <div className={styles.map}>
+        {/* =================================================
+            MAPA Y FORMULARIO
+        ================================================== */}
+
+        <div
+          className={
+            styles.grid
+          }
+        >
+          {/* ===============================================
+              MAPA
+          ================================================ */}
+
+          <article
+            className={
+              styles.mapCard
+            }
+          >
+            <div
+              className={
+                styles.map
+              }
+            >
               <iframe
-                src={GOOGLE_MAPS_EMBED}
+                src={
+                  GOOGLE_MAPS_EMBED
+                }
                 title="Ubicación de Camino Real Residencial en El Tambo"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -225,9 +554,21 @@ export default function CaminoRealLocation() {
               />
             </div>
 
-            <div className={styles.mapInformation}>
-              <div className={styles.projectAddress}>
-                <div className={styles.addressIcon}>
+            <div
+              className={
+                styles.mapInformation
+              }
+            >
+              <div
+                className={
+                  styles.projectAddress
+                }
+              >
+                <div
+                  className={
+                    styles.addressIcon
+                  }
+                >
                   <MapPinIcon
                     size={22}
                     weight="fill"
@@ -236,23 +577,35 @@ export default function CaminoRealLocation() {
                 </div>
 
                 <div>
-                  <span>Ubicación del proyecto</span>
+                  <span>
+                    Ubicación del proyecto
+                  </span>
 
                   <strong>
-                    {locationCaminoReal.projectAddress}
+                    {
+                      locationCaminoReal
+                        .projectAddress
+                    }
                   </strong>
 
                   <p>
-                    {locationCaminoReal.projectReference}
+                    {
+                      locationCaminoReal
+                        .projectReference
+                    }
                   </p>
                 </div>
               </div>
 
               <a
-                href={GOOGLE_MAPS_LINK}
+                href={
+                  GOOGLE_MAPS_LINK
+                }
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.mapButton}
+                className={
+                  styles.mapButton
+                }
               >
                 Abrir en Google Maps
 
@@ -265,15 +618,34 @@ export default function CaminoRealLocation() {
             </div>
           </article>
 
-          <aside className={styles.contactCard}>
-            <div className={styles.formHeader}>
-              <span>Solicita información</span>
+          {/* ===============================================
+              FORMULARIO
+          ================================================ */}
 
-              <h3>Encuentra el lote ideal para ti</h3>
+          <aside
+            className={
+              styles.contactCard
+            }
+          >
+            <div
+              className={
+                styles.formHeader
+              }
+            >
+              <span>
+                Solicita información
+              </span>
+
+              <h3>
+                Encuentra el lote ideal
+                para ti
+              </h3>
 
               <p>
-                Déjanos tus datos y un asesor te brindará
-                información sobre disponibilidad, metrajes,
+                Déjanos tus datos y un
+                asesor te brindará
+                información sobre
+                disponibilidad, metrajes,
                 precios y formas de pago.
               </p>
             </div>
@@ -282,25 +654,11 @@ export default function CaminoRealLocation() {
               className={styles.form}
               onSubmit={handleSubmit}
             >
-              <label>
-                Nombre completo
-
-                <input
-                  type="text"
-                  name="fullName"
-                  placeholder="Ingresa tu nombre"
-                  autoComplete="name"
-                  minLength={3}
-                  maxLength={80}
-                  disabled={isSending}
-                  required
-                />
-              </label>
-
-              <label>
+              <label htmlFor="camino-real-phone">
                 Número de celular
 
                 <input
+                  id="camino-real-phone"
                   type="tel"
                   name="phone"
                   placeholder="987654321"
@@ -311,67 +669,65 @@ export default function CaminoRealLocation() {
                   maxLength={9}
                   title="Ingresa un celular peruano de 9 dígitos que empiece con 9."
                   disabled={isSending}
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(/\D/g, "")
+                        .slice(0, 9);
+                  }}
                   required
                 />
               </label>
 
-              <label>
-                Metraje o interés
+              <label htmlFor="camino-real-email">
+                Correo electrónico
 
-                <select
-                  name="interest"
-                  defaultValue=""
+                <input
+                  id="camino-real-email"
+                  type="email"
+                  name="email"
+                  placeholder="correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
                   disabled={isSending}
                   required
-                >
-                  <option value="" disabled>
-                    Selecciona una opción
-                  </option>
-
-                  <option value="Lote desde 90 m²">
-                    Lote desde 90 m²
-                  </option>
-
-                  <option value="Lote de metraje intermedio">
-                    Lote de metraje intermedio
-                  </option>
-
-                  <option value="Lote hasta 178 m²">
-                    Lote hasta 178 m²
-                  </option>
-
-                  <option value="Formas de pago">
-                    Conocer formas de pago
-                  </option>
-
-                  <option value="Agendar una visita">
-                    Agendar una visita
-                  </option>
-
-                  <option value="Asesoría personalizada">
-                    Necesito asesoría personalizada
-                  </option>
-                </select>
+                />
               </label>
 
-              <label className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="consent"
-              value="accepted"
-              checked
-              onChange={() => {}}
-            />
+              <label
+                className={styles.checkbox}
+              >
+                <input
+                  type="checkbox"
+                  name="consent"
+                  value="accepted"
+                  defaultChecked
+                  disabled={isSending}
+                  required
+                />
 
-            <span>
-              Acepto ser contactado por ANCOSUR para recibir información comercial
-              sobre Camino Real.
-            </span>
-          </label>
+                <span>
+                  Acepto los{" "}
+                  <Link
+                    href="/politicas/politica-de-privacidad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    términos y la política de
+                    privacidad
+                  </Link>{" "}
+                  y autorizo a ANCOSUR a
+                  contactarme para recibir
+                  información comercial sobre
+                  Camino Real.
+                </span>
+              </label>
 
               <button
                 type="submit"
-                className={styles.submitButton}
+                className={
+                  styles.submitButton
+                }
                 disabled={isSending}
                 aria-busy={isSending}
               >
@@ -387,15 +743,29 @@ export default function CaminoRealLocation() {
               </button>
             </form>
 
-            <div className={styles.divider}>
-              <span>o comunícate directamente</span>
+            {/* =============================================
+                CONTACTO DIRECTO
+            ============================================== */}
+
+            <div
+              className={
+                styles.divider
+              }
+            >
+              <span>
+                o comunícate directamente
+              </span>
             </div>
 
             <a
-              href={whatsappCaminoReal}
+              href={
+                whatsappCaminoReal
+              }
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.whatsappButton}
+              className={
+                styles.whatsappButton
+              }
             >
               <WhatsappLogoIcon
                 size={20}
@@ -406,8 +776,16 @@ export default function CaminoRealLocation() {
               Escribir por WhatsApp
             </a>
 
-            <div className={styles.officeInformation}>
-              <div className={styles.officeItem}>
+            <div
+              className={
+                styles.officeInformation
+              }
+            >
+              <div
+                className={
+                  styles.officeItem
+                }
+              >
                 <MapPinIcon
                   size={19}
                   weight="fill"
@@ -415,15 +793,24 @@ export default function CaminoRealLocation() {
                 />
 
                 <div>
-                  <span>Oficina de ventas</span>
+                  <span>
+                    Oficina de ventas
+                  </span>
 
                   <strong>
-                    {locationCaminoReal.officeAddress}
+                    {
+                      locationCaminoReal
+                        .officeAddress
+                    }
                   </strong>
                 </div>
               </div>
 
-              <div className={styles.officeItem}>
+              <div
+                className={
+                  styles.officeItem
+                }
+              >
                 <ClockIcon
                   size={19}
                   weight="fill"
@@ -431,10 +818,15 @@ export default function CaminoRealLocation() {
                 />
 
                 <div>
-                  <span>Horario de atención</span>
+                  <span>
+                    Horario de atención
+                  </span>
 
                   <strong>
-                    {locationCaminoReal.schedule}
+                    {
+                      locationCaminoReal
+                        .schedule
+                    }
                   </strong>
                 </div>
               </div>
@@ -445,11 +837,22 @@ export default function CaminoRealLocation() {
 
       <FeedbackToast
         key={toast?.id}
-        open={toast !== null}
-        variant={toast?.variant ?? "info"}
-        title={toast?.title ?? ""}
-        message={toast?.message ?? ""}
-        onClose={closeToast}
+        open={
+          toast !== null
+        }
+        variant={
+          toast?.variant ??
+          "info"
+        }
+        title={
+          toast?.title ?? ""
+        }
+        message={
+          toast?.message ?? ""
+        }
+        onClose={
+          closeToast
+        }
       />
     </>
   );

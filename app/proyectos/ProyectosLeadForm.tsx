@@ -194,7 +194,7 @@ export default function ProyectosLeadForm() {
             <input
               type="text"
               name="fullName"
-              placeholder="Ej. Angela Huayra"
+              placeholder="Ej. Miguel Asto"
               value={formData.fullName}
               aria-invalid={Boolean(errors.fullName)}
               onChange={(event) => updateField("fullName", event.target.value)}

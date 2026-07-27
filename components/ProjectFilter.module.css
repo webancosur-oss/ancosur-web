@@ -127,7 +127,7 @@
 ==================================================*/
 
 .topBar{
-  width:min(1400px,92%);
+  width:min(1100px,92%);
   margin:0 auto 24px;
 
   display:flex;
@@ -164,7 +164,7 @@
 ==================================================*/
 
 .grid{
-  width:min(1400px,92%);
+  width:min(1100px,92%);
   margin:0 auto;
 
   display:grid;
@@ -249,7 +249,6 @@
 
   display:block;
 
-  object-fit:cover !important;
   object-position:center center !important;
 
   box-shadow:none !important;

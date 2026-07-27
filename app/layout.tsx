@@ -164,7 +164,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Navbar />
         <FloatingActions />
         <FloatingPodcast />
-        <FloatingPromo href="/cyber-house" />
+        <FloatingPromo href="/promociones" />
         <Footer />
         <script
           type="application/ld+json"

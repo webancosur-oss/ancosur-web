@@ -72,6 +72,7 @@
   object-position: center;
   pointer-events: none;
   -webkit-user-drag: none;
+  filter: brightness()
 }
 
 .desktopImage {
@@ -126,8 +127,10 @@
   object-position: left center;
   pointer-events: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(0 14px 36px rgba(0, 0, 0, 0.38));
-}
+  filter:
+    brightness(0)
+    invert(1)
+    drop-shadow(0 14px 36px rgba(0, 0, 0, 0.38));}
 
 .subtitle {
   max-width: 460px;
