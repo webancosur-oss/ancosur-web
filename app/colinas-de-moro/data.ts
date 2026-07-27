@@ -4,9 +4,6 @@ export const whatsappColinasDeMoro =
 export const brochureColinasDeMoro =
   "/assets/projects/colinas-de-moro/brochure/brochure-colinas-de-moro.pdf";
 
-/* =========================================================
-   HERO
-========================================================= */
 
 export const hero = {
   logo: "/assets/images/colinas-de-moro.svg",
