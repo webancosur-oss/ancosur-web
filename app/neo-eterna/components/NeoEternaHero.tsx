@@ -21,10 +21,6 @@ export default function NeoEternaHero() {
             className={styles.projectLogo}
           />
 
-          <span className={styles.statusBadge}>
-            Pre venta
-          </span>
-
           <h1 className={styles.heroTitle}>
             Inversión inteligente en el corazón de la zona universitaria
           </h1>

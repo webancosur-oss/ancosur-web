@@ -25,10 +25,6 @@ export default function DistritoSanCarlosHero() {
             className={styles.projectLogo}
           />
 
-          <span className={styles.statusBadge}>
-            Pre venta
-          </span>
-
           <h1
             id="distrito-san-carlos-title"
             className={styles.heroTitle}

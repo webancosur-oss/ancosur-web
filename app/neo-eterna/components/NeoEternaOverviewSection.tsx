@@ -5,7 +5,11 @@ import {
   DownloadSimpleIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import type { FormEvent } from "react";
 
 import FeedbackToast, {
@@ -20,24 +24,50 @@ import {
 
 import styles from "../NeoEternaPage.module.css";
 
-const PROJECT_NAME = "Neo Eterna";
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+const SOURCE_ID = 4 as const;
+const CAMPAIGN_NAME = "Neo Eterna";
+const AD_NAME = "Web";
+const LEAD_TYPE = "WEB ANCOSUR";
+const COMPONENT_NAME =
+  "NeoEternaOverviewSection";
+const REQUEST_TIMEOUT = 20_000;
+
+/* =========================================================
+   TIPOS
+========================================================= */
 
 type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type JsonObject = Record<string, unknown>;
+
 type ApiResponse = {
   success?: boolean;
-  response?: string;
+  accion?: string;
+  id?: number;
+  code?: string;
   message?: string;
+  error?: string;
   data?: unknown;
+  response?: unknown;
+  errors?: unknown;
+  [key: string]: unknown;
 };
+
+/* =========================================================
+   MENSAJES
+========================================================= */
 
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
-  title: "¡Datos enviados correctamente!",
+  title: "¡Solicitud enviada correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    "Gracias por tu interés en Neo Eterna. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte precios, disponibilidad y formas de pago.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -47,58 +77,292 @@ const ERROR_TOAST: FeedbackToastData = {
     "Verifica tu conexión e inténtalo nuevamente.",
 };
 
+/* =========================================================
+   UTILIDADES DE RESPUESTA
+========================================================= */
+
+const isJsonObject = (
+  value: unknown
+): value is JsonObject => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
+};
+
 const readApiResponse = async (
   response: Response
 ): Promise<ApiResponse> => {
-  const contentType =
-    response.headers.get("content-type");
+  const responseText =
+    await response.text();
 
-  if (contentType?.includes("application/json")) {
-    try {
-      return await response.json();
-    } catch {
-      return {
-        success: false,
-        message:
-          "La API devolvió una respuesta no válida.",
-      };
-    }
+  if (!responseText.trim()) {
+    return {
+      success: response.ok,
+      message: response.ok
+        ? "Solicitud procesada correctamente."
+        : `El servidor respondió con el código ${response.status}.`,
+    };
   }
 
-  const responseText = await response.text();
+  try {
+    const parsed: unknown =
+      JSON.parse(responseText);
+
+    if (isJsonObject(parsed)) {
+      return parsed as ApiResponse;
+    }
+
+    return {
+      success: response.ok,
+      data: parsed,
+    };
+  } catch {
+    return {
+      success: response.ok,
+      message: responseText,
+    };
+  }
+};
+
+const hasApiFailure = (
+  value: unknown
+): boolean => {
+  if (!isJsonObject(value)) {
+    return false;
+  }
+
+  if (value.success === false) {
+    return true;
+  }
+
+  return (
+    hasApiFailure(value.data) ||
+    hasApiFailure(value.response)
+  );
+};
+
+const extractApiMessage = (
+  value: unknown
+): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.error === "string" &&
+    value.error.trim()
+  ) {
+    return value.error.trim();
+  }
+
+  const dataMessage =
+    extractApiMessage(value.data);
+
+  if (dataMessage) {
+    return dataMessage;
+  }
+
+  const responseMessage =
+    extractApiMessage(value.response);
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (
+    typeof value.message === "string" &&
+    value.message.trim()
+  ) {
+    return value.message.trim();
+  }
+
+  return "";
+};
+
+const extractApiCode = (
+  value: unknown
+): string => {
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.code === "string" &&
+    value.code.trim()
+  ) {
+    return value.code.trim();
+  }
+
+  return (
+    extractApiCode(value.data) ||
+    extractApiCode(value.response)
+  );
+};
+
+const isCampaignLengthError = (
+  message: string
+): boolean => {
+  const normalized =
+    message.toLowerCase();
+
+  return (
+    normalized.includes(
+      "sqlstate[22001]"
+    ) ||
+    normalized.includes(
+      "data too long for column 'campaña'"
+    ) ||
+    normalized.includes(
+      'data too long for column "campaña"'
+    ) ||
+    (
+      normalized.includes("1406") &&
+      normalized.includes("campaña")
+    )
+  );
+};
+
+const getFriendlyServerError = (
+  status: number,
+  result: ApiResponse
+): {
+  title: string;
+  message: string;
+} => {
+  const serverMessage =
+    extractApiMessage(result);
+
+  const serverCode =
+    extractApiCode(result);
+
+  if (
+    serverCode ===
+      "CAMPAIGN_HISTORY_TOO_LONG" ||
+    isCampaignLengthError(
+      serverMessage
+    )
+  ) {
+    return {
+      title:
+        "El CRM no pudo actualizar el contacto",
+      message:
+        "Este contacto tiene un historial de campañas demasiado extenso. Solicita al administrador del CRM que revise el contacto.",
+    };
+  }
+
+  if (serverCode === "VALIDATION_ERROR") {
+    return {
+      title: "Revisa los datos ingresados",
+      message:
+        serverMessage ||
+        "Uno o más campos tienen un formato incorrecto.",
+    };
+  }
+
+  if (status === 400) {
+    return {
+      title: "Datos no válidos",
+      message:
+        serverMessage ||
+        "Revisa el nombre, celular, correo electrónico y número de documento.",
+    };
+  }
+
+  if (status === 401 || status === 403) {
+    return {
+      title: "API no autorizada",
+      message:
+        "El servidor no tiene autorización para registrar el lead.",
+    };
+  }
+
+  if (status === 404) {
+    return {
+      title: "Ruta de leads no encontrada",
+      message:
+        "No se encontró la ruta /api/leads.",
+    };
+  }
+
+  if (
+    status === 408 ||
+    status === 504
+  ) {
+    return {
+      title: "El servidor tardó demasiado",
+      message:
+        "La solicitud superó el tiempo máximo permitido.",
+    };
+  }
+
+  if (status === 413) {
+    return {
+      title: "Información demasiado extensa",
+      message:
+        "La información enviada supera el tamaño permitido.",
+    };
+  }
+
+  if (status === 415) {
+    return {
+      title: "Formato no permitido",
+      message:
+        "El servidor requiere que la solicitud se envíe como JSON.",
+    };
+  }
+
+  if (status === 422) {
+    return {
+      title:
+        "No se pudieron procesar los datos",
+      message:
+        serverMessage ||
+        "El servidor rechazó uno o más campos.",
+    };
+  }
+
+  if (status === 429) {
+    return {
+      title: "Demasiadas solicitudes",
+      message:
+        "Espera unos minutos antes de volver a enviar el formulario.",
+    };
+  }
+
+  if (status >= 500) {
+    return {
+      title: "Error del servidor",
+      message:
+        serverMessage ||
+        "El servidor de leads no pudo procesar la solicitud.",
+    };
+  }
 
   return {
-    success: response.ok,
+    title: "No pudimos enviar tus datos",
     message:
-      responseText ||
-      "No se recibió una respuesta de la API.",
+      serverMessage ||
+      result.message ||
+      `La solicitud no pudo procesarse. Código ${status}.`,
   };
 };
 
-const getApiErrorMessage = (
-  result: ApiResponse | null,
-  status: number
-) => {
-  const dataError =
-    result?.data &&
-    typeof result.data === "object" &&
-    "error" in result.data
-      ? String(
-          (result.data as { error?: unknown })
-            .error ?? ""
-        )
-      : "";
-
-  return (
-    result?.message ||
-    dataError ||
-    `No se pudo enviar la solicitud. Código ${status}.`
-  );
-};
+/* =========================================================
+   COMPONENTE
+========================================================= */
 
 export default function NeoEternaOverviewSection() {
   const [isSending, setIsSending] =
     useState(false);
+
+  const submitLockRef =
+    useRef(false);
 
   const [toast, setToast] =
     useState<ToastState | null>(null);
@@ -121,9 +385,17 @@ export default function NeoEternaOverviewSection() {
   ) => {
     event.preventDefault();
 
-    if (isSending) return;
+    if (
+      isSending ||
+      submitLockRef.current
+    ) {
+      return;
+    }
 
-    const form = event.currentTarget;
+    submitLockRef.current = true;
+
+    const form =
+      event.currentTarget;
 
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -135,77 +407,274 @@ export default function NeoEternaOverviewSection() {
           "Completa correctamente los campos requeridos.",
       });
 
+      submitLockRef.current = false;
       return;
     }
 
-    const formData = new FormData(form);
+    const formData =
+      new FormData(form);
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
+    const fullName =
+      String(
+        formData.get("fullName") ?? ""
+      )
+        .replace(/\s+/g, " ")
+        .trim();
 
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
+    const phone =
+      String(
+        formData.get("phone") ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 9);
 
-    const email = String(
-      formData.get("email") ?? ""
-    )
-      .trim()
-      .toLowerCase();
+    const email =
+      String(
+        formData.get("email") ?? ""
+      )
+        .trim()
+        .toLowerCase();
 
-    const message = String(
-      formData.get("message") ?? ""
-    ).trim();
+    const dni =
+      String(
+        formData.get("dni") ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    const message =
+      String(
+        formData.get("message") ?? ""
+      ).trim();
+
+    const consent =
+      formData.get("consent") ===
+      "accepted";
+
+    const nameRegex =
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+    const phoneRegex =
+      /^9\d{8}$/;
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    const dniRegex =
+      /^\d{8}$/;
+
+    if (!nameRegex.test(fullName)) {
+      showToast({
+        variant: "error",
+        title: "Nombre no válido",
+        message:
+          "Ingresa tu nombre completo usando letras y espacios.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (!phoneRegex.test(phone)) {
+      showToast({
+        variant: "error",
+        title: "Celular no válido",
+        message:
+          "El celular debe tener 9 dígitos y comenzar con 9.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (
+      email &&
+      !emailRegex.test(email)
+    ) {
+      showToast({
+        variant: "error",
+        title: "Correo no válido",
+        message:
+          "Ingresa un correo válido o deja el campo vacío.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (
+      dni &&
+      !dniRegex.test(dni)
+    ) {
+      showToast({
+        variant: "error",
+        title:
+          "Número de documento no válido",
+        message:
+          "El número de documento debe contener exactamente 8 dígitos o dejarse vacío.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (message.length > 250) {
+      showToast({
+        variant: "error",
+        title: "Mensaje demasiado largo",
+        message:
+          "El mensaje no debe superar los 250 caracteres.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (!consent) {
+      showToast({
+        variant: "error",
+        title:
+          "Consentimiento requerido",
+        message:
+          "Debes aceptar la autorización de contacto.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    /*
+     * msj_client contiene únicamente:
+     *
+     * - Ruta de origen.
+     * - Componente de origen.
+     * - Tipo de lead.
+     * - Mensaje, solo cuando existe.
+     *
+     * No se envía comentario para evitar
+     * duplicar información dentro del CRM.
+     */
+    const clientMetadata:
+      Record<string, string> = {
+        origenRuta:
+          window.location.pathname,
+
+        origenComponente:
+          COMPONENT_NAME,
+
+        tipoLead:
+          LEAD_TYPE,
+      };
+
+    if (message) {
+      clientMetadata.mensaje =
+        message;
+    }
 
     const leadData = {
-      nombres_completos: fullName,
-      telefono: phone,
+      fuente_id:
+        SOURCE_ID,
+
+      telefono:
+        phone,
+
+      nombre:
+        fullName,
+
       email,
-      proyecto_interes: PROJECT_NAME,
-      categoria_interes: "Departamentos",
-      fuente_prospeccion: "Web",
-      mensaje:
-        message ||
-        `Solicitud de información sobre ${PROJECT_NAME} enviada desde la página de Neo Eterna.`,
-      origen_ruta: window.location.pathname,
-      origen_componente:
-        `NeoEternaOverviewSection - ${PROJECT_NAME}`,
+
+      dni,
+
+      campaña:
+        CAMPAIGN_NAME,
+
+      anuncio:
+        AD_NAME,
+
+      msj_client:
+        JSON.stringify(
+          clientMetadata
+        ),
     };
+
+    const controller =
+      new AbortController();
+
+    const timeoutId =
+      window.setTimeout(() => {
+        controller.abort();
+      }, REQUEST_TIMEOUT);
 
     try {
       setIsSending(true);
       setToast(null);
 
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-          cache: "no-store",
-        }
-      );
+      const response =
+        await fetch(
+          "/api/leads",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              Accept:
+                "application/json",
+            },
+
+            body:
+              JSON.stringify(
+                leadData
+              ),
+
+            cache:
+              "no-store",
+
+            signal:
+              controller.signal,
+          }
+        );
 
       const result =
-        await readApiResponse(response);
+        await readApiResponse(
+          response
+        );
 
-      if (
+      const requestFailed =
         !response.ok ||
-        result?.success === false
-      ) {
+        hasApiFailure(result);
+
+      if (requestFailed) {
+        const friendlyError =
+          getFriendlyServerError(
+            response.status,
+            result
+          );
+
+        console.error(
+          "Error API Neo Eterna:",
+          {
+            status:
+              response.status,
+
+            result,
+
+            payload: {
+              ...leadData,
+
+              msj_client:
+                clientMetadata,
+            },
+          }
+        );
+
         showToast({
           variant: "error",
           title:
-            "No pudimos enviar tus datos",
-          message: getApiErrorMessage(
-            result,
-            response.status
-          ),
+            friendlyError.title,
+          message:
+            friendlyError.message,
         });
 
         return;
@@ -213,10 +682,37 @@ export default function NeoEternaOverviewSection() {
 
       form.reset();
 
-      showToast(SUCCESS_TOAST);
-    } catch {
+      showToast(
+        SUCCESS_TOAST
+      );
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Neo Eterna:",
+        error
+      );
+
+      if (
+        error instanceof Error &&
+        error.name === "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "El servidor tardó demasiado",
+          message:
+            "La solicitud superó los 20 segundos de espera.",
+        });
+
+        return;
+      }
+
       showToast(ERROR_TOAST);
     } finally {
+      window.clearTimeout(
+        timeoutId
+      );
+
+      submitLockRef.current = false;
       setIsSending(false);
     }
   };
@@ -224,13 +720,27 @@ export default function NeoEternaOverviewSection() {
   return (
     <>
       <section
-        className={styles.overviewSection}
+        className={
+          styles.overviewSection
+        }
         id="informacion-neo-eterna"
         aria-labelledby="neo-eterna-overview-title"
       >
-        <div className={styles.overviewInner}>
-          <div className={styles.overviewContent}>
-            <span className={styles.eyebrow}>
+        <div
+          className={
+            styles.overviewInner
+          }
+        >
+          <div
+            className={
+              styles.overviewContent
+            }
+          >
+            <span
+              className={
+                styles.eyebrow
+              }
+            >
               Vive conectado
             </span>
 
@@ -239,7 +749,11 @@ export default function NeoEternaOverviewSection() {
               universitaria de Huancayo
             </h2>
 
-            <p className={styles.overviewDescription}>
+            <p
+              className={
+                styles.overviewDescription
+              }
+            >
               Neo Eterna es un proyecto
               pensado para estudiantes,
               profesionales, familias e
@@ -254,11 +768,17 @@ export default function NeoEternaOverviewSection() {
             </p>
 
             {!!facts.length && (
-              <div className={styles.overviewFacts}>
+              <div
+                className={
+                  styles.overviewFacts
+                }
+              >
                 {facts.map((item) => (
                   <div
                     key={`${item.label}-${item.value}`}
-                    className={styles.overviewFact}
+                    className={
+                      styles.overviewFact
+                    }
                   >
                     <span>
                       {item.label}
@@ -273,7 +793,11 @@ export default function NeoEternaOverviewSection() {
             )}
 
             {!!details.length && (
-              <ul className={styles.detailsList}>
+              <ul
+                className={
+                  styles.detailsList
+                }
+              >
                 {details.map((item) => (
                   <li
                     key={`${item.label}-${item.value}`}
@@ -290,9 +814,15 @@ export default function NeoEternaOverviewSection() {
               </ul>
             )}
 
-            <div className={styles.overviewActions}>
+            <div
+              className={
+                styles.overviewActions
+              }
+            >
               <a
-                href={brochureNeoEterna}
+                href={
+                  brochureNeoEterna
+                }
                 download
                 aria-label="Descargar brochure de Neo Eterna"
               >
@@ -318,11 +848,18 @@ export default function NeoEternaOverviewSection() {
           </div>
 
           <form
-            className={styles.overviewForm}
-            onSubmit={handleSubmit}
-            noValidate
+            className={
+              styles.overviewForm
+            }
+            onSubmit={
+              handleSubmit
+            }
           >
-            <div className={styles.formHeader}>
+            <div
+              className={
+                styles.formHeader
+              }
+            >
               <span>
                 Solicita información
               </span>
@@ -350,12 +887,20 @@ export default function NeoEternaOverviewSection() {
                 autoComplete="name"
                 minLength={3}
                 maxLength={80}
-                disabled={isSending}
+                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü.'’ -]{3,80}"
+                title="Ingresa tu nombre usando letras y espacios."
+                disabled={
+                  isSending
+                }
                 required
               />
             </label>
 
-            <div className={styles.formTwoColumns}>
+            <div
+              className={
+                styles.formTwoColumns
+              }
+            >
               <label>
                 Celular
 
@@ -369,7 +914,23 @@ export default function NeoEternaOverviewSection() {
                   minLength={9}
                   maxLength={9}
                   title="Ingresa un número celular peruano de 9 dígitos que comience con 9."
-                  disabled={isSending}
+                  disabled={
+                    isSending
+                  }
+                  onInput={(
+                    event
+                  ) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(
+                          /\D/g,
+                          ""
+                        )
+                        .slice(
+                          0,
+                          9
+                        );
+                  }}
                   required
                 />
               </label>
@@ -383,10 +944,46 @@ export default function NeoEternaOverviewSection() {
                   placeholder="correo@gmail.com"
                   autoComplete="email"
                   maxLength={120}
-                  disabled={isSending}
+                  title="Ingresa un correo válido o deja el campo vacío."
+                  disabled={
+                    isSending
+                  }
                 />
               </label>
             </div>
+
+            <label>
+              Número de documento opcional
+
+              <input
+                type="text"
+                name="dni"
+                placeholder="12345678"
+                autoComplete="off"
+                inputMode="numeric"
+                pattern="[0-9]{8}"
+                minLength={8}
+                maxLength={8}
+                title="Ingresa un número de documento de 8 dígitos o deja el campo vacío."
+                disabled={
+                  isSending
+                }
+                onInput={(
+                  event
+                ) => {
+                  event.currentTarget.value =
+                    event.currentTarget.value
+                      .replace(
+                        /\D/g,
+                        ""
+                      )
+                      .slice(
+                        0,
+                        8
+                      );
+                }}
+              />
+            </label>
 
             <label>
               Mensaje opcional
@@ -396,17 +993,26 @@ export default function NeoEternaOverviewSection() {
                 placeholder="Cuéntanos qué departamento buscas o en qué horario deseas que te contactemos."
                 rows={4}
                 maxLength={250}
-                disabled={isSending}
+                disabled={
+                  isSending
+                }
               />
             </label>
 
-            <label className={styles.checkbox}>
+            <label
+              className={
+                styles.checkbox
+              }
+            >
               <input
                 type="checkbox"
                 name="consent"
                 value="accepted"
-                checked
-                readOnly
+                defaultChecked
+                disabled={
+                  isSending
+                }
+                required
               />
 
               <span>
@@ -419,8 +1025,12 @@ export default function NeoEternaOverviewSection() {
 
             <button
               type="submit"
-              disabled={isSending}
-              aria-busy={isSending}
+              disabled={
+                isSending
+              }
+              aria-busy={
+                isSending
+              }
             >
               {isSending
                 ? "Enviando solicitud..."
@@ -438,11 +1048,21 @@ export default function NeoEternaOverviewSection() {
 
       <FeedbackToast
         key={toast?.id}
-        open={toast !== null}
-        variant={toast?.variant ?? "info"}
-        title={toast?.title ?? ""}
-        message={toast?.message ?? ""}
-        onClose={closeToast}
+        open={
+          toast !== null
+        }
+        variant={
+          toast?.variant ?? "info"
+        }
+        title={
+          toast?.title ?? ""
+        }
+        message={
+          toast?.message ?? ""
+        }
+        onClose={
+          closeToast
+        }
       />
     </>
   );

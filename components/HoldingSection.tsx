@@ -761,13 +761,6 @@ export default function HoldingSection() {
                             styles.cardMeta
                           }
                         >
-                          <span>
-                            Huancayo
-                          </span>
-
-                          <span>
-                            Grupo ANCOSUR
-                          </span>
                         </div>
 
                         {hasWebsite ? (
@@ -790,7 +783,7 @@ export default function HoldingSection() {
                               event.stopPropagation()
                             }
                           >
-                            Conocer empresa
+                            Ver Más
 
                             <svg
                               viewBox="0 0 24 24"

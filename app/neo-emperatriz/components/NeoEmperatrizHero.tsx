@@ -27,11 +27,7 @@ export default function NeoEmperatrizHero() {
             alt="Logo Neo Emperatriz"
             className={styles.projectLogo}
           />
-
-          <span className={styles.statusBadge}>
-            Entrega inmediata
-          </span>
-
+          
           <h1
             id="neo-emperatriz-title"
             className={styles.heroTitle}

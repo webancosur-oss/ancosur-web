@@ -22,8 +22,6 @@ export default function NeoRiveraHero() {
             className={styles.projectLogo}
           />
 
-          <span className={styles.statusBadge}>Pre venta</span>
-
           <h1 className={styles.heroTitle}>
             Vive en bienestar en La Ribera
           </h1>

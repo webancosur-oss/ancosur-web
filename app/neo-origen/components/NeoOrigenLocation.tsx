@@ -6,15 +6,12 @@ import {
   MapPinIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react";
-
 import {
   useCallback,
+  useRef,
   useState,
 } from "react";
-
-import type {
-  FormEvent,
-} from "react";
+import type { FormEvent } from "react";
 
 import FeedbackToast, {
   type FeedbackToastData,
@@ -31,19 +28,21 @@ import styles from "./NeoOrigenLocation.module.css";
    CONFIGURACIÓN
 ========================================================= */
 
-const PROJECT_NAME = "Neo Origen";
-
-const PROJECT_CATEGORY =
-  "Departamentos de 1, 2 y 3 dormitorios";
+const SOURCE_ID = 4 as const;
+const CAMPAIGN_NAME = "Neo Origen";
+const AD_NAME = "Web";
+const LEAD_TYPE = "WEB ANCOSUR";
+const COMPONENT_NAME = "NeoOrigenLocation";
+const REQUEST_TIMEOUT = 20_000;
 
 const GOOGLE_MAPS_EMBED =
   `https://www.google.com/maps?q=${encodeURIComponent(
-    locationNeoOrigen.googleMapsQuery,
+    locationNeoOrigen.googleMapsQuery
   )}&output=embed`;
 
 const GOOGLE_MAPS_LINK =
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    locationNeoOrigen.googleMapsQuery,
+    locationNeoOrigen.googleMapsQuery
   )}`;
 
 /* =========================================================
@@ -54,11 +53,19 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+type JsonObject = Record<string, unknown>;
+
 type ApiResponse = {
   success?: boolean;
-  response?: string;
+  accion?: string;
+  id?: number;
+  code?: string;
   message?: string;
+  error?: string;
   data?: unknown;
+  response?: unknown;
+  errors?: unknown;
+  [key: string]: unknown;
 };
 
 /* =========================================================
@@ -67,9 +74,9 @@ type ApiResponse = {
 
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
-  title: "¡Datos enviados correctamente!",
+  title: "¡Solicitud enviada correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto para brindarte información sobre Neo Origen.",
+    "Gracias por tu interés en Neo Origen. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte precios, disponibilidad, planos, tipologías y formas de pago.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -80,64 +87,279 @@ const ERROR_TOAST: FeedbackToastData = {
 };
 
 /* =========================================================
-   RESPUESTA DE LA API
+   UTILIDADES DE RESPUESTA
 ========================================================= */
 
+const isJsonObject = (
+  value: unknown
+): value is JsonObject => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
+};
+
 const readApiResponse = async (
-  response: Response,
+  response: Response
 ): Promise<ApiResponse> => {
-  const contentType =
-    response.headers.get("content-type");
-
-  if (
-    contentType?.includes(
-      "application/json",
-    )
-  ) {
-    try {
-      return await response.json();
-    } catch {
-      return {
-        success: false,
-        message:
-          "La API devolvió una respuesta no válida.",
-      };
-    }
-  }
-
   const responseText =
     await response.text();
 
-  return {
-    success: response.ok,
-    message:
-      responseText ||
-      "No se recibió una respuesta de la API.",
-  };
+  if (!responseText.trim()) {
+    return {
+      success: response.ok,
+      message: response.ok
+        ? "Solicitud procesada correctamente."
+        : `El servidor respondió con el código ${response.status}.`,
+    };
+  }
+
+  try {
+    const parsed: unknown =
+      JSON.parse(responseText);
+
+    if (isJsonObject(parsed)) {
+      return parsed as ApiResponse;
+    }
+
+    return {
+      success: response.ok,
+      data: parsed,
+    };
+  } catch {
+    return {
+      success: response.ok,
+      message: responseText,
+    };
+  }
 };
 
-const getApiErrorMessage = (
-  result: ApiResponse | null,
-  status: number,
-) => {
-  const dataError =
-    result?.data &&
-    typeof result.data === "object" &&
-    "error" in result.data
-      ? String(
-          (
-            result.data as {
-              error?: unknown;
-            }
-          ).error ?? "",
-        )
-      : "";
+const hasApiFailure = (
+  value: unknown
+): boolean => {
+  if (!isJsonObject(value)) {
+    return false;
+  }
+
+  if (value.success === false) {
+    return true;
+  }
 
   return (
-    result?.message ||
-    dataError ||
-    `No se pudo enviar la solicitud. Código ${status}.`
+    hasApiFailure(value.data) ||
+    hasApiFailure(value.response)
   );
+};
+
+const extractApiMessage = (
+  value: unknown
+): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.error === "string" &&
+    value.error.trim()
+  ) {
+    return value.error.trim();
+  }
+
+  const dataMessage =
+    extractApiMessage(value.data);
+
+  if (dataMessage) {
+    return dataMessage;
+  }
+
+  const responseMessage =
+    extractApiMessage(value.response);
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (
+    typeof value.message === "string" &&
+    value.message.trim()
+  ) {
+    return value.message.trim();
+  }
+
+  return "";
+};
+
+const extractApiCode = (
+  value: unknown
+): string => {
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.code === "string" &&
+    value.code.trim()
+  ) {
+    return value.code.trim();
+  }
+
+  return (
+    extractApiCode(value.data) ||
+    extractApiCode(value.response)
+  );
+};
+
+const isCampaignLengthError = (
+  message: string
+): boolean => {
+  const normalized =
+    message.toLowerCase();
+
+  return (
+    normalized.includes(
+      "sqlstate[22001]"
+    ) ||
+    normalized.includes(
+      "data too long for column 'campaña'"
+    ) ||
+    normalized.includes(
+      'data too long for column "campaña"'
+    ) ||
+    (
+      normalized.includes("1406") &&
+      normalized.includes("campaña")
+    )
+  );
+};
+
+const getFriendlyServerError = (
+  status: number,
+  result: ApiResponse
+): {
+  title: string;
+  message: string;
+} => {
+  const serverMessage =
+    extractApiMessage(result);
+
+  const serverCode =
+    extractApiCode(result);
+
+  if (
+    serverCode ===
+      "CAMPAIGN_HISTORY_TOO_LONG" ||
+    isCampaignLengthError(
+      serverMessage
+    )
+  ) {
+    return {
+      title:
+        "El CRM no pudo actualizar el contacto",
+      message:
+        "Este contacto tiene un historial de campañas demasiado extenso. Solicita al administrador del CRM que revise el contacto.",
+    };
+  }
+
+  if (serverCode === "VALIDATION_ERROR") {
+    return {
+      title: "Revisa los datos ingresados",
+      message:
+        serverMessage ||
+        "Uno o más campos tienen un formato incorrecto.",
+    };
+  }
+
+  if (status === 400) {
+    return {
+      title: "Datos no válidos",
+      message:
+        serverMessage ||
+        "Revisa el nombre, celular, correo electrónico y número de documento.",
+    };
+  }
+
+  if (status === 401 || status === 403) {
+    return {
+      title: "API no autorizada",
+      message:
+        "El servidor no tiene autorización para registrar el lead.",
+    };
+  }
+
+  if (status === 404) {
+    return {
+      title: "Ruta de leads no encontrada",
+      message:
+        "No se encontró la ruta /api/leads.",
+    };
+  }
+
+  if (
+    status === 408 ||
+    status === 504
+  ) {
+    return {
+      title: "El servidor tardó demasiado",
+      message:
+        "La solicitud superó el tiempo máximo permitido.",
+    };
+  }
+
+  if (status === 413) {
+    return {
+      title: "Información demasiado extensa",
+      message:
+        "La información enviada supera el tamaño permitido.",
+    };
+  }
+
+  if (status === 415) {
+    return {
+      title: "Formato no permitido",
+      message:
+        "El servidor requiere que la solicitud se envíe como JSON.",
+    };
+  }
+
+  if (status === 422) {
+    return {
+      title:
+        "No se pudieron procesar los datos",
+      message:
+        serverMessage ||
+        "El servidor rechazó uno o más campos.",
+    };
+  }
+
+  if (status === 429) {
+    return {
+      title: "Demasiadas solicitudes",
+      message:
+        "Espera unos minutos antes de volver a enviar el formulario.",
+    };
+  }
+
+  if (status >= 500) {
+    return {
+      title: "Error del servidor",
+      message:
+        serverMessage ||
+        "El servidor de leads no pudo procesar la solicitud.",
+    };
+  }
+
+  return {
+    title: "No pudimos enviar tus datos",
+    message:
+      serverMessage ||
+      result.message ||
+      `La solicitud no pudo procesarse. Código ${status}.`,
+  };
 };
 
 /* =========================================================
@@ -148,6 +370,9 @@ export default function NeoOrigenLocation() {
   const [isSending, setIsSending] =
     useState(false);
 
+  const submitLockRef =
+    useRef(false);
+
   const [toast, setToast] =
     useState<ToastState | null>(null);
 
@@ -156,7 +381,7 @@ export default function NeoOrigenLocation() {
   }, []);
 
   const showToast = (
-    toastData: FeedbackToastData,
+    toastData: FeedbackToastData
   ) => {
     setToast({
       ...toastData,
@@ -164,16 +389,19 @@ export default function NeoOrigenLocation() {
     });
   };
 
-  /* =========================================================
-     ENVÍO DEL FORMULARIO
-  ========================================================= */
-
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
 
-    if (isSending) return;
+    if (
+      isSending ||
+      submitLockRef.current
+    ) {
+      return;
+    }
+
+    submitLockRef.current = true;
 
     const form =
       event.currentTarget;
@@ -188,78 +416,192 @@ export default function NeoOrigenLocation() {
           "Completa correctamente los campos requeridos.",
       });
 
+      submitLockRef.current = false;
       return;
     }
 
     const formData =
       new FormData(form);
 
-    const fullName = String(
-      formData.get("fullName") ?? "",
-    ).trim();
+    const fullName =
+      String(
+        formData.get("fullName") ?? ""
+      )
+        .replace(/\s+/g, " ")
+        .trim();
 
-    const phone = String(
-      formData.get("phone") ?? "",
-    ).replace(/\D/g, "");
+    const phone =
+      String(
+        formData.get("phone") ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 9);
 
-    const interest = String(
-      formData.get("interest") ?? "",
-    ).trim();
+    const email =
+      String(
+        formData.get("email") ?? ""
+      )
+        .trim()
+        .toLowerCase();
 
-    if (fullName.length < 3) {
+    const dni =
+      String(
+        formData.get("dni") ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    const message =
+      String(
+        formData.get("message") ?? ""
+      ).trim();
+
+    const consent =
+      formData.get("consent") ===
+      "accepted";
+
+    const nameRegex =
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+    const phoneRegex =
+      /^9\d{8}$/;
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    const dniRegex =
+      /^\d{8}$/;
+
+    if (!nameRegex.test(fullName)) {
       showToast({
         variant: "error",
-        title: "Revisa tu nombre",
+        title: "Nombre no válido",
         message:
-          "Ingresa tu nombre completo para continuar.",
+          "Ingresa tu nombre completo usando letras y espacios.",
       });
 
+      submitLockRef.current = false;
       return;
     }
 
-    if (!/^9\d{8}$/.test(phone)) {
+    if (!phoneRegex.test(phone)) {
       showToast({
         variant: "error",
-        title: "Celular incorrecto",
+        title: "Celular no válido",
         message:
-          "Ingresa un celular peruano de 9 dígitos que empiece con 9.",
+          "El celular debe tener 9 dígitos y comenzar con 9.",
       });
 
+      submitLockRef.current = false;
       return;
+    }
+
+    if (
+      email &&
+      !emailRegex.test(email)
+    ) {
+      showToast({
+        variant: "error",
+        title: "Correo no válido",
+        message:
+          "Ingresa un correo válido o deja el campo vacío.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (
+      dni &&
+      !dniRegex.test(dni)
+    ) {
+      showToast({
+        variant: "error",
+        title:
+          "Número de documento no válido",
+        message:
+          "El número de documento debe contener exactamente 8 dígitos o dejarse vacío.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (message.length > 250) {
+      showToast({
+        variant: "error",
+        title: "Mensaje demasiado largo",
+        message:
+          "El mensaje no debe superar los 250 caracteres.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    if (!consent) {
+      showToast({
+        variant: "error",
+        title:
+          "Consentimiento requerido",
+        message:
+          "Debes aceptar la autorización de contacto.",
+      });
+
+      submitLockRef.current = false;
+      return;
+    }
+
+    const clientMetadata:
+      Record<string, string> = {
+        origenRuta:
+          window.location.pathname,
+
+        origenComponente:
+          COMPONENT_NAME,
+
+        tipoLead:
+          LEAD_TYPE,
+      };
+
+    if (message) {
+      clientMetadata.mensaje =
+        message;
     }
 
     const leadData = {
-      nombres_completos:
-        fullName,
+      fuente_id:
+        SOURCE_ID,
 
       telefono:
         phone,
 
-      email:
-        "",
+      nombre:
+        fullName,
 
-      proyecto_interes:
-        PROJECT_NAME,
+      email,
 
-      categoria_interes:
-        interest ||
-        PROJECT_CATEGORY,
+      dni,
 
-      fuente_prospeccion:
-        "Web",
+      campaña:
+        CAMPAIGN_NAME,
 
-      mensaje:
-        `Solicitud de información enviada desde la sección de ubicación de ${PROJECT_NAME}. Interés: ${
-          interest ||
-          PROJECT_CATEGORY
-        }.`,
+      anuncio:
+        AD_NAME,
 
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        `NeoOrigenLocation - ${PROJECT_NAME}`,
+      msj_client:
+        JSON.stringify(
+          clientMetadata
+        ),
     };
+
+    const controller =
+      new AbortController();
+
+    const timeoutId =
+      window.setTimeout(() => {
+        controller.abort();
+      }, REQUEST_TIMEOUT);
 
     try {
       setIsSending(true);
@@ -274,38 +616,63 @@ export default function NeoOrigenLocation() {
             headers: {
               "Content-Type":
                 "application/json",
+
               Accept:
                 "application/json",
             },
 
             body:
               JSON.stringify(
-                leadData,
+                leadData
               ),
 
             cache:
               "no-store",
-          },
+
+            signal:
+              controller.signal,
+          }
         );
 
       const result =
         await readApiResponse(
-          response,
+          response
         );
 
-      if (
+      const requestFailed =
         !response.ok ||
-        result?.success === false
-      ) {
+        hasApiFailure(result);
+
+      if (requestFailed) {
+        const friendlyError =
+          getFriendlyServerError(
+            response.status,
+            result
+          );
+
+        console.error(
+          "Error API Neo Origen:",
+          {
+            status:
+              response.status,
+
+            result,
+
+            payload: {
+              ...leadData,
+
+              msj_client:
+                clientMetadata,
+            },
+          }
+        );
+
         showToast({
           variant: "error",
           title:
-            "No pudimos enviar tus datos",
+            friendlyError.title,
           message:
-            getApiErrorMessage(
-              result,
-              response.status,
-            ),
+            friendlyError.message,
         });
 
         return;
@@ -314,16 +681,37 @@ export default function NeoOrigenLocation() {
       form.reset();
 
       showToast(
-        SUCCESS_TOAST,
+        SUCCESS_TOAST
       );
-    } catch {
-      showToast(
-        ERROR_TOAST,
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Neo Origen:",
+        error
       );
+
+      if (
+        error instanceof Error &&
+        error.name === "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "El servidor tardó demasiado",
+          message:
+            "La solicitud superó los 20 segundos de espera.",
+        });
+
+        return;
+      }
+
+      showToast(ERROR_TOAST);
     } finally {
-      setIsSending(
-        false,
+      window.clearTimeout(
+        timeoutId
       );
+
+      submitLockRef.current = false;
+      setIsSending(false);
     }
   };
 
@@ -487,7 +875,6 @@ export default function NeoOrigenLocation() {
               onSubmit={
                 handleSubmit
               }
-              noValidate
             >
               {/* NOMBRE */}
 
@@ -500,10 +887,18 @@ export default function NeoOrigenLocation() {
                   placeholder="Ej. Carlos Mendoza"
                   autoComplete="name"
                   minLength={3}
-                  maxLength={100}
+                  maxLength={80}
+                  title="Ingresa tu nombre usando letras y espacios."
                   disabled={
                     isSending
                   }
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]/g, "")
+                        .replace(/\s{2,}/g, " ")
+                        .slice(0, 80);
+                  }}
                   required
                 />
               </label>
@@ -530,6 +925,53 @@ export default function NeoOrigenLocation() {
                 />
               </label>
 
+
+              {/* CORREO */}
+
+              <label>
+                Correo opcional
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
+                  title="Ingresa un correo válido o deja el campo vacío."
+                  disabled={
+                    isSending
+                  }
+                />
+              </label>
+
+              {/* NÚMERO DE DOCUMENTO */}
+
+              <label>
+                Número de documento opcional
+
+                <input
+                  type="text"
+                  name="dni"
+                  placeholder="12345678"
+                  autoComplete="off"
+                  inputMode="numeric"
+                  pattern="[0-9]{8}"
+                  minLength={8}
+                  maxLength={8}
+                  title="Ingresa un número de documento de 8 dígitos o deja el campo vacío."
+                  disabled={
+                    isSending
+                  }
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(/\D/g, "")
+                        .slice(0, 8);
+                  }}
+                />
+              </label>
+
+
               {/* CONSENTIMIENTO */}
 
               <label
@@ -542,6 +984,9 @@ export default function NeoOrigenLocation() {
                   name="consent"
                   value="accepted"
                   defaultChecked
+                  disabled={
+                    isSending
+                  }
                   required
                 />
 

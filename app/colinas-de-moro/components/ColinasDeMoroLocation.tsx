@@ -9,13 +9,8 @@ import {
   WhatsappLogoIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import {
-  useCallback,
-  useState,
-} from "react";
-import type {
-  FormEvent,
-} from "react";
+import { useCallback, useState } from "react";
+import type { FormEvent } from "react";
 
 import FeedbackToast, {
   type FeedbackToastData,
@@ -28,10 +23,16 @@ import {
 
 import styles from "./ColinasDeMoroLocation.module.css";
 
-const SOURCE_ID = 4 as const;
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
 
-const PROJECT_NAME =
-  "Las Colinas de Moro";
+const SOURCE_ID = 4 as const;
+const CAMPAIGN_CODE = "Colinas de Moro";
+const AD_NAME = "Web";
+const LEAD_TYPE = "WEB ANCOSUR";
+const COMPONENT_NAME = "ColinasDeMoroLocation";
+const REQUEST_TIMEOUT = 20_000;
 
 const GOOGLE_MAPS_EMBED =
   `https://www.google.com/maps?q=${encodeURIComponent(
@@ -43,48 +44,72 @@ const GOOGLE_MAPS_LINK =
     locationColinasDeMoro.googleMapsQuery
   )}`;
 
-type ToastState =
-  FeedbackToastData & {
-    id: number;
-  };
+/* =========================================================
+   TIPOS
+========================================================= */
+
+type ToastState = FeedbackToastData & {
+  id: number;
+};
+
+type JsonObject = Record<string, unknown>;
 
 type ApiResponse = {
   success?: boolean;
-  response?: string;
+  accion?: string;
+  id?: number;
+  code?: string;
   message?: string;
   error?: string;
   data?: unknown;
+  response?: unknown;
+  errors?: unknown;
   [key: string]: unknown;
 };
 
+/* =========================================================
+   TOASTS
+========================================================= */
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
-  title:
-    "¡Datos enviados correctamente!",
+  title: "¡Datos enviados correctamente!",
   message:
     "Un asesor de ANCOSUR se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
   variant: "error",
-  title:
-    "No pudimos enviar tus datos",
+  title: "No pudimos enviar tus datos",
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
+};
+
+/* =========================================================
+   UTILIDADES DE RESPUESTA
+========================================================= */
+
+const isJsonObject = (
+  value: unknown
+): value is JsonObject => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
 };
 
 const readApiResponse = async (
   response: Response
 ): Promise<ApiResponse> => {
-  const responseText =
-    await response.text();
+  const responseText = await response.text();
 
   if (!responseText.trim()) {
     return {
       success: response.ok,
       message: response.ok
         ? "Solicitud procesada correctamente."
-        : `Error HTTP ${response.status}.`,
+        : `El servidor respondió con el código ${response.status}.`,
     };
   }
 
@@ -92,11 +117,7 @@ const readApiResponse = async (
     const parsed: unknown =
       JSON.parse(responseText);
 
-    if (
-      typeof parsed === "object" &&
-      parsed !== null &&
-      !Array.isArray(parsed)
-    ) {
+    if (isJsonObject(parsed)) {
       return parsed as ApiResponse;
     }
 
@@ -111,6 +132,324 @@ const readApiResponse = async (
     };
   }
 };
+
+/*
+ * Detecta errores aunque la API responda:
+ *
+ * {
+ *   success: true,
+ *   data: {
+ *     success: false
+ *   }
+ * }
+ */
+const hasApiFailure = (
+  value: unknown
+): boolean => {
+  if (!isJsonObject(value)) {
+    return false;
+  }
+
+  if (value.success === false) {
+    return true;
+  }
+
+  return (
+    hasApiFailure(value.data) ||
+    hasApiFailure(value.response)
+  );
+};
+
+const extractApiMessage = (
+  value: unknown
+): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.error === "string" &&
+    value.error.trim()
+  ) {
+    return value.error.trim();
+  }
+
+  const dataMessage =
+    extractApiMessage(value.data);
+
+  if (dataMessage) {
+    return dataMessage;
+  }
+
+  const responseMessage =
+    extractApiMessage(value.response);
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (
+    typeof value.message === "string" &&
+    value.message.trim()
+  ) {
+    return value.message.trim();
+  }
+
+  return "";
+};
+
+const extractApiCode = (
+  value: unknown
+): string => {
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.code === "string" &&
+    value.code.trim()
+  ) {
+    return value.code.trim();
+  }
+
+  return (
+    extractApiCode(value.data) ||
+    extractApiCode(value.response)
+  );
+};
+
+/* =========================================================
+   DETECCIÓN DE ERRORES DEL CRM
+========================================================= */
+
+const isCampaignLengthError = (
+  message: string
+): boolean => {
+  const normalized =
+    message.toLowerCase();
+
+  return (
+    normalized.includes(
+      "sqlstate[22001]"
+    ) ||
+    normalized.includes(
+      "data too long for column 'campaña'"
+    ) ||
+    normalized.includes(
+      'data too long for column "campaña"'
+    ) ||
+    (
+      normalized.includes("1406") &&
+      normalized.includes("campaña")
+    )
+  );
+};
+
+const isDuplicateError = (
+  message: string
+): boolean => {
+  const normalized =
+    message.toLowerCase();
+
+  return (
+    normalized.includes(
+      "duplicate entry"
+    ) ||
+    normalized.includes(
+      "already exists"
+    ) ||
+    normalized.includes(
+      "ya existe"
+    ) ||
+    normalized.includes(
+      "duplicado"
+    )
+  );
+};
+
+const getFriendlyServerError = (
+  status: number,
+  result: ApiResponse
+): {
+  title: string;
+  message: string;
+} => {
+  const serverMessage =
+    extractApiMessage(result);
+
+  const serverCode =
+    extractApiCode(result);
+
+  if (
+    serverCode ===
+      "CAMPAIGN_HISTORY_TOO_LONG" ||
+    isCampaignLengthError(
+      serverMessage
+    )
+  ) {
+    return {
+      title:
+        "El CRM no pudo actualizar el contacto",
+
+      message:
+        "El historial de campañas de este contacto superó el límite permitido. El administrador del CRM debe revisar este registro.",
+    };
+  }
+
+  if (
+    status === 409 ||
+    isDuplicateError(
+      serverMessage
+    )
+  ) {
+    return {
+      title:
+        "El contacto ya está registrado",
+
+      message:
+        serverMessage ||
+        "Este contacto ya se encuentra registrado en el CRM.",
+    };
+  }
+
+  if (
+    serverCode ===
+    "VALIDATION_ERROR"
+  ) {
+    return {
+      title:
+        "Revisa los datos ingresados",
+
+      message:
+        serverMessage ||
+        "Uno o más campos tienen un formato incorrecto.",
+    };
+  }
+
+  if (status === 400) {
+    return {
+      title:
+        "Datos no válidos",
+
+      message:
+        serverMessage ||
+        "Revisa el nombre, celular, correo electrónico y DNI.",
+    };
+  }
+
+  if (status === 401) {
+    return {
+      title:
+        "API no autenticada",
+
+      message:
+        "El servidor no pudo autenticarse con el servicio de leads.",
+    };
+  }
+
+  if (status === 403) {
+    return {
+      title:
+        "Acceso denegado",
+
+      message:
+        "El servidor no tiene permisos para registrar el lead.",
+    };
+  }
+
+  if (status === 404) {
+    return {
+      title:
+        "Ruta no encontrada",
+
+      message:
+        "No se encontró la ruta /api/leads.",
+    };
+  }
+
+  if (
+    status === 408 ||
+    status === 504
+  ) {
+    return {
+      title:
+        "El servidor tardó demasiado",
+
+      message:
+        "La solicitud superó el tiempo máximo permitido.",
+    };
+  }
+
+  if (status === 413) {
+    return {
+      title:
+        "Información demasiado extensa",
+
+      message:
+        "El contenido enviado supera el tamaño permitido por el servidor.",
+    };
+  }
+
+  if (status === 415) {
+    return {
+      title:
+        "Formato no permitido",
+
+      message:
+        "El servidor requiere que la solicitud se envíe como JSON.",
+    };
+  }
+
+  if (status === 422) {
+    return {
+      title:
+        "No se pudieron procesar los datos",
+
+      message:
+        serverMessage ||
+        "El servidor recibió la solicitud, pero rechazó uno o más campos.",
+    };
+  }
+
+  if (status === 429) {
+    return {
+      title:
+        "Demasiadas solicitudes",
+
+      message:
+        "Espera unos minutos antes de volver a enviar el formulario.",
+    };
+  }
+
+  if (status >= 500) {
+    return {
+      title:
+        "Error del servidor",
+
+      message:
+        serverMessage ||
+        "El servidor de leads no pudo procesar la solicitud.",
+    };
+  }
+
+  return {
+    title:
+      "No pudimos enviar tus datos",
+
+    message:
+      serverMessage ||
+      result.message ||
+      `La solicitud no pudo procesarse. Código ${status}.`,
+  };
+};
+
+/* =========================================================
+   COMPONENTE
+========================================================= */
 
 export default function ColinasDeMoroLocation() {
   const [
@@ -139,6 +478,10 @@ export default function ColinasDeMoroLocation() {
     });
   };
 
+  /* =======================================================
+     ENVÍO DEL FORMULARIO
+  ======================================================= */
+
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
   ) => {
@@ -153,6 +496,15 @@ export default function ColinasDeMoroLocation() {
 
     if (!form.checkValidity()) {
       form.reportValidity();
+
+      showToast({
+        variant: "error",
+        title:
+          "Revisa tus datos",
+        message:
+          "Completa correctamente los campos obligatorios.",
+      });
+
       return;
     }
 
@@ -161,29 +513,61 @@ export default function ColinasDeMoroLocation() {
 
     const fullName =
       String(
-        formData.get("fullName") ?? ""
-      ).trim();
+        formData.get(
+          "fullName"
+        ) ?? ""
+      )
+        .replace(/\s+/g, " ")
+        .trim();
 
     const phone =
       String(
-        formData.get("phone") ?? ""
-      ).replace(/\D/g, "");
+        formData.get(
+          "phone"
+        ) ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 9);
 
+    /*
+     * Correo electrónico opcional.
+     */
     const email =
       String(
-        formData.get("email") ?? ""
+        formData.get(
+          "email"
+        ) ?? ""
       )
         .trim()
         .toLowerCase();
 
-    const interest =
+    /*
+     * DNI opcional.
+     */
+    const dni =
       String(
-        formData.get("interest") ?? ""
+        formData.get(
+          "dni"
+        ) ?? ""
+      )
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    /*
+     * Mensaje opcional.
+     * No se genera ningún mensaje automático.
+     */
+    const message =
+      String(
+        formData.get(
+          "message"
+        ) ?? ""
       ).trim();
 
     const consent =
-      formData.get("consent") ===
-      "accepted";
+      formData.get(
+        "consent"
+      ) === "accepted";
 
     const nameRegex =
       /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
@@ -194,8 +578,17 @@ export default function ColinasDeMoroLocation() {
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+    const dniRegex =
+      /^\d{8}$/;
+
+    /* =====================================================
+       VALIDACIONES
+    ===================================================== */
+
     if (
-      !nameRegex.test(fullName)
+      !nameRegex.test(
+        fullName
+      )
     ) {
       showToast({
         variant: "error",
@@ -209,7 +602,9 @@ export default function ColinasDeMoroLocation() {
     }
 
     if (
-      !phoneRegex.test(phone)
+      !phoneRegex.test(
+        phone
+      )
     ) {
       showToast({
         variant: "error",
@@ -222,7 +617,12 @@ export default function ColinasDeMoroLocation() {
       return;
     }
 
+    /*
+     * El correo se valida solamente
+     * cuando el usuario escribe un valor.
+     */
     if (
+      email &&
       !emailRegex.test(email)
     ) {
       showToast({
@@ -230,19 +630,40 @@ export default function ColinasDeMoroLocation() {
         title:
           "Correo no válido",
         message:
-          "Ingresa un correo electrónico válido.",
+          "Ingresa un correo electrónico válido o deja el campo vacío.",
       });
 
       return;
     }
 
-    if (!interest) {
+    /*
+     * El DNI se valida solamente
+     * cuando el usuario escribe un valor.
+     */
+    if (
+      dni &&
+      !dniRegex.test(dni)
+    ) {
       showToast({
         variant: "error",
         title:
-          "Selecciona un metraje",
+          "DNI no válido",
         message:
-          "Selecciona el metraje o tipo de asesoría que necesitas.",
+          "El DNI debe contener exactamente 8 dígitos o dejarse vacío.",
+      });
+
+      return;
+    }
+
+    if (
+      message.length > 250
+    ) {
+      showToast({
+        variant: "error",
+        title:
+          "Mensaje demasiado largo",
+        message:
+          "El mensaje no debe superar los 250 caracteres.",
       });
 
       return;
@@ -260,13 +681,38 @@ export default function ColinasDeMoroLocation() {
       return;
     }
 
-    const defaultMessage =
-      `Solicitud de información sobre ${PROJECT_NAME}. Metraje de interés: ${interest}.`;
+    /*
+     * msj_client contiene únicamente:
+     *
+     * - Ruta actual.
+     * - Componente que envía el formulario.
+     * - Tipo de lead.
+     *
+     * No contiene:
+     *
+     * - Nombre.
+     * - Celular.
+     * - Correo.
+     * - DNI.
+     * - Mensaje.
+     * - Dirección.
+     * - Referencia.
+     * - Precio.
+     * - Metraje.
+     */
+    const clientMetadata = {
+      origenRuta:
+        window.location.pathname,
+
+      origenComponente:
+        COMPONENT_NAME,
+
+      tipoLead:
+        LEAD_TYPE,
+    };
+
 
     const leadData = {
-      fuente_id:
-        SOURCE_ID,
-
       telefono:
         phone,
 
@@ -275,61 +721,33 @@ export default function ColinasDeMoroLocation() {
 
       email,
 
-      dni: "",
+      dni,
 
       campaña:
-        `Proyecto ${PROJECT_NAME}`,
+        CAMPAIGN_CODE,
 
       anuncio:
-        `Formulario ubicación - ${PROJECT_NAME}`,
+        AD_NAME,
 
       msj_client:
-        JSON.stringify({
-          proyecto:
-            PROJECT_NAME,
+        JSON.stringify(
+          clientMetadata
+        ),
 
-          categoria_interes:
-            "Lotes",
-
-          metraje_interes:
-            interest,
-
-          nombre:
-            fullName,
-
-          telefono:
-            phone,
-
-          correo:
-            email,
-
-          mensaje:
-            defaultMessage,
-
-          direccion_proyecto:
-            locationColinasDeMoro
-              .projectAddress,
-
-          referencia_proyecto:
-            locationColinasDeMoro
-              .projectReference,
-
-          origen_ruta:
-            window.location.pathname,
-
-          origen_componente:
-            `ColinasDeMoroLocation - ${PROJECT_NAME}`,
-
-          consentimiento:
-            consent,
-
-          fuente_id:
-            SOURCE_ID,
-        }),
-
-      comentario:
-        defaultMessage,
+      fuente_id:
+        SOURCE_ID,
     };
+
+    const controller =
+      new AbortController();
+
+    const timeoutId =
+      window.setTimeout(
+        () => {
+          controller.abort();
+        },
+        REQUEST_TIMEOUT
+      );
 
     try {
       setIsSending(true);
@@ -353,6 +771,9 @@ export default function ColinasDeMoroLocation() {
               JSON.stringify(
                 leadData
               ),
+
+            signal:
+              controller.signal,
           }
         );
 
@@ -361,10 +782,16 @@ export default function ColinasDeMoroLocation() {
           response
         );
 
-      if (
+      const requestFailed =
         !response.ok ||
-        result.success === false
-      ) {
+        hasApiFailure(result);
+
+      if (requestFailed) {
+        const serverMessage =
+          extractApiMessage(
+            result
+          );
+
         console.error(
           "Error API Las Colinas de Moro:",
           {
@@ -373,41 +800,53 @@ export default function ColinasDeMoroLocation() {
 
             result,
 
-            leadData,
+            serverMessage,
+
+            payload: {
+              telefono:
+                phone,
+
+              nombre:
+                fullName,
+
+              email:
+                email || "",
+
+              dni:
+                dni || "",
+
+              campaña:
+                CAMPAIGN_CODE,
+
+              anuncio:
+                AD_NAME,
+
+              msj_client:
+                clientMetadata,
+
+              comentario:
+                message || "",
+
+              fuente_id:
+                SOURCE_ID,
+            },
           }
         );
 
-        const nestedData =
-          typeof result.data ===
-            "object" &&
-          result.data !== null &&
-          !Array.isArray(
-            result.data
-          )
-            ? result.data as Record<
-                string,
-                unknown
-              >
-            : null;
-
-        const nestedError =
-          typeof nestedData?.error ===
-          "string"
-            ? nestedData.error
-            : "";
-
-        const apiMessage =
-          result.message ||
-          result.error ||
-          nestedError ||
-          `No se pudo enviar la solicitud. Código ${response.status}.`;
+        const friendlyError =
+          getFriendlyServerError(
+            response.status,
+            result
+          );
 
         showToast({
           variant: "error",
+
           title:
-            "No pudimos enviar tus datos",
+            friendlyError.title,
+
           message:
-            String(apiMessage),
+            friendlyError.message,
         });
 
         return;
@@ -415,27 +854,53 @@ export default function ColinasDeMoroLocation() {
 
       form.reset();
 
-      showToast(
-        SUCCESS_TOAST
-      );
+      showToast({
+        ...SUCCESS_TOAST,
+
+        message:
+          result.message ||
+          SUCCESS_TOAST.message,
+      });
     } catch (error) {
       console.error(
         "Error enviando formulario de Las Colinas de Moro:",
         error
       );
 
+      if (
+        error instanceof Error &&
+        error.name === "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "El servidor tardó demasiado",
+          message:
+            "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+        });
+
+        return;
+      }
+
       showToast({
         ...ERROR_TOAST,
-
+        title:
+          "No pudimos conectar con el servidor",
         message:
-          error instanceof Error
-            ? error.message
-            : ERROR_TOAST.message,
+          "Comprueba tu conexión a Internet e inténtalo nuevamente.",
       });
     } finally {
+      window.clearTimeout(
+        timeoutId
+      );
+
       setIsSending(false);
     }
   };
+
+  /* =======================================================
+     INTERFAZ
+  ======================================================= */
 
   return (
     <>
@@ -725,7 +1190,7 @@ export default function ColinasDeMoroLocation() {
               </label>
 
               <label htmlFor="colinas-location-email">
-                Correo electrónico
+                Correo electrónico opcional
 
                 <input
                   id="colinas-location-email"
@@ -734,51 +1199,45 @@ export default function ColinasDeMoroLocation() {
                   placeholder="correo@gmail.com"
                   autoComplete="email"
                   maxLength={120}
-                  title="Ingresa un correo electrónico válido."
+                  title="Ingresa un correo válido o deja el campo vacío."
                   disabled={
                     isSending
                   }
-                  required
                 />
               </label>
 
-              <label htmlFor="colinas-location-interest">
-                Metraje de interés
+              <label htmlFor="colinas-location-dni">
+                DNI opcional
 
-                <select
-                  id="colinas-location-interest"
-                  name="interest"
-                  defaultValue=""
+                <input
+                  id="colinas-location-dni"
+                  type="text"
+                  name="dni"
+                  placeholder="12345678"
+                  autoComplete="off"
+                  inputMode="numeric"
+                  pattern="[0-9]{8}"
+                  minLength={8}
+                  maxLength={8}
+                  title="Ingresa un DNI de 8 dígitos o deja el campo vacío."
                   disabled={
                     isSending
                   }
-                  required
-                >
-                  <option
-                    value=""
-                    disabled
-                  >
-                    Selecciona una opción
-                  </option>
-
-                  <option value="Lote desde 90 m²">
-                    Lote desde 90 m²
-                  </option>
-
-                  <option value="Lote de metraje intermedio">
-                    Lote de metraje
-                    intermedio
-                  </option>
-
-                  <option value="Lote hasta 285 m²">
-                    Lote hasta 285 m²
-                  </option>
-
-                  <option value="Asesoría personalizada">
-                    Necesito asesoría
-                    personalizada
-                  </option>
-                </select>
+                  onInput={(
+                    event
+                  ) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(
+                          /\D/g,
+                          ""
+                        )
+                        .slice(
+                          0,
+                          8
+                        );
+                  }}
+                />
               </label>
 
               <label
@@ -927,7 +1386,9 @@ export default function ColinasDeMoroLocation() {
       </section>
 
       <FeedbackToast
-        key={toast?.id}
+        key={
+          toast?.id
+        }
         open={
           toast !== null
         }
@@ -936,10 +1397,12 @@ export default function ColinasDeMoroLocation() {
           "info"
         }
         title={
-          toast?.title ?? ""
+          toast?.title ??
+          ""
         }
         message={
-          toast?.message ?? ""
+          toast?.message ??
+          ""
         }
         onClose={
           closeToast

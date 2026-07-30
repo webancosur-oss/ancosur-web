@@ -143,7 +143,7 @@ export default function CuscoPromoHero() {
 
             <div>
               <span>Duración del viaje</span>
-              <strong>4 días y 3 noches</strong>
+              <strong>3 días y 2 noches</strong>
             </div>
           </article>
 

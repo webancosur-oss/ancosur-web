@@ -416,10 +416,6 @@ export default function Navbar() {
                 <span>
                   BENEFICIOS ANCOSUR
                 </span>
-
-                <strong>
-                  Elige una opción
-                </strong>
               </div>
 
               <div

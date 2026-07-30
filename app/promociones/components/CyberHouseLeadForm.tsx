@@ -3,12 +3,14 @@
 import {
   CalendarCheckIcon,
   EnvelopeSimpleIcon,
+  IdentificationCardIcon,
   PaperPlaneTiltIcon,
   PhoneIcon,
   UserIcon,
 } from "@phosphor-icons/react";
 import {
   useCallback,
+  useRef,
   useState,
 } from "react";
 import type {
@@ -25,10 +27,20 @@ import {
 
 import styles from "./CyberHouseLeadForm.module.css";
 
+const SOURCE_ID = 4 as const;
+const CAMPAIGN_NAME =
+  "Promociones Cyber House";
+const AD_NAME = "Web";
+const LEAD_TYPE = "WEB ANCOSUR";
+const COMPONENT_NAME =
+  "CyberHouseLeadForm";
+const REQUEST_TIMEOUT = 20_000;
+
 type FormDataState = {
   fullName: string;
   phone: string;
   email: string;
+  dni: string;
   project: string;
   visitTime: string;
   message: string;
@@ -43,11 +55,20 @@ type FormErrors = Partial<
   >
 >;
 
+type JsonObject =
+  Record<string, unknown>;
+
 type ApiResponse = {
   success?: boolean;
-  response?: string;
+  accion?: string;
+  id?: number;
+  code?: string;
   message?: string;
+  error?: string;
   data?: unknown;
+  response?: unknown;
+  errors?: unknown;
+  [key: string]: unknown;
 };
 
 type ToastState =
@@ -55,86 +76,264 @@ type ToastState =
     id: number;
   };
 
-const INITIAL_FORM: FormDataState = {
-  fullName: "",
-  phone: "",
-  email: "",
-  project: "",
-  visitTime: "",
-  message: "",
-  consent: true,
-  website: "",
-};
+const INITIAL_FORM:
+  FormDataState = {
+    fullName: "",
+    phone: "",
+    email: "",
+    dni: "",
+    project: "",
+    visitTime: "",
+    message: "",
+    consent: true,
+    website: "",
+  };
 
-const SUCCESS_TOAST: FeedbackToastData = {
-  variant: "success",
-  title:
-    "¡Registro enviado correctamente!",
-  message:
-    "Un asesor de ANCOSUR se comunicará contigo para confirmar tu atención.",
-};
+const SUCCESS_TOAST:
+  FeedbackToastData = {
+    variant: "success",
 
-const ERROR_TOAST: FeedbackToastData = {
-  variant: "error",
-  title:
-    "No pudimos enviar tus datos",
-  message:
-    "Verifica tu conexión e inténtalo nuevamente.",
+    title:
+      "¡Visita solicitada correctamente!",
+
+    message:
+      "Gracias por tu interés en nuestras promociones. Un asesor de ANCOSUR se comunicará contigo para confirmar el horario de tu visita.",
+  };
+
+const ERROR_TOAST:
+  FeedbackToastData = {
+    variant: "error",
+
+    title:
+      "No pudimos enviar tus datos",
+
+    message:
+      "Verifica tu conexión e inténtalo nuevamente.",
+  };
+
+const isJsonObject = (
+  value: unknown,
+): value is JsonObject => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
 };
 
 const readApiResponse = async (
-  response: Response
+  response: Response,
 ): Promise<ApiResponse> => {
-  const contentType =
-    response.headers.get(
-      "content-type"
-    );
-
-  if (
-    contentType?.includes(
-      "application/json"
-    )
-  ) {
-    try {
-      return await response.json();
-    } catch {
-      return {
-        success: false,
-        message:
-          "La API devolvió una respuesta no válida.",
-      };
-    }
-  }
-
   const responseText =
     await response.text();
 
-  return {
-    success: response.ok,
-    message:
-      responseText ||
-      "No se recibió una respuesta de la API.",
-  };
+  if (!responseText.trim()) {
+    return {
+      success: response.ok,
+
+      message: response.ok
+        ? "Solicitud procesada correctamente."
+        : `El servidor respondió con el código ${response.status}.`,
+    };
+  }
+
+  try {
+    const parsed: unknown =
+      JSON.parse(responseText);
+
+    if (isJsonObject(parsed)) {
+      return parsed as ApiResponse;
+    }
+
+    return {
+      success: response.ok,
+      data: parsed,
+    };
+  } catch {
+    return {
+      success: response.ok,
+      message: responseText,
+    };
+  }
+};
+
+const hasApiFailure = (
+  value: unknown,
+): boolean => {
+  if (!isJsonObject(value)) {
+    return false;
+  }
+
+  if (value.success === false) {
+    return true;
+  }
+
+  return (
+    hasApiFailure(value.data) ||
+    hasApiFailure(value.response)
+  );
+};
+
+const extractApiMessage = (
+  value: unknown,
+): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.error === "string" &&
+    value.error.trim()
+  ) {
+    return value.error.trim();
+  }
+
+  const dataMessage =
+    extractApiMessage(value.data);
+
+  if (dataMessage) {
+    return dataMessage;
+  }
+
+  const responseMessage =
+    extractApiMessage(
+      value.response,
+    );
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (
+    typeof value.message === "string" &&
+    value.message.trim()
+  ) {
+    return value.message.trim();
+  }
+
+  return "";
+};
+
+const validateForm = (
+  formData: FormDataState,
+): FormErrors => {
+  const errors: FormErrors = {};
+
+  const fullName =
+    formData.fullName
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const phone =
+    formData.phone
+      .replace(/\D/g, "")
+      .slice(0, 9);
+
+  const email =
+    formData.email
+      .trim()
+      .toLowerCase();
+
+  const dni =
+    formData.dni
+      .replace(/\D/g, "")
+      .slice(0, 8);
+
+  const message =
+    formData.message.trim();
+
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+  const phoneRegex =
+    /^9\d{8}$/;
+
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  const dniRegex =
+    /^\d{8}$/;
+
+  if (!nameRegex.test(fullName)) {
+    errors.fullName =
+      "Ingresa tu nombre usando únicamente letras y espacios.";
+  }
+
+  if (!phoneRegex.test(phone)) {
+    errors.phone =
+      "El celular debe tener 9 dígitos y comenzar con 9.";
+  }
+
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    errors.email =
+      "Ingresa un correo válido o deja el campo vacío.";
+  }
+
+  if (
+    dni &&
+    !dniRegex.test(dni)
+  ) {
+    errors.dni =
+      "El número de documento debe tener exactamente 8 dígitos.";
+  }
+
+  if (!formData.project.trim()) {
+    errors.project =
+      "Selecciona el proyecto de tu interés.";
+  }
+
+  if (!formData.visitTime.trim()) {
+    errors.visitTime =
+      "Selecciona el horario para tu visita.";
+  }
+
+  if (message.length > 250) {
+    errors.message =
+      "El mensaje no debe superar los 250 caracteres.";
+  }
+
+  if (!formData.consent) {
+    errors.consent =
+      "Debes aceptar la autorización de contacto.";
+  }
+
+  return errors;
 };
 
 export default function CyberHouseLeadForm() {
-  const [formData, setFormData] =
-    useState<FormDataState>(
-      INITIAL_FORM
-    );
+  const [
+    formData,
+    setFormData,
+  ] = useState<FormDataState>(
+    INITIAL_FORM,
+  );
 
-  const [errors, setErrors] =
-    useState<FormErrors>({});
+  const [
+    errors,
+    setErrors,
+  ] = useState<FormErrors>({});
 
   const [
     isSending,
     setIsSending,
   ] = useState(false);
 
-  const [toast, setToast] =
-    useState<ToastState | null>(
-      null
-    );
+  const submitLockRef =
+    useRef(false);
+
+  const [
+    toast,
+    setToast,
+  ] = useState<ToastState | null>(
+    null,
+  );
 
   const closeToast =
     useCallback(() => {
@@ -142,7 +341,8 @@ export default function CyberHouseLeadForm() {
     }, []);
 
   const showToast = (
-    toastData: FeedbackToastData
+    toastData:
+      FeedbackToastData,
   ) => {
     setToast({
       ...toastData,
@@ -154,7 +354,7 @@ export default function CyberHouseLeadForm() {
     K extends keyof FormDataState,
   >(
     field: K,
-    value: FormDataState[K]
+    value: FormDataState[K],
   ) => {
     setFormData((previous) => ({
       ...previous,
@@ -167,70 +367,36 @@ export default function CyberHouseLeadForm() {
     }));
   };
 
-  const validateForm = (
-    form: HTMLFormElement
-  ): boolean => {
-    const newErrors: FormErrors =
-      {};
-
-    const fullName =
-      formData.fullName.trim();
-
-    const phone =
-      formData.phone.replace(
-        /\D/g,
-        ""
-      );
-
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
-
-    const nameRegex =
-      /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü.' -]{3,80}$/;
-
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-    if (!fullName) {
-      newErrors.fullName =
-        "Ingresa tu nombre completo.";
-    } else if (
-      !nameRegex.test(fullName)
-    ) {
-      newErrors.fullName =
-        "Ingresa un nombre válido.";
-    }
-
-    if (!phone) {
-      newErrors.phone =
-        "Ingresa tu número de celular.";
-    } else if (
-      !/^9\d{8}$/.test(phone)
-    ) {
-      newErrors.phone =
-        "El celular debe tener 9 dígitos y empezar con 9.";
-    }
+  const handleSubmit = async (
+    event:
+      FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
 
     if (
-      email &&
-      !emailRegex.test(email)
+      isSending ||
+      submitLockRef.current
     ) {
-      newErrors.email =
-        "Ingresa un correo válido.";
+      return;
     }
 
-    if (!formData.project) {
-      newErrors.project =
-        "Selecciona un proyecto.";
+    submitLockRef.current = true;
+
+    if (formData.website.trim()) {
+      submitLockRef.current = false;
+      return;
     }
 
-    setErrors(newErrors);
+    const validationErrors =
+      validateForm(formData);
+
+    setErrors(
+      validationErrors,
+    );
 
     const errorFields =
       Object.keys(
-        newErrors
+        validationErrors,
       ) as Array<
         keyof FormDataState
       >;
@@ -239,10 +405,23 @@ export default function CyberHouseLeadForm() {
       errorFields[0];
 
     if (firstError) {
+      showToast({
+        variant: "error",
+
+        title:
+          "Revisa tus datos",
+
+        message:
+          validationErrors[
+            firstError
+          ] ||
+          "Completa correctamente el formulario.",
+      });
+
       requestAnimationFrame(() => {
         const element =
-          form.elements.namedItem(
-            firstError
+          event.currentTarget.elements.namedItem(
+            firstError,
           );
 
         if (
@@ -258,151 +437,231 @@ export default function CyberHouseLeadForm() {
         }
       });
 
-      showToast({
-        variant: "error",
-        title: "Revisa tus datos",
-        message:
-          newErrors[firstError] ||
-          "Completa correctamente el formulario.",
-      });
-    }
-
-    return (
-      errorFields.length === 0
-    );
-  };
-
-  const handleSubmit = async (
-  event: FormEvent<HTMLFormElement>
-) => {
-  event.preventDefault();
-
-  if (isSending) {
-    return;
-  }
-
-  const form = event.currentTarget;
-
-  if (formData.website) {
-    return;
-  }
-
-  if (!validateForm(form)) {
-    return;
-  }
-
-  const fullName = formData.fullName.trim();
-
-  const phone = formData.phone.replace(
-    /\D/g,
-    ""
-  );
-
-  const email = formData.email
-    .trim()
-    .toLowerCase();
-
-  const project = formData.project.trim();
-
-  const visitTime =
-    formData.visitTime.trim();
-
-  const additionalMessage =
-    formData.message.trim();
-
-  const leadPayload = {
-    nombres_completos: fullName,
-
-    telefono: phone,
-
-    email,
-
-    proyecto_interes: project,
-
-    categoria_interes:
-      "Cyber House",
-
-    fuente_prospeccion: "Web",
-
-    mensaje:
-      `Registro para Cyber House ANCOSUR. Proyecto de interés: ${project}. Horario estimado de visita: ${
-        visitTime || "Por coordinar"
-      }.${
-        additionalMessage
-          ? ` Mensaje: ${additionalMessage}`
-          : ""
-      }`,
-
-    origen_ruta:
-      window.location.pathname,
-
-    origen_componente:
-      "Formulario Cyber House",
-  };
-
-  try {
-    setIsSending(true);
-    setToast(null);
-
-    const response = await fetch(
-      "/api/leads",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type":
-            "application/json",
-          Accept:
-            "application/json",
-        },
-        body: JSON.stringify(
-          leadPayload
-        ),
-      }
-    );
-
-    const result =
-      await readApiResponse(response);
-
-    if (
-      !response.ok ||
-      result?.success === false
-    ) {
-      const resultData =
-        result?.data as
-          | { error?: string }
-          | undefined;
-
-      const apiMessage =
-        result?.message ||
-        resultData?.error ||
-        `No se pudo enviar la solicitud. Código ${response.status}.`;
-
-      showToast({
-        variant: "error",
-        title:
-          "No pudimos registrar tu asistencia",
-        message: String(apiMessage),
-      });
-
+      submitLockRef.current = false;
       return;
     }
 
-    setFormData(INITIAL_FORM);
-    setErrors({});
+    const fullName =
+      formData.fullName
+        .replace(/\s+/g, " ")
+        .trim();
 
-    showToast(SUCCESS_TOAST);
-  } catch {
-    showToast({
-      variant: "error",
-      title:
-        "No pudimos conectar con la API",
-      message:
-        "Revisa tu conexión o intenta nuevamente en unos minutos.",
-    });
-  } finally {
-    setIsSending(false);
-  }
-};
+    const phone =
+      formData.phone
+        .replace(/\D/g, "")
+        .slice(0, 9);
+
+    const email =
+      formData.email
+        .trim()
+        .toLowerCase();
+
+    const dni =
+      formData.dni
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    const project =
+      formData.project.trim();
+
+    const visitTime =
+      formData.visitTime.trim();
+
+    const message =
+      formData.message.trim();
+
+    /*
+     * La campaña conserva únicamente su nombre.
+     *
+     * msj_client contiene una sola vez los datos
+     * técnicos para identificar el origen del lead.
+     *
+     * comentario contiene únicamente el texto escrito
+     * por el cliente y se omite cuando está vacío.
+     */
+    const clientMetadata:
+      Record<string, string> = {
+        origenRuta:
+          window.location.pathname,
+
+        origenComponente:
+          COMPONENT_NAME,
+
+        tipoLead:
+          LEAD_TYPE,
+
+        interes:
+          project,
+
+        horarioVisita:
+          visitTime,
+      };
+
+    const leadPayload = {
+      fuente_id:
+        SOURCE_ID,
+
+      telefono:
+        phone,
+
+      nombre:
+        fullName,
+
+      email,
+
+      dni,
+
+      campaña:
+        CAMPAIGN_NAME,
+
+      anuncio:
+        AD_NAME,
+
+      msj_client:
+        JSON.stringify(
+          clientMetadata,
+        ),
+
+      ...(message
+        ? {
+            comentario:
+              message,
+          }
+        : {}),
+    };
+
+    const controller =
+      new AbortController();
+
+    const timeoutId =
+      window.setTimeout(() => {
+        controller.abort();
+      }, REQUEST_TIMEOUT);
+
+    try {
+      setIsSending(true);
+      setToast(null);
+
+      const response =
+        await fetch(
+          "/api/leads",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              Accept:
+                "application/json",
+            },
+
+            body:
+              JSON.stringify(
+                leadPayload,
+              ),
+
+            cache:
+              "no-store",
+
+            signal:
+              controller.signal,
+          },
+        );
+
+      const result =
+        await readApiResponse(
+          response,
+        );
+
+      const requestFailed =
+        !response.ok ||
+        hasApiFailure(result);
+
+      if (requestFailed) {
+        const apiMessage =
+          extractApiMessage(
+            result,
+          );
+
+        console.error(
+          "Error API promociones Cyber House:",
+          {
+            status:
+              response.status,
+
+            result,
+
+            payload: {
+              ...leadPayload,
+
+              msj_client:
+                clientMetadata,
+
+              comentario:
+                message || undefined,
+            },
+          },
+        );
+
+        showToast({
+          variant: "error",
+
+          title:
+            "No pudimos separar tu visita",
+
+          message:
+            apiMessage ||
+            "La API rechazó la solicitud. Revisa tus datos e inténtalo nuevamente.",
+        });
+
+        return;
+      }
+
+      setFormData(
+        INITIAL_FORM,
+      );
+
+      setErrors({});
+
+      showToast(
+        SUCCESS_TOAST,
+      );
+    } catch (error) {
+      console.error(
+        "Error enviando promociones Cyber House:",
+        error,
+      );
+
+      if (
+        error instanceof Error &&
+        error.name === "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+
+          title:
+            "El servidor tardó demasiado",
+
+          message:
+            "La solicitud superó los 20 segundos de espera.",
+        });
+
+        return;
+      }
+
+      showToast(
+        ERROR_TOAST,
+      );
+    } finally {
+      window.clearTimeout(
+        timeoutId,
+      );
+
+      submitLockRef.current = false;
+      setIsSending(false);
+    }
+  };
 
   return (
     <>
@@ -413,19 +672,19 @@ export default function CyberHouseLeadForm() {
         <div className={styles.inner}>
           <div className={styles.copy}>
             <span>
-              Reserva tu atención
+              Promociones especiales
             </span>
 
             <h2>
-              Regístrate para el Cyber
-              House ANCOSUR
+              Separa tu visita y conoce
+              nuestras promociones
             </h2>
 
             <p>
-              Completa tus datos para
-              recibir asesoría sobre el
-              proyecto que más te
-              interesa.
+              Completa tus datos, elige el
+              proyecto y selecciona el
+              horario en el que deseas
+              recibir atención personalizada.
             </p>
 
             <div
@@ -464,7 +723,6 @@ export default function CyberHouseLeadForm() {
           <form
             className={styles.form}
             onSubmit={handleSubmit}
-            noValidate
           >
             <input
               type="text"
@@ -492,11 +750,11 @@ export default function CyberHouseLeadForm() {
               }
             >
               <span>
-                Formulario de registro
+                Formulario de promociones
               </span>
 
               <strong>
-                Quiero participar
+                Quiero separar mi visita
               </strong>
             </div>
 
@@ -533,6 +791,8 @@ export default function CyberHouseLeadForm() {
                     autoComplete="name"
                     minLength={3}
                     maxLength={80}
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü.'’ -]{3,80}"
+                    title="Ingresa tu nombre usando únicamente letras y espacios."
                     value={
                       formData.fullName
                     }
@@ -540,6 +800,15 @@ export default function CyberHouseLeadForm() {
                       updateField(
                         "fullName",
                         event.target.value
+                          .replace(
+                            /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]/g,
+                            ""
+                          )
+                          .replace(
+                            /\s{2,}/g,
+                            " "
+                          )
+                          .slice(0, 80)
                       )
                     }
                     disabled={
@@ -593,7 +862,10 @@ export default function CyberHouseLeadForm() {
                     placeholder="987654321"
                     autoComplete="tel"
                     inputMode="numeric"
+                    pattern="9[0-9]{8}"
+                    minLength={9}
                     maxLength={9}
+                    title="Ingresa un celular peruano de 9 dígitos que empiece con 9." 
                     value={
                       formData.phone
                     }
@@ -616,6 +888,7 @@ export default function CyberHouseLeadForm() {
                         errors.phone
                       )
                     }
+                    required
                   />
                 </div>
 
@@ -688,6 +961,74 @@ export default function CyberHouseLeadForm() {
                 )}
               </div>
 
+
+              <div
+                className={styles.field}
+              >
+                <label
+                  htmlFor="cyber-dni"
+                >
+                  Número de documento opcional
+                </label>
+
+                <div
+                  className={
+                    styles.inputWrap
+                  }
+                >
+                  <IdentificationCardIcon
+                    size={20}
+                    weight="bold"
+                    aria-hidden="true"
+                  />
+
+                  <input
+                    id="cyber-dni"
+                    name="dni"
+                    type="text"
+                    placeholder="12345678"
+                    autoComplete="off"
+                    inputMode="numeric"
+                    pattern="[0-9]{8}"
+                    minLength={8}
+                    maxLength={8}
+                    title="Ingresa un número de documento de 8 dígitos o deja el campo vacío."
+                    value={
+                      formData.dni
+                    }
+                    onChange={(event) =>
+                      updateField(
+                        "dni",
+                        event.target.value
+                          .replace(
+                            /\D/g,
+                            ""
+                          )
+                          .slice(0, 8)
+                      )
+                    }
+                    disabled={
+                      isSending
+                    }
+                    aria-invalid={
+                      Boolean(
+                        errors.dni
+                      )
+                    }
+                  />
+                </div>
+
+                {errors.dni && (
+                  <small
+                    className={
+                      styles.error
+                    }
+                  >
+                    {errors.dni}
+                  </small>
+                )}
+              </div>
+
               <div
                 className={styles.field}
               >
@@ -717,6 +1058,7 @@ export default function CyberHouseLeadForm() {
                       errors.project
                     )
                   }
+                  required
                 >
                   <option value="">
                     Selecciona un
@@ -760,7 +1102,7 @@ export default function CyberHouseLeadForm() {
                 <label
                   htmlFor="cyber-visitTime"
                 >
-                  Horario aproximado
+                  Horario para tu visita
                 </label>
 
                 <select
@@ -778,9 +1120,18 @@ export default function CyberHouseLeadForm() {
                   disabled={
                     isSending
                   }
+                  aria-invalid={
+                    Boolean(
+                      errors.visitTime
+                    )
+                  }
+                  required
                 >
-                  <option value="">
-                    Por coordinar
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Selecciona un horario
                   </option>
 
                   <option value="10:00 a. m. a 12:00 p. m.">
@@ -798,6 +1149,16 @@ export default function CyberHouseLeadForm() {
                     5:00 p. m.
                   </option>
                 </select>
+
+                {errors.visitTime && (
+                  <small
+                    className={
+                      styles.error
+                    }
+                  >
+                    {errors.visitTime}
+                  </small>
+                )}
               </div>
 
               <div
@@ -813,7 +1174,7 @@ export default function CyberHouseLeadForm() {
                   id="cyber-message"
                   name="message"
                   rows={4}
-                  maxLength={300}
+                  maxLength={250}
                   placeholder="Cuéntanos qué tipo de propiedad buscas."
                   value={
                     formData.message
@@ -838,7 +1199,7 @@ export default function CyberHouseLeadForm() {
                     formData.message
                       .length
                   }
-                  /300
+                  /250
                 </small>
               </div>
             </div>
@@ -847,25 +1208,26 @@ export default function CyberHouseLeadForm() {
               <input
                 type="checkbox"
                 name="consent"
-                checked
-                readOnly
+                checked={
+                  formData.consent
+                }
+                onChange={(event) =>
+                  updateField(
+                    "consent",
+                    event.target.checked
+                  )
+                }
+                disabled={
+                  isSending
+                }
+                required
               />
 
               <span>
-                Acepto ser contactado por ANCOSUR para recibir información sobre el
-                Cyber House y sus proyectos.
+                Acepto ser contactado por ANCOSUR para recibir información sobre
+                promociones, proyectos y coordinación de mi visita.
               </span>
             </label>
-
-          {errors.consent && (
-            <small
-              className={
-                styles.error
-              }
-            >
-              {errors.consent}
-            </small>
-          )}
 
             {errors.consent && (
               <small
@@ -891,7 +1253,7 @@ export default function CyberHouseLeadForm() {
             >
               {isSending
                 ? "Enviando..."
-                : "Registrar mi asistencia"}
+                : "Separar mi visita"}
 
               <PaperPlaneTiltIcon
                 size={20}
@@ -901,9 +1263,9 @@ export default function CyberHouseLeadForm() {
             </button>
 
             <p className={styles.note}>
-              El registro no representa
-              una reserva o compra
-              obligatoria.
+              La solicitud no representa
+              una compra obligatoria.
+              Un asesor confirmará tu visita.
             </p>
           </form>
         </div>

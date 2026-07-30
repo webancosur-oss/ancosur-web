@@ -7,7 +7,11 @@ import {
   PhoneIcon,
   UserIcon,
 } from "@phosphor-icons/react";
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import type { FormEvent } from "react";
 
 import FeedbackToast, {
@@ -15,6 +19,13 @@ import FeedbackToast, {
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import styles from "./DepartamentosPage.module.css";
+
+const SOURCE_ID = 4 as const;
+const CAMPAIGN_CODE = "DEP";
+const AD_NAME = "Web";
+const LEAD_TYPE = "WEB ANCOSUR";
+const COMPONENT_NAME = "DepartamentosLeadForm";
+const REQUEST_TIMEOUT = 20_000;
 
 type LeadFormData = {
   fullName: string;
@@ -37,11 +48,19 @@ type ProjectOption = {
   label: string;
 };
 
+type JsonObject = Record<string, unknown>;
+
 type ApiResponse = {
   success?: boolean;
-  response?: string;
+  accion?: string;
+  id?: number;
+  code?: string;
   message?: string;
+  error?: string;
   data?: unknown;
+  response?: unknown;
+  errors?: unknown;
+  [key: string]: unknown;
 };
 
 const initialFormData: LeadFormData = {
@@ -97,55 +116,269 @@ const ERROR_TOAST: FeedbackToastData = {
     "Verifica tu conexión e inténtalo nuevamente.",
 };
 
+const isJsonObject = (
+  value: unknown
+): value is JsonObject => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value)
+  );
+};
+
 const readApiResponse = async (
   response: Response
 ): Promise<ApiResponse> => {
-  const contentType =
-    response.headers.get("content-type");
-
-  if (
-    contentType?.includes("application/json")
-  ) {
-    try {
-      return await response.json();
-    } catch {
-      return {
-        success: false,
-        message:
-          "La API devolvió una respuesta no válida.",
-      };
-    }
-  }
-
   const responseText = await response.text();
 
-  return {
-    success: response.ok,
-    message:
-      responseText ||
-      "No se recibió una respuesta de la API.",
-  };
+  if (!responseText.trim()) {
+    return {
+      success: response.ok,
+      message: response.ok
+        ? "Solicitud procesada correctamente."
+        : `El servidor respondió con el código ${response.status}.`,
+    };
+  }
+
+  try {
+    const parsed: unknown =
+      JSON.parse(responseText);
+
+    if (isJsonObject(parsed)) {
+      return parsed as ApiResponse;
+    }
+
+    return {
+      success: response.ok,
+      data: parsed,
+    };
+  } catch {
+    return {
+      success: response.ok,
+      message: responseText,
+    };
+  }
 };
 
-const getApiErrorMessage = (
-  result: ApiResponse | null,
-  status: number
-) => {
-  const dataError =
-    result?.data &&
-    typeof result.data === "object" &&
-    "error" in result.data
-      ? String(
-          (result.data as { error?: unknown })
-            .error ?? ""
-        )
-      : "";
+const hasApiFailure = (
+  value: unknown
+): boolean => {
+  if (!isJsonObject(value)) {
+    return false;
+  }
+
+  if (value.success === false) {
+    return true;
+  }
 
   return (
-    result?.message ||
-    dataError ||
-    `No se pudo enviar la solicitud. Código ${status}.`
+    hasApiFailure(value.data) ||
+    hasApiFailure(value.response)
   );
+};
+
+const extractApiMessage = (
+  value: unknown
+): string => {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.error === "string" &&
+    value.error.trim()
+  ) {
+    return value.error.trim();
+  }
+
+  const dataMessage =
+    extractApiMessage(value.data);
+
+  if (dataMessage) {
+    return dataMessage;
+  }
+
+  const responseMessage =
+    extractApiMessage(value.response);
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (
+    typeof value.message === "string" &&
+    value.message.trim()
+  ) {
+    return value.message.trim();
+  }
+
+  return "";
+};
+
+const extractApiCode = (
+  value: unknown
+): string => {
+  if (!isJsonObject(value)) {
+    return "";
+  }
+
+  if (
+    typeof value.code === "string" &&
+    value.code.trim()
+  ) {
+    return value.code.trim();
+  }
+
+  return (
+    extractApiCode(value.data) ||
+    extractApiCode(value.response)
+  );
+};
+
+const isCampaignLengthError = (
+  message: string
+): boolean => {
+  const normalized =
+    message.toLowerCase();
+
+  return (
+    normalized.includes("sqlstate[22001]") ||
+    normalized.includes(
+      "data too long for column 'campaña'"
+    ) ||
+    normalized.includes(
+      'data too long for column "campaña"'
+    ) ||
+    (
+      normalized.includes("1406") &&
+      normalized.includes("campaña")
+    )
+  );
+};
+
+const getFriendlyServerError = (
+  status: number,
+  result: ApiResponse
+): {
+  title: string;
+  message: string;
+} => {
+  const serverMessage =
+    extractApiMessage(result);
+
+  const serverCode =
+    extractApiCode(result);
+
+  if (
+    serverCode ===
+      "CAMPAIGN_HISTORY_TOO_LONG" ||
+    isCampaignLengthError(
+      serverMessage
+    )
+  ) {
+    return {
+      title:
+        "El CRM no pudo actualizar el contacto",
+      message:
+        "Este contacto tiene un historial de campañas demasiado extenso. Solicita al administrador del CRM que revise el contacto.",
+    };
+  }
+
+  if (serverCode === "VALIDATION_ERROR") {
+    return {
+      title: "Revisa los datos ingresados",
+      message:
+        serverMessage ||
+        "Uno o más campos tienen un formato incorrecto.",
+    };
+  }
+
+  if (status === 400) {
+    return {
+      title: "Datos no válidos",
+      message:
+        serverMessage ||
+        "Revisa el nombre, celular, correo y proyecto.",
+    };
+  }
+
+  if (status === 401 || status === 403) {
+    return {
+      title: "API no autorizada",
+      message:
+        "El servidor no tiene autorización para registrar el lead.",
+    };
+  }
+
+  if (status === 404) {
+    return {
+      title: "Ruta de leads no encontrada",
+      message:
+        "No se encontró la ruta /api/leads.",
+    };
+  }
+
+  if (status === 408 || status === 504) {
+    return {
+      title: "El servidor tardó demasiado",
+      message:
+        "La solicitud superó el tiempo máximo permitido.",
+    };
+  }
+
+  if (status === 413) {
+    return {
+      title: "Información demasiado extensa",
+      message:
+        "La información enviada supera el tamaño permitido.",
+    };
+  }
+
+  if (status === 415) {
+    return {
+      title: "Formato no permitido",
+      message:
+        "El servidor requiere que la solicitud se envíe como JSON.",
+    };
+  }
+
+  if (status === 422) {
+    return {
+      title: "No se pudieron procesar los datos",
+      message:
+        serverMessage ||
+        "El servidor rechazó uno o más campos.",
+    };
+  }
+
+  if (status === 429) {
+    return {
+      title: "Demasiadas solicitudes",
+      message:
+        "Espera unos minutos antes de volver a enviar el formulario.",
+    };
+  }
+
+  if (status >= 500) {
+    return {
+      title: "Error del servidor",
+      message:
+        serverMessage ||
+        "El servidor de leads no pudo procesar la solicitud.",
+    };
+  }
+
+  return {
+    title: "No pudimos enviar tus datos",
+    message:
+      serverMessage ||
+      result.message ||
+      `La solicitud no pudo procesarse. Código ${status}.`,
+  };
 };
 
 export default function DepartamentosLeadForm() {
@@ -157,6 +390,12 @@ export default function DepartamentosLeadForm() {
 
   const [isSending, setIsSending] =
     useState(false);
+
+  /*
+   * Bloqueo inmediato para evitar dos solicitudes
+   * cuando el usuario hace doble clic.
+   */
+  const submitLockRef = useRef(false);
 
   const [toast, setToast] =
     useState<ToastState | null>(null);
@@ -191,20 +430,22 @@ export default function DepartamentosLeadForm() {
     }));
   };
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     const newErrors: LeadFormErrors = {};
 
     const fullName =
-      formData.fullName.trim();
+      formData.fullName
+        .replace(/\s+/g, " ")
+        .trim();
 
     const phone =
       formData.phone.replace(/\D/g, "");
 
     const email =
-      formData.email.trim();
+      formData.email.trim().toLowerCase();
 
     const nameRegex =
-      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]{3,70}$/;
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,70}$/;
 
     const phoneRegex = /^9\d{8}$/;
 
@@ -227,17 +468,26 @@ export default function DepartamentosLeadForm() {
         "El celular debe tener 9 dígitos y empezar con 9.";
     }
 
+    /*
+     * El correo es opcional.
+     * Se valida solamente cuando tiene contenido.
+     */
     if (
       email &&
       !emailRegex.test(email)
     ) {
       newErrors.email =
-        "Ingresa un correo válido.";
+        "Ingresa un correo válido o deja el campo vacío.";
     }
 
-    if (!formData.project) {
+    if (!formData.project.trim()) {
       newErrors.project =
         "Selecciona un proyecto.";
+    }
+
+    if (!formData.consent) {
+      newErrors.consent =
+        "Debes aceptar el contacto comercial.";
     }
 
     setErrors(newErrors);
@@ -246,7 +496,8 @@ export default function DepartamentosLeadForm() {
       newErrors.fullName ||
       newErrors.phone ||
       newErrors.email ||
-      newErrors.project;
+      newErrors.project ||
+      newErrors.consent;
 
     if (errorMessage) {
       showToast({
@@ -266,48 +517,73 @@ export default function DepartamentosLeadForm() {
   ) => {
     event.preventDefault();
 
-    if (isSending) return;
+    if (
+      isSending ||
+      submitLockRef.current
+    ) {
+      return;
+    }
 
     const isValid = validateForm();
 
-    if (!isValid) return;
+    if (!isValid) {
+      return;
+    }
+
+    const fullName =
+      formData.fullName
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const phone =
+      formData.phone
+        .replace(/\D/g, "")
+        .slice(0, 9);
+
+    const email =
+      formData.email
+        .trim()
+        .toLowerCase();
 
     const projectName =
       formData.project.trim();
 
-    const message =
-      projectName === "Por definir"
-        ? "Solicitud de asesoría para elegir un proyecto de departamentos."
-        : `Solicitud de información sobre ${projectName} enviada desde la página de Departamentos.`;
-
-    const leadPayload = {
-      nombres_completos:
-        formData.fullName.trim(),
-
-      telefono:
-        formData.phone.replace(/\D/g, ""),
-
-      email:
-        formData.email
-          .trim()
-          .toLowerCase(),
-
-      proyecto_interes: projectName,
-
-      categoria_interes: "Departamentos",
-
-      fuente_prospeccion: "Web",
-
-      mensaje: message,
-
-      origen_ruta:
-        window.location.pathname,
-
-      origen_componente:
-        "Formulario Departamentos",
+    /*
+     * Se conserva el proyecto seleccionado porque
+     * es uno de los campos reales del formulario.
+     *
+     * No se genera mensaje automático.
+     * No se envía comentario desde el componente.
+     */
+    const clientMetadata = {
+      interes: projectName,
+      origenRuta: window.location.pathname,
+      origenComponente: COMPONENT_NAME,
+      tipoLead: LEAD_TYPE,
     };
 
+    const leadPayload = {
+      fuente_id: SOURCE_ID,
+      telefono: phone,
+      nombre: fullName,
+      email,
+      dni: "",
+      campaña: CAMPAIGN_CODE,
+      anuncio: AD_NAME,
+      msj_client:
+        JSON.stringify(clientMetadata),
+    };
+
+    const controller =
+      new AbortController();
+
+    const timeoutId =
+      window.setTimeout(() => {
+        controller.abort();
+      }, REQUEST_TIMEOUT);
+
     try {
+      submitLockRef.current = true;
       setIsSending(true);
       setToast(null);
 
@@ -315,31 +591,62 @@ export default function DepartamentosLeadForm() {
         "/api/leads",
         {
           method: "POST",
+
           headers: {
             "Content-Type":
               "application/json",
-            Accept: "application/json",
+            Accept:
+              "application/json",
           },
-          body: JSON.stringify(
-            leadPayload
-          ),
+
+          body:
+            JSON.stringify(leadPayload),
+
+          signal:
+            controller.signal,
         }
       );
 
       const result =
         await readApiResponse(response);
 
-      if (
+      const requestFailed =
         !response.ok ||
-        result?.success === false
-      ) {
+        hasApiFailure(result);
+
+      if (requestFailed) {
+        const serverMessage =
+          extractApiMessage(result);
+
+        console.error(
+          "Error API Departamentos:",
+          {
+            status: response.status,
+            result,
+            serverMessage,
+            payload: {
+              fuente_id: SOURCE_ID,
+              telefono: phone,
+              nombre: fullName,
+              email: email || "",
+              dni: "",
+              campaña: CAMPAIGN_CODE,
+              anuncio: AD_NAME,
+              msj_client: clientMetadata,
+            },
+          }
+        );
+
+        const friendlyError =
+          getFriendlyServerError(
+            response.status,
+            result
+          );
+
         showToast({
           variant: "error",
-          title: "No pudimos enviar tus datos",
-          message: getApiErrorMessage(
-            result,
-            response.status
-          ),
+          title: friendlyError.title,
+          message: friendlyError.message,
         });
 
         return;
@@ -348,10 +655,37 @@ export default function DepartamentosLeadForm() {
       setFormData(initialFormData);
       setErrors({});
 
-      showToast(SUCCESS_TOAST);
-    } catch {
+      showToast({
+        ...SUCCESS_TOAST,
+        message:
+          result.message ||
+          SUCCESS_TOAST.message,
+      });
+    } catch (error) {
+      console.error(
+        "Error enviando formulario de Departamentos:",
+        error
+      );
+
+      if (
+        error instanceof Error &&
+        error.name === "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+          title:
+            "El servidor tardó demasiado",
+          message:
+            "La solicitud superó los 20 segundos de espera.",
+        });
+
+        return;
+      }
+
       showToast(ERROR_TOAST);
     } finally {
+      window.clearTimeout(timeoutId);
+      submitLockRef.current = false;
       setIsSending(false);
     }
   };
@@ -368,7 +702,9 @@ export default function DepartamentosLeadForm() {
             styles.leadFormHeader
           }
         >
-          <span>Formulario</span>
+          <span>
+            Formulario
+          </span>
 
           <strong>
             Recibe asesoría gratis
@@ -567,8 +903,14 @@ export default function DepartamentosLeadForm() {
           <input
             type="checkbox"
             name="consent"
-            checked
-            readOnly
+            checked={formData.consent}
+            disabled={isSending}
+            onChange={(event) =>
+              updateField(
+                "consent",
+                event.target.checked
+              )
+            }
           />
 
           <span>
@@ -577,6 +919,12 @@ export default function DepartamentosLeadForm() {
             comercial.
           </span>
         </label>
+
+        {errors.consent && (
+          <small className={styles.error}>
+            {errors.consent}
+          </small>
+        )}
 
         <button
           type="submit"
