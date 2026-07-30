@@ -31,16 +31,7 @@ export default function FloatingActions() {
 
   return (
     <aside className={styles.floatingActions} aria-label="Acciones rápidas">
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.whatsappButton}
-        aria-label="Escribir a ANCOSUR por WhatsApp"
-      >
-        <WhatsappLogoIcon size={25} weight="fill" aria-hidden="true" />
-        {/* <span>WhatsApp</span> */}
-      </a>
+      
 
       <button
         type="button"
@@ -52,6 +43,17 @@ export default function FloatingActions() {
       >
         <ArrowUpIcon size={22} weight="bold" aria-hidden="true" />
       </button>
+
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.whatsappButton}
+        aria-label="Escribir a ANCOSUR por WhatsApp"
+      >
+        <WhatsappLogoIcon size={25} weight="fill" aria-hidden="true" />
+        {/* <span>WhatsApp</span> */}
+      </a>
     </aside>
   );
 }

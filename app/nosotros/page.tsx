@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const images = {
   hero: "/assets/heros/10anios.png",
   team: "/assets/nosotros/equipo.webp",
-  formula: "/assets/nosotros/piramide.webp",
+  formula: "/assets/nosotros/piramide.svg",
 };
 
 const values = [
