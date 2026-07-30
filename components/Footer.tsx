@@ -108,7 +108,7 @@ const legalItems: LegalItem[] = [
   {
     label: "Libro de Reclamaciones",
     href: "https://wa.me/51971069763?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
-    image: "/assets/certificados/libro-reclamaciones.png",
+    image: "/assets/certificados/libro-reclamaciones.svg",
     width: 240,
     height: 130,
   },
