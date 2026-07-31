@@ -1,64 +1,402 @@
 .floatingActions {
+  --green-950: #062016;
+  --green-900: #083522;
+  --green-800: #0a4b2e;
+  --green-700: #0d663b;
+  --green-600: #118348;
+  --green-500: #15a957;
+  --green-400: #25d366;
+  --green-100: #e9f8ef;
+  --surface: rgba(255, 255, 255, 0.97);
+  --text: #142219;
+  --muted: #66746b;
+
   position: fixed;
-  right: clamp(16px, 2.4vw, 30px);
-  bottom: clamp(18px, 3vw, 32px);
-  z-index: 950;
-  display: grid;
-  gap: 12px;
-  justify-items: end;
+  right: clamp(14px, 2vw, 24px);
+  bottom: clamp(14px, 2vw, 24px);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
   pointer-events: none;
 }
 
-.whatsappButton,
-.topButton {
+.floatingActions > * {
   pointer-events: auto;
-  border: none;
-  text-decoration: none;
+}
+
+.channelWidget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.channelButton,
+.whatsappButton {
+  position: relative;
+  width: 230px;
+  min-height: 58px;
+  padding: 7px 16px 7px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  color: #ffffff;
   cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 16px 38px rgba(5, 54, 30, 0.22);
+  isolation: isolate;
   transition:
     transform 0.24s ease,
     box-shadow 0.24s ease,
-    background 0.24s ease,
-    opacity 0.24s ease,
-    visibility 0.24s ease;
+    border-color 0.24s ease;
+}
+
+.channelButton::before,
+.whatsappButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.channelButton::after,
+.whatsappButton::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: -1;
+  transition: transform 0.35s ease;
+}
+
+.channelButton:hover,
+.whatsappButton:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 22px 48px rgba(5, 54, 30, 0.3);
+}
+
+.channelButton:hover::after,
+.whatsappButton:hover::after {
+  transform: scale(1.2);
+}
+
+.channelButton {
+  border: 0;
+  background: linear-gradient(
+    135deg,
+    var(--green-950) 0%,
+    var(--green-800) 58%,
+    var(--green-700) 100%
+  );
+}
+
+.channelButton::before {
+  background: linear-gradient(
+    135deg,
+    var(--green-950) 0%,
+    var(--green-700) 50%,
+    var(--green-500) 100%
+  );
+}
+
+.channelWidgetOpen .channelButton {
+  box-shadow: 0 18px 44px rgba(5, 54, 30, 0.32);
 }
 
 .whatsappButton {
-  min-height: 56px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: #00a74f;
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 0.86rem;
-  
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  box-shadow: 0 18px 44px rgba(0, 167, 79, 0.34);
+  background: linear-gradient(
+    135deg,
+    #10964c 0%,
+    #1fbd5d 55%,
+    #25d366 100%
+  );
 }
 
-.whatsappButton:hover {
-  background: #008f43;
-  transform: translateY(-3px);
-  box-shadow: 0 24px 58px rgba(0, 167, 79, 0.42);
+.whatsappButton::before {
+  background: linear-gradient(
+    135deg,
+    #0b7d3e 0%,
+    #18a951 48%,
+    #25d366 100%
+  );
+}
+
+.whatsappPulse {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d9ffe7;
+  box-shadow: 0 0 0 0 rgba(217, 255, 231, 0.42);
+  animation: whatsappPulse 2.2s infinite;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 255, 231, 0.46);
+  }
+  65% {
+    box-shadow: 0 0 0 9px rgba(217, 255, 231, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 255, 231, 0);
+  }
+}
+
+.buttonIconBox {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.buttonText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.buttonText small {
+  margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.buttonText strong {
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.channelPanel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  width: min(350px, calc(100vw - 32px));
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 103, 57, 0.12);
+  border-radius: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.99) 0%,
+    rgba(246, 251, 248, 0.98) 100%
+  );
+  color: var(--text);
+  box-shadow: 0 28px 72px rgba(7, 45, 27, 0.22);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.96);
+  transform-origin: right bottom;
+  transition:
+    opacity 0.24s ease,
+    visibility 0.24s ease,
+    transform 0.24s ease;
+}
+
+.channelPanel::before {
+  content: "";
+  position: absolute;
+  top: -75px;
+  right: -65px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(21, 169, 87, 0.14) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.channelWidgetOpen .channelPanel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.channelPanelTop {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.channelBrand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.channelBrandIcon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: linear-gradient(145deg, var(--green-800), var(--green-500));
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(13, 102, 59, 0.22);
+}
+
+.channelBrand div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.channelBrand small {
+  color: var(--green-600);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.channelBrand strong {
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.channelClose {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(20, 34, 25, 0.08);
+  border-radius: 50%;
+  background: rgba(240, 247, 243, 0.96);
+  color: #34473c;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.channelClose:hover {
+  background: var(--green-100);
+  color: var(--green-700);
+  transform: rotate(6deg);
+}
+
+.channelPanel p {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.channelBenefits {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.channelBenefits span {
+  min-height: 28px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(17, 131, 72, 0.12);
+  border-radius: 999px;
+  background: rgba(233, 248, 239, 0.92);
+  color: var(--green-700);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.channelLink {
+  position: relative;
+  z-index: 1;
+  min-height: 46px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--green-800), var(--green-500));
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 750;
+  box-shadow: 0 12px 26px rgba(13, 102, 59, 0.2);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.channelLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(13, 102, 59, 0.28);
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #17172f;
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 16px 38px rgba(23, 23, 47, 0.28);
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(11, 68, 39, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--green-800);
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(10, 51, 31, 0.14);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(12px) scale(0.94);
+  transform: translateY(8px) scale(0.92);
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease,
+    transform 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease;
 }
 
 .showTopButton {
@@ -68,49 +406,147 @@
 }
 
 .topButton:hover {
-  background: #00a74f;
-  transform: translateY(-3px) scale(1);
-  box-shadow: 0 20px 48px rgba(0, 167, 79, 0.35);
+  background: var(--green-800);
+  color: #ffffff;
+  transform: translateY(-2px) scale(1.03);
 }
 
-.whatsappButton:focus-visible,
-.topButton:focus-visible {
-  outline: 3px solid rgba(0, 167, 79, 0.35);
-  outline-offset: 5px;
+@media (max-width: 900px) {
+  .floatingActions {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .channelButton,
+  .whatsappButton {
+    width: 210px;
+  }
 }
 
 @media (max-width: 640px) {
   .floatingActions {
-    right: 14px;
-    bottom: 16px;
-    gap: 10px;
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 8px;
+  }
+
+  .channelButton,
+  .whatsappButton {
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    min-height: 50px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 17px;
+  }
+
+  .channelButton {
+    background: linear-gradient(145deg, var(--green-950), var(--green-700));
   }
 
   .whatsappButton {
-    width: 52px;
-    height: 52px;
-    min-height: 52px;
-    padding: 0;
     border-radius: 50%;
+    background: linear-gradient(145deg, #13a850, #25d366);
   }
 
-  .whatsappButton span {
-    display: none;
+  .buttonText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .buttonIconBox {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .whatsappPulse {
+    top: 3px;
+    right: 3px;
+    width: 7px;
+    height: 7px;
   }
 
   .topButton {
-    width: 46px;
-    height: 46px;
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
+  .channelPanel {
+    position: fixed;
+    right: 10px;
+    bottom: calc(126px + env(safe-area-inset-bottom));
+    width: calc(100vw - 20px);
+    max-width: 360px;
+    padding: 16px;
+    border-radius: 21px;
+    transform-origin: right bottom;
+  }
+
+  .channelPanel p {
+    margin: 14px 0 13px;
   }
 }
 
+@media (max-width: 380px) {
+  .channelButton,
+  .whatsappButton {
+    width: 47px;
+    min-width: 47px;
+    height: 47px;
+    min-height: 47px;
+  }
+
+  .topButton {
+    width: 38px;
+    height: 38px;
+  }
+
+  .channelPanel {
+    right: 8px;
+    width: calc(100vw - 16px);
+  }
+}
+
+.channelButton:focus-visible,
+.channelClose:focus-visible,
+.channelLink:focus-visible,
+.topButton:focus-visible,
+.whatsappButton:focus-visible {
+  outline: 3px solid rgba(37, 211, 102, 0.42);
+  outline-offset: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .channelButton,
   .whatsappButton,
+  .channelPanel,
+  .channelClose,
+  .channelLink,
   .topButton {
     transition: none;
   }
 
+  .whatsappPulse {
+    animation: none;
+  }
+
+  .channelButton:hover,
   .whatsappButton:hover,
+  .channelClose:hover,
+  .channelLink:hover,
   .topButton:hover {
     transform: none;
   }

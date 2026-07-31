@@ -1,125 +1,198 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Manrope } from "next/font/google";
+
 import "./globals.css";
+
 import FloatingActions from "@/components/FloatingActions";
 import FloatingPodcast from "@/components/FloatingPodcast";
+import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 
-const siteUrl = (
+const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://ancosur-web-production.up.railway.app"
-).replace(/\/+$/, "");
+  "https://ancosur.com";
+
+const siteUrl = rawSiteUrl.replace(/\/+$/, "");
+
+const siteName = "ANCOSUR Inmobiliaria";
+
+const defaultTitle =
+  "ANCOSUR Inmobiliaria | Departamentos, lotes y proyectos en Huancayo";
+
+const defaultDescription =
+  "ANCOSUR desarrolla departamentos, lotes y proyectos inmobiliarios en Huancayo. Encuentra tu próximo hogar o una oportunidad de inversión inmobiliaria.";
+
+const defaultOgImage = "/opengraph-image.png";
+const defaultTwitterImage = "/twitter-image.png";
 
 const manrope = Manrope({
   variable: "--font-main",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: true,
+  fallback: ["Arial", "Helvetica", "sans-serif"],
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
-  applicationName: "ANCOSUR Inmobiliaria",
+  applicationName: siteName,
 
   title: {
-    default: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
+    default: defaultTitle,
     template: "%s | ANCOSUR Inmobiliaria",
   },
 
-  description:
-    "ANCOSUR Inmobiliaria desarrolla departamentos, lotes y proyectos inmobiliarios en Huancayo. Encuentra tu próximo hogar o inversión.",
+  description: defaultDescription,
 
   keywords: [
     "ANCOSUR",
     "ANCOSUR Inmobiliaria",
     "ANCOSUR Huancayo",
+    "inmobiliaria en Huancayo",
+    "inmobiliaria Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta Huancayo",
+    "departamentos nuevos Huancayo",
     "lotes en Huancayo",
     "lotes en venta Huancayo",
+    "terrenos en Huancayo",
     "proyectos inmobiliarios Huancayo",
-    "inmobiliaria en Huancayo",
     "inversión inmobiliaria Huancayo",
+    "venta de departamentos Huancayo",
+    "venta de lotes Huancayo",
     "Neo Rivera",
     "Neo Xport",
     "Neo Eterna",
     "Neo Balto",
+    "Neo Origen",
+    "Neo Emperatriz",
+    "Moro 416",
     "Distrito San Carlos",
     "Camino Real",
+    "Las Colinas de Moro",
     "Zagari Resort Club",
   ],
 
   authors: [
     {
-      name: "ANCOSUR Inmobiliaria",
+      name: siteName,
       url: siteUrl,
     },
   ],
 
-  creator: "ANCOSUR Inmobiliaria",
-  publisher: "ANCOSUR Inmobiliaria",
+  creator: siteName,
+  publisher: siteName,
+  category: "Inmobiliaria",
+  classification: "Bienes raíces y desarrollo inmobiliario",
+  referrer: "origin-when-cross-origin",
+
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 
   alternates: {
-    canonical: "/",
+    canonical: siteUrl,
+    languages: {
+      "es-PE": siteUrl,
+    },
   },
 
   openGraph: {
-    title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
-    description:
-      "Departamentos, lotes y proyectos inmobiliarios en Huancayo para vivir e invertir.",
+    title: defaultTitle,
+    description: defaultDescription,
     url: siteUrl,
-    siteName: "ANCOSUR Inmobiliaria",
+    siteName,
     locale: "es_PE",
     type: "website",
     images: [
       {
-        url: "/opengraph-image.png",
+        url: defaultOgImage,
         width: 1200,
         height: 630,
-        alt: "ANCOSUR Inmobiliaria - Departamentos en Huancayo",
+        alt: "ANCOSUR Inmobiliaria - Departamentos, lotes y proyectos inmobiliarios en Huancayo",
+        type: "image/png",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "ANCOSUR Inmobiliaria | Departamentos en Huancayo",
-    description:
-      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo.",
-    images: ["/twitter-image.png"],
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [
+      {
+        url: defaultTwitterImage,
+        width: 1200,
+        height: 630,
+        alt: "ANCOSUR Inmobiliaria - Proyectos inmobiliarios en Huancayo",
+      },
+    ],
   },
 
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
+      noimageindex: false,
       "max-image-preview": "large",
       "max-snippet": -1,
       "max-video-preview": -1,
     },
   },
 
-  category: "Inmobiliaria",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+      {
+        url: "/icon.png",
+        type: "image/png",
+        sizes: "512x512",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-icon.png",
+        type: "image/png",
+        sizes: "180x180",
+      },
+    ],
+  },
+
+  manifest: "/manifest.webmanifest",
+
+  other: {
+    "geo.region": "PE-JUN",
+    "geo.placename": "Huancayo",
+    "content-language": "es-PE",
+  },
 };
 
 type RootLayoutProps = {
   children: ReactNode;
 };
 
-export default function RootLayout({ children }: RootLayoutProps) {
-  const jsonLd = {
+export default function RootLayout({
+  children,
+}: RootLayoutProps) {
+  const organizationJsonLd = {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
+    "@type": ["RealEstateAgent", "LocalBusiness"],
     "@id": `${siteUrl}/#organization`,
-    name: "ANCOSUR Inmobiliaria",
-    description:
-      "Empresa inmobiliaria dedicada al desarrollo de departamentos, lotes y proyectos inmobiliarios en Huancayo.",
+    name: siteName,
+    alternateName: "ANCOSUR",
+    description: defaultDescription,
     url: siteUrl,
     logo: {
       "@type": "ImageObject",
@@ -127,12 +200,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
     },
     image: {
       "@type": "ImageObject",
-      url: `${siteUrl}/opengraph-image.png`,
+      url: `${siteUrl}${defaultOgImage}`,
       width: 1200,
       height: 630,
     },
     telephone: "+51 968 658 098",
     email: "jefe.experiencia.cliente@ancosur.com",
+    priceRange: "$$",
+    currenciesAccepted: "PEN",
+    paymentAccepted:
+      "Efectivo, transferencia bancaria y financiamiento",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Av. San Carlos 1481",
@@ -140,18 +217,45 @@ export default function RootLayout({ children }: RootLayoutProps) {
       addressRegion: "Junín",
       addressCountry: "PE",
     },
-    areaServed: {
-      "@type": "City",
-      name: "Huancayo",
-    },
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+51 968 658 098",
-      contactType: "sales",
-      areaServed: "PE",
-      availableLanguage: ["Spanish"],
+    areaServed: [
+      {
+        "@type": "City",
+        name: "Huancayo",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Junín",
+      },
+    ],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+51 968 658 098",
+        email: "jefe.experiencia.cliente@ancosur.com",
+        contactType: "sales",
+        areaServed: "PE",
+        availableLanguage: ["Spanish"],
+      },
+    ],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    url: siteUrl,
+    name: siteName,
+    description: defaultDescription,
+    inLanguage: "es-PE",
+    publisher: {
+      "@id": `${siteUrl}/#organization`,
     },
   };
+
+  const jsonLd = [
+    organizationJsonLd,
+    websiteJsonLd,
+  ];
 
   return (
     <html
@@ -160,16 +264,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
       data-scroll-behavior="smooth"
     >
       <body>
-        {children}
         <Navbar />
+
+        {children}
+
         <FloatingActions />
         <FloatingPodcast />
         <FloatingPromo href="/promociones" />
         <Footer />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(jsonLd).replace(
+              /</g,
+              "\\u003c",
+            ),
           }}
         />
       </body>

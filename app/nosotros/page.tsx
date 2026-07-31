@@ -267,7 +267,7 @@ export default function NosotrosPage() {
 
         {/* EQUIPO */}
 
-        <EquipoPage />        
+        {/* <EquipoPage />         */}
       </main>
     </>
   );

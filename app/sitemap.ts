@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/politicas",
     "/libro-de-reclamaciones",
     "/certificados",
+    "/politicas",
+    "/beneficios"
   ];
 
   const blogRoutes = blogPosts.map((post) => ({
