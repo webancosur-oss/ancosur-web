@@ -59,7 +59,6 @@
   margin-bottom: 18px;
   color: #00a74f;
   font-size: 0.78rem;
-  
   text-transform: uppercase;
   letter-spacing: 0.13em;
 }
@@ -67,16 +66,17 @@
 .infoSide h2 {
   max-width: 640px;
   margin: 0;
-  color: #17172f;  line-height: 0.96;
+  color: #17172f;
+  line-height: 0.96;
   letter-spacing: -0.065em;
-  
   text-wrap: balance;
 }
 
 .infoSide p {
   max-width: 570px;
   margin: 24px 0 0;
-  color: rgba(23, 23, 47, 0.74);  line-height: 1.6;
+  color: rgba(23, 23, 47, 0.74);
+  line-height: 1.6;
 }
 
 .infoCards {
@@ -86,45 +86,100 @@
 }
 
 .infoCard {
+  position: relative;
   width: min(100%, 540px);
-  padding: 18px;
+  min-height: 90px;
+  padding: 18px 48px 18px 18px;
   border: 1px solid rgba(23, 23, 47, 0.08);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.82);
+  color: inherit;
+  text-decoration: none;
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr);
   gap: 16px;
   align-items: center;
   box-shadow: 0 18px 50px rgba(23, 23, 47, 0.055);
+  box-sizing: border-box;
+  cursor: pointer;
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .infoCard:hover {
   transform: translateY(-3px);
-  border-color: rgba(0, 167, 79, 0.22);
-  box-shadow: 0 24px 64px rgba(0, 167, 79, 0.1);
+  border-color: rgba(0, 167, 79, 0.28);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 24px 64px rgba(0, 167, 79, 0.12);
+}
+
+.infoCard:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.3);
+  outline-offset: 4px;
+}
+
+.infoCardStatic {
+  padding-right: 18px;
+  cursor: default;
+}
+
+.infoCardStatic:hover {
+  transform: none;
+  border-color: rgba(23, 23, 47, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 50px rgba(23, 23, 47, 0.055);
 }
 
 .iconBox {
   width: 52px;
   height: 52px;
   border-radius: 16px;
-  background: #17172f;
+  background:
+    linear-gradient(
+      145deg,
+      #17172f 0%,
+      #242448 100%
+    );
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 10px 24px
+    rgba(23, 23, 47, 0.16);
+}
+
+.infoCard:first-child .iconBox {
+  background:
+    linear-gradient(
+      145deg,
+      #0a8f46 0%,
+      #25d366 100%
+    );
+}
+
+.infoCard:nth-child(2) .iconBox {
+  background:
+    linear-gradient(
+      145deg,
+      #17172f 0%,
+      #00a74f 100%
+    );
+}
+
+.cardContent {
+  min-width: 0;
 }
 
 .infoCard strong {
   display: block;
   color: #17172f;
   font-size: 1rem;
-  
   line-height: 1.15;
 }
 
@@ -134,6 +189,23 @@
   color: rgba(23, 23, 47, 0.64);
   font-size: 0.9rem;
   line-height: 1.42;
+}
+
+.cardArrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  color: #00a74f;
+  transform: translateY(-50%);
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.infoCard:hover .cardArrow {
+  color: #008f43;
+  transform:
+    translate(2px, -50%);
 }
 
 /* FORMULARIO */
@@ -176,16 +248,15 @@
   margin-bottom: 8px;
   color: #00ff78;
   font-size: 0.74rem;
-  
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
 
 .formHeader strong {
   display: block;
-  color: #ffffff;  line-height: 0.98;
+  color: #ffffff;
+  line-height: 0.98;
   letter-spacing: -0.055em;
-  
   text-wrap: balance;
 }
 
@@ -207,7 +278,6 @@
 .field label {
   color: rgba(255, 255, 255, 0.88);
   font-size: 0.86rem;
-  
 }
 
 .inputWrap {
@@ -305,7 +375,6 @@
   margin-top: -2px;
   color: rgba(255, 255, 255, 0.56);
   font-size: 0.72rem;
- 
   text-align: right;
 }
 
@@ -334,7 +403,6 @@
   display: block;
   color: #ff8080;
   font-size: 0.78rem;
-  
   line-height: 1.35;
 }
 
@@ -348,7 +416,6 @@
   background: #00a74f;
   color: #ffffff;
   font-size: 0.96rem;
-  
   text-transform: uppercase;
   letter-spacing: 0.035em;
   cursor: pointer;
@@ -387,7 +454,6 @@
   align-items: start;
   font-size: 0.88rem;
   line-height: 1.45;
-  
 }
 
 .statusSuccess {
@@ -424,7 +490,13 @@
 
   .infoCard {
     width: 100%;
+    min-height: 126px;
+    padding: 18px 42px 18px 18px;
     align-items: start;
+  }
+
+  .infoCardStatic {
+    padding-right: 18px;
   }
 }
 
@@ -435,6 +507,8 @@
 
   .infoCard {
     max-width: 100%;
+    min-height: 90px;
+    align-items: center;
   }
 
   .twoColumns {
@@ -447,8 +521,6 @@
   .contactSection {
     padding: 70px 18px;
   }
-
-  .infoSide h2 {  }
 
   .infoSide p {
     margin-top: 18px;
@@ -475,14 +547,23 @@
 
   .infoCard {
     grid-template-columns: 46px minmax(0, 1fr);
-    padding: 15px;
+    min-height: 82px;
+    padding: 15px 42px 15px 15px;
     border-radius: 17px;
+  }
+
+  .infoCardStatic {
+    padding-right: 15px;
   }
 
   .iconBox {
     width: 46px;
     height: 46px;
     border-radius: 14px;
+  }
+
+  .cardArrow {
+    right: 15px;
   }
 
   .form {
@@ -532,6 +613,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .infoCard,
+  .cardArrow,
   .inputWrap,
   .field select,
   .field textarea,

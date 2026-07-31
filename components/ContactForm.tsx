@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowSquareOutIcon,
   BuildingsIcon,
   EnvelopeSimpleIcon,
   MapPinIcon,
@@ -11,6 +12,7 @@ import {
 } from "@phosphor-icons/react";
 import {
   useCallback,
+  useEffect,
   useState,
 } from "react";
 import type {
@@ -60,6 +62,27 @@ type ApiResponse = {
   data?: unknown;
   [key: string]: unknown;
 };
+
+const WHATSAPP_URL =
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
+
+const OFFICE_NAME =
+  "ANCOSUR Inmobiliaria";
+
+const OFFICE_ADDRESS =
+  "Av. San Carlos 1481, San Antonio, Huancayo, Junín, Perú";
+
+const GOOGLE_MAPS_URL =
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${OFFICE_NAME}, ${OFFICE_ADDRESS}`,
+  )}`;
+
+const APPLE_MAPS_URL =
+  `https://maps.apple.com/?q=${encodeURIComponent(
+    OFFICE_NAME,
+  )}&address=${encodeURIComponent(
+    OFFICE_ADDRESS,
+  )}`;
 
 const initialFormData: LeadFormData = {
   fullName: "",
@@ -162,6 +185,39 @@ export default function ContactForm({
   ] = useState<ToastState | null>(
     null
   );
+
+  const [
+    mapUrl,
+    setMapUrl,
+  ] = useState(
+    GOOGLE_MAPS_URL
+  );
+
+  useEffect(() => {
+    const userAgent =
+      window.navigator.userAgent;
+
+    const platform =
+      window.navigator.platform;
+
+    const touchPoints =
+      window.navigator.maxTouchPoints;
+
+    const isAppleMobile =
+      /iPhone|iPad|iPod/i.test(
+        userAgent
+      ) ||
+      (
+        platform === "MacIntel" &&
+        touchPoints > 1
+      );
+
+    setMapUrl(
+      isAppleMobile
+        ? APPLE_MAPS_URL
+        : GOOGLE_MAPS_URL
+    );
+  }, []);
 
   const closeToast =
     useCallback(() => {
@@ -494,10 +550,16 @@ export default function ContactForm({
                 styles.infoCards
               }
             >
-              <div
+              <a
                 className={
                   styles.infoCard
                 }
+                href={
+                  WHATSAPP_URL
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Escribir a ANCOSUR por WhatsApp"
               >
                 <span
                   className={
@@ -513,22 +575,41 @@ export default function ContactForm({
                   />
                 </span>
 
-                <div>
+                <div
+                  className={
+                    styles.cardContent
+                  }
+                >
                   <strong>
                     WhatsApp
                   </strong>
 
                   <small>
-                    Atención rápida con
-                    un asesor comercial.
+                    Atención rápida al
+                    971 069 763.
                   </small>
                 </div>
-              </div>
 
-              <div
+                <ArrowSquareOutIcon
+                  className={
+                    styles.cardArrow
+                  }
+                  size={18}
+                  weight="bold"
+                  aria-hidden="true"
+                />
+              </a>
+
+              <a
                 className={
                   styles.infoCard
                 }
+                href={
+                  mapUrl
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Abrir la ubicación de ANCOSUR en la aplicación de mapas"
               >
                 <span
                   className={
@@ -544,22 +625,34 @@ export default function ContactForm({
                   />
                 </span>
 
-                <div>
+                <div
+                  className={
+                    styles.cardContent
+                  }
+                >
                   <strong>
-                    Ubicación
+                    Cómo llegar
                   </strong>
 
                   <small>
-                    Proyectos en
-                    Huancayo, El Tambo
-                    y más zonas.
+                    Av. San Carlos 1481,
+                    San Antonio, Huancayo.
                   </small>
                 </div>
-              </div>
+
+                <ArrowSquareOutIcon
+                  className={
+                    styles.cardArrow
+                  }
+                  size={18}
+                  weight="bold"
+                  aria-hidden="true"
+                />
+              </a>
 
               <div
                 className={
-                  styles.infoCard
+                  `${styles.infoCard} ${styles.infoCardStatic}`
                 }
               >
                 <span
@@ -576,20 +669,24 @@ export default function ContactForm({
                   />
                 </span>
 
-                <div>
+                <div
+                  className={
+                    styles.cardContent
+                  }
+                >
                   <strong>
                     Asesoría
                     inmobiliaria
                   </strong>
 
                   <small>
-                    Te ayudamos a
-                    elegir según tu
-                    presupuesto.
+                    Te ayudamos a elegir
+                    según tu presupuesto.
                   </small>
                 </div>
               </div>
             </div>
+
           </div>
 
           <div

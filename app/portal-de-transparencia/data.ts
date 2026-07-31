@@ -16,19 +16,6 @@ export type TransparencyProject = {
   documents: LegalDocument[];
 };
 
-/*
-  Esta ruta supone que tus documentos se encuentran en:
-
-  public/
-  └── assets/
-      └── portal-transparencia/
-          └── documents/
-
-  Si la carpeta "portal-transparencia" está directamente dentro de public,
-  cambia el valor por:
-
-  const DOCUMENTS_BASE_PATH = "/portal-transparencia/documents";
-*/
 
 const DOCUMENTS_BASE_PATH =
   "/assets/portal-transparencia/documents";

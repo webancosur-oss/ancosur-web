@@ -32,7 +32,7 @@ export const projects: Project[] = [
     id: 1,
     name: "Neo Rivera",
     type: "Departamento",
-    city: "LA RIBERA – ",
+    city: "LA RIBERA",
     address: "Jr. Dalias (Al costado del Parque La Rivera)",
     bedrooms: "2 Dorm.",
     area: "Desde 57.10 m²",
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     name: "Neo Balto",
     type: "Departamento",
     city: "Huancayo",
-    address: "Jr. San Agustín 416",
+    address: "Jr. San Agustín 416 (Cerca al parque Grau)",
     bedrooms: "2 Dorm.",
     area: "Desde 43 m²",
     price: "S/ 191,300",
@@ -63,7 +63,7 @@ export const projects: Project[] = [
     name: "Neo Xport",
     type: "Departamento",
     city: "Huancayo",
-    address: "Av. Chorrillos",
+    address: "Av. Chorrillos (Cerca al Polideportivo Wanka)",
     bedrooms: "2 Dorm.",
     area: "Desde 67.84 m²",
     price: "S/ 228,755",
@@ -78,7 +78,7 @@ export const projects: Project[] = [
     name: "Neo Eterna",
     type: "Departamento",
     city: "Huancayo",
-    address: "Av. San Carlos",
+    address: "Av. San Carlos (Cerca a universidades)",
     bedrooms: "3 Dorm.",
     area: "Desde 76.15 m²",
     price: "S/ 311,292",
@@ -90,25 +90,10 @@ export const projects: Project[] = [
 
   {
     id: 5,
-    name: "Neo Emperatriz",
-    type: "Departamento",
-    city: "Huancayo",
-    address: "Av. San Carlos 1481",
-    bedrooms: "2 y 3 Dorm.",
-    area: "Desde 74 m²",
-    price: "Consultar",
-    status: "ENTREGA INMEDIATA",
-    image: "/assets/projects/emperatriz.webp",
-    logo: "/assets/images/neo-emperatriz.svg",
-    href: "/neo-emperatriz",
-  },
-
-  {
-    id: 6,
     name: "Neo Origen",
     type: "Departamento",
     city: "Huancayo",
-    address: "Jr. Libertad 1187",
+    address: "Jr. Libertad 1187 (Cerca al coelgio M. Castilla)",
     bedrooms: "1, 2 y 3 Dorm.",
     area: "Desde 33 m²",
     price: "S/ 149,560",
@@ -119,11 +104,11 @@ export const projects: Project[] = [
   },
 
   {
-    id: 7,
+    id: 6,
     name: "Distrito San Carlos",
     type: "Departamento",
     city: "Huancayo",
-    address: "Jr. Chacabuco",
+    address: "Jr. Chacabuco (Cerca al centro de Huancayo)",
     bedrooms: "2 y 3 Dorm.",
     area: "Desde 54.24 m²",
     price: "S/ 226,863",
@@ -134,11 +119,11 @@ export const projects: Project[] = [
   },
 
   {
-    id: 8,
+    id: 7,
     name: "Moro 416",
     type: "Departamento",
     city: "Huancayo",
-    address: "Av. Giráldez",
+    address: "Av. Giráldez (Cerca a Real Plaza y parques)",
     bedrooms: "1, 2 y 3 Dorm.",
     area: "Desde 33 m²",
     price: "S/ 207,900",
@@ -149,11 +134,11 @@ export const projects: Project[] = [
   },
 
   {
-    id: 9,
+    id: 8,
     name: "Camino Real",
     type: "Lote",
     city: "El Tambo",
-    address: "Huancayo",
+    address: "Cerca al Fundo Essalud e Universidades",
     bedrooms: "Lote",
     area: "Desde 90 m²",
     price: "S/ 130,000",
@@ -164,7 +149,7 @@ export const projects: Project[] = [
   },
 
   {
-    id: 10,
+    id: 9,
     name: "Zagari Resort Club",
     type: "Resort",
     city: "San Ramón",
@@ -179,7 +164,7 @@ export const projects: Project[] = [
   },
 
   {
-    id: 11,
+    id: 10,
     name: "Las Colinas de Moro",
     type: "Lote",
     city: "Huancayo",
@@ -194,7 +179,7 @@ export const projects: Project[] = [
   },
 
   {
-    id: 12,
+    id: 11,
     name: "Las Terrazas de Concepción",
     type: "Lote",
     city: "Concepción",
@@ -211,7 +196,20 @@ export const projects: Project[] = [
   /*==================================================
     PROYECTOS ENTREGADOS
   ==================================================*/
-
+{
+    id: 12,
+    name: "Neo Emperatriz",
+    type: "Departamento",
+    city: "Huancayo",
+    address: "Av. San Carlos 1481",
+    bedrooms: "2 y 3 Dorm.",
+    area: "Desde 74 m²",
+    price: "Entregado",
+    status: "ENTREGADO",
+    image: "/assets/projects/emperatriz.webp",
+    logo: "/assets/images/neo-emperatriz.svg",
+    href: "/neo-emperatriz",
+  },
 
   {
     id: 13,

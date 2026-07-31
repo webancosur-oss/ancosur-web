@@ -59,7 +59,7 @@ const stats: StatItem[] = [
     accent: "#8FAA55",
   },
   {
-    value: 9,
+    value: 19,
     prefix: "+",
     label: "Entregados",
     description: "Proyectos culminados con compromiso.",
