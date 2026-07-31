@@ -1,7 +1,7 @@
 .podcastWidget {
   position: fixed;
   right: 0;
-  bottom: 270px;
+  bottom: 330px;
   z-index: 940;
   pointer-events: none;
 }
@@ -283,7 +283,7 @@
 @media (max-width: 1024px) {
   .podcastWidget {
     right: 0;
-    bottom: 255px;
+    bottom: 315px;
   }
 
   .notch {
@@ -316,7 +316,7 @@
 @media (max-width: 640px) {
   .podcastWidget {
     right: 0;
-    bottom: 188px;
+    bottom: 250px;
   }
 
   .notch {
@@ -337,14 +337,14 @@
     position: fixed;
 
     right: 14px;
-    bottom: 250px;
+    bottom: 312px;
     left: 14px;
 
     width: auto;
     max-width: none;
 
     max-height:
-      calc(100svh - 270px);
+      calc(100svh - 332px);
 
     padding: 15px;
 
@@ -391,7 +391,7 @@
 @media (max-width: 420px) {
   .podcastWidget {
     right: 0;
-    bottom: 180px;
+    bottom: 238px;
   }
 
   .notch {
@@ -404,11 +404,11 @@
 
   .panel {
     right: 10px;
-    bottom: 238px;
+    bottom: 296px;
     left: 10px;
 
     max-height:
-      calc(100svh - 254px);
+      calc(100svh - 312px);
 
     padding: 14px;
 
