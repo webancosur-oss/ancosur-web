@@ -5,22 +5,23 @@ export default function Moro416Media() {
   return (
     <section
       className={styles.section}
-      id="tipologias-neo-balto"
-      aria-labelledby="neo-balto-media-title"
+      id="tipologias-moro-416"
+      aria-labelledby="moro-416-media-title"
     >
       <div className={styles.header}>
-        <span>Conoce Neo Balto</span>
+        <span>Conoce Moro 416</span>
 
-        <h2 id="neo-balto-media-title">
-          Descubre el proyecto y encuentra tu
-          tipología ideal
+        <h2 id="moro-416-media-title">
+          Descubre un proyecto de uso mixto
+          en el corazón de Huancayo
         </h2>
 
         <p>
-          Conoce la propuesta Pet-Centric de
-          Neo Balto y elige el departamento
-          que mejor se adapte a tu estilo de
-          vida y al de tu mascota.
+          Conoce Moro 416, una propuesta que
+          integra espacios comerciales,
+          oficinas y departamentos en una
+          ubicación estratégica de alto valor
+          urbano y comercial.
         </p>
       </div>
 
@@ -31,7 +32,7 @@ export default function Moro416Media() {
               width="560"
               height="315"
               src="https://www.youtube.com/embed/7MJlsOOQV2Q?si=5Fda_KdTUtSfQrTD"
-              title="Presentación del proyecto Neo Balto"
+              title="Presentación del proyecto Moro 416"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -44,36 +45,39 @@ export default function Moro416Media() {
           </div>
 
           <div className={styles.videoContent}>
-            <span>Proyecto Neo Balto</span>
+            <span>Proyecto Moro 416</span>
 
             <h3>
-              Vive en familia en el primer
-              edificio Pet-Centric de Huancayo
+              Vive, trabaja e invierte en un
+              nuevo referente arquitectónico
+              de Huancayo
             </h3>
 
             <p>
-              Descubre su arquitectura,
-              ubicación, amenidades
-              pet-friendly y departamentos
-              diseñados para compartir una
-              vida más cómoda junto a tu
-              mascota.
+              Moro 416 es un proyecto
+              inmobiliario de uso mixto que
+              integra locales comerciales,
+              oficinas y departamentos, con
+              una ubicación privilegiada en
+              la intersección de la avenida
+              Ferrocarril y la avenida
+              Giráldez.
             </p>
 
             <div className={styles.videoStats}>
               <div>
-                <span>Ambientes</span>
-                <strong>2 ambientes</strong>
+                <span>Tipología</span>
+                <strong>Uso mixto</strong>
               </div>
 
               <div>
                 <span>Área</span>
-                <strong>Desde 43 m²</strong>
+                <strong>Desde 42 m²</strong>
               </div>
 
               <div>
-                <span>Concepto</span>
-                <strong>Pet-Centric</strong>
+                <span>Altura</span>
+                <strong>19 pisos</strong>
               </div>
             </div>
           </div>
@@ -82,7 +86,7 @@ export default function Moro416Media() {
         <div className={styles.typologyColumn}>
           <Typologies
             mode="compact"
-            projectHref="#informacion-neo-balto"
+            projectHref="#informacion-moro-416"
           />
         </div>
       </div>

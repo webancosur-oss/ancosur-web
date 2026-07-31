@@ -307,7 +307,7 @@ export default function CertificationsSection() {
             </div>
           </article>
 
-          <article
+          {/* <article
             className={`${styles.card} ${styles.capecoCard}`}
           >
             <div
@@ -422,7 +422,7 @@ export default function CertificationsSection() {
                 </span>
               </div>
             </div>
-          </article>
+          </article> */}
         </div>
       </div>
     </section>
