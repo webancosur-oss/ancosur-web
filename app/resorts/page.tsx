@@ -57,64 +57,7 @@ export default function ResortsPage() {
       <Navbar />
 
       <main>
-        <section className={styles.hero}>
-          <div
-            className={
-              styles.heroContent
-            }
-          >
-            <span>
-              Resorts ANCOSUR
-            </span>
-
-            <h1>
-              Invierte en experiencias
-              que conectan con la
-              naturaleza
-            </h1>
-
-            <p>
-              Proyectos resort en Selva
-              Central pensados para
-              disfrutar, descansar e
-              invertir en destinos con
-              alto potencial turístico.
-            </p>
-
-            <div
-              className={
-                styles.heroActions
-              }
-            >
-              <a
-                href="#resorts"
-                data-scroll-target="resorts"
-                className={
-                  styles.primaryButton
-                }
-              >
-                Ver resorts
-
-                <ArrowRightIcon
-                  size={18}
-                  weight="bold"
-                  aria-hidden="true"
-                />
-              </a>
-
-              <a
-                href="#asesoria"
-                data-scroll-target="asesoria"
-                className={
-                  styles.secondaryButton
-                }
-              >
-                Solicitar asesoría
-              </a>
-            </div>
-          </div>
-        </section>
-
+      
         <section
           className={
             styles.projectsSection

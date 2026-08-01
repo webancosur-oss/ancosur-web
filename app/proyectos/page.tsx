@@ -51,10 +51,10 @@ export default function ProyectosPage() {
           showResultsInfo={true}
           showCta={false}
           filterGroups={[
-            {
-              id: "todos",
-              label: "Todos",
-            },
+            // {
+            //   id: "todos",
+            //   label: "Todos",
+            // },
             {
               id: "pre-venta",
               label: "Pre venta",

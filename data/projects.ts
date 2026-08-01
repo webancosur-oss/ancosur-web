@@ -40,7 +40,7 @@ export const projects: Project[] = [
     status: "PRE VENTA",
     image: "/assets/projects/rivera.webp",
     logo: "/assets/images/neo-rivera.svg",
-    href: "/neo-rivera",
+    href: "https://showroom.ancosur.com/neo-rivera",
   },
 
   {

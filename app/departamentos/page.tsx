@@ -1,111 +1,132 @@
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import ProjectFilter from "@/components/ProjectFilter";
+
 import DepartamentosLeadForm from "./DepartamentosLeadForm";
+import DeliveredProjectsSection from "./components/DeliveredProjectsSection";
+
+import { projects } from "@/data/projects";
+
 import styles from "./DepartamentosPage.module.css";
 
+const deliveredProjects = projects
+  .filter(
+    (project) =>
+      project.type === "Departamento" &&
+      project.status === "ENTREGADO",
+  )
+  .slice(0, 3)
+  .map((project) => ({
+    id: project.id,
+    name: project.name,
+    image: project.image,
+   
+    type: "Departamentos",
+    href: project.href,
+  }));
+
 export const metadata = {
-  title: "Departamentos en Huancayo | ANCOSUR Inmobiliaria",
+  title:
+    "Departamentos en Huancayo | ANCOSUR",
+
   description:
-    "Encuentra departamentos en Huancayo para vivir o invertir con ANCOSUR Inmobiliaria.",
+    "Encuentra departamentos en preventa, construcción y entrega inmediata en Huancayo con ANCOSUR Inmobiliaria.",
 };
 
 export default function DepartamentosPage() {
   return (
-    <>
-      <Navbar />
+    <main className={styles.page}>
+      {/* =====================================================
+          DEPARTAMENTOS DISPONIBLES
+      ====================================================== */}
 
-      <main>
-        <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <span>Departamentos ANCOSUR</span>
+      <ProjectFilter
+        eyebrow="Departamentos ANCOSUR"
+        title="Elige tu próximo hogar"
+        description="Descubre proyectos diseñados para elevar tu estilo de vida y recibe asesoría personalizada para elegir la mejor inversión."
+        projectTypes={["Departamento"]}
+        visibleLimit={12}
+        showFilters={true}
+        showResultsInfo={true}
+        showCta={false}
+        initialFilterId="pre-venta"
+        filterGroups={[
+          {
+            id: "pre-venta",
+            label: "Preventa",
+            projectNames: [
+              "Neo Rivera",
+              "Neo Balto",
+              "Neo Eterna",
+              "Distrito San Carlos",
+            ],
+          },
+          {
+            id: "en-construccion",
+            label: "En construcción",
+            projectNames: [
+              "Neo Xport",
+              "Moro 416",
+            ],
+          },
+          {
+            id: "entrega-inmediata",
+            label: "Entrega inmediata",
+            projectNames: [
+              "Neo Origen",
+            ],
+          },
+        ]}
+      />
 
-            <h1>Departamentos para vivir e invertir</h1>
+      {/* =====================================================
+          PROYECTOS ENTREGADOS
+      ====================================================== */}
 
-            <p>
-              Tu departamento moderno, bien ubicado y pensado para tu estilo de
-              vida.
-            </p>
+      <DeliveredProjectsSection
+        projects={deliveredProjects}
+        limit={3}
+        eyebrow="Departamentos entregados"
+        title="Proyectos entregados que respaldan nuestra experiencia"
+        description="Conoce algunos de los proyectos desarrollados y entregados por ANCOSUR en Huancayo."
+        ctaHref="/proyectos-entregados"
+        ctaLabel="Ver más proyectos entregados"
+      />
 
-            <div className={styles.heroActions}>
-              <a href="#proyectos" className={styles.primaryButton}>
-                Ver departamentos
-                <ArrowRightIcon size={18} weight="bold" aria-hidden={true} />
-              </a>
+      {/* =====================================================
+          FORMULARIO
+      ====================================================== */}
 
-              <a href="#asesoria" className={styles.secondaryButton}>
-                Quiero asesoría
-              </a>
-            </div>
+      <section
+        className={styles.leadSection}
+        id="asesoria"
+        aria-labelledby="departamentos-lead-title"
+      >
+        <div className={styles.leadContent}>
+          <span>
+            Asesoría personalizada
+          </span>
+
+          <h2 id="departamentos-lead-title">
+            Encuentra el departamento que va contigo
+          </h2>
+
+          <p>
+            Déjanos tus datos y un asesor te ayudará a elegir la mejor opción
+            según tus necesidades, presupuesto y estilo de vida.
+          </p>
+
+          <div className={styles.leadMiniList}>
+            <span>
+              Respuesta rápida por WhatsApp
+            </span>
+
+            <span>
+              Opciones para vivir o invertir
+            </span>
           </div>
-        </section>
+        </div>
 
-        <ProjectFilter
-            eyebrow="Departamentos ANCOSUR"
-            title="Elige tu próximo hogar"
-            description="Descubre proyectos diseñados para elevar tu estilo de vida y recibe asesoría personalizada para elegir la mejor inversión."
-            projectTypes={["Departamento"]}
-            visibleLimit={12}
-            showFilters={true}
-            showResultsInfo={true}
-            showCta={false}
-            filterGroups={[
-                {
-                id: "todos",
-                label: "Todos",
-                projectTypes: ["Departamento"],
-                },
-                {
-                id: "pre-venta",
-                label: "Pre venta",
-                projectNames: [
-                    "Neo Rivera",
-                    "Neo Balto",
-                    "Neo Eterna",
-                    "Distrito San Carlos",
-                ],
-                },
-                {
-                id: "en-construccion",
-                label: "En construcción",
-                projectNames: ["Neo Xport", "Moro 416"],
-                },
-                {
-                id: "entrega-inmediata",
-                label: "Entrega inmediata",
-                projectNames: ["Neo Emperatriz"],
-                },
-                {
-                id: "entregados",
-                label: "Entregados",
-                projectTypes: ["Departamento"],
-                statuses: ["ENTREGADO"],
-                },
-            ]}
-            />
-
-        <section className={styles.leadSection} id="asesoria">
-          <div className={styles.leadContent}>
-            <span>Asesoría personalizada</span>
-
-            <h2>Encuentra el departamento que va contigo</h2>
-
-            <p>
-              Déjanos tus datos y un asesor te ayudará a elegir la mejor opción.
-            </p>
-
-            <div className={styles.leadMiniList}>
-              <span>Respuesta rápida por WhatsApp</span>
-              <span>Opciones para vivir o invertir</span>
-            </div>
-          </div>
-
-          <DepartamentosLeadForm />
-        </section>
-      </main>
-
-      
-    </>
+        <DepartamentosLeadForm />
+      </section>
+    </main>
   );
 }

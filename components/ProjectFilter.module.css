@@ -64,18 +64,21 @@
   SECCIÓN
 ==================================================*/
 
-.projectsSection{
-  width:100%;
+.projectsSection {
+  width: 100%;
+  margin: 0 auto;
 
-  /*
-    Se reduce el espacio superior para que
-    las tarjetas suban casi hasta donde marcaste.
-  */
-  padding:16px 0 90px;
+  padding:
+    clamp(110px, 10vw, 150px)
+    0
+    90px;
 
-  background:#ffffff;
+  background: #ffffff;
+
+  scroll-margin-top: 110px;
+
+  box-sizing: border-box;
 }
-
 /*==================================================
   CABECERA
 ==================================================*/
@@ -296,8 +299,11 @@
 
 @media (max-width:1200px){
 
-  .projectsSection{
-    padding:14px 0 80px;
+  .projectsSection {
+    padding:
+      108px
+      0
+      80px;
   }
 
   .heading{
@@ -359,8 +365,11 @@
 
 @media (max-width:768px){
 
-  .projectsSection{
-    padding:10px 0 64px;
+    .projectsSection {
+    padding:
+      104px
+      0
+      64px;
   }
 
   .heading{
@@ -480,8 +489,11 @@
 
 @media (max-width:580px){
 
-  .projectsSection{
-    padding-top:8px;
+   .projectsSection {
+    padding:
+      100px
+      0
+      60px;
   }
 
   .heading{
@@ -502,8 +514,11 @@
 
 @media (max-width:480px){
 
-  .projectsSection{
-    padding:6px 0 56px;
+  .projectsSection {
+    padding:
+      96px
+      0
+      56px;
   }
 
   .heading{
@@ -568,17 +583,19 @@
   PANTALLAS MUY PEQUEÑAS
 ==================================================*/
 
-@media (max-width:380px){
-
-  .projectsSection{
-    padding-top:4px;
+@media (max-width: 380px) {
+  .projectsSection {
+    padding:
+      92px
+      0
+      64px;
   }
 
   .grid > * > div:first-child,
   .grid article > div:first-child,
-  .grid > a > div:first-child{
-    height:410px;
-    min-height:410px;
+  .grid > a > div:first-child {
+    height: 410px;
+    min-height: 410px;
   }
 }
 

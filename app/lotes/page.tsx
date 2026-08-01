@@ -29,41 +29,7 @@ export default function LotesPage() {
       <Navbar />
 
       <main>
-        <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <span>Lotes ANCOSUR</span>
-
-            <h1>Invierte en tierra con futuro</h1>
-
-            <p>
-              Elige una ubicación con proyección para construir,
-              crecer o asegurar tu próxima inversión.
-            </p>
-
-            <div className={styles.heroActions}>
-              <a
-                href="#proyectos"
-                className={styles.primaryButton}
-              >
-                Ver lotes
-
-                <ArrowRightIcon
-                  size={18}
-                  weight="bold"
-                  aria-hidden={true}
-                />
-              </a>
-
-              <a
-                href="#asesoria"
-                className={styles.secondaryButton}
-              >
-                Quiero asesoría
-              </a>
-            </div>
-          </div>
-        </section>
-
+        
         <div id="proyectos">
           <ProjectFilter
             eyebrow="Lotes ANCOSUR"
@@ -75,10 +41,10 @@ export default function LotesPage() {
             showResultsInfo={true}
             showCta={false}
             filterGroups={[
-              {
-                id: "todos",
-                label: "Todos",
-              },
+              // {
+              //   id: "todos",
+              //   label: "Todos",
+              // },
               {
                 id: "en-construccion",
                 label: "En construcción",

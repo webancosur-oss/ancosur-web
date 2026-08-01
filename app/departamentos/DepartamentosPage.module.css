@@ -1,7 +1,27 @@
+.page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
 .hero {
   position: relative;
+
   min-height: 600px;
-  padding: 135px clamp(20px, 6vw, 100px) 76px;
+
+  padding:
+    135px
+    clamp(20px, 6vw, 100px)
+    76px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
   background:
     linear-gradient(
       90deg,
@@ -10,70 +30,99 @@
       rgba(10, 10, 12, 0.24) 100%
     ),
     url("/assets/heros/depas.png");
+
   background-size: cover;
   background-position: center;
+
   color: #ffffff;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+
   box-sizing: border-box;
 }
 
 .heroContent {
   position: relative;
   z-index: 2;
+
   max-width: 620px;
 }
 
 .heroContent span,
-.leadContent span,
+.leadContent > span,
 .leadFormHeader span {
   display: inline-flex;
+
   margin-bottom: 11px;
+
   color: #00a74f;
+
   font-size: 0.64rem;
   font-weight: 700;
+
   text-transform: uppercase;
   letter-spacing: 0.11em;
 }
 
 .heroContent h1 {
   margin: 0;
+
   color: #ffffff;
+
   line-height: 0.96;
   letter-spacing: -0.055em;
   font-weight: 750;
+
   text-wrap: balance;
 }
 
 .heroContent p {
   max-width: 500px;
+
   margin: 18px 0 0;
-  color: rgba(255, 255, 255, 0.76);
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.76
+    );
+
   line-height: 1.5;
 }
 
 .heroActions {
   margin-top: 26px;
+
   display: flex;
   flex-wrap: wrap;
+
   gap: 11px;
 }
 
 .primaryButton,
 .secondaryButton {
   min-height: 44px;
-  padding: 0 19px;
-  border-radius: 999px;
+
+  padding:
+    0
+    19px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
+
+  border-radius: 999px;
+
   text-decoration: none;
+
   font-size: 0.7rem;
   font-weight: 750;
+
   text-transform: uppercase;
   letter-spacing: 0.04em;
+
   transition:
     background 0.25s ease,
     color 0.25s ease,
@@ -84,101 +133,363 @@
 
 .primaryButton {
   border: 1px solid #00a74f;
+
   background: #00a74f;
   color: #ffffff;
-  box-shadow: 0 14px 34px rgba(0, 167, 79, 0.24);
+
+  box-shadow:
+    0 14px 34px
+    rgba(0, 167, 79, 0.24);
 }
 
 .primaryButton:hover {
-  background: #008f43;
   border-color: #008f43;
+
+  background: #008f43;
+
   transform: translateY(-2px);
-  box-shadow: 0 20px 46px rgba(0, 167, 79, 0.3);
+
+  box-shadow:
+    0 20px 46px
+    rgba(0, 167, 79, 0.3);
 }
 
 .secondaryButton {
-  border: 1px solid rgba(255, 255, 255, 0.68);
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.68);
+
   background: transparent;
   color: #ffffff;
 }
 
 .secondaryButton:hover {
-  background: #ffffff;
   border-color: #ffffff;
+
+  background: #ffffff;
   color: #17172f;
+
   transform: translateY(-2px);
 }
 
+/* =========================================================
+   PROYECTOS ENTREGADOS
+========================================================= */
+
+.deliveredSection {
+  position: relative;
+
+  width: 100%;
+
+  padding:
+    clamp(76px, 8vw, 118px)
+    clamp(18px, 6vw, 90px);
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 92% 8%,
+      rgba(14, 87, 48, 0.19),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 5% 95%,
+      rgba(255, 255, 255, 0.055),
+      transparent 28%
+    ),
+    linear-gradient(
+      145deg,
+      #0e5f40 0%,
+      #0ec29b 100%
+    );
+
+  color: #ffffff;
+
+  box-sizing: border-box;
+}
+
+.deliveredSection::before {
+  content: "";
+
+  position: absolute;
+
+  top: -170px;
+  right: -140px;
+
+  width: 390px;
+  height: 390px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(0, 255, 120, 0.08);
+
+  pointer-events: none;
+}
+
+.deliveredSection::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -230px;
+  left: -190px;
+
+  width: 450px;
+  height: 450px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 167, 79, 0.06);
+
+  pointer-events: none;
+}
+
+.deliveredContainer {
+  position: relative;
+  z-index: 2;
+
+  width: min(1180px, 100%);
+
+  margin: 0 auto;
+}
+
+.deliveredHeader {
+  max-width: 760px;
+
+  margin:
+    0
+    auto
+    clamp(34px, 5vw, 52px);
+
+  text-align: center;
+}
+
+.deliveredHeader > span {
+  display: inline-flex;
+
+  margin-bottom: 12px;
+
+  color: #00ff78;
+
+  font-size: 0.72rem;
+  font-weight: 750;
+
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+
+.deliveredHeader h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+
+  text-wrap: balance;
+}
+
+.deliveredHeader p {
+  max-width: 630px;
+
+  margin:
+    18px
+    auto
+    0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.68
+    );
+
+  line-height: 1.68;
+}
+
+.deliveredProjects {
+  width: 100%;
+}
+
+/*
+ * El ProjectFilter mantiene únicamente
+ * la cuadrícula de tarjetas.
+ */
+
+.deliveredProjects :global(section) {
+  padding: 0 !important;
+
+  background:
+    transparent !important;
+}
+
+.deliveredProjects
+  :global(section > div) {
+  width: 100%;
+
+  max-width: none;
+}
+
+.deliveredAction {
+  width: 100%;
+
+  margin-top:
+    clamp(30px, 4vw, 44px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deliveredAction > * {
+  flex: 0 0 auto;
+}
+
+/* =========================================================
+   FORMULARIO DE LEADS
+========================================================= */
+
 .leadSection {
   width: 100%;
-  padding: clamp(64px, 7vw, 100px) clamp(20px, 6vw, 100px);
-  background:
-    radial-gradient(circle at top right, rgba(0, 167, 79, 0.15), transparent 34%),
-    linear-gradient(135deg, #17172f 0%, #101024 100%);
-  color: #ffffff;
+
+  padding:
+    clamp(64px, 7vw, 100px)
+    clamp(20px, 6vw, 100px);
+
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.72fr);
-  gap: clamp(30px, 5vw, 68px);
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(360px, 0.72fr);
+
   align-items: center;
-  box-sizing: border-box;
+
+  gap:
+    clamp(30px, 5vw, 68px);
+
   overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 167, 79, 0.15),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #17172f 0%,
+      #101024 100%
+    );
+
+  color: #ffffff;
+
   scroll-margin-top: 110px;
+
+  box-sizing: border-box;
 }
 
 .leadContent {
   max-width: 580px;
 }
 
-.leadContent span {
+.leadContent > span {
   color: #00ff78;
 }
 
 .leadContent h2 {
   max-width: 540px;
+
   margin: 0;
+
   color: #ffffff;
+
   line-height: 0.96;
   letter-spacing: -0.055em;
   font-weight: 750;
+
   text-wrap: balance;
 }
 
 .leadContent p {
   max-width: 480px;
+
   margin: 17px 0 0;
-  color: rgba(255, 255, 255, 0.72);
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.72
+    );
+
   line-height: 1.5;
 }
 
 .leadMiniList {
   margin-top: 20px;
+
   display: flex;
   flex-wrap: wrap;
+
   gap: 8px;
 }
 
 .leadMiniList span {
   margin: 0;
-  padding: 8px 12px;
+
+  padding:
+    8px
+    12px;
+
+  display: inline-flex;
+  align-items: center;
+
+  border:
+    1px solid
+    rgba(0, 255, 120, 0.18);
+
   border-radius: 999px;
-  background: rgba(0, 167, 79, 0.16);
-  border: 1px solid rgba(0, 255, 120, 0.18);
+
+  background:
+    rgba(0, 167, 79, 0.16);
+
   color: #ffffff;
+
   font-size: 0.66rem;
   font-weight: 650;
+
   letter-spacing: 0;
   text-transform: none;
 }
 
+/* =========================================================
+   FORMULARIO
+========================================================= */
+
 .leadForm {
   width: 100%;
   max-width: 490px;
+
   justify-self: end;
-  padding: clamp(21px, 2.6vw, 30px);
+
+  padding:
+    clamp(21px, 2.6vw, 30px);
+
   border-radius: 26px;
+
   background: #ffffff;
   color: #17172f;
-  box-shadow: 0 28px 74px rgba(0, 0, 0, 0.22);
+
+  box-shadow:
+    0 28px 74px
+    rgba(0, 0, 0, 0.22);
+
   box-sizing: border-box;
 }
 
@@ -188,13 +499,17 @@
 
 .leadFormHeader span {
   margin-bottom: 7px;
+
   color: #00a74f;
+
   font-size: 0.62rem;
 }
 
 .leadFormHeader strong {
   display: block;
+
   color: #17172f;
+
   line-height: 1;
   letter-spacing: -0.04em;
   font-weight: 750;
@@ -202,66 +517,108 @@
 
 .leadFormHeader p {
   margin: 8px 0 0;
-  color: rgba(23, 23, 47, 0.6);
+
+  color:
+    rgba(
+      23,
+      23,
+      47,
+      0.6
+    );
+
   font-size: 0.8rem;
   line-height: 1.44;
 }
 
 .formGrid {
   display: grid;
+
   gap: 12px;
 }
 
 .field {
   display: grid;
+
   gap: 6px;
+
   color: #17172f;
+
   font-size: 0.68rem;
   font-weight: 750;
 }
 
 .inputBox {
   min-height: 46px;
+
+  padding:
+    0
+    13px;
+
   display: grid;
-  grid-template-columns: 19px minmax(0, 1fr);
-  gap: 9px;
+
+  grid-template-columns:
+    19px
+    minmax(0, 1fr);
+
   align-items: center;
-  padding: 0 13px;
-  border: 1px solid rgba(23, 23, 47, 0.14);
+
+  gap: 9px;
+
+  border:
+    1px solid
+    rgba(23, 23, 47, 0.14);
+
   border-radius: 12px;
+
   background: #ffffff;
+
   box-sizing: border-box;
+
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 
 .inputBox svg {
-  color: #00a74f;
   flex-shrink: 0;
+
+  color: #00a74f;
 }
 
 .inputBox:focus-within {
   border-color: #00a74f;
-  box-shadow: 0 0 0 4px rgba(0, 167, 79, 0.12);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(0, 167, 79, 0.12);
 }
 
 .inputBox input,
 .inputBox select {
   width: 100%;
   min-height: 44px;
+
   border: 0;
   outline: 0;
+
   background: transparent;
   color: #17172f;
+
   font: inherit;
   font-size: 0.82rem;
   font-weight: 550;
+
   box-sizing: border-box;
 }
 
 .inputBox input::placeholder {
-  color: rgba(23, 23, 47, 0.42);
+  color:
+    rgba(
+      23,
+      23,
+      47,
+      0.42
+    );
 }
 
 .inputBox select {
@@ -270,10 +627,20 @@
 
 .checkbox {
   margin: 14px 0;
+
   display: flex;
   align-items: flex-start;
+
   gap: 9px;
-  color: rgba(23, 23, 47, 0.7);
+
+  color:
+    rgba(
+      23,
+      23,
+      47,
+      0.7
+    );
+
   font-size: 0.7rem;
   line-height: 1.42;
   font-weight: 550;
@@ -282,14 +649,19 @@
 .checkbox input {
   width: 15px;
   height: 15px;
+
   margin-top: 2px;
-  accent-color: #00a74f;
+
   flex-shrink: 0;
+
+  accent-color: #00a74f;
 }
 
 .error {
   display: block;
+
   color: #d71920;
+
   font-size: 0.66rem;
   font-weight: 750;
 }
@@ -297,21 +669,29 @@
 .leadForm button {
   width: 100%;
   min-height: 48px;
+
   margin-top: 4px;
+
   border: 0;
   border-radius: 12px;
+
   background: #00a74f;
   color: #ffffff;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   gap: 8px;
-  
+
   font-size: 0.7rem;
   font-weight: 750;
+
   text-transform: uppercase;
   letter-spacing: 0.04em;
+
   cursor: pointer;
+
   transition:
     background 0.25s ease,
     transform 0.25s ease,
@@ -321,43 +701,73 @@
 
 .leadForm button:hover:not(:disabled) {
   background: #008f43;
+
   transform: translateY(-2px);
-  box-shadow: 0 16px 38px rgba(0, 167, 79, 0.24);
+
+  box-shadow:
+    0 16px 38px
+    rgba(0, 167, 79, 0.24);
 }
 
 .leadForm button:disabled {
   cursor: not-allowed;
+
   opacity: 0.68;
 }
 
 .statusSuccess,
 .statusError {
   margin-top: 13px;
+
   padding: 11px;
-  border-radius: 12px;
+
   display: grid;
-  grid-template-columns: 19px minmax(0, 1fr);
-  gap: 8px;
+
+  grid-template-columns:
+    19px
+    minmax(0, 1fr);
+
   align-items: start;
+
+  gap: 8px;
+
+  border-radius: 12px;
+
   font-size: 0.74rem;
   font-weight: 650;
   line-height: 1.42;
 }
 
 .statusSuccess {
+  background:
+    rgba(0, 167, 79, 0.12);
+
   color: #007a3a;
-  background: rgba(0, 167, 79, 0.12);
 }
 
 .statusError {
+  background:
+    rgba(215, 25, 32, 0.1);
+
   color: #c5161d;
-  background: rgba(215, 25, 32, 0.1);
 }
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 1024px) {
   .hero {
     min-height: 580px;
-    padding-inline: clamp(20px, 5vw, 70px);
+
+    padding-inline:
+      clamp(20px, 5vw, 70px);
+  }
+
+  .deliveredSection {
+    padding:
+      82px
+      22px;
   }
 
   .leadSection {
@@ -366,14 +776,24 @@
 
   .leadForm {
     max-width: 100%;
+
     justify-self: stretch;
   }
 }
 
+/* =========================================================
+   MÓVIL
+========================================================= */
+
 @media (max-width: 640px) {
   .hero {
     min-height: 600px;
-    padding: 116px 18px 62px;
+
+    padding:
+      116px
+      18px
+      62px;
+
     background:
       linear-gradient(
         180deg,
@@ -382,6 +802,7 @@
         rgba(10, 10, 12, 0.92) 100%
       ),
       url("/assets/heros/depas.png");
+
     background-size: cover;
     background-position: center;
   }
@@ -392,24 +813,26 @@
 
   .heroContent span {
     margin-bottom: 9px;
-    font-size: 0.6rem;
-  }
 
-  .heroContent h1 {
-    line-height: 0.96;
+    font-size: 0.6rem;
   }
 
   .heroContent p {
     max-width: 340px;
+
     margin-top: 15px;
+
     font-size: 0.8rem;
     line-height: 1.44;
   }
 
   .heroActions {
     width: 100%;
+
     margin-top: 22px;
+
     display: grid;
+
     gap: 9px;
   }
 
@@ -417,12 +840,46 @@
   .secondaryButton {
     width: 100%;
     min-height: 42px;
-    padding: 0 17px;
+
+    padding:
+      0
+      17px;
+
     font-size: 0.66rem;
   }
 
+  .deliveredSection {
+    padding:
+      68px
+      16px;
+  }
+
+  .deliveredHeader {
+    margin-bottom: 28px;
+
+    text-align: left;
+  }
+
+  .deliveredHeader p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .deliveredAction {
+    width: 100%;
+
+    margin-top: 26px;
+  }
+
+  .deliveredAction > * {
+    width: 100%;
+  }
+
   .leadSection {
-    padding: 56px 16px;
+    padding:
+      56px
+      16px;
+
     gap: 24px;
   }
 
@@ -432,6 +889,7 @@
 
   .leadContent p {
     margin-top: 15px;
+
     font-size: 0.8rem;
   }
 
@@ -441,13 +899,17 @@
 
   .leadMiniList span {
     width: 100%;
+
     justify-content: center;
+
     text-align: center;
+
     font-size: 0.64rem;
   }
 
   .leadForm {
     padding: 18px;
+
     border-radius: 20px;
   }
 
@@ -465,12 +927,14 @@
 
   .inputBox {
     min-height: 44px;
+
     border-radius: 11px;
   }
 
   .inputBox input,
   .inputBox select {
     min-height: 42px;
+
     font-size: 0.78rem;
   }
 
@@ -480,22 +944,30 @@
 
   .leadForm button {
     min-height: 46px;
+
     border-radius: 11px;
+
     font-size: 0.68rem;
   }
 }
 
+/* =========================================================
+   MÓVIL PEQUEÑO
+========================================================= */
+
 @media (max-width: 420px) {
   .hero {
     min-height: 570px;
-    padding-inline: 14px;
-  }
 
-  .heroContent h1 {
+    padding-inline: 14px;
   }
 
   .heroContent p {
     font-size: 0.78rem;
+  }
+
+  .deliveredSection {
+    padding-inline: 14px;
   }
 
   .leadSection {
@@ -507,7 +979,13 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* =========================================================
+   MOVIMIENTO REDUCIDO
+========================================================= */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
   .primaryButton,
   .secondaryButton,
   .leadForm button,
