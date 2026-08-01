@@ -208,7 +208,7 @@ export const projects: Project[] = [
     status: "ENTREGADO",
     image: "/assets/projects/emperatriz.webp",
     logo: "/assets/images/neo-emperatriz.svg",
-    href: "/neo-emperatriz",
+    href: deliveredWhatsapp,
   },
 
   {

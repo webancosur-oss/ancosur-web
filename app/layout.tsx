@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+import type {
+  Metadata,
+  Viewport,
+} from "next";
 import type { ReactNode } from "react";
 import { Manrope } from "next/font/google";
 
@@ -12,33 +15,72 @@ import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/ui/tawk/TawkChat";
 
 /* =========================================================
-   CONFIGURACIÓN DEL SITIO
+   CONFIGURACIÓN PRINCIPAL
 ========================================================= */
 
-const PRODUCTION_URL = "https://ancosur.com";
+const PRODUCTION_URL =
+  "https://ancosur.com";
 
-const normalizeUrl = (value?: string): string => {
-  const normalized = value
+const SITE_NAME =
+  "ANCOSUR Inmobiliaria";
+
+/*
+ * Título de 48 caracteres aproximadamente.
+ * No supera el límite recomendado de 60.
+ */
+const DEFAULT_TITLE =
+  "ANCOSUR | Departamentos y lotes en Huancayo";
+
+const DEFAULT_DESCRIPTION =
+  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Opciones para vivir, invertir y construir nuevas experiencias.";
+
+const OG_IMAGE_ALT =
+  "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
+
+/*
+ * Configura en Railway:
+ *
+ * SITE_URL=https://ancosur.com
+ *
+ * No coloques http://.
+ */
+const normalizeSiteUrl = (
+  value?: string,
+): string => {
+  const normalizedValue = value
     ?.trim()
     .replace(/\/+$/, "");
 
-  if (!normalized) {
+  if (!normalizedValue) {
     return PRODUCTION_URL;
   }
 
   try {
-    const parsedUrl = new URL(normalized);
+    const parsedUrl =
+      new URL(normalizedValue);
+
+    const isLocalhost =
+      parsedUrl.hostname ===
+        "localhost" ||
+      parsedUrl.hostname ===
+        "127.0.0.1";
+
+    if (
+      process.env.NODE_ENV ===
+        "production" &&
+      isLocalhost
+    ) {
+      return PRODUCTION_URL;
+    }
 
     /*
-     * Nunca permitir localhost como URL SEO
-     * cuando el proyecto está en producción.
+     * Fuerza HTTPS para el dominio ANCOSUR.
      */
     if (
-      process.env.NODE_ENV === "production" &&
-      (
-        parsedUrl.hostname === "localhost" ||
-        parsedUrl.hostname === "127.0.0.1"
-      )
+      parsedUrl.hostname ===
+      "ancosur.com" ||
+      parsedUrl.hostname ===
+      "www.ancosur.com"
     ) {
       return PRODUCTION_URL;
     }
@@ -49,24 +91,21 @@ const normalizeUrl = (value?: string): string => {
   }
 };
 
-const siteUrl = normalizeUrl(
+const siteUrl = normalizeSiteUrl(
   process.env.SITE_URL,
 );
 
-const siteName =
-  "ANCOSUR Inmobiliaria";
-
-const defaultTitle =
-  "ANCOSUR Inmobiliaria | Departamentos, lotes y proyectos en Huancayo";
-
-const defaultDescription =
-  "ANCOSUR desarrolla departamentos, lotes y proyectos inmobiliarios en Huancayo. Encuentra tu próximo hogar o una oportunidad de inversión inmobiliaria.";
-
-const defaultOgImage =
-  "/opengraph-image.png";
-
-const defaultTwitterImage =
-  "/twitter-image.png";
+/*
+ * Agrega en Railway únicamente si ANCOSUR
+ * cuenta con un perfil oficial en X:
+ *
+ * NEXT_PUBLIC_X_HANDLE=@usuario_real
+ *
+ * No inventes el usuario.
+ */
+const xHandle =
+  process.env.NEXT_PUBLIC_X_HANDLE
+    ?.trim();
 
 /* =========================================================
    FUENTE
@@ -75,9 +114,7 @@ const defaultTwitterImage =
 const manrope = Manrope({
   variable: "--font-main",
 
-  subsets: [
-    "latin",
-  ],
+  subsets: ["latin"],
 
   weight: [
     "400",
@@ -98,6 +135,35 @@ const manrope = Manrope({
 });
 
 /* =========================================================
+   VIEWPORT Y THEME COLOR
+========================================================= */
+
+/*
+ * Desde Next.js 14, themeColor debe ir en
+ * viewport y no dentro de metadata.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+
+  themeColor: [
+    {
+      media:
+        "(prefers-color-scheme: light)",
+      color: "#00a74f",
+    },
+    {
+      media:
+        "(prefers-color-scheme: dark)",
+      color: "#101024",
+    },
+  ],
+
+  colorScheme:
+    "light dark",
+};
+
+/* =========================================================
    METADATA GLOBAL
 ========================================================= */
 
@@ -106,25 +172,24 @@ export const metadata: Metadata = {
     new URL(siteUrl),
 
   applicationName:
-    siteName,
+    SITE_NAME,
 
   title: {
     default:
-      defaultTitle,
+      DEFAULT_TITLE,
 
     template:
-      "%s | ANCOSUR Inmobiliaria",
+      "%s | ANCOSUR",
   },
 
   description:
-    defaultDescription,
+    DEFAULT_DESCRIPTION,
 
   keywords: [
     "ANCOSUR",
     "ANCOSUR Inmobiliaria",
     "ANCOSUR Huancayo",
     "inmobiliaria en Huancayo",
-    "inmobiliaria Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta Huancayo",
     "departamentos nuevos Huancayo",
@@ -150,19 +215,16 @@ export const metadata: Metadata = {
 
   authors: [
     {
-      name:
-        siteName,
-
-      url:
-        siteUrl,
+      name: SITE_NAME,
+      url: siteUrl,
     },
   ],
 
   creator:
-    siteName,
+    SITE_NAME,
 
   publisher:
-    siteName,
+    SITE_NAME,
 
   category:
     "Inmobiliaria",
@@ -179,33 +241,25 @@ export const metadata: Metadata = {
     telephone: false,
   },
 
-  /*
-   * "/" se resuelve como:
-   * https://ancosur.com
-   *
-   * gracias a metadataBase.
-   */
   alternates: {
-    canonical:
-      "/",
+    canonical: "/",
 
     languages: {
-      "es-PE":
-        "/",
+      "es-PE": "/",
     },
   },
 
   openGraph: {
     title:
-      defaultTitle,
+      DEFAULT_TITLE,
 
     description:
-      defaultDescription,
+      DEFAULT_DESCRIPTION,
 
-    url:
-      "/",
+    url: "/",
 
-    siteName,
+    siteName:
+      SITE_NAME,
 
     locale:
       "es_PE",
@@ -213,19 +267,27 @@ export const metadata: Metadata = {
     type:
       "website",
 
+    /*
+     * Estas propiedades funcionan cuando
+     * utilizas /public/opengraph-image.png.
+     *
+     * Si conservas app/opengraph-image.png,
+     * Next.js utilizará el archivo especial
+     * y sus dimensiones reales.
+     */
     images: [
       {
         url:
-          defaultOgImage,
+          "/opengraph-image.png",
 
-        width:
-          1200,
+        secureUrl:
+          `${siteUrl}/opengraph-image.png`,
 
-        height:
-          630,
+        width: 1200,
+        height: 630,
 
         alt:
-          "ANCOSUR Inmobiliaria - Departamentos, lotes y proyectos inmobiliarios en Huancayo",
+          OG_IMAGE_ALT,
 
         type:
           "image/png",
@@ -238,26 +300,34 @@ export const metadata: Metadata = {
       "summary_large_image",
 
     title:
-      defaultTitle,
+      DEFAULT_TITLE,
 
     description:
-      defaultDescription,
+      DEFAULT_DESCRIPTION,
 
     images: [
       {
         url:
-          defaultTwitterImage,
+          "/twitter-image.png",
 
-        width:
-          1200,
-
-        height:
-          630,
+        width: 1200,
+        height: 630,
 
         alt:
-          "ANCOSUR Inmobiliaria - Proyectos inmobiliarios en Huancayo",
+          OG_IMAGE_ALT,
       },
     ],
+
+    /*
+     * Next.js soporta creator.
+     * Solo se agrega cuando existe una cuenta
+     * oficial configurada.
+     */
+    ...(xHandle
+      ? {
+          creator: xHandle,
+        }
+      : {}),
   },
 
   robots: {
@@ -268,18 +338,14 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-
-      noimageindex:
-        false,
+      noimageindex: false,
 
       "max-image-preview":
         "large",
 
-      "max-snippet":
-        -1,
+      "max-snippet": -1,
 
-      "max-video-preview":
-        -1,
+      "max-video-preview": -1,
     },
   },
 
@@ -287,15 +353,47 @@ export const metadata: Metadata = {
     icon: [
       {
         url:
-          "/favicon.ico",
+          "/favicon.svg",
+
+        type:
+          "image/svg+xml",
 
         sizes:
           "any",
       },
-
       {
         url:
-          "/icon.png",
+          "/favicon.ico",
+
+        type:
+          "image/x-icon",
+
+        sizes:
+          "any",
+      },
+      {
+        url:
+          "/icon-32.png",
+
+        type:
+          "image/png",
+
+        sizes:
+          "32x32",
+      },
+      {
+        url:
+          "/icon-192.png",
+
+        type:
+          "image/png",
+
+        sizes:
+          "192x192",
+      },
+      {
+        url:
+          "/icon-512.png",
 
         type:
           "image/png",
@@ -304,6 +402,9 @@ export const metadata: Metadata = {
           "512x512",
       },
     ],
+
+    shortcut:
+      "/favicon.ico",
 
     apple: [
       {
@@ -331,6 +432,19 @@ export const metadata: Metadata = {
 
     "content-language":
       "es-PE",
+
+    /*
+     * Genera:
+     * <meta name="twitter:site" ...>
+     *
+     * Solo cuando configures el usuario real.
+     */
+    ...(xHandle
+      ? {
+          "twitter:site":
+            xHandle,
+        }
+      : {}),
   },
 };
 
@@ -362,13 +476,13 @@ export default function RootLayout({
       `${siteUrl}/#organization`,
 
     name:
-      siteName,
+      SITE_NAME,
 
     alternateName:
       "ANCOSUR",
 
     description:
-      defaultDescription,
+      DEFAULT_DESCRIPTION,
 
     url:
       siteUrl,
@@ -386,17 +500,17 @@ export default function RootLayout({
         "ImageObject",
 
       url:
-        `${siteUrl}${defaultOgImage}`,
+        `${siteUrl}/opengraph-image.png`,
 
-      width:
-        1200,
+      width: 1200,
+      height: 630,
 
-      height:
-        630,
+      caption:
+        OG_IMAGE_ALT,
     },
 
     telephone:
-      "+51 968 658 098",
+      "+51 971 069 763",
 
     email:
       "jefe.experiencia.cliente@ancosur.com",
@@ -423,6 +537,9 @@ export default function RootLayout({
       addressRegion:
         "Junín",
 
+      postalCode:
+        "12002",
+
       addressCountry:
         "PE",
     },
@@ -435,7 +552,6 @@ export default function RootLayout({
         name:
           "Huancayo",
       },
-
       {
         "@type":
           "AdministrativeArea",
@@ -451,7 +567,7 @@ export default function RootLayout({
           "ContactPoint",
 
         telephone:
-          "+51 968 658 098",
+          "+51 971 069 763",
 
         email:
           "jefe.experiencia.cliente@ancosur.com",
@@ -483,10 +599,13 @@ export default function RootLayout({
       siteUrl,
 
     name:
-      siteName,
+      SITE_NAME,
+
+    alternateName:
+      "ANCOSUR",
 
     description:
-      defaultDescription,
+      DEFAULT_DESCRIPTION,
 
     inLanguage:
       "es-PE",
@@ -524,6 +643,7 @@ export default function RootLayout({
         />
 
         <Footer />
+
         <TawkChat />
 
         <script
@@ -539,7 +659,6 @@ export default function RootLayout({
           }}
         />
       </body>
-      
     </html>
   );
 }
