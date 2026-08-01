@@ -15,7 +15,7 @@ import styles from "./FloatingActions.module.css";
 
 
 const whatsappChannelUrl =
-  "https://whatsapp.com/channel/REEMPLAZAR_CON_EL_CANAL_REAL";
+  "https://whatsapp.com/channel/0029Vb8cnCK1t90kncFeWh26";
 
 /* =========================================================
    COMPONENTE

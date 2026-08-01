@@ -1,0 +1,82 @@
+.page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding:
+    110px
+    clamp(18px, 4vw, 42px)
+    48px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8faf9 0%,
+      #eef3f1 100%
+    );
+
+  box-sizing: border-box;
+}
+
+.viewer {
+  width: 100%;
+  height: calc(100vh - 180px);
+
+  border: 0;
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 60px
+    rgba(23, 23, 47, 0.08);
+
+  overflow: hidden;
+}
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+  .page {
+    padding:
+      100px
+      20px
+      36px;
+  }
+
+  .viewer {
+    height: calc(100vh - 165px);
+    border-radius: 18px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .page {
+    padding:
+      88px
+      12px
+      20px;
+  }
+
+  .viewer {
+    height: calc(100vh - 105px);
+    border-radius: 14px;
+  }
+}
+
+/* MÓVILES PEQUEÑOS */
+
+@media (max-width: 480px) {
+  .page {
+    padding:
+      82px
+      8px
+      16px;
+  }
+
+  .viewer {
+    height: calc(100vh - 95px);
+    border-radius: 12px;
+  }
+}

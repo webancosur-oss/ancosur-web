@@ -184,6 +184,24 @@
   line-height: 1.75;
 }
 
+button.card {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 100%;
+
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+button.card:focus-visible,
+a.card:focus-visible {
+  outline: 3px solid rgba(0, 167, 79, 0.34);
+  outline-offset: 4px;
+}
+
 /* =========================================================
    SECCIÓN
 ========================================================= */

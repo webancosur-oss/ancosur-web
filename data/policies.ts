@@ -2,25 +2,37 @@ export type PolicyItem = {
   id: number;
   title: string;
   description: string;
-  href: string;
   featured?: boolean;
+
+  /*
+   * Usa pdf únicamente para documentos
+   * que deben abrirse en el visor.
+   */
+  pdf?: string;
+
+  /*
+   * Usa href para documentos que todavía
+   * tienen una página propia.
+   */
+  href?: string;
 };
 
 export const policies: PolicyItem[] = [
   {
     id: 1,
-    title: "Política SIG",
+    title: "Política del SIG",
     description:
-      "Conoce nuestra política del Sistema Integrado de Gestión.",
-    href: "/politicas/politica-sig",
+      "Consulta la Política del Sistema Integrado de Gestión de ANCOSUR.",
+    pdf: "/assets/politicas/sig-politica.pdf",
     featured: true,
   },
   {
     id: 2,
-    title: "Alcance de SIG",
+    title: "Alcance del SIG",
     description:
-      "Revisa el alcance del Sistema Integrado de Gestión de ANCOSUR.",
-    href: "/politicas/alcance-sig",
+      "Consulta el alcance del Sistema Integrado de Gestión de ANCOSUR.",
+    pdf: "/assets/politicas/sig-alcance.pdf",
+    featured: true,
   },
   {
     id: 3,
@@ -33,14 +45,14 @@ export const policies: PolicyItem[] = [
     id: 4,
     title: "Términos y Condiciones",
     description:
-      "Condiciones de uso de nuestros canales digitales y servicios.",
+      "Condiciones de uso de nuestros servicios y canales digitales.",
     href: "/politicas/terminos-y-condiciones",
   },
   {
     id: 5,
     title: "Política de Cookies",
     description:
-      "Conoce cómo usamos cookies para mejorar tu experiencia de navegación.",
+      "Conoce cómo utilizamos cookies para mejorar tu experiencia de navegación.",
     href: "/politicas/cookies",
   },
 ];
