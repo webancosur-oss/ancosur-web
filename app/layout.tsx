@@ -296,6 +296,10 @@ export const metadata: Metadata = {
   },
 
   twitter: {
+     site: "@ANCOSUR", 
+
+    creator: "@ANCOSUR", 
+
     card:
       "summary_large_image",
 
