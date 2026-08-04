@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import NeoXportAmenitiesSlider from "./components/NeoXportAmenities";
 import NeoXportHero from "./components/NeoXportHero";
@@ -15,62 +15,32 @@ import {
 
 import styles from "./NeoXportPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: seoNeoXport.title,
 
   description: seoNeoXport.description,
 
+  pathname: "/neo-xport",
+
   keywords: seoNeoXport.keywords,
 
-  alternates: {
-    canonical: "/neo-xport",
-  },
+  image: seoNeoXport.openGraphImage,
+});
 
-  openGraph: {
-    type: "website",
-
-    locale: "es_PE",
-
-    url: "/neo-xport",
-
-    siteName: "ANCOSUR Inmobiliaria",
-
-    title: seoNeoXport.title,
-
-    description: seoNeoXport.description,
-
-    images: [
-      {
-        url: seoNeoXport.openGraphImage,
-        width: 1200,
-        height: 630,
-        alt:
-          "Neo Xport, edificio con ADN deportivo frente al Polideportivo Wanka en Huancayo",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title: seoNeoXport.title,
-
-    description: seoNeoXport.description,
-
-    images: [
-      seoNeoXport.openGraphImage,
-    ],
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function NeoXportPage() {
   return (
-    <main className={styles.page}>
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <NeoXportHero />
 
       <NeoXportOverviewSection />
@@ -81,7 +51,11 @@ export default function NeoXportPage() {
 
       <NeoXportLocation />
 
-      <ProjectFilter />
+      <section
+        aria-label="Proyectos relacionados con Neo Xport"
+      >
+        <ProjectFilter />
+      </section>
 
       <p className={styles.disclaimer}>
         {disclaimerNeoXport}

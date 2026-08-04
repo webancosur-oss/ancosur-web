@@ -1,7 +1,4 @@
-import type { Metadata } from "next";
-
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import InvestorsBenefits from "./components/InvestorsBenefits";
 import InvestorsContact from "./components/InvestorsContact";
@@ -10,25 +7,53 @@ import InvestorsStats from "./components/InvestorsStats";
 
 import styles from "./InversionistasPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title:
-    "Inversionistas ANCOSUR | Invierte en el desarrollo inmobiliario",
+    "Inversionistas ANCOSUR | Inversión inmobiliaria en Huancayo",
+
   description:
-    "Invierte en el desarrollo inmobiliario de Huancayo con respaldo de activos tangibles, rentabilidad fija y seguridad legal.",
-};
+    "Invierte en proyectos inmobiliarios de ANCOSUR en Huancayo con respaldo de activos tangibles, seguridad legal y oportunidades de rentabilidad.",
+
+  pathname: "/inversionistas",
+
+  keywords: [
+    "inversionistas ANCOSUR",
+    "inversión inmobiliaria Huancayo",
+    "invertir en inmobiliaria",
+    "invertir en proyectos inmobiliarios",
+    "inversión en bienes raíces",
+    "rentabilidad inmobiliaria",
+    "inversión segura Huancayo",
+    "desarrollo inmobiliario Huancayo",
+    "activos inmobiliarios",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image: "/opengraph-image.png",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function InversionistasPage() {
   return (
-    <>
-      <Navbar />
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      <InvestorsHero />
 
-      <main className={styles.page}>
-        <InvestorsHero />
-        <InvestorsBenefits />
-        <InvestorsStats />
-        <InvestorsContact />
-      </main>
+      <InvestorsBenefits />
 
-    </>
+      <InvestorsStats />
+
+      <InvestorsContact />
+    </main>
   );
 }

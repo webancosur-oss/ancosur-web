@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import CaminoRealBenefits from "./components/CaminoRealBenefits";
 import CaminoRealHero from "./components/CaminoRealHero";
@@ -15,52 +15,32 @@ import {
 
 import styles from "./CaminoRealPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: seoCaminoReal.title,
 
   description: seoCaminoReal.description,
 
+  pathname: "/camino-real",
+
   keywords: seoCaminoReal.keywords,
 
-  alternates: {
-    canonical: "/camino-real",
-  },
+  image: seoCaminoReal.openGraphImage,
+});
 
-  openGraph: {
-    type: "website",
-    locale: "es_PE",
-    url: "/camino-real",
-    siteName: "ANCOSUR Inmobiliaria",
-    title: seoCaminoReal.title,
-    description: seoCaminoReal.description,
-
-    images: [
-      {
-        url: seoCaminoReal.openGraphImage,
-        width: 1200,
-        height: 630,
-        alt:
-          "Camino Real Residencial, lotes en El Tambo",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: seoCaminoReal.title,
-    description: seoCaminoReal.description,
-    images: [seoCaminoReal.openGraphImage],
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function CaminoRealPage() {
   return (
-    <main className={styles.page}>
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <CaminoRealHero />
 
       <CaminoRealOverviewSection />

@@ -1,18 +1,42 @@
-import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import styles from "./NosotrosPage.module.css";
-import EquipoPage from "../equipo/page";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: "Nosotros | ANCOSUR Inmobiliaria",
+
   description:
-    "Conoce la historia, misión, visión, valores y fórmula de trabajo de ANCOSUR Inmobiliaria.",
-};
+    "Conoce la historia, misión, visión, valores y fórmula de trabajo de ANCOSUR Inmobiliaria, desarrolladora de proyectos inmobiliarios en Huancayo.",
+
+  pathname: "/nosotros",
+
+  keywords: [
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "nosotros ANCOSUR",
+    "historia ANCOSUR",
+    "inmobiliaria Huancayo",
+    "empresa inmobiliaria Huancayo",
+    "desarrolladora inmobiliaria",
+    "proyectos inmobiliarios Huancayo",
+    "misión ANCOSUR",
+    "visión ANCOSUR",
+    "valores ANCOSUR",
+    "equipo ANCOSUR",
+  ],
+
+  image: "/assets/heros/10anios.png",
+});
+
+/* =========================================================
+   DATOS
+========================================================= */
 
 const images = {
   hero: "/assets/heros/10anios.png",
@@ -63,212 +87,231 @@ const formula = [
   "Ejecución",
 ];
 
+/* =========================================================
+   PÁGINA
+========================================================= */
+
 export default function NosotrosPage() {
   return (
-    <>
-      <Navbar />
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      {/* HERO */}
 
-      <main className={styles.page}>
-        {/* HERO */}
+      <section className={styles.hero}>
+        <Image
+          src={images.hero}
+          alt="ANCOSUR Vive Diferente, 10 años contigo"
+          fill
+          priority
+          sizes="100vw"
+          className={styles.heroImage}
+        />
 
-        <section className={styles.hero}>
+        <div
+          className={styles.heroOverlay}
+          aria-hidden="true"
+        />
+
+        <div className={styles.heroContent}>
+          <span className={styles.heroEyebrow}>
+            Nosotros
+          </span>
+
+          <h1>
+            ANCOSUR Inmobiliaria: construimos espacios para vivir diferente
+          </h1>
+
+          <p>
+            Diez años desarrollando proyectos inmobiliarios con innovación,
+            compromiso y una visión enfocada en mejorar la forma de vivir.
+          </p>
+        </div>
+      </section>
+
+      {/* MISIÓN */}
+
+      <section className={styles.missionSection}>
+        <div className={styles.missionContent}>
+          <span>
+            Misión
+          </span>
+
+          <h2>
+            Hacer realidad el sueño de la vivienda ideal
+          </h2>
+
+          <p>
+            Hacemos realidad el sueño de la vivienda ideal de nuestros
+            clientes, sin descuidar el espacio donde se diseña, desarrolla y
+            construye cada proyecto.
+          </p>
+        </div>
+      </section>
+
+      {/* VISIÓN */}
+
+      <section className={styles.visionSection}>
+        <div
+          className={styles.visionDecoration}
+          aria-hidden="true"
+        />
+
+        <div className={styles.visionContent}>
+          <span>
+            Visión
+          </span>
+
+          <h2>
+            Desarrollar proyectos con corazón sostenible
+          </h2>
+
+          <p>
+            Para 2030 nos vemos desarrollando proyectos inmobiliarios de gran
+            envergadura a nivel nacional, que tengan como corazón la
+            sostenibilidad del medio ambiente.
+          </p>
+        </div>
+      </section>
+
+      {/* VALORES */}
+
+      <section className={styles.valuesSection}>
+        <div className={styles.imageBox}>
           <Image
-            src={images.hero}
-            alt="ANCOSUR Vive Diferente, 10 años contigo"
+            src={images.team}
+            alt="Equipo de ANCOSUR Inmobiliaria"
             fill
-            priority
-            sizes="100vw"
-            className={styles.heroImage}
+            sizes="
+              (max-width: 640px) 100vw,
+              (max-width: 1000px) 90vw,
+              940px
+            "
+            className={styles.teamImage}
           />
 
           <div
-            className={styles.heroOverlay}
+            className={styles.imageOverlay}
             aria-hidden="true"
           />
 
-          <div className={styles.heroContent}>
-            <span className={styles.heroEyebrow}>
-              Nosotros
+          <div className={styles.imageBadge}>
+            <strong>
+              5
+            </strong>
+
+            <span>
+              Valores que nos representan
             </span>
-
-            <h1>
-              ANCOSUR Inmobiliaria: construimos espacios para vivir diferente
-            </h1>
-
-            <p>
-              Diez años desarrollando proyectos inmobiliarios con innovación,
-              compromiso y una visión enfocada en mejorar la forma de vivir.
-            </p>
           </div>
-        </section>
+        </div>
 
-        {/* MISIÓN */}
+        <div className={styles.valuesContent}>
+          <span className={styles.eyebrow}>
+            Nuestros valores
+          </span>
 
-        <section className={styles.missionSection}>
-          <div className={styles.missionContent}>
-            <span>Misión</span>
+          <h2>
+            La forma en que trabajamos cada día
+          </h2>
 
-            <h2>
-              Hacer realidad el sueño de la vivienda ideal
-            </h2>
+          <p className={styles.valuesIntro}>
+            Nuestros valores orientan cada decisión y definen la manera en que
+            trabajamos con nuestros clientes, aliados y colaboradores.
+          </p>
 
-            <p>
-              Hacemos realidad el sueño de la vivienda ideal de nuestros
-              clientes, sin descuidar el espacio donde se diseña, desarrolla y
-              construye cada proyecto.
-            </p>
+          <div className={styles.valuesList}>
+            {values.map((item) => (
+              <article
+                key={item.title}
+                className={styles.valueCard}
+              >
+                <span className={styles.valueNumber}>
+                  {item.number}
+                </span>
+
+                <h3>
+                  {item.title}
+                </h3>
+
+                <p>
+                  {item.description}
+                </p>
+              </article>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* VISIÓN */}
+      {/* FÓRMULA */}
 
-        <section className={styles.visionSection}>
-          <div className={styles.visionDecoration} aria-hidden="true" />
+      <section className={styles.formulaSection}>
+        <div
+          className={styles.formulaDecoration}
+          aria-hidden="true"
+        />
 
-          <div className={styles.visionContent}>
-            <span>Visión</span>
-
-            <h2>
-              Desarrollar proyectos con corazón sostenible
-            </h2>
-
-            <p>
-              Para 2030 nos vemos desarrollando proyectos inmobiliarios de gran
-              envergadura a nivel nacional, que tengan como corazón la
-              sostenibilidad del medio ambiente.
-            </p>
-          </div>
-        </section>
-
-        {/* VALORES */}
-
-        <section className={styles.valuesSection}>
-          <div className={styles.imageBox}>
-            <Image
-              src={images.team}
-              alt="Equipo ANCOSUR Inmobiliaria"
-              fill
-              sizes="
-                (max-width: 640px) 100vw,
-                (max-width: 1000px) 90vw,
-                940px
-              "
-              className={styles.teamImage}
-            />
-
-            <div
-              className={styles.imageOverlay}
-              aria-hidden="true"
-            />
-
-            <div className={styles.imageBadge}>
-              <strong>5</strong>
-              <span>Valores que nos representan</span>
-            </div>
-          </div>
-
-          <div className={styles.valuesContent}>
-            <span className={styles.eyebrow}>
-              Nuestros valores
+        <div className={styles.formulaContainer}>
+          <header className={styles.formulaHeader}>
+            <span>
+              Nuestra fórmula
             </span>
 
             <h2>
-              La forma en que trabajamos cada día
+              La base que sostiene nuestro crecimiento
             </h2>
 
-            <p className={styles.valuesIntro}>
-              Nuestros valores orientan cada decisión y definen la manera en que
-              trabajamos con nuestros clientes, aliados y colaboradores.
+            <p>
+              Nuestra fórmula integra cultura, personas, innovación y
+              ejecución para desarrollar proyectos que generen valor.
             </p>
+          </header>
 
-            <div className={styles.valuesList}>
-              {values.map((item) => (
+          <div className={styles.formulaGrid}>
+            <div className={styles.formulaList}>
+              {formula.map((item, index) => (
                 <article
-                  key={item.title}
-                  className={styles.valueCard}
+                  key={item}
+                  className={styles.formulaItem}
                 >
-                  <span className={styles.valueNumber}>
-                    {item.number}
+                  <strong>
+                    {String(index + 1).padStart(2, "0")}
+                  </strong>
+
+                  <span>
+                    {item}
                   </span>
-
-                  <h3>{item.title}</h3>
-
-                  <p>{item.description}</p>
                 </article>
               ))}
             </div>
-          </div>
-        </section>
 
-        {/* FÓRMULA */}
+            <div className={styles.pyramidBox}>
+              <div
+                className={styles.pyramidGlow}
+                aria-hidden="true"
+              />
 
-        <section className={styles.formulaSection}>
-          <div
-            className={styles.formulaDecoration}
-            aria-hidden="true"
-          />
+              <Image
+                src={images.formula}
+                alt="Pirámide de la fórmula de trabajo de ANCOSUR"
+                width={720}
+                height={650}
+                sizes="
+                  (max-width: 640px) 88vw,
+                  (max-width: 980px) 50vw,
+                  600px
+                "
+                className={styles.pyramidImage}
+              />
 
-          <div className={styles.formulaContainer}>
-            <header className={styles.formulaHeader}>
-              <span>Nuestra fórmula</span>
-
-              <h2>
-                La base que sostiene nuestro crecimiento
-              </h2>
-
-              <p>
-                Nuestra fórmula integra cultura, personas, innovación y
-                ejecución para desarrollar proyectos que generen valor.
-              </p>
-            </header>
-
-            <div className={styles.formulaGrid}>
-              <div className={styles.formulaList}>
-                {formula.map((item, index) => (
-                  <article
-                    key={item}
-                    className={styles.formulaItem}
-                  >
-                    <strong>
-                      {String(index + 1).padStart(2, "0")}
-                    </strong>
-
-                    <span>{item}</span>
-                  </article>
-                ))}
-              </div>
-
-              <div className={styles.pyramidBox}>
-                <div
-                  className={styles.pyramidGlow}
-                  aria-hidden="true"
-                />
-
-                <Image
-                  src={images.formula}
-                  alt="Pirámide de la fórmula de trabajo ANCOSUR"
-                  width={720}
-                  height={650}
-                  sizes="
-                    (max-width: 640px) 88vw,
-                    (max-width: 980px) 50vw,
-                    600px
-                  "
-                  className={styles.pyramidImage}
-                />
-
-                <span className={styles.pyramidCaption}>
-                  Modelo de crecimiento ANCOSUR
-                </span>
-              </div>
+              <span className={styles.pyramidCaption}>
+                Modelo de crecimiento ANCOSUR
+              </span>
             </div>
           </div>
-        </section>
-
-        {/* EQUIPO */}
-
-        {/* <EquipoPage />         */}
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 }

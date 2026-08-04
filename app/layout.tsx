@@ -2,7 +2,9 @@ import type {
   Metadata,
   Viewport,
 } from "next";
+
 import type { ReactNode } from "react";
+
 import { Manrope } from "next/font/google";
 
 import "./globals.css";
@@ -18,16 +20,10 @@ import TawkChat from "@/components/ui/tawk/TawkChat";
    CONFIGURACIÓN PRINCIPAL
 ========================================================= */
 
-const PRODUCTION_URL =
-  "https://ancosur.com";
+const PRODUCTION_URL = "https://ancosur.com";
 
-const SITE_NAME =
-  "ANCOSUR Inmobiliaria";
+const SITE_NAME = "ANCOSUR Inmobiliaria";
 
-/*
- * Título de 48 caracteres aproximadamente.
- * No supera el límite recomendado de 60.
- */
 const DEFAULT_TITLE =
   "Departamentos y lotes en Huancayo";
 
@@ -36,6 +32,10 @@ const DEFAULT_DESCRIPTION =
 
 const OG_IMAGE_ALT =
   "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
+
+/* =========================================================
+   NORMALIZACIÓN DE LA URL
+========================================================= */
 
 const normalizeSiteUrl = (
   value?: string,
@@ -49,31 +49,22 @@ const normalizeSiteUrl = (
   }
 
   try {
-    const parsedUrl =
-      new URL(normalizedValue);
+    const parsedUrl = new URL(normalizedValue);
 
     const isLocalhost =
-      parsedUrl.hostname ===
-        "localhost" ||
-      parsedUrl.hostname ===
-        "127.0.0.1";
+      parsedUrl.hostname === "localhost" ||
+      parsedUrl.hostname === "127.0.0.1";
 
     if (
-      process.env.NODE_ENV ===
-        "production" &&
+      process.env.NODE_ENV === "production" &&
       isLocalhost
     ) {
       return PRODUCTION_URL;
     }
 
-    /*
-     * Fuerza HTTPS para el dominio ANCOSUR.
-     */
     if (
-      parsedUrl.hostname ===
-      "ancosur.com" ||
-      parsedUrl.hostname ===
-      "www.ancosur.com"
+      parsedUrl.hostname === "ancosur.com" ||
+      parsedUrl.hostname === "www.ancosur.com"
     ) {
       return PRODUCTION_URL;
     }
@@ -88,10 +79,8 @@ const siteUrl = normalizeSiteUrl(
   process.env.SITE_URL,
 );
 
-
 const xHandle =
-  process.env.NEXT_PUBLIC_X_HANDLE
-    ?.trim();
+  process.env.NEXT_PUBLIC_X_HANDLE?.trim();
 
 /* =========================================================
    FUENTE
@@ -121,87 +110,82 @@ const manrope = Manrope({
 });
 
 /* =========================================================
-   VIEWPORT Y THEME COLOR
+   VIEWPORT
 ========================================================= */
 
 export const viewport: Viewport = {
   width: "device-width",
+
   initialScale: 1,
 
   themeColor: [
     {
       media:
         "(prefers-color-scheme: light)",
+
       color: "#00a74f",
     },
     {
       media:
         "(prefers-color-scheme: dark)",
+
       color: "#101024",
     },
   ],
 
-  colorScheme:
-    "light dark",
+  colorScheme: "light dark",
 };
 
 /* =========================================================
    METADATA GLOBAL
+
+   IMPORTANTE:
+   No se coloca canonical aquí.
+
+   Cada página define su propia canonical.
 ========================================================= */
 
 export const metadata: Metadata = {
-  metadataBase:
-    new URL(siteUrl),
+  metadataBase: new URL(siteUrl),
 
-  applicationName:
-    SITE_NAME,
+  applicationName: SITE_NAME,
 
   title: {
-    default:
-      DEFAULT_TITLE,
+    default: DEFAULT_TITLE,
 
-    template:
-      "%s | ANCOSUR",
+    template: "%s | ANCOSUR",
   },
 
-  description:
-    DEFAULT_DESCRIPTION,
+  description: DEFAULT_DESCRIPTION,
 
+  /*
+   * Estas son keywords generales.
+   *
+   * Cada página puede declarar además sus propias
+   * palabras clave específicas.
+   *
+   * Google no usa directamente meta keywords como
+   * factor importante de posicionamiento, pero pueden
+   * conservarse como parte de la metadata.
+   */
   keywords: [
     "ANCOSUR",
     "ANCOSUR Inmobiliaria",
     "ANCOSUR Huancayo",
     "inmobiliaria en Huancayo",
+    "inmobiliaria Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta Huancayo",
     "departamentos nuevos Huancayo",
+    "venta de departamentos Huancayo",
     "lotes en Huancayo",
     "lotes en venta Huancayo",
     "terrenos en Huancayo",
+    "terrenos en venta Huancayo",
     "proyectos inmobiliarios Huancayo",
     "inversión inmobiliaria Huancayo",
-    "venta de departamentos Huancayo",
-    "venta de lotes Huancayo",
-    "Neo Rivera",
-    "Neo Xport",
-    "Neo Eterna",
-    "Neo Balto",
-    "Neo Origen",
-    "Neo Emperatriz",
-    "Moro 416",
-    "Distrito San Carlos",
-    "Camino Real",
-    "Las Colinas de Moro",
-    "Zagari Resort Club",
-    "compra de departamentos",
-    "Venta,Departamento",
-    "Huancayo,Venta de Departamentos de Estreno con Cochera - Cerca a Univ. Continental",
-    "VENTA DEPARTAMENTO MAS COCHERA",
-    "Propiedades",
-    "Inmuebles",
-    "peru casas",
-    "terrenos peru",
-    
+    "venta de propiedades Huancayo",
+    "bienes raíces Huancayo",
   ],
 
   authors: [
@@ -211,14 +195,11 @@ export const metadata: Metadata = {
     },
   ],
 
-  creator:
-    SITE_NAME,
+  creator: SITE_NAME,
 
-  publisher:
-    SITE_NAME,
+  publisher: SITE_NAME,
 
-  category:
-    "Inmobiliaria",
+  category: "Inmobiliaria",
 
   classification:
     "Bienes raíces y desarrollo inmobiliario",
@@ -232,94 +213,74 @@ export const metadata: Metadata = {
     telephone: false,
   },
 
-  alternates: {
-    canonical: "/",
-
-    languages: {
-      "es-PE": "/",
-    },
-  },
+  /*
+   * No colocar aquí:
+   *
+   * alternates: {
+   *   canonical: "/"
+   * }
+   *
+   * Porque haría que las páginas internas pudieran
+   * apuntar incorrectamente hacia la portada.
+   */
 
   openGraph: {
-    title:
-      DEFAULT_TITLE,
+    title: DEFAULT_TITLE,
 
-    description:
-      DEFAULT_DESCRIPTION,
-
-    url: "/",
-
-    siteName:
-      SITE_NAME,
-
-    locale:
-      "es_PE",
-
-    type:
-      "website",
+    description: DEFAULT_DESCRIPTION,
 
     /*
-     * Estas propiedades funcionan cuando
-     * utilizas /public/opengraph-image.png.
+     * No colocar url: "/" globalmente.
      *
-     * Si conservas app/opengraph-image.png,
-     * Next.js utilizará el archivo especial
-     * y sus dimensiones reales.
+     * Cada página tendrá su propia URL.
      */
+
+    siteName: SITE_NAME,
+
+    locale: "es_PE",
+
+    type: "website",
+
     images: [
       {
-        url:
-          "/opengraph-image.png",
+        url: "/opengraph-image.png",
 
         secureUrl:
           `${siteUrl}/opengraph-image.png`,
 
         width: 1200,
+
         height: 630,
 
-        alt:
-          OG_IMAGE_ALT,
+        alt: OG_IMAGE_ALT,
 
-        type:
-          "image/png",
+        type: "image/png",
       },
     ],
   },
 
   twitter: {
-     site: "@ANCOSUR", 
+    card: "summary_large_image",
 
-    creator: "@ANCOSUR", 
+    title: DEFAULT_TITLE,
 
-    card:
-      "summary_large_image",
-
-    title:
-      DEFAULT_TITLE,
-
-    description:
-      DEFAULT_DESCRIPTION,
+    description: DEFAULT_DESCRIPTION,
 
     images: [
       {
-        url:
-          "/twitter-image.png",
+        url: "/twitter-image.png",
 
         width: 1200,
+
         height: 630,
 
-        alt:
-          OG_IMAGE_ALT,
+        alt: OG_IMAGE_ALT,
       },
     ],
 
-    /*
-     * Next.js soporta creator.
-     * Solo se agrega cuando existe una cuenta
-     * oficial configurada.
-     */
     ...(xHandle
       ? {
+          site: xHandle,
           creator: xHandle,
         }
       : {}),
@@ -327,16 +288,19 @@ export const metadata: Metadata = {
 
   robots: {
     index: true,
+
     follow: true,
+
     nocache: false,
 
     googleBot: {
       index: true,
+
       follow: true,
+
       noimageindex: false,
 
-      "max-image-preview":
-        "large",
+      "max-image-preview": "large",
 
       "max-snippet": -1,
 
@@ -347,97 +311,67 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url:
-          "/favicon.svg",
+        url: "/favicon.svg",
 
-        type:
-          "image/svg+xml",
+        type: "image/svg+xml",
 
-        sizes:
-          "any",
+        sizes: "any",
       },
       {
-        url:
-          "/favicon.ico",
+        url: "/favicon.ico",
 
-        type:
-          "image/x-icon",
+        type: "image/x-icon",
 
-        sizes:
-          "any",
+        sizes: "any",
       },
       {
-        url:
-          "/icon-32.png",
+        url: "/icon-32.png",
 
-        type:
-          "image/png",
+        type: "image/png",
 
-        sizes:
-          "32x32",
+        sizes: "32x32",
       },
       {
-        url:
-          "/icon-192.png",
+        url: "/icon-192.png",
 
-        type:
-          "image/png",
+        type: "image/png",
 
-        sizes:
-          "192x192",
+        sizes: "192x192",
       },
       {
-        url:
-          "/icon-512.png",
+        url: "/icon-512.png",
 
-        type:
-          "image/png",
+        type: "image/png",
 
-        sizes:
-          "512x512",
+        sizes: "512x512",
       },
     ],
 
-    shortcut:
-      "/favicon.ico",
+    shortcut: "/favicon.ico",
 
     apple: [
       {
-        url:
-          "/apple-icon.png",
+        url: "/apple-icon.png",
 
-        type:
-          "image/png",
+        type: "image/png",
 
-        sizes:
-          "180x180",
+        sizes: "180x180",
       },
     ],
   },
 
-  manifest:
-    "/manifest.webmanifest",
+  manifest: "/manifest.webmanifest",
 
   other: {
-    "geo.region":
-      "PE-JUN",
+    "geo.region": "PE-JUN",
 
-    "geo.placename":
-      "Huancayo",
+    "geo.placename": "Huancayo",
 
-    "content-language":
-      "es-PE",
+    "content-language": "es-PE",
 
-    /*
-     * Genera:
-     * <meta name="twitter:site" ...>
-     *
-     * Solo cuando configures el usuario real.
-     */
     ...(xHandle
       ? {
-          "twitter:site":
-            xHandle,
+          "twitter:site": xHandle,
         }
       : {}),
   },
@@ -459,8 +393,7 @@ export default function RootLayout({
   children,
 }: RootLayoutProps) {
   const organizationJsonLd = {
-    "@context":
-      "https://schema.org",
+    "@context": "https://schema.org",
 
     "@type": [
       "RealEstateAgent",
@@ -470,38 +403,32 @@ export default function RootLayout({
     "@id":
       `${siteUrl}/#organization`,
 
-    name:
-      SITE_NAME,
+    name: SITE_NAME,
 
-    alternateName:
-      "ANCOSUR",
+    alternateName: "ANCOSUR",
 
-    description:
-      DEFAULT_DESCRIPTION,
+    description: DEFAULT_DESCRIPTION,
 
-    url:
-      siteUrl,
+    url: siteUrl,
 
     logo: {
-      "@type":
-        "ImageObject",
+      "@type": "ImageObject",
 
       url:
         `${siteUrl}/assets/images/ancosur-logo-black.svg`,
     },
 
     image: {
-      "@type":
-        "ImageObject",
+      "@type": "ImageObject",
 
       url:
         `${siteUrl}/opengraph-image.png`,
 
       width: 1200,
+
       height: 630,
 
-      caption:
-        OG_IMAGE_ALT,
+      caption: OG_IMAGE_ALT,
     },
 
     telephone:
@@ -510,56 +437,58 @@ export default function RootLayout({
     email:
       "jefe.experiencia.cliente@ancosur.com",
 
-    priceRange:
-      "$$",
+    priceRange: "$$",
 
-    currenciesAccepted:
-      "PEN",
+    currenciesAccepted: "PEN",
 
     paymentAccepted:
       "Efectivo, transferencia bancaria y financiamiento",
 
     address: {
-      "@type":
-        "PostalAddress",
+      "@type": "PostalAddress",
 
       streetAddress:
         "Av. San Carlos 1481",
 
-      addressLocality:
-        "Huancayo",
+      addressLocality: "Huancayo",
 
-      addressRegion:
-        "Junín",
+      addressRegion: "Junín",
 
-      postalCode:
-        "12002",
+      postalCode: "12002",
 
-      addressCountry:
-        "PE",
+      addressCountry: "PE",
+    },
+
+    geo: {
+      "@type": "GeoCoordinates",
+
+      latitude: -12.0651,
+
+      longitude: -75.2049,
     },
 
     areaServed: [
       {
-        "@type":
-          "City",
+        "@type": "City",
 
-        name:
-          "Huancayo",
+        name: "Huancayo",
       },
       {
         "@type":
           "AdministrativeArea",
 
-        name:
-          "Junín",
+        name: "Junín",
+      },
+      {
+        "@type": "Country",
+
+        name: "Perú",
       },
     ],
 
     contactPoint: [
       {
-        "@type":
-          "ContactPoint",
+        "@type": "ContactPoint",
 
         telephone:
           "+51 971 069 763",
@@ -567,47 +496,58 @@ export default function RootLayout({
         email:
           "jefe.experiencia.cliente@ancosur.com",
 
-        contactType:
-          "sales",
+        contactType: "sales",
 
-        areaServed:
-          "PE",
+        areaServed: "PE",
 
         availableLanguage: [
           "Spanish",
         ],
       },
     ],
+
+    sameAs: [
+      "https://www.facebook.com/ancosur",
+      "https://www.instagram.com/ancosur",
+      "https://www.youtube.com/@ancosur",
+    ],
   };
 
   const websiteJsonLd = {
-    "@context":
-      "https://schema.org",
+    "@context": "https://schema.org",
 
-    "@type":
-      "WebSite",
+    "@type": "WebSite",
 
     "@id":
       `${siteUrl}/#website`,
 
-    url:
-      siteUrl,
+    url: siteUrl,
 
-    name:
-      SITE_NAME,
+    name: SITE_NAME,
 
-    alternateName:
-      "ANCOSUR",
+    alternateName: "ANCOSUR",
 
-    description:
-      DEFAULT_DESCRIPTION,
+    description: DEFAULT_DESCRIPTION,
 
-    inLanguage:
-      "es-PE",
+    inLanguage: "es-PE",
 
     publisher: {
       "@id":
         `${siteUrl}/#organization`,
+    },
+
+    potentialAction: {
+      "@type": "SearchAction",
+
+      target: {
+        "@type": "EntryPoint",
+
+        urlTemplate:
+          `${siteUrl}/proyectos?search={search_term_string}`,
+      },
+
+      "query-input":
+        "required name=search_term_string",
     },
   };
 
@@ -619,9 +559,7 @@ export default function RootLayout({
   return (
     <html
       lang="es-PE"
-      className={
-        manrope.variable
-      }
+      className={manrope.variable}
       data-scroll-behavior="smooth"
     >
       <body>
@@ -644,13 +582,12 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html:
-              JSON.stringify(
-                jsonLd,
-              ).replace(
-                /</g,
-                "\\u003c",
-              ),
+            __html: JSON.stringify(
+              jsonLd,
+            ).replace(
+              /</g,
+              "\\u003c",
+            ),
           }}
         />
       </body>

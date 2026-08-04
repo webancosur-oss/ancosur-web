@@ -1,23 +1,39 @@
-import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import { transparencyProjects } from "./data";
 
-export const metadata: Metadata = {
-  title: "Portal de Transparencia | ANCOSUR Inmobiliaria",
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title:
+    "Portal de Transparencia | ANCOSUR Inmobiliaria",
 
   description:
-    "Consulta la información legal, técnica y comercial de los proyectos inmobiliarios de ANCOSUR.",
+    "Consulta la información legal, técnica y comercial de los proyectos inmobiliarios desarrollados por ANCOSUR.",
 
-  alternates: {
-    canonical: "/portal-de-transparencia",
-  },
+  pathname: "/portal-de-transparencia",
 
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+  keywords: [
+    "Portal de Transparencia",
+    "Transparencia ANCOSUR",
+    "documentos inmobiliarios",
+    "proyectos ANCOSUR",
+    "información legal inmobiliaria",
+    "información técnica inmobiliaria",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image: "/opengraph-image.png",
+});
+
+/* =========================================================
+   REDIRECCIÓN
+========================================================= */
 
 export default function PortalTransparenciaPage() {
   const firstProject = transparencyProjects[0];
@@ -27,6 +43,6 @@ export default function PortalTransparenciaPage() {
   }
 
   redirect(
-    `/portal-de-transparencia/${firstProject.slug}`
+    `/portal-de-transparencia/${firstProject.slug}`,
   );
 }

@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-
 import {
   ArrowRightIcon,
   MapPinIcon,
@@ -9,24 +7,49 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import ResortsLeadForm from "./components/ResortsLeadForm";
 
 import styles from "./ResortsPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title:
     "Resorts en Selva Central | ANCOSUR Inmobiliaria",
+
   description:
-    "Conoce los proyectos resort de ANCOSUR Inmobiliaria en Selva Central. Zagari Resort Club en San Ramón y nuevo resort en Oxapampa próximamente.",
-};
+    "Conoce los proyectos resort de ANCOSUR en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
+
+  pathname: "/resorts",
+
+  keywords: [
+    "resorts Selva Central",
+    "resorts San Ramón",
+    "resorts Oxapampa",
+    "Zagari Resort Club",
+    "resort inmobiliario",
+    "inversión en resorts",
+    "proyectos turísticos Selva Central",
+    "inversión inmobiliaria Selva Central",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image: "/opengraph-image.png",
+});
+
+/* =========================================================
+   PROYECTOS
+========================================================= */
 
 const resorts = [
   {
     id: 1,
-    name: "Zagari - Resort Club",
+    name: "Zagari Resort Club",
     status: "EN CONSTRUCCIÓN",
     location: "San Ramón",
     region: "Selva Central",
@@ -51,246 +74,177 @@ const resorts = [
   },
 ];
 
+/* =========================================================
+   PÁGINA
+========================================================= */
+
 export default function ResortsPage() {
   return (
     <>
-      <Navbar />
-
-      <main>
-      
+      <main
+        id="main-content"
+        className={styles.page}
+      >
         <section
-          className={
-            styles.projectsSection
-          }
+          className={styles.projectsSection}
           id="resorts"
+          aria-labelledby="resorts-title"
         >
-          <div
-            className={
-              styles.sectionHeader
-            }
-          >
+          <div className={styles.sectionHeader}>
             <span>
               Proyectos disponibles
             </span>
 
-            <h2>
-              Resorts ANCOSUR
-            </h2>
+            <h1 id="resorts-title">
+              Resorts ANCOSUR en Selva Central
+            </h1>
 
             <p>
-              Conoce nuestros proyectos
-              resort en Selva Central y
-              descubre una nueva forma
-              de invertir en destinos
+              Conoce nuestros proyectos resort en Selva Central y
+              descubre una nueva forma de invertir en destinos
               naturales.
             </p>
           </div>
 
           <div className={styles.grid}>
-            {resorts.map(
-              (project) => (
-                <article
-                  key={project.id}
-                  className={
-                    styles.card
-                  }
-                >
-                  <div
-                    className={
-                      styles.imageBox
-                    }
-                  >
-                    <Image
-                      src={project.image}
-                      alt={project.name}
-                      width={900}
-                      height={680}
-                      className={
-                        styles.image
-                      }
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+            {resorts.map((project) => (
+              <article
+                key={project.id}
+                className={styles.card}
+              >
+                <div className={styles.imageBox}>
+                  <Image
+                    src={project.image}
+                    alt={`${project.name} en ${project.location}, ${project.region}`}
+                    width={900}
+                    height={680}
+                    className={styles.image}
+                    sizes="
+                      (max-width: 640px) 100vw,
+                      (max-width: 1024px) 50vw,
+                      33vw
+                    "
+                  />
+                </div>
+
+                <div
+                  className={styles.overlay}
+                  aria-hidden="true"
+                />
+
+                <span className={styles.statusBadge}>
+                  {project.status}
+                </span>
+
+                <div className={styles.cardContent}>
+                  <div className={styles.mainInfo}>
+                    <span className={styles.type}>
+                      {project.type}
+                    </span>
+
+                    <h2>
+                      {project.name}
+                    </h2>
                   </div>
 
-                  <div
-                    className={
-                      styles.overlay
-                    }
-                  />
+                  <div className={styles.details}>
+                    <div className={styles.metaGrid}>
+                      <div className={styles.metaItem}>
+                        <MapPinIcon
+                          size={18}
+                          weight="bold"
+                          aria-hidden="true"
+                        />
 
-                  <span
-                    className={
-                      styles.statusBadge
-                    }
-                  >
-                    {project.status}
-                  </span>
-
-                  <div
-                    className={
-                      styles.cardContent
-                    }
-                  >
-                    <div
-                      className={
-                        styles.mainInfo
-                      }
-                    >
-                      <span
-                        className={
-                          styles.type
-                        }
-                      >
-                        {project.type}
-                      </span>
-
-                      <h3>
-                        {project.name}
-                      </h3>
-                    </div>
-
-                    <div
-                      className={
-                        styles.details
-                      }
-                    >
-                      <div
-                        className={
-                          styles.metaGrid
-                        }
-                      >
-                        <div
-                          className={
-                            styles.metaItem
-                          }
-                        >
-                          <MapPinIcon
-                            size={18}
-                            weight="bold"
-                            aria-hidden="true"
-                          />
-
-                          <div>
-                            <span>
-                              Ubicación
-                            </span>
-
-                            <strong>
-                              {
-                                project.location
-                              }
-                            </strong>
-                          </div>
-                        </div>
-
-                        <div
-                          className={
-                            styles.metaItem
-                          }
-                        >
-                          <MountainsIcon
-                            size={18}
-                            weight="bold"
-                            aria-hidden="true"
-                          />
-
-                          <div>
-                            <span>
-                              Zona
-                            </span>
-
-                            <strong>
-                              {
-                                project.region
-                              }
-                            </strong>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        className={
-                          styles.footer
-                        }
-                      >
-                        <div
-                          className={
-                            styles.footerText
-                          }
-                        >
+                        <div>
                           <span>
-                            Estado
+                            Ubicación
                           </span>
 
                           <strong>
-                            {
-                              project.status
-                            }
+                            {project.location}
                           </strong>
                         </div>
+                      </div>
 
-                        {project.href ? (
-                          <Link
-                            href={
-                              project.href
-                            }
-                            className={
-                              styles.link
-                            }
-                          >
-                            {project.cta}
+                      <div className={styles.metaItem}>
+                        <MountainsIcon
+                          size={18}
+                          weight="bold"
+                          aria-hidden="true"
+                        />
 
-                            <ArrowRightIcon
-                              size={17}
-                              weight="bold"
-                              aria-hidden="true"
-                            />
-                          </Link>
-                        ) : (
-                          <span
-                            className={
-                              styles.linkDisabled
-                            }
-                          >
-                            {project.cta}
+                        <div>
+                          <span>
+                            Zona
                           </span>
-                        )}
+
+                          <strong>
+                            {project.region}
+                          </strong>
+                        </div>
                       </div>
                     </div>
+
+                    <div className={styles.footer}>
+                      <div className={styles.footerText}>
+                        <span>
+                          Estado
+                        </span>
+
+                        <strong>
+                          {project.status}
+                        </strong>
+                      </div>
+
+                      {project.href ? (
+                        <Link
+                          href={project.href}
+                          className={styles.link}
+                          aria-label={`Ver proyecto ${project.name}`}
+                        >
+                          {project.cta}
+
+                          <ArrowRightIcon
+                            size={17}
+                            weight="bold"
+                            aria-hidden="true"
+                          />
+                        </Link>
+                      ) : (
+                        <span
+                          className={styles.linkDisabled}
+                          aria-disabled="true"
+                        >
+                          {project.cta}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </article>
-              )
-            )}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
         <section
-          className={
-            styles.leadSection
-          }
+          className={styles.leadSection}
           id="asesoria"
+          aria-labelledby="resorts-lead-title"
         >
-          <div
-            className={
-              styles.leadContent
-            }
-          >
+          <div className={styles.leadContent}>
             <span>
               Asesoría personalizada
             </span>
 
-            <h2>
-              ¿Quieres saber más sobre
-              nuestros resorts?
+            <h2 id="resorts-lead-title">
+              ¿Quieres saber más sobre nuestros resorts?
             </h2>
 
             <p>
-              Déjanos tus datos y un
-              asesor te brindará
-              información sobre Zagari
-              Resort Club y los próximos
-              proyectos en Selva
-              Central.
+              Déjanos tus datos y un asesor te brindará información
+              sobre Zagari Resort Club y los próximos proyectos en
+              Selva Central.
             </p>
           </div>
 

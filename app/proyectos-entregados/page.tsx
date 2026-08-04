@@ -2,38 +2,58 @@ import {
   ArrowRight,
   Buildings,
 } from "@phosphor-icons/react/dist/ssr";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import ActionButton from "@/components/buttons/ActionButton";
 import { projects } from "@/data/projects";
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import styles from "./ProyectosEntregados.module.css";
 
-export const metadata: Metadata = {
-  title: "Proyectos entregados | ANCOSUR",
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title:
+    "Proyectos entregados en Huancayo | ANCOSUR",
+
   description:
-    "Conoce los proyectos inmobiliarios desarrollados y entregados por ANCOSUR en Huancayo.",
+    "Conoce los proyectos inmobiliarios desarrollados y entregados por ANCOSUR en Huancayo. Explora nuestro portafolio de departamentos y obras culminadas.",
 
-  alternates: {
-    canonical: "/proyectos-entregados",
-  },
+  pathname:
+    "/proyectos-entregados",
 
-  openGraph: {
-    title: "Proyectos entregados | ANCOSUR",
-    description:
-      "Conoce los proyectos inmobiliarios desarrollados y entregados por ANCOSUR en Huancayo.",
-    url: "/proyectos-entregados",
-    type: "website",
-  },
-};
+  keywords: [
+    "proyectos entregados ANCOSUR",
+    "proyectos inmobiliarios entregados",
+    "departamentos entregados Huancayo",
+    "edificios entregados Huancayo",
+    "proyectos culminados Huancayo",
+    "portafolio inmobiliario ANCOSUR",
+    "inmobiliaria Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image:
+    "/opengraph-image.png",
+});
+
+/* =========================================================
+   VARIANTES VISUALES
+========================================================= */
 
 const cardVariants = [
   styles.greenDark,
   styles.greenMedium,
   styles.greenLight,
 ];
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function ProyectosEntregadosPage() {
   const deliveredProjects = projects.filter(
@@ -42,20 +62,15 @@ export default function ProyectosEntregadosPage() {
   );
 
   return (
-    <main className={styles.page}>
-      {/* =====================================================
-          PROYECTOS ENTREGADOS
-      ====================================================== */}
-
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <section
         className={styles.projectsSection}
         aria-labelledby="delivered-list-title"
       >
         <div className={styles.container}>
-          {/* =================================================
-              ENCABEZADO
-          ================================================== */}
-
           <header className={styles.sectionHeader}>
             <div className={styles.sectionLabel}>
               <Buildings
@@ -64,7 +79,9 @@ export default function ProyectosEntregadosPage() {
                 aria-hidden="true"
               />
 
-              <span>Portafolio entregado</span>
+              <span>
+                Portafolio entregado
+              </span>
             </div>
 
             <h1 id="delivered-list-title">
@@ -77,23 +94,17 @@ export default function ProyectosEntregadosPage() {
             </p>
           </header>
 
-          {/* =================================================
-              LISTADO
-          ================================================== */}
-
           {deliveredProjects.length > 0 ? (
             <div className={styles.grid}>
               {deliveredProjects.map(
                 (project, index) => {
                   const variantClass =
                     cardVariants[
-                      index %
-                        cardVariants.length
+                      index % cardVariants.length
                     ];
 
                   const projectType =
-                    project.type ===
-                    "Departamento"
+                    project.type === "Departamento"
                       ? "Departamentos"
                       : project.type;
 
@@ -107,33 +118,21 @@ export default function ProyectosEntregadosPage() {
                         className={styles.cardLink}
                         aria-label={`Conocer el proyecto entregado ${project.name}`}
                       >
-                        {/* =====================================
-                            INFORMACIÓN
-                        ====================================== */}
-
                         <div className={styles.cardTop}>
-                          <div
-                            className={
-                              styles.projectContent
-                            }
-                          >
+                          <div className={styles.projectContent}>
                             {projectType && (
-                              <span
-                                className={
-                                  styles.projectType
-                                }
-                              >
+                              <span className={styles.projectType}>
                                 {projectType}
                               </span>
                             )}
 
-                            <h2>{project.name}</h2>
+                            <h2>
+                              {project.name}
+                            </h2>
                           </div>
 
                           <span
-                            className={
-                              styles.arrowButton
-                            }
+                            className={styles.arrowButton}
                             aria-hidden="true"
                           >
                             <ArrowRight
@@ -143,18 +142,10 @@ export default function ProyectosEntregadosPage() {
                           </span>
                         </div>
 
-                        {/* =====================================
-                            IMAGEN
-                        ====================================== */}
-
-                        <div
-                          className={
-                            styles.imageWrapper
-                          }
-                        >
+                        <div className={styles.imageWrapper}>
                           <Image
                             src={project.image}
-                            alt={`Proyecto entregado ${project.name}`}
+                            alt={`Proyecto entregado ${project.name} de ANCOSUR`}
                             fill
                             sizes="
                               (max-width: 680px) 100vw,
@@ -165,9 +156,7 @@ export default function ProyectosEntregadosPage() {
                           />
 
                           <div
-                            className={
-                              styles.imageOverlay
-                            }
+                            className={styles.imageOverlay}
                             aria-hidden="true"
                           />
                         </div>
@@ -178,10 +167,6 @@ export default function ProyectosEntregadosPage() {
               )}
             </div>
           ) : (
-            /* ================================================
-               ESTADO VACÍO
-            ================================================= */
-
             <div className={styles.emptyState}>
               <Buildings
                 size={42}
@@ -216,7 +201,6 @@ export default function ProyectosEntregadosPage() {
               </ActionButton>
             </div>
           )}
-
         </div>
       </section>
     </main>

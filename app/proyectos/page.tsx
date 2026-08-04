@@ -1,47 +1,108 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+
 import ProjectFilter from "@/components/ProjectFilter";
-import DepartamentosLeadForm from "./ProyectosLeadForm";
-import styles from "./ProyectosPage.module.css";
+import { createSeoMetadata } from "@/src/lib/seo";
+
 import ProyectosLeadForm from "./ProyectosLeadForm";
 
-export const metadata = {
-  title: "Proyectos inmobiliarios en Huancayo",
+import styles from "./ProyectosPage.module.css";
+
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title:
+    "Proyectos inmobiliarios en Huancayo | ANCOSUR",
+
   description:
-    "Encuentra departamentos, lotes, resorts y proyectos inmobiliarios con ANCOSUR Inmobiliaria.",
-};
+    "Encuentra departamentos, lotes, resorts y proyectos inmobiliarios en Huancayo con ANCOSUR. Opciones para vivir, invertir y construir tu futuro.",
+
+  pathname: "/proyectos",
+
+  keywords: [
+    "proyectos inmobiliarios Huancayo",
+    "departamentos Huancayo",
+    "lotes Huancayo",
+    "resorts inmobiliarios",
+    "inversión inmobiliaria Huancayo",
+    "departamentos en preventa",
+    "departamentos en construcción",
+    "departamentos entrega inmediata",
+    "lotes en venta Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "Neo Rivera",
+    "Neo Balto",
+    "Neo Eterna",
+    "Distrito San Carlos",
+    "Neo Xport",
+    "Moro 416",
+    "Neo Origen",
+    "Camino Real",
+    "Las Colinas de Moro",
+    "Zagari Resort Club",
+  ],
+
+  image: "/opengraph-image.png",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function ProyectosPage() {
   return (
-    <>
-      <Navbar />
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      <section
+        className={styles.hero}
+        aria-labelledby="proyectos-title"
+      >
+        <div className={styles.heroContent}>
+          <span>
+            Proyectos ANCOSUR
+          </span>
 
-      <main>
-        <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <span>Proyectos ANCOSUR</span>
+          <h1 id="proyectos-title">
+            Encuentra tu próximo hogar o inversión
+          </h1>
 
-            <h1>Encuentra tu próximo hogar o inversión</h1>
+          <p>
+            Explora departamentos, lotes y resorts pensados para
+            vivir mejor, invertir con respaldo y construir tu futuro.
+          </p>
 
-            <p>
-              Explora departamentos, lotes y resorts pensados para vivir mejor,
-              invertir con respaldo y construir tu futuro.
-            </p>
+          <div className={styles.heroActions}>
+            <a
+              href="#proyectos"
+              className={styles.primaryButton}
+            >
+              Ver proyectos
 
-            <div className={styles.heroActions}>
-              <a href="#proyectos" className={styles.primaryButton}>
-                Ver proyectos
-                <ArrowRightIcon size={18} weight="bold" aria-hidden={true} />
-              </a>
+              <ArrowRightIcon
+                size={18}
+                weight="bold"
+                aria-hidden="true"
+              />
+            </a>
 
-              <a href="#asesoria" className={styles.secondaryButton}>
-                Solicitar asesoría
-              </a>
-            </div>
+            <a
+              href="#asesoria"
+              className={styles.secondaryButton}
+            >
+              Solicitar asesoría
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
 
+      <section
+        id="proyectos"
+        aria-label="Listado de proyectos inmobiliarios ANCOSUR"
+      >
         <ProjectFilter
           eyebrow="Proyectos ANCOSUR"
           title="Encuentra el proyecto ideal para ti"
@@ -50,14 +111,11 @@ export default function ProyectosPage() {
           showFilters={true}
           showResultsInfo={true}
           showCta={false}
+          initialFilterId="pre-venta"
           filterGroups={[
-            // {
-            //   id: "todos",
-            //   label: "Todos",
-            // },
             {
               id: "pre-venta",
-              label: "Pre venta",
+              label: "Preventa",
               projectNames: [
                 "Neo Rivera",
                 "Neo Balto",
@@ -92,29 +150,40 @@ export default function ProyectosPage() {
             },
           ]}
         />
+      </section>
 
-        <section className={styles.leadSection} id="asesoria">
-          <div className={styles.leadContent}>
-            <span>Asesoría personalizada</span>
+      <section
+        className={styles.leadSection}
+        id="asesoria"
+        aria-labelledby="proyectos-lead-title"
+      >
+        <div className={styles.leadContent}>
+          <span>
+            Asesoría personalizada
+          </span>
 
-            <h2>Encuentra el proyecto que va contigo</h2>
+          <h2 id="proyectos-lead-title">
+            Encuentra el proyecto que va contigo
+          </h2>
 
-            <p>
-              Déjanos tus datos y te ayudamos a elegir la mejor opción según tu
-              estilo de vida, presupuesto y objetivo de compra.
-            </p>
+          <p>
+            Déjanos tus datos y te ayudamos a elegir la mejor opción
+            según tu estilo de vida, presupuesto y objetivo de compra.
+          </p>
 
-            <div className={styles.leadMiniList}>
-              <span>Respuesta rápida por WhatsApp</span>
-              <span>Opciones para vivir o invertir</span>
-            </div>
+          <div className={styles.leadMiniList}>
+            <span>
+              Respuesta rápida por WhatsApp
+            </span>
+
+            <span>
+              Opciones para vivir o invertir
+            </span>
           </div>
+        </div>
 
-          <ProyectosLeadForm />
-        </section>
-      </main>
-
-      
-    </>
+        <ProyectosLeadForm />
+      </section>
+    </main>
   );
 }

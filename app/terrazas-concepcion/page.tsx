@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import TerrazasConcepcionBenefits from "./components/TerrazasConcepcionBenefits";
 import TerrazasConcepcionHero from "./components/TerrazasConcepcionHero";
@@ -15,60 +15,32 @@ import {
 
 import styles from "./TerrazasConcepcionPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: seoTerrazasConcepcion.title,
 
   description: seoTerrazasConcepcion.description,
 
+  pathname: "/las-terrazas-de-concepcion",
+
   keywords: seoTerrazasConcepcion.keywords,
 
-  alternates: {
-    canonical: "/las-terrazas-de-concepcion",
-  },
+  image: seoTerrazasConcepcion.openGraphImage,
+});
 
-  openGraph: {
-    type: "website",
-
-    locale: "es_PE",
-
-    title: seoTerrazasConcepcion.title,
-
-    description: seoTerrazasConcepcion.description,
-
-    url: "/las-terrazas-de-concepcion",
-
-    siteName: "ANCOSUR Inmobiliaria",
-
-    images: [
-      {
-        url: seoTerrazasConcepcion.openGraphImage,
-        width: 1200,
-        height: 630,
-        alt:
-          "Las Terrazas de Concepción, proyecto de lotes rodeado de naturaleza",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title: seoTerrazasConcepcion.title,
-
-    description: seoTerrazasConcepcion.description,
-
-    images: [seoTerrazasConcepcion.openGraphImage],
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function TerrazasConcepcionPage() {
   return (
-    <main className={styles.page}>
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <TerrazasConcepcionHero />
 
       <TerrazasConcepcionOverviewSection />
@@ -79,7 +51,11 @@ export default function TerrazasConcepcionPage() {
 
       <TerrazasConcepcionLocation />
 
-      <ProjectFilter />
+      <section
+        aria-label="Proyectos relacionados con Las Terrazas de Concepción"
+      >
+        <ProjectFilter />
+      </section>
 
       <p className={styles.disclaimer}>
         {disclaimerTerrazasConcepcion}

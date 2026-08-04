@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import NeoEternaAmenitiesSlider from "./components/NeoEternaAmenitiesSlider";
 import NeoEternaHero from "./components/NeoEternaHero";
@@ -10,29 +10,50 @@ import NeoEternaOverviewSection from "./components/NeoEternaOverviewSection";
 
 import styles from "./NeoEternaPage.module.css";
 
-export const metadata: Metadata = {
-  title: "Neo Eterna | Departamentos en la zona universitaria de Huancayo",
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title:
+    "Neo Eterna | Departamentos en la zona universitaria de Huancayo",
+
   description:
     "Neo Eterna es un proyecto de departamentos ubicado en la zona universitaria de San Carlos, Huancayo. Cuenta con tipologías de 1, 2 y 3 ambientes, áreas desde 41 m² y amenidades para estudiantes, profesionales e inversionistas.",
 
-  openGraph: {
-    title: "Neo Eterna | Inversión en la zona universitaria de Huancayo",
-    description:
-      "Departamentos de 1, 2 y 3 ambientes cerca de la Universidad Continental, UPLA y Universidad Roosevelt.",
-    images: [
-      {
-        url: "/assets/projects/sliders/neo-eterna.webp",
-        width: 1200,
-        height: 630,
-        alt: "Neo Eterna, proyecto inmobiliario en San Carlos, Huancayo",
-      },
-    ],
-  },
-};
+  pathname: "/neo-eterna",
+
+  keywords: [
+    "Neo Eterna",
+    "departamentos Huancayo",
+    "departamentos San Carlos",
+    "departamentos zona universitaria",
+    "departamentos Universidad Continental",
+    "departamentos UPLA",
+    "departamentos Roosevelt",
+    "departamentos para inversión",
+    "departamentos 1 ambiente",
+    "departamentos 2 ambientes",
+    "departamentos 3 ambientes",
+    "proyectos inmobiliarios Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image:
+    "/assets/projects/sliders/neo-eterna.webp",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function NeoEternaPage() {
   return (
-    <main className={styles.page}>
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <NeoEternaHero />
 
       <NeoEternaOverviewSection />
@@ -45,9 +66,8 @@ export default function NeoEternaPage() {
 
       <section
         className={styles.relatedProjects}
-        aria-labelledby="related-projects-title"
+        aria-label="Proyectos relacionados con Neo Eterna"
       >
-
         <ProjectFilter />
       </section>
 

@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import Script from "next/script";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { createSeoMetadata } from "@/src/lib/seo";
 
-import CyberEventInfo from "./components/CyberEventInfo";
 import CyberHero from "./components/CyberHero";
 import CyberHouseLeadForm from "./components/CyberHouseLeadForm";
-import CyberProjects from "./components/CyberProjects";
+import CuscoPromoHero from "./components/CuscoPromoHero";
 
 import {
   CYBER_HOUSE_END,
@@ -16,64 +13,171 @@ import {
 } from "./data";
 
 import styles from "./CyberHousePage.module.css";
-import CuscoPromoHero from "./components/CuscoPromoHero";
 
-export const metadata: Metadata = {
-  title:
-    "Cyber House ANCOSUR | Evento inmobiliario",
-  description:
-    "Participa en el Cyber House ANCOSUR, conoce proyectos inmobiliarios, recibe asesoría personalizada y consulta beneficios disponibles durante el evento.",
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+const SITE_URL = "https://ancosur.com";
+const PAGE_PATH = "/cyber-house";
+const EVENT_URL = `${SITE_URL}${PAGE_PATH}`;
+
+const PAGE_TITLE =
+  "Cyber House ANCOSUR | Evento inmobiliario en Huancayo";
+
+const PAGE_DESCRIPTION =
+  "Participa en el Cyber House ANCOSUR, conoce nuestros proyectos inmobiliarios, recibe asesoría personalizada y accede a beneficios especiales durante el evento.";
+
+const PAGE_IMAGE = "/opengraph-image.png";
+
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title: PAGE_TITLE,
+
+  description: PAGE_DESCRIPTION,
+
+  pathname: PAGE_PATH,
+
+  keywords: [
+    "Cyber House ANCOSUR",
+    "evento inmobiliario Huancayo",
+    "feria inmobiliaria Huancayo",
+    "promociones inmobiliarias Huancayo",
+    "departamentos en Huancayo",
+    "lotes en Huancayo",
+    "proyectos inmobiliarios Huancayo",
+    "asesoría inmobiliaria Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image: PAGE_IMAGE,
+});
+
+/* =========================================================
+   DATOS ESTRUCTURADOS
+========================================================= */
+
+const eventSchema = {
+  "@context": "https://schema.org",
+
+  "@type": "Event",
+
+  "@id": `${EVENT_URL}#event`,
+
+  name: "Cyber House ANCOSUR",
+
+  description: PAGE_DESCRIPTION,
+
+  url: EVENT_URL,
+
+  image: [
+    `${SITE_URL}${PAGE_IMAGE}`,
+  ],
+
+  startDate: CYBER_HOUSE_START,
+
+  endDate: CYBER_HOUSE_END,
+
+  eventStatus:
+    "https://schema.org/EventScheduled",
+
+  eventAttendanceMode:
+    "https://schema.org/OfflineEventAttendanceMode",
+
+  location: {
+    "@type": "Place",
+
+    name: "Sala de ventas ANCOSUR",
+
+    address: {
+      "@type": "PostalAddress",
+
+      streetAddress:
+        CYBER_HOUSE_LOCATION,
+
+      addressLocality:
+        "Huancayo",
+
+      addressRegion:
+        "Junín",
+
+      addressCountry:
+        "PE",
+    },
+  },
+
+  organizer: {
+    "@type": "Organization",
+
+    "@id":
+      `${SITE_URL}/#organization`,
+
+    name:
+      "ANCOSUR Inmobiliaria",
+
+    url:
+      SITE_URL,
+  },
+
+  performer: {
+    "@type": "Organization",
+
+    name:
+      "ANCOSUR Inmobiliaria",
+  },
+
+  offers: {
+    "@type": "Offer",
+
+    url: EVENT_URL,
+
+    price: "0",
+
+    priceCurrency: "PEN",
+
+    availability:
+      "https://schema.org/InStock",
+
+    validFrom:
+      CYBER_HOUSE_START,
+  },
+
+  inLanguage:
+    "es-PE",
 };
 
-export default function CyberHousePage() {
-  const eventSchema = {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: "Cyber House ANCOSUR",
-    description:
-      "Evento inmobiliario con proyectos, asesoría personalizada y beneficios especiales.",
-    startDate: CYBER_HOUSE_START,
-    endDate: CYBER_HOUSE_END,
-    eventStatus:
-      "https://schema.org/EventScheduled",
-    eventAttendanceMode:
-      "https://schema.org/OfflineEventAttendanceMode",
-    location: {
-      "@type": "Place",
-      name:
-        "Sala de ventas ANCOSUR",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress:
-          CYBER_HOUSE_LOCATION,
-        addressLocality:
-          "Huancayo",
-        addressRegion: "Junín",
-        addressCountry: "PE",
-      },
-    },
-    organizer: {
-      "@type": "Organization",
-      name: "ANCOSUR Inmobiliaria",
-    },
-  };
+/* =========================================================
+   PÁGINA
+========================================================= */
 
+export default function CyberHousePage() {
   return (
     <>
-      <Navbar />
-
-      <main className={styles.page}>
+      <main
+        id="main-content"
+        className={styles.page}
+      >
         <CuscoPromoHero />
+
         <CyberHero />
+
         <CyberHouseLeadForm />
       </main>
 
       <Script
         id="cyber-house-event-schema"
         type="application/ld+json"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            eventSchema
+            eventSchema,
+          ).replace(
+            /</g,
+            "\\u003c",
           ),
         }}
       />

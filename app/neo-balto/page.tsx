@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
+
+import { createSeoMetadata } from "@/src/lib/seo";
 
 import NeoBaltoAmenitiesSlider from "./components/NeoBaltoAmenitiesSlider";
 import NeoBaltoHero from "./components/NeoBaltoHero";
@@ -10,32 +10,44 @@ import NeoBaltoOverviewSection from "./components/NeoBaltoOverviewSection";
 
 import styles from "./NeoBaltoPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: "Neo Balto | Departamentos Pet-Centric en Huancayo",
 
   description:
-    "Neo Balto es un proyecto Pet-Centric ubicado en San Antonio, Huancayo. Cuenta con departamentos desde 43 m², amenidades para mascotas y espacios diseñados para una vida más cómoda en familia.",
+    "Neo Balto es el primer proyecto Pet-Centric de Huancayo. Departamentos desde 43 m² con espacios diseñados para ti y tus mascotas, ubicado en San Antonio.",
 
-  openGraph: {
-    title: "Neo Balto | El primer edificio Pet-Centric de Huancayo",
+  pathname: "/neo-balto",
 
-    description:
-      "Departamentos desde 43 m² con Lobby Sensorial, Eco-Pet Wash y Terraza Pet-Friendly en San Antonio, Huancayo.",
+  keywords: [
+    "Neo Balto",
+    "departamentos Pet-Centric",
+    "departamentos Huancayo",
+    "departamentos San Antonio",
+    "departamentos con áreas para mascotas",
+    "departamentos pet friendly",
+    "departamentos en venta Huancayo",
+    "proyectos inmobiliarios Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
 
-    images: [
-      {
-        url: "/assets/projects/sliders/neo-balto.webp",
-        width: 1200,
-        height: 630,
-        alt: "Neo Balto, proyecto Pet-Centric en Huancayo",
-      },
-    ],
-  },
-};
+  image: "/assets/projects/sliders/neo-balto.webp",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function NeoBaltoPage() {
   return (
-    <main className={styles.page}>
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <NeoBaltoHero />
 
       <NeoBaltoOverviewSection />
@@ -48,16 +60,16 @@ export default function NeoBaltoPage() {
 
       <section
         className={styles.relatedProjects}
-        aria-labelledby="neo-balto-related-title"
+        aria-label="Proyectos relacionados con Neo Balto"
       >
-
         <ProjectFilter />
       </section>
 
       <p className={styles.disclaimer}>
-        Todas las imágenes, planos, medidas, áreas, precios, acabados y
-        equipamiento son referenciales y pueden presentar modificaciones
-        durante el desarrollo del proyecto.
+        Todas las imágenes, planos, medidas, áreas, precios,
+        acabados y equipamiento son referenciales y pueden
+        presentar modificaciones durante el desarrollo del
+        proyecto.
       </p>
     </main>
   );

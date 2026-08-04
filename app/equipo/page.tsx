@@ -1,17 +1,39 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { createSeoMetadata } from "@/src/lib/seo";
 import { teamGroups } from "@/data/team";
 
 import styles from "./EquipoPage.module.css";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title: "Nuestro equipo | ANCOSUR Inmobiliaria",
+
   description:
-    "Conoce al equipo de ANCOSUR Inmobiliaria, profesionales que hacen posible nuestros proyectos inmobiliarios.",
-};
+    "Conoce al equipo de ANCOSUR Inmobiliaria, profesionales especializados en desarrollo inmobiliario, construcción, ventas y atención al cliente en Huancayo.",
+
+  pathname: "/equipo",
+
+  keywords: [
+    "equipo ANCOSUR",
+    "nuestro equipo ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "equipo inmobiliario Huancayo",
+    "asesores inmobiliarios Huancayo",
+    "profesionales inmobiliarios",
+    "empresa inmobiliaria Huancayo",
+    "ANCOSUR Huancayo",
+  ],
+
+  image: "/opengraph-image.png",
+});
+
+/* =========================================================
+   UTILIDAD PARA TELÉFONOS
+========================================================= */
 
 function formatPhone(phone: string) {
   const normalizedPhone = phone.replace(/\D/g, "");
@@ -23,58 +45,71 @@ function formatPhone(phone: string) {
   return `+51${normalizedPhone}`;
 }
 
+/* =========================================================
+   PÁGINA
+========================================================= */
+
 export default function EquipoPage() {
-  const totalMembers = teamGroups.reduce(
-    (total, group) => total + group.members.length,
-    0,
-  );
-
   return (
-    <>
-      <Navbar />
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      <header className={styles.pageHeader}>
+        <span>Equipo ANCOSUR</span>
 
-      <main className={styles.page}>
+        <h1>
+          Profesionales que construyen nuevas experiencias
+        </h1>
 
-        <div className={styles.teamsContainer}>
-          {teamGroups.map((group, groupIndex) => {
-            const sectionId = `equipo-${groupIndex}`;
+        <p>
+          Conoce a las personas que hacen posible el desarrollo,
+          construcción y comercialización de nuestros proyectos
+          inmobiliarios.
+        </p>
+      </header>
 
-            return (
-              <section
-                key={group.area}
-                className={styles.areaSection}
-                aria-labelledby={sectionId}
-              >
-                <header className={styles.areaHeader}>
-                  <div className={styles.areaTitle}>
-                    <span
-                      className={styles.areaNumber}
-                      aria-hidden="true"
-                    >
-                      {String(groupIndex + 1).padStart(2, "0")}
+      <div className={styles.teamsContainer}>
+        {teamGroups.map((group, groupIndex) => {
+          const sectionId = `equipo-${groupIndex}`;
+
+          return (
+            <section
+              key={group.area}
+              className={styles.areaSection}
+              aria-labelledby={sectionId}
+            >
+              <header className={styles.areaHeader}>
+                <div className={styles.areaTitle}>
+                  <span
+                    className={styles.areaNumber}
+                    aria-hidden="true"
+                  >
+                    {String(groupIndex + 1).padStart(2, "0")}
+                  </span>
+
+                  <div className={styles.areaTitleContent}>
+                    <span className={styles.areaEyebrow}>
+                      Equipo ANCOSUR
                     </span>
 
-                    <div className={styles.areaTitleContent}>
-                      <span className={styles.areaEyebrow}>
-                        Equipo ANCOSUR
-                      </span>
-
-                      <h2 id={sectionId}>
-                        {group.area}
-                      </h2>
-                    </div>
+                    <h2 id={sectionId}>
+                      {group.area}
+                    </h2>
                   </div>
+                </div>
 
-                  <span className={styles.memberCount}>
-                    {group.members.length}{" "}
-                    {group.members.length === 1
-                      ? "integrante"
-                      : "integrantes"}
-                  </span>
-                </header>
+                <span className={styles.memberCount}>
+                  {group.members.length}{" "}
+                  {group.members.length === 1
+                    ? "integrante"
+                    : "integrantes"}
+                </span>
+              </header>
 
-                <div className={styles.grid}>
-                  {group.members.map((member, memberIndex) => (
+              <div className={styles.grid}>
+                {group.members.map(
+                  (member, memberIndex) => (
                     <article
                       key={member.id}
                       className={styles.card}
@@ -109,7 +144,9 @@ export default function EquipoPage() {
                           {member.position}
                         </span>
 
-                        <h3>{member.name}</h3>
+                        <h3>
+                          {member.name}
+                        </h3>
 
                         {member.phone && (
                           <a
@@ -131,19 +168,20 @@ export default function EquipoPage() {
                               </svg>
                             </span>
 
-                            <span>{member.phone}</span>
+                            <span>
+                              {member.phone}
+                            </span>
                           </a>
                         )}
                       </div>
                     </article>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
-      </main>
-
-    </>
+                  ),
+                )}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </main>
   );
 }

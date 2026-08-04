@@ -1,76 +1,81 @@
-import type { Metadata } from "next";
-
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import ProjectFilter from "@/components/ProjectFilter";
 
-import styles from "./NeoOrigenPage.module.css";
-import NeoOrigenOverviewSection from "./components/NeoOrigenOverviewSection";
-import NeoOrigenMedia from "./components/NeoOrigenMedia";
-import NeoOrigenAmenitiesSlider from "./components/NeoOrigenAmenitiesSlider";
-import NeoOrigenLocation from "./components/NeoOrigenLocation";
-import NeoOrigenHero from "./components/NeoOrigenHero";
+import { createSeoMetadata } from "@/src/lib/seo";
 
-export const metadata: Metadata = {
+import NeoOrigenAmenitiesSlider from "./components/NeoOrigenAmenitiesSlider";
+import NeoOrigenHero from "./components/NeoOrigenHero";
+import NeoOrigenLocation from "./components/NeoOrigenLocation";
+import NeoOrigenMedia from "./components/NeoOrigenMedia";
+import NeoOrigenOverviewSection from "./components/NeoOrigenOverviewSection";
+
+import styles from "./NeoOrigenPage.module.css";
+
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title:
     "Neo Origen | Departamentos en El Tambo, Huancayo",
 
   description:
-    "Neo Origen es un proyecto inmobiliario ubicado en Jr. Libertad 1187, El Tambo, Huancayo. Cuenta con departamentos de 1, 2 y 3 ambientes, áreas desde 40 m² y cinco áreas comunes.",
+    "Neo Origen es un proyecto inmobiliario ubicado en Jr. Libertad 1187, El Tambo, Huancayo. Cuenta con departamentos de 1, 2 y 3 ambientes, áreas desde 40 m² y modernas áreas comunes.",
 
-  openGraph: {
-    title:
-      "Neo Origen | Innovación y conectividad en El Tambo",
+  pathname: "/neo-origen",
 
-    description:
-      "Departamentos desde 40 m², cinco áreas comunes y una propuesta arquitectónica inspirada en el universo.",
+  keywords: [
+    "Neo Origen",
+    "departamentos El Tambo",
+    "departamentos Huancayo",
+    "departamentos en venta",
+    "departamentos modernos",
+    "departamentos 1 ambiente",
+    "departamentos 2 ambientes",
+    "departamentos 3 ambientes",
+    "departamentos Jr. Libertad",
+    "proyectos inmobiliarios Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
 
-    images: [
-      {
-        url: "/assets/projects/sliders/neo-origen.webp",
-        width: 1200,
-        height: 630,
-        alt:
-          "Neo Origen, proyecto inmobiliario en El Tambo, Huancayo",
-      },
-    ],
-  },
-};
+  image:
+    "/assets/projects/sliders/neo-origen.webp",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function NeoOrigenPage() {
   return (
-    <>
-      <Navbar />
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      <NeoOrigenHero />
 
-      <main className={styles.page}>
-        <NeoOrigenHero />
+      <NeoOrigenOverviewSection />
 
-        <NeoOrigenOverviewSection />
+      <NeoOrigenMedia />
 
-        <NeoOrigenMedia />
+      <NeoOrigenAmenitiesSlider />
 
-        <NeoOrigenAmenitiesSlider />
+      <NeoOrigenLocation />
 
-        <NeoOrigenLocation />
+      <section
+        className={styles.relatedProjects}
+        aria-label="Proyectos relacionados con Neo Origen"
+      >
+        <ProjectFilter />
+      </section>
 
-        <section
-          className={styles.relatedProjects}
-          aria-labelledby="neo-origen-related-title"
-        >
-
-          <ProjectFilter />
-        </section>
-
-        <p className={styles.disclaimer}>
-          Todas las imágenes, renders, planos, medidas, áreas, precios,
-          acabados, equipamiento y áreas comunes son referenciales y pueden
-          presentar modificaciones durante el desarrollo del proyecto. La
-          disponibilidad y los precios están sujetos a cambios sin previo
-          aviso.
-        </p>
-      </main>
-
-      <Footer />
-    </>
+      <p className={styles.disclaimer}>
+        Todas las imágenes, renders, planos, medidas, áreas,
+        precios, acabados, equipamiento y áreas comunes son
+        referenciales y pueden presentar modificaciones durante
+        el desarrollo del proyecto. La disponibilidad y los
+        precios están sujetos a cambios sin previo aviso.
+      </p>
+    </main>
   );
 }

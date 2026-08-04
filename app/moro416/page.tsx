@@ -1,102 +1,73 @@
-import type { Metadata } from "next";
-
 import ProjectFilter from "@/components/ProjectFilter";
 
+import { createSeoMetadata } from "@/src/lib/seo";
 
+import Moro416AmenitiesSlider from "./components/Moro416AmenitiesSlider";
+import Moro416Hero from "./components/Moro416Hero";
+import Moro416Location from "./components/Moro416Location";
+import Moro416Media from "./components/Moro416Media";
+import Moro416OverviewSection from "./components/Moro416OverviewSection";
 
 import styles from "./Moro416.module.css";
-import Moro416Hero from "./components/Moro416Hero";
-import Moro416OverviewSection from "./components/Moro416OverviewSection";
-import Moro416Media from "./components/Moro416Media";
-import Moro416AmenitiesSlider from "./components/Moro416AmenitiesSlider";
-import Moro416Location from "./components/Moro416Location";
 
-export const metadata: Metadata = {
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
   title:
-    "Moro 416 | Departamentos para inversión y oficinas en Huancayo",
+    "Moro 416 | Departamentos para inversión en Huancayo",
 
   description:
-    "Moro 416 es un proyecto mixto ubicado en la intersección de la avenida Giráldez y Ferrocarril, frente a Real Plaza Huancayo. Cuenta con departamentos para rentas cortas, oficinas corporativas, áreas desde 36 m² y precios desde S/ 189,108.",
+    "Moro 416 es un proyecto mixto frente a Real Plaza Huancayo con departamentos para rentas cortas, oficinas corporativas y áreas desde 36 m².",
+
+  pathname: "/moro-416",
 
   keywords: [
     "Moro 416",
     "departamentos en Huancayo",
+    "departamentos para inversión Huancayo",
     "departamentos Airbnb Huancayo",
-    "inversión inmobiliaria Huancayo",
+    "rentas cortas Huancayo",
     "oficinas en Huancayo",
+    "oficinas frente a Real Plaza Huancayo",
     "departamentos frente a Real Plaza Huancayo",
+    "inversión inmobiliaria Huancayo",
     "proyectos inmobiliarios Huancayo",
+    "ANCOSUR",
     "ANCOSUR Inmobiliaria",
   ],
 
-  openGraph: {
-    title:
-      "Moro 416 | Tu activo financiero más inteligente en Huancayo",
+  image:
+    "/assets/projects/sliders/moro-416.webp",
+});
 
-    description:
-      "Proyecto mixto con departamentos para Airbnb, rentas cortas y oficinas corporativas. Áreas desde 36 m² y precios desde S/ 189,108.",
-
-    type: "website",
-
-    images: [
-      {
-        url: "/assets/projects/sliders/moro-416.webp",
-        width: 1200,
-        height: 630,
-        alt: "Moro 416, proyecto mixto de inversión en Huancayo",
-      },
-    ],
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title:
-      "Moro 416 | Departamentos para inversión en Huancayo",
-
-    description:
-      "Departamentos para rentas cortas y oficinas corporativas frente a Real Plaza Huancayo.",
-
-    images: [
-      "/assets/projects/sliders/moro-416.webp",
-    ],
-  },
-};
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function Moro416Page() {
   return (
-    <main className={styles.page}>
-      {/* HERO PRINCIPAL */}
-
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <Moro416Hero />
-
-      {/* INFORMACIÓN GENERAL, ÁREAS Y PRECIO */}
 
       <Moro416OverviewSection />
 
-      {/* VIDEO, GALERÍA O CONTENIDO MULTIMEDIA */}
-
       <Moro416Media />
-
-      {/* 8 ÁREAS COMUNES */}
 
       <Moro416AmenitiesSlider />
 
-      {/* UBICACIÓN DEL PROYECTO */}
-
       <Moro416Location />
-
-      {/* PROYECTOS RELACIONADOS */}
 
       <section
         className={styles.relatedProjects}
-        aria-labelledby="moro-416-related-title"
+        aria-label="Proyectos relacionados con Moro 416"
       >
-
         <ProjectFilter />
       </section>
-
-      {/* AVISO LEGAL */}
 
       <p className={styles.disclaimer}>
         Todas las imágenes, planos, medidas, áreas, precios,

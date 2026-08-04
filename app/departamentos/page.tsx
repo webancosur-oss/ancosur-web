@@ -1,5 +1,7 @@
 import ProjectFilter from "@/components/ProjectFilter";
 
+import { createSeoMetadata } from "@/src/lib/seo";
+
 import DepartamentosLeadForm from "./DepartamentosLeadForm";
 import DeliveredProjectsSection from "./components/DeliveredProjectsSection";
 
@@ -18,26 +20,57 @@ const deliveredProjects = projects
     id: project.id,
     name: project.name,
     image: project.image,
-   
     type: "Departamentos",
     href: project.href,
   }));
 
-export const metadata = {
-  title:
-    "Departamentos en Huancayo | ANCOSUR",
+/* =========================================================
+   SEO
+========================================================= */
+
+export const metadata = createSeoMetadata({
+  title: "Departamentos en Huancayo | ANCOSUR",
 
   description:
-    "Encuentra departamentos en preventa, construcción y entrega inmediata en Huancayo con ANCOSUR Inmobiliaria.",
-};
+    "Encuentra departamentos en preventa, en construcción y entrega inmediata en Huancayo con ANCOSUR Inmobiliaria. Descubre proyectos modernos para vivir o invertir.",
+
+  pathname: "/departamentos",
+
+  keywords: [
+    "departamentos Huancayo",
+    "departamentos en Huancayo",
+    "departamentos en venta",
+    "departamentos nuevos",
+    "departamentos de estreno",
+    "departamentos preventa",
+    "departamentos entrega inmediata",
+    "comprar departamento Huancayo",
+    "proyectos inmobiliarios Huancayo",
+    "Moro 416",
+    "Neo Rivera",
+    "Neo Balto",
+    "Neo Xport",
+    "Neo Origen",
+    "Neo Eterna",
+    "Distrito San Carlos",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+  ],
+
+  image:
+    "/assets/images/opengraph/departamentos.webp",
+});
+
+/* =========================================================
+   PÁGINA
+========================================================= */
 
 export default function DepartamentosPage() {
   return (
-    <main className={styles.page}>
-      {/* =====================================================
-          DEPARTAMENTOS DISPONIBLES
-      ====================================================== */}
-
+    <main
+      id="main-content"
+      className={styles.page}
+    >
       <ProjectFilter
         eyebrow="Departamentos ANCOSUR"
         title="Elige tu próximo hogar"
@@ -77,10 +110,6 @@ export default function DepartamentosPage() {
         ]}
       />
 
-      {/* =====================================================
-          PROYECTOS ENTREGADOS
-      ====================================================== */}
-
       <DeliveredProjectsSection
         projects={deliveredProjects}
         limit={3}
@@ -90,10 +119,6 @@ export default function DepartamentosPage() {
         ctaHref="/proyectos-entregados"
         ctaLabel="Ver más proyectos entregados"
       />
-
-      {/* =====================================================
-          FORMULARIO
-      ====================================================== */}
 
       <section
         className={styles.leadSection}
