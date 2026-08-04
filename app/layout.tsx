@@ -29,7 +29,7 @@ const SITE_NAME =
  * No supera el límite recomendado de 60.
  */
 const DEFAULT_TITLE =
-  "ANCOSUR | Departamentos y lotes en Huancayo";
+  "Departamentos y lotes en Huancayo";
 
 const DEFAULT_DESCRIPTION =
   "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Opciones para vivir, invertir y construir nuevas experiencias.";
@@ -37,13 +37,6 @@ const DEFAULT_DESCRIPTION =
 const OG_IMAGE_ALT =
   "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
 
-/*
- * Configura en Railway:
- *
- * SITE_URL=https://ancosur.com
- *
- * No coloques http://.
- */
 const normalizeSiteUrl = (
   value?: string,
 ): string => {
@@ -95,14 +88,7 @@ const siteUrl = normalizeSiteUrl(
   process.env.SITE_URL,
 );
 
-/*
- * Agrega en Railway únicamente si ANCOSUR
- * cuenta con un perfil oficial en X:
- *
- * NEXT_PUBLIC_X_HANDLE=@usuario_real
- *
- * No inventes el usuario.
- */
+
 const xHandle =
   process.env.NEXT_PUBLIC_X_HANDLE
     ?.trim();
@@ -138,10 +124,6 @@ const manrope = Manrope({
    VIEWPORT Y THEME COLOR
 ========================================================= */
 
-/*
- * Desde Next.js 14, themeColor debe ir en
- * viewport y no dentro de metadata.
- */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -211,6 +193,15 @@ export const metadata: Metadata = {
     "Camino Real",
     "Las Colinas de Moro",
     "Zagari Resort Club",
+    "compra de departamentos",
+    "Venta,Departamento",
+    "Huancayo,Venta de Departamentos de Estreno con Cochera - Cerca a Univ. Continental",
+    "VENTA DEPARTAMENTO MAS COCHERA",
+    "Propiedades",
+    "Inmuebles",
+    "peru casas",
+    "terrenos peru",
+    
   ],
 
   authors: [
