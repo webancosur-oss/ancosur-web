@@ -24,14 +24,14 @@ type CertificatePdf = {
 
 const ISO_9001_CERTIFICATE: CertificatePdf = {
   title:
-    "Certificado ISO 9001 de ANCOSUR",
+    "Certificado ISO 9001 de Ancosur",
   pdf:
     "/assets/certificados/certificado-iso-9001.pdf",
 };
 
 const ISO_14001_CERTIFICATE: CertificatePdf = {
   title:
-    "Certificado ISO 14001 de ANCOSUR",
+    "Certificado ISO 14001 de Ancosur",
   pdf:
     "/assets/certificados/certificado-iso-14001.pdf",
 };
@@ -99,7 +99,7 @@ export default function CertificationsSection() {
         <div className={styles.container}>
           <div className={styles.header}>
             <span>
-              Respaldo ANCOSUR
+              Respaldo Ancosur
             </span>
 
             <h2 id="certifications-title">
@@ -157,7 +157,7 @@ export default function CertificationsSection() {
                   }
                 >
                   Estas certificaciones
-                  demuestran que ANCOSUR
+                  demuestran que Ancosur
                   trabaja con procesos
                   evaluados para mantener la
                   calidad y gestionar
@@ -259,7 +259,7 @@ export default function CertificationsSection() {
                             ISO_9001_CERTIFICATE,
                           )
                         }
-                        aria-label="Visualizar certificado ISO 9001 de ANCOSUR"
+                        aria-label="Visualizar certificado ISO 9001 de Ancosur"
                       >
                         <EyeIcon
                           size={18}
@@ -361,7 +361,7 @@ export default function CertificationsSection() {
                             ISO_14001_CERTIFICATE,
                           )
                         }
-                        aria-label="Visualizar certificado ISO 14001 de ANCOSUR"
+                        aria-label="Visualizar certificado ISO 14001 de Ancosur"
                       >
                         <EyeIcon
                           size={18}

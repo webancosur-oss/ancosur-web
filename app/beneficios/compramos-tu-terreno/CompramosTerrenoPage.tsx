@@ -602,7 +602,7 @@ export default function CompramosTerrenoPage() {
                   términos y la política
                   de privacidad
                 </Link>{" "}
-                y autorizo a ANCOSUR a
+                y autorizo a Ancosur a
                 contactarme para brindar
                 información sobre la
                 evaluación de mi terreno.

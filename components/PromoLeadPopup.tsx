@@ -61,7 +61,7 @@ const campaigns: PopupCampaign[] = [
       "Déjanos tus datos para recibir mayor información.",
     image: "/assets/campanias/campania_lote.webp",
     imageAlt:
-      "Campaña ANCOSUR - Elige un Beneficio (Plano o Notaria Gratis)",
+      "Campaña Ancosur - Elige un Beneficio (Plano o Notaria Gratis)",
     imageWidth: 1080,
     imageHeight: 1080,
   },
@@ -81,7 +81,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -337,7 +337,7 @@ export default function PromoLeadPopup() {
     "Campaña viaje a Cusco 2026",
 
   anuncio:
-    "Popup web ANCOSUR",
+    "Popup web Ancosur",
 
   msj_client:
     JSON.stringify({
@@ -829,7 +829,7 @@ export default function PromoLeadPopup() {
                     >
                       términos y la política de privacidad
                     </Link>{" "}
-                    y autorizo ser contactado por ANCOSUR para recibir información comercial.
+                    y autorizo ser contactado por Ancosur para recibir información comercial.
                   </span>
                 </label>
 

@@ -43,7 +43,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "neo-balto",
     name: "Neo Balto",
     projectRoute: "/neo-balto",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -71,7 +71,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "ANTECEDENTES Y COMPORTAMIENTO DEL PROVEEDOR: Ancosur es una empresa con más de 10 años de experiencia en el sector inmobiliario, especializada en el desarrollo de proyectos innovadores y sostenibles, enfocados en brindar seguridad, rentabilidad y calidad de vida a familias e inversionistas.",
 
-      "Para consultas, puede comunicarse mediante los canales oficiales de ANCOSUR Inmobiliaria o recibir atención presencial en Av. San Carlos 1481, cuadra 14, San Carlos, Huancayo.",
+      "Para consultas, puede comunicarse mediante los canales oficiales de Ancosur Inmobiliaria o recibir atención presencial en Av. San Carlos 1481, cuadra 14, San Carlos, Huancayo.",
     ],
 
     documents: [
@@ -96,7 +96,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "neo-xport",
     name: "Neo Xport",
     projectRoute: "/neo-xport",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -124,7 +124,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "Las áreas y medidas perimétricas de las unidades inmobiliarias y las consignadas en los planos de distribución tienen carácter referencial. Luego de finalizada la construcción y obtenido el Certificado de Conformidad de Obra, las áreas y medidas finales serán establecidas en la Declaratoria de Fábrica, Reglamento Interno e Independización e inscritas en los Registros Públicos correspondientes.",
 
-      "Las áreas específicas de las unidades inmobiliarias varían según la tipología. La información detallada puede solicitarse gratuitamente en las salas de ventas o mediante los canales oficiales de ANCOSUR.",
+      "Las áreas específicas de las unidades inmobiliarias varían según la tipología. La información detallada puede solicitarse gratuitamente en las salas de ventas o mediante los canales oficiales de Ancosur.",
 
       "El cliente puede solicitar gratuitamente una copia de la lista de acabados o la vigencia de poder del representante en la sala de ventas.",
 
@@ -138,7 +138,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "Se informa al consumidor sobre la existencia de la Central de Información de Promotores Inmobiliarios y Empresas Constructoras de Unidades Inmobiliarias, el Registro de Infracciones y Sanciones y el portal Mira a Quién le Compras de Indecopi.",
 
-      "Para consultas adicionales, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para consultas adicionales, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [
@@ -183,7 +183,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "neo-eterna",
     name: "Neo Eterna",
     projectRoute: "/neo-eterna",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -221,7 +221,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "ANTECEDENTES DEL PROVEEDOR: Ancosur es una empresa inmobiliaria con trayectoria en la región central, especializada en el desarrollo de proyectos de alta valorización y con múltiples proyectos entregados.",
 
-      "Para consultas adicionales o verificar vigencias de poder y listas de acabados actualizadas, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para consultas adicionales o verificar vigencias de poder y listas de acabados actualizadas, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [
@@ -261,7 +261,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "distrito-san-carlos",
     name: "Distrito San Carlos",
     projectRoute: "/distrito-san-carlos",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -287,7 +287,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "Penthouses Triplex: unidades exclusivas en los últimos niveles, con áreas techadas desde 118.20 m² y terrazas privadas que pueden alcanzar un área total ocupada de hasta 306.74 m².",
 
-      "INFORMACIÓN LEGAL: El terreno se encuentra inscrito en la Partida Electrónica N.° 02043987 del Registro de Predios de la Oficina Registral de Huancayo. El titular registral es ANCOSUR S.A.C.",
+      "INFORMACIÓN LEGAL: El terreno se encuentra inscrito en la Partida Electrónica N.° 02043987 del Registro de Predios de la Oficina Registral de Huancayo. El titular registral es Ancosur S.A.C.",
 
       "Todas las unidades inmobiliarias son bienes futuros. Las áreas y medidas indicadas en los planos tienen carácter referencial y las definitivas serán establecidas en la Declaratoria de Fábrica, Reglamento Interno e Independización.",
 
@@ -299,7 +299,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "Se informa al consumidor sobre la existencia de la Central de Información de Promotores Inmobiliarios y el portal Mira a Quién le Compras de Indecopi.",
 
-      "Para consultas adicionales, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para consultas adicionales, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [
@@ -340,9 +340,9 @@ export const transparencyProjects: TransparencyProject[] = [
     name: "Camino Real",
     projectRoute: "/camino-real",
     companyName:
-      "ANCOSUR S.A.C. / INMOBILIARIA Y CONGLOMERADO INKA HOUSE S.A.",
+      "Ancosur S.A.C. / INMOBILIARIA Y CONGLOMERADO INKA HOUSE S.A.",
     ruc:
-      "ANCOSUR: 20601146682 / INKA HOUSE: 20609015251",
+      "Ancosur: 20601146682 / INKA HOUSE: 20609015251",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
     projectAddress:
@@ -359,7 +359,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "INFORMACIÓN LEGAL: El predio matriz se encuentra inscrito en el Registro de Predios de la Oficina Registral de Huancayo.",
 
-      "Los titulares registrales son ANCOSUR S.A.C., con RUC N.° 20601146682, e INMOBILIARIA Y CONGLOMERADO INKA HOUSE S.A., con RUC N.° 20609015251, según consta en el asiento C00003 de la partida correspondiente.",
+      "Los titulares registrales son Ancosur S.A.C., con RUC N.° 20601146682, e INMOBILIARIA Y CONGLOMERADO INKA HOUSE S.A., con RUC N.° 20609015251, según consta en el asiento C00003 de la partida correspondiente.",
 
       "El proyecto se encuentra en etapa de habilitación urbana y preventa de lotes. Las áreas, medidas perimétricas y ubicaciones consignadas en los planos son referenciales y pueden estar sujetas a variaciones técnicas durante la ejecución y recepción de obras.",
 
@@ -392,17 +392,17 @@ export const transparencyProjects: TransparencyProject[] = [
       ),
       createDocument(
         "camino-real",
-        "Ficha RUC - ANCOSUR",
+        "Ficha RUC - Ancosur",
         "ficha-ruc.pdf"
       ),
       createDocument(
         "camino-real",
-        "Impuesto predial - ANCOSUR",
+        "Impuesto predial - Ancosur",
         "impuesto-predial.pdf"
       ),
       createDocument(
         "camino-real",
-        "PR y HR - ANCOSUR",
+        "PR y HR - Ancosur",
         "pr-hr.pdf"
       ),
       createDocument(
@@ -461,7 +461,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "SISTEMA ESTRUCTURAL: El sistema sismorresistente contempla muros de concreto armado y albañilería conforme con la normativa vigente.",
 
-      "ANTECEDENTES DEL PROVEEDOR: El proyecto está a cargo de Straton S.A.C., empresa constructora del ecosistema ANCOSUR con experiencia en proyectos inmobiliarios de la región.",
+      "ANTECEDENTES DEL PROVEEDOR: El proyecto está a cargo de Straton S.A.C., empresa constructora del ecosistema Ancosur con experiencia en proyectos inmobiliarios de la región.",
 
       "Para consultas adicionales, puede comunicarse mediante los canales oficiales de atención.",
     ],
@@ -518,7 +518,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "altaluz",
     name: "Altaluz",
     projectRoute: "/altaluz",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -548,7 +548,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "ACABADOS DEL INMUEBLE: Los departamentos contemplan cocina amoblada, dormitorios con closet y baños completos con revestimientos de calidad.",
 
-      "ANTECEDENTES DEL PROVEEDOR: El desarrollo está a cargo de Straton S.A.C., empresa que forma parte del ecosistema ANCOSUR y cuenta con experiencia en la ejecución de viviendas unifamiliares y multifamiliares.",
+      "ANTECEDENTES DEL PROVEEDOR: El desarrollo está a cargo de Straton S.A.C., empresa que forma parte del ecosistema Ancosur y cuenta con experiencia en la ejecución de viviendas unifamiliares y multifamiliares.",
 
       "Para consultas sobre disponibilidad y precios, puede comunicarse con los asesores comerciales.",
     ],
@@ -595,7 +595,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "serena",
     name: "Serena",
     projectRoute: "/serena",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -668,7 +668,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "neo-emperatriz",
     name: "Neo Emperatriz",
     projectRoute: "/neo-emperatriz",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -692,7 +692,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "INFORMACIÓN LEGAL: El proyecto cuenta con Licencia de Edificación Nueva, Modalidad C, aprobada mediante Resolución N.° 0223-2024-MPH-GDU, emitida el 29 de agosto de 2024, expediente N.° 367439-2023.",
 
-      "El administrado y titular del proyecto es ANCOSUR S.A.C.",
+      "El administrado y titular del proyecto es Ancosur S.A.C.",
 
       "Todas las unidades son bienes futuros. Las áreas y distribuciones consignadas en los planos son referenciales y pueden variar durante el proceso constructivo.",
 
@@ -745,7 +745,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "moro-416",
     name: "Moro 416",
     projectRoute: "/moro416",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -767,7 +767,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "INFORMACIÓN LEGAL: El proyecto cuenta con Licencia de Edificación Nueva aprobada mediante Resolución N.° 108-2025-MPH/GDU, emitida el 14 de agosto de 2025, expediente N.° 570655-2025.",
 
-      "El terreno se encuentra inscrito en la Partida Electrónica N.° 02017614 del Registro de Predios de la Oficina Registral de Huancayo. El titular registral es ANCOSUR S.A.C.",
+      "El terreno se encuentra inscrito en la Partida Electrónica N.° 02017614 del Registro de Predios de la Oficina Registral de Huancayo. El titular registral es Ancosur S.A.C.",
 
       "TRANSPARENCIA FINANCIERA: El inmueble matriz cuenta con una primera hipoteca inscrita a favor del Banco de Crédito del Perú, conforme consta en el asiento D00008 de la partida registral.",
 
@@ -822,7 +822,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "zenda",
     name: "Zenda",
     projectRoute: "/zenda",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -832,7 +832,7 @@ export const transparencyProjects: TransparencyProject[] = [
     description: [
       "La información descriptiva, técnica, comercial y legal de Zenda se encuentra pendiente de actualización.",
 
-      "Para solicitar información vigente sobre el proyecto, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para solicitar información vigente sobre el proyecto, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [
@@ -938,7 +938,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "neo-18",
     name: "Neo 18",
     projectRoute: "/neo-18",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -962,7 +962,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "INFORMACIÓN LEGAL: El proyecto cuenta con Licencia de Edificación Nueva aprobada mediante Resolución N.° 0165-2022-MPH-GDU y ampliación aprobada mediante Resolución N.° 0242-2022-MPH-GDU.",
 
-      "La documentación proporcionada señala como administrado y titular del proyecto a ANCOSUR E.I.R.L.",
+      "La documentación proporcionada señala como administrado y titular del proyecto a Ancosur E.I.R.L.",
 
       "Todas las unidades son bienes futuros. Las áreas y medidas consignadas en los planos son referenciales y las definitivas serán establecidas en la Declaratoria de Fábrica e Independización.",
 
@@ -1074,7 +1074,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "vita",
     name: "Vita",
     projectRoute: "/vita",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -1092,7 +1092,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "El proyecto ofrece departamentos con espacios amplios, iluminación natural y distribuciones orientadas a la privacidad y convivencia familiar.",
 
-      "INFORMACIÓN LEGAL: El desarrollo es promovido por ANCOSUR y construido por STRATON bajo metodología Lean Construction, con respaldo de MORO CAPITAL.",
+      "INFORMACIÓN LEGAL: El desarrollo es promovido por Ancosur y construido por STRATON bajo metodología Lean Construction, con respaldo de MORO CAPITAL.",
 
       "Todas las unidades son bienes futuros. Las áreas, medidas y distribuciones de los planos comerciales son referenciales y pueden presentar variaciones técnicas.",
 
@@ -1145,7 +1145,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "las-terrazas-de-concepcion",
     name: "Las Terrazas de Concepción",
     projectRoute: "/terrazas-concepcion",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20606690526",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -1203,7 +1203,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "adamant",
     name: "Adamant",
     projectRoute: "/adamant",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -1221,7 +1221,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "El proyecto ofrece departamentos con distribuciones funcionales y una propuesta orientada a un producto residencial de alta gama.",
 
-      "INFORMACIÓN LEGAL: El desarrollo es promovido por ANCOSUR y la construcción está a cargo de STRATON, bajo metodología Lean Construction, con respaldo de MORO CAPITAL.",
+      "INFORMACIÓN LEGAL: El desarrollo es promovido por Ancosur y la construcción está a cargo de STRATON, bajo metodología Lean Construction, con respaldo de MORO CAPITAL.",
 
       "Todas las unidades son bienes futuros. Las áreas, medidas y detalles de diseño indicados en el material comercial son referenciales y pueden presentar variaciones técnicas.",
 
@@ -1274,7 +1274,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "dovle",
     name: "Dovle",
     projectRoute: "/dovle",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -1284,7 +1284,7 @@ export const transparencyProjects: TransparencyProject[] = [
     description: [
       "La información descriptiva, técnica, comercial y legal del proyecto Dovle se encuentra pendiente de actualización.",
 
-      "Para solicitar información vigente sobre el proyecto, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para solicitar información vigente sobre el proyecto, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [
@@ -1324,7 +1324,7 @@ export const transparencyProjects: TransparencyProject[] = [
     slug: "casa-albar",
     name: "Casa Albar",
     projectRoute: "/casa-albar",
-    companyName: "ANCOSUR S.A.C.",
+    companyName: "Ancosur S.A.C.",
     ruc: "20601146682",
     fiscalAddress: "Av. San Carlos N.° 1481",
     contactPhone: "971 069 763",
@@ -1336,7 +1336,7 @@ export const transparencyProjects: TransparencyProject[] = [
 
       "Los documentos legales disponibles del proyecto pueden consultarse en esta sección.",
 
-      "Para solicitar información vigente, puede comunicarse mediante los canales oficiales de ANCOSUR.",
+      "Para solicitar información vigente, puede comunicarse mediante los canales oficiales de Ancosur.",
     ],
 
     documents: [

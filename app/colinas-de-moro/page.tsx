@@ -34,8 +34,8 @@ export const metadata = createSeoMetadata({
     "lotes con título de propiedad",
     "cuotas desde 800 soles",
     "proyectos inmobiliarios Concepción",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:

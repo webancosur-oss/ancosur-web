@@ -54,7 +54,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -455,7 +455,7 @@ export default function TerrazasConcepcionLocation() {
 
                 <span>
                   Acepto ser contactado por
-                  ANCOSUR para recibir
+                  Ancosur para recibir
                   información comercial sobre
                   Las Terrazas de Concepción.
                 </span>

@@ -33,11 +33,11 @@ export default function NotFound() {
         <Link
           href="/"
           className={styles.logoWrapper}
-          aria-label="Ir al inicio de ANCOSUR Inmobiliaria"
+          aria-label="Ir al inicio de Ancosur Inmobiliaria"
         >
           <Image
             src="/assets/images/ancosur-logo-black.svg"
-            alt="ANCOSUR Inmobiliaria"
+            alt="Ancosur Inmobiliaria"
             width={190}
             height={60}
             className={styles.logo}
@@ -94,7 +94,7 @@ export default function NotFound() {
           </span>
 
           <a
-            href="https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20necesito%20informaci%C3%B3n"
+            href="https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20necesito%20informaci%C3%B3n"
             target="_blank"
             rel="noreferrer"
           >

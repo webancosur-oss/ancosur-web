@@ -13,15 +13,15 @@ import styles from "./InversionistasPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Inversionistas ANCOSUR | Inversión inmobiliaria en Huancayo",
+    "Inversionistas Ancosur | Inversión inmobiliaria en Huancayo",
 
   description:
-    "Invierte en proyectos inmobiliarios de ANCOSUR en Huancayo con respaldo de activos tangibles, seguridad legal y oportunidades de rentabilidad.",
+    "Invierte en proyectos inmobiliarios de Ancosur en Huancayo con respaldo de activos tangibles, seguridad legal y oportunidades de rentabilidad.",
 
   pathname: "/inversionistas",
 
   keywords: [
-    "inversionistas ANCOSUR",
+    "inversionistas Ancosur",
     "inversión inmobiliaria Huancayo",
     "invertir en inmobiliaria",
     "invertir en proyectos inmobiliarios",
@@ -30,8 +30,8 @@ export const metadata = createSeoMetadata({
     "inversión segura Huancayo",
     "desarrollo inmobiliario Huancayo",
     "activos inmobiliarios",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: "/opengraph-image.png",

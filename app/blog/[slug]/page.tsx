@@ -46,7 +46,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       url: `/blog/${post.slug}`,
-      siteName: "ANCOSUR Inmobiliaria",
+      siteName: "Ancosur Inmobiliaria",
       type: "article",
       locale: "es_PE",
       images: [
@@ -85,11 +85,11 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
     url: `${siteUrl}/blog/${post.slug}`,
     author: {
       "@type": "Organization",
-      name: "ANCOSUR Inmobiliaria",
+      name: "Ancosur Inmobiliaria",
     },
     publisher: {
       "@type": "Organization",
-      name: "ANCOSUR Inmobiliaria",
+      name: "Ancosur Inmobiliaria",
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/assets/images/logo-ancosur.png`,

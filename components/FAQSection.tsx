@@ -10,7 +10,7 @@ type FAQItem = {
 
 const faqs: FAQItem[] = [
   {
-    question: "¿Dónde está ubicado ANCOSUR?",
+    question: "¿Dónde está ubicado Ancosur?",
     answer: (
       <>
         Nuestra oficina de ventas está ubicada en Av. San Carlos 1481, San
@@ -24,7 +24,7 @@ const faqs: FAQItem[] = [
     answer: (
       <>
         Contamos con dos alternativas: crédito hipotecario con cualquier entidad
-        bancaria y financiamiento directo con ANCOSUR en proyectos
+        bancaria y financiamiento directo con Ancosur en proyectos
         seleccionados. Nuestro equipo te asesora para encontrar la opción que
         mejor se adapte a tus necesidades.
       </>
@@ -86,7 +86,7 @@ const faqs: FAQItem[] = [
       <>
         Tenemos proyectos de departamentos, lotes y resorts en diferentes
         etapas: lanzamiento, preventa, construcción y entrega inmediata. En
-        ANCOSUR te ayudamos a encontrar el proyecto ideal para vivir o invertir.
+        Ancosur te ayudamos a encontrar el proyecto ideal para vivir o invertir.
       </>
     ),
   },
@@ -123,7 +123,7 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿Con qué bancos trabaja ANCOSUR?",
+    question: "¿Con qué bancos trabaja Ancosur?",
     answer: (
       <>
         Trabajamos con diferentes entidades financieras del país. Podemos
@@ -133,7 +133,7 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿Qué beneficios obtengo al comprar con ANCOSUR?",
+    question: "¿Qué beneficios obtengo al comprar con Ancosur?",
     answer: (
       <>
         Recibes asesoría personalizada desde la separación de tu inmueble hasta
@@ -143,10 +143,10 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "¿ANCOSUR es una empresa peruana?",
+    question: "¿Ancosur es una empresa peruana?",
     answer: (
       <>
-        Sí. ANCOSUR es una empresa peruana dedicada al desarrollo de proyectos
+        Sí. Ancosur es una empresa peruana dedicada al desarrollo de proyectos
         inmobiliarios, con experiencia en departamentos, lotes y proyectos de
         inversión.
       </>
@@ -305,7 +305,7 @@ export default function FAQSection() {
           </div>
 
           <a
-            href="https://wa.me/51971069763?text=Hola%2C%20vengo%20del%20Cyber%20House%20de%20ANCOSUR%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20proyectos%20disponibles.%20Me%20interes%C3%B3%20uno%20de%20sus%20proyectos%20y%20quisiera%20recibir%20m%C3%A1s%20detalles."
+            href="https://wa.me/51971069763?text=Hola%2C%20vengo%20del%20Cyber%20House%20de%20Ancosur%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20proyectos%20disponibles.%20Me%20interes%C3%B3%20uno%20de%20sus%20proyectos%20y%20quisiera%20recibir%20m%C3%A1s%20detalles."
             target="_blank"
             rel="noopener noreferrer"
             className={styles.faqButton}

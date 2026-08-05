@@ -74,7 +74,7 @@ export default function InvestorsContact() {
 
           <Image
             src="/assets/icons/inversor.png"
-            alt="Asesor de inversiones ANCOSUR"
+            alt="Asesor de inversiones Ancosur"
             width={520}
             height={620}
             className={styles.advisorImage}

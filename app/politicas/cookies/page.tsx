@@ -4,9 +4,9 @@ import BackButton from "@/components/BackButton";
 import styles from "./CookiesPage.module.css";
 
 export const metadata = {
-  title: "Política de Cookies | ANCOSUR Inmobiliaria",
+  title: "Política de Cookies | Ancosur Inmobiliaria",
   description:
-    "Conoce la Política de Cookies de ANCOSUR S.A.C. y cómo usamos cookies técnicas, de análisis y publicitarias.",
+    "Conoce la Política de Cookies de Ancosur S.A.C. y cómo usamos cookies técnicas, de análisis y publicitarias.",
 };
 
 const cookieTypes = [
@@ -47,7 +47,7 @@ export default function CookiesPage() {
               className={styles.backButton}
             />
 
-            <span className={styles.eyebrow}>Políticas ANCOSUR</span>
+            <span className={styles.eyebrow}>Políticas Ancosur</span>
             <h1>Política de Cookies</h1>
             <p>
               Información sobre el uso de cookies en nuestro sitio web y cómo
@@ -58,7 +58,7 @@ export default function CookiesPage() {
 
         <section className={styles.contentSection}>
           <article className={styles.article}>
-            <div className={styles.badge}>ANCOSUR S.A.C.</div>
+            <div className={styles.badge}>Ancosur S.A.C.</div>
 
             <section className={styles.block}>
               <h2>1. ¿Qué son las cookies?</h2>
@@ -85,7 +85,7 @@ export default function CookiesPage() {
 
               <p>
                 En este sitio web gestionado por{" "}
-                <strong>ANCOSUR S.A.C.</strong>, utilizamos cookies propias y de
+                <strong>Ancosur S.A.C.</strong>, utilizamos cookies propias y de
                 terceros con las siguientes finalidades:
               </p>
 
@@ -140,7 +140,7 @@ export default function CookiesPage() {
               <h2>5. Actualizaciones y cambios</h2>
 
               <p>
-                ANCOSUR S.A.C. puede modificar esta Política de Cookies en
+                Ancosur S.A.C. puede modificar esta Política de Cookies en
                 función de exigencias legislativas, reglamentarias, o con la
                 finalidad de adaptar dicha política a las instrucciones de la
                 Autoridad Nacional de Protección de Datos Personales.

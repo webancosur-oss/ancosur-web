@@ -21,7 +21,7 @@ export type Project = {
 };
 
 const deliveredWhatsapp =
-  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR.%20Estaba%20revisando%20sus%20proyectos%20entregados%20y%20quiero%20conocer%20los%20proyectos%20que%20actualmente%20tienen%20disponibilidad%20para%20vivir%20o%20invertir.";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur.%20Estaba%20revisando%20sus%20proyectos%20entregados%20y%20quiero%20conocer%20los%20proyectos%20que%20actualmente%20tienen%20disponibilidad%20para%20vivir%20o%20invertir.";
 
 export const projects: Project[] = [
   /*==================================================

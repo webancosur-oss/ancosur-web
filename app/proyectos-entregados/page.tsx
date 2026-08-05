@@ -17,24 +17,24 @@ import styles from "./ProyectosEntregados.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Proyectos entregados en Huancayo | ANCOSUR",
+    "Proyectos entregados en Huancayo | Ancosur",
 
   description:
-    "Conoce los proyectos inmobiliarios desarrollados y entregados por ANCOSUR en Huancayo. Explora nuestro portafolio de departamentos y obras culminadas.",
+    "Conoce los proyectos inmobiliarios desarrollados y entregados por Ancosur en Huancayo. Explora nuestro portafolio de departamentos y obras culminadas.",
 
   pathname:
     "/proyectos-entregados",
 
   keywords: [
-    "proyectos entregados ANCOSUR",
+    "proyectos entregados Ancosur",
     "proyectos inmobiliarios entregados",
     "departamentos entregados Huancayo",
     "edificios entregados Huancayo",
     "proyectos culminados Huancayo",
-    "portafolio inmobiliario ANCOSUR",
+    "portafolio inmobiliario Ancosur",
     "inmobiliaria Huancayo",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:
@@ -90,7 +90,7 @@ export default function ProyectosEntregadosPage() {
 
             <p>
               Explora los departamentos y proyectos que ya forman
-              parte de la trayectoria y experiencia de ANCOSUR.
+              parte de la trayectoria y experiencia de Ancosur.
             </p>
           </header>
 
@@ -145,7 +145,7 @@ export default function ProyectosEntregadosPage() {
                         <div className={styles.imageWrapper}>
                           <Image
                             src={project.image}
-                            alt={`Proyecto entregado ${project.name} de ANCOSUR`}
+                            alt={`Proyecto entregado ${project.name} de Ancosur`}
                             fill
                             sizes="
                               (max-width: 680px) 100vw,

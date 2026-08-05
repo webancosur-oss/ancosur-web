@@ -33,7 +33,7 @@ const PROJECT_NAME = "Las Colinas de Moro";
  */
 const CAMPAIGN_CODE = "Colinas de Moro";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const REQUEST_TIMEOUT = 20_000;
 
 /* =========================================================
@@ -66,7 +66,7 @@ type ApiResponse = {
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
-  message: "Un asesor de ANCOSUR se comunicará contigo pronto.",
+  message: "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -617,7 +617,7 @@ export default function ColinasDeMoroOverviewSection() {
        * {
        *   origenRuta: "...",
        *   origenComponente: "...",
-       *   tipoLead: "WEB ANCOSUR"
+       *   tipoLead: "WEB Ancosur"
        * }
        */
       msj_client:
@@ -955,7 +955,7 @@ export default function ColinasDeMoroOverviewSection() {
                 >
                   términos y la política de privacidad
                 </Link>{" "}
-                y autorizo a ANCOSUR a contactarme para
+                y autorizo a Ancosur a contactarme para
                 recibir información comercial sobre
                 Las Colinas de Moro.
               </span>

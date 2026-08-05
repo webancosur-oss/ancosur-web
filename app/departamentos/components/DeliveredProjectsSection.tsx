@@ -38,11 +38,11 @@ const variantClasses = [
 
 export default function DeliveredProjectsSection({
   projects,
-  eyebrow = "Experiencia ANCOSUR",
+  eyebrow = "Experiencia Ancosur",
   title =
     "Proyectos entregados que respaldan nuestra experiencia",
   description =
-    "Conoce algunos de los proyectos desarrollados y entregados por ANCOSUR.",
+    "Conoce algunos de los proyectos desarrollados y entregados por Ancosur.",
   limit = 3,
   ctaHref = "/proyectos-entregados",
   ctaLabel = "Ver más proyectos entregados",

@@ -35,7 +35,7 @@ export type CommonArea = {
 ========================================================= */
 
 export const whatsappCaminoReal =
-  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Camino%20Real";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20informaci%C3%B3n%20sobre%20Camino%20Real";
 
 export const brochureCaminoReal =
   "/assets/docs/camino-real-brochure.pdf";
@@ -370,7 +370,7 @@ export const seoCaminoReal = {
     "lotes desde 90 m2",
     "Circuito Turístico Huaytapallana",
     "urbanización en Huancayo",
-    "lotes ANCOSUR",
+    "lotes Ancosur",
   ],
 
   openGraphImage:

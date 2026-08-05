@@ -70,7 +70,7 @@ const stats: StatItem[] = [
 const testimonials: TestimonialItem[] = [
   {
     id: 1,
-    name: "Familia ANCOSUR",
+    name: "Familia Ancosur",
     project: "Neo Origen",
     quote:
       "Encontramos un departamento ideal para nuestra familia, con buena ubicación y el acompañamiento que necesitábamos.",
@@ -79,7 +79,7 @@ const testimonials: TestimonialItem[] = [
   },
   {
     id: 2,
-    name: "Familia ANCOSUR",
+    name: "Familia Ancosur",
     project: "Neo Emperatriz",
     quote:
       "Elegimos invertir porque vimos respaldo, confianza y una ubicación con gran proyección para nuestro futuro.",
@@ -88,7 +88,7 @@ const testimonials: TestimonialItem[] = [
   },
   {
     id: 3,
-    name: "Familia ANCOSUR",
+    name: "Familia Ancosur",
     project: "Neo Emperatriz",
     quote:
       "El proceso fue claro desde el inicio. Recibimos orientación en cada etapa hasta concretar nuestro nuevo hogar.",
@@ -298,7 +298,7 @@ export default function TrustStatsTestimonials() {
 
         <div className={styles.header}>
           <span>
-            ANCOSUR en cifras
+            Ancosur en cifras
           </span>
 
           <h2>

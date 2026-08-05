@@ -23,7 +23,7 @@ export default function CuscoPromoHero() {
         <div className={styles.media}>
           <Image
             src="/assets/campanias/campania_cusco.webp"
-            alt="Promoción de viaje a Cusco con ANCOSUR"
+            alt="Promoción de viaje a Cusco con Ancosur"
             fill
             priority
             sizes="(max-width: 900px) 100vw, 55vw"
@@ -45,14 +45,14 @@ export default function CuscoPromoHero() {
               aria-hidden="true"
             />
 
-            Promoción especial ANCOSUR
+            Promoción especial Ancosur
           </span>
 
           <h1>
             Vive una experiencia inolvidable
 
             <span>
-              Viaja a Cusco con ANCOSUR
+              Viaja a Cusco con Ancosur
             </span>
           </h1>
 

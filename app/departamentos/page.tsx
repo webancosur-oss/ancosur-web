@@ -29,10 +29,10 @@ const deliveredProjects = projects
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: "Departamentos en Huancayo | ANCOSUR",
+  title: "Departamentos en Huancayo | Ancosur",
 
   description:
-    "Encuentra departamentos en preventa, en construcción y entrega inmediata en Huancayo con ANCOSUR Inmobiliaria. Descubre proyectos modernos para vivir o invertir.",
+    "Encuentra departamentos en preventa, en construcción y entrega inmediata en Huancayo con Ancosur Inmobiliaria. Descubre proyectos modernos para vivir o invertir.",
 
   pathname: "/departamentos",
 
@@ -53,8 +53,8 @@ export const metadata = createSeoMetadata({
     "Neo Origen",
     "Neo Eterna",
     "Distrito San Carlos",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:
@@ -72,7 +72,7 @@ export default function DepartamentosPage() {
       className={styles.page}
     >
       <ProjectFilter
-        eyebrow="Departamentos ANCOSUR"
+        eyebrow="Departamentos Ancosur"
         title="Elige tu próximo hogar"
         description="Descubre proyectos diseñados para elevar tu estilo de vida y recibe asesoría personalizada para elegir la mejor inversión."
         projectTypes={["Departamento"]}
@@ -115,7 +115,7 @@ export default function DepartamentosPage() {
         limit={3}
         eyebrow="Departamentos entregados"
         title="Proyectos entregados que respaldan nuestra experiencia"
-        description="Conoce algunos de los proyectos desarrollados y entregados por ANCOSUR en Huancayo."
+        description="Conoce algunos de los proyectos desarrollados y entregados por Ancosur en Huancayo."
         ctaHref="/proyectos-entregados"
         ctaLabel="Ver más proyectos entregados"
       />

@@ -22,16 +22,16 @@ import TawkChat from "@/components/ui/tawk/TawkChat";
 
 const PRODUCTION_URL = "https://ancosur.com";
 
-const SITE_NAME = "ANCOSUR Inmobiliaria";
+const SITE_NAME = "Ancosur Inmobiliaria";
 
 const DEFAULT_TITLE =
   "Departamentos y lotes en Huancayo";
 
 const DEFAULT_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Opciones para vivir, invertir y construir nuevas experiencias.";
+  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con Ancosur. Opciones para vivir, invertir y construir nuevas experiencias.";
 
 const OG_IMAGE_ALT =
-  "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
+  "Ancosur Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
 
 /* =========================================================
    NORMALIZACIÓN DE LA URL
@@ -153,25 +153,15 @@ export const metadata: Metadata = {
   title: {
     default: DEFAULT_TITLE,
 
-    template: "%s | ANCOSUR",
+    template: "%s | Ancosur",
   },
 
   description: DEFAULT_DESCRIPTION,
 
-  /*
-   * Estas son keywords generales.
-   *
-   * Cada página puede declarar además sus propias
-   * palabras clave específicas.
-   *
-   * Google no usa directamente meta keywords como
-   * factor importante de posicionamiento, pero pueden
-   * conservarse como parte de la metadata.
-   */
   keywords: [
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
-    "ANCOSUR Huancayo",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
+    "Ancosur Huancayo",
     "inmobiliaria en Huancayo",
     "inmobiliaria Huancayo",
     "departamentos en Huancayo",
@@ -311,26 +301,13 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.svg",
-
-        type: "image/svg+xml",
-
-        sizes: "any",
-      },
-      {
         url: "/favicon.ico",
 
         type: "image/x-icon",
 
         sizes: "any",
       },
-      {
-        url: "/icon-32.png",
-
-        type: "image/png",
-
-        sizes: "32x32",
-      },
+      
       {
         url: "/icon-192.png",
 
@@ -405,7 +382,7 @@ export default function RootLayout({
 
     name: SITE_NAME,
 
-    alternateName: "ANCOSUR",
+    alternateName: "Ancosur",
 
     description: DEFAULT_DESCRIPTION,
 
@@ -525,7 +502,7 @@ export default function RootLayout({
 
     name: SITE_NAME,
 
-    alternateName: "ANCOSUR",
+    alternateName: "Ancosur",
 
     description: DEFAULT_DESCRIPTION,
 

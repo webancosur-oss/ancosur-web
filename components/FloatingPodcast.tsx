@@ -5,8 +5,8 @@ import { useState } from "react";
 import styles from "./FloatingPodcast.module.css";
 
 const episode = {
-  title: "ANCOSUR Podcast",
-  description: "Episodio destacado de ANCOSUR Podcast.",
+  title: "Ancosur Podcast",
+  description: "Episodio destacado de Ancosur Podcast.",
   embedUrl:
     "https://open.spotify.com/embed/episode/4353PBdKvMf4Ksns6vaiQt/video?utm_source=generator&si=2b377738d4c64558",
   spotifyUrl:

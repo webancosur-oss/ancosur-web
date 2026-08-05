@@ -3,17 +3,17 @@ import ClubBeneficiosPage from "./ClubBeneficiosPage";
 import { createSeoMetadata } from "@/src/lib/seo";
 
 export const metadata = createSeoMetadata({
-  title: "Club de Beneficios ANCOSUR",
+  title: "Club de Beneficios Ancosur",
   description:
-    "Descubre los beneficios, promociones y descuentos exclusivos para clientes ANCOSUR en Huancayo.",
+    "Descubre los beneficios, promociones y descuentos exclusivos para clientes Ancosur en Huancayo.",
   pathname: "/club-beneficios",
 
   keywords: [
-    "Club de Beneficios ANCOSUR",
-    "beneficios ANCOSUR",
-    "descuentos ANCOSUR",
-    "promociones ANCOSUR",
-    "clientes ANCOSUR",
+    "Club de Beneficios Ancosur",
+    "beneficios Ancosur",
+    "descuentos Ancosur",
+    "promociones Ancosur",
+    "clientes Ancosur",
     "beneficios inmobiliarios",
     "Huancayo",
   ],

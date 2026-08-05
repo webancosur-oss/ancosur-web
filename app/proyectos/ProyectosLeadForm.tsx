@@ -276,7 +276,7 @@ export default function ProyectosLeadForm() {
           onChange={(event) => updateField("consent", event.target.checked)}
         />
         <span>
-          Acepto ser contactado por ANCOSUR para recibir información comercial.
+          Acepto ser contactado por Ancosur para recibir información comercial.
         </span>
       </label>
 

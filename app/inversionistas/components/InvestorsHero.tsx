@@ -21,7 +21,7 @@ export default function InvestorsHero() {
             aria-hidden="true"
           />
 
-          Inversionistas ANCOSUR
+          Inversionistas Ancosur
         </span>
 
         <h1>

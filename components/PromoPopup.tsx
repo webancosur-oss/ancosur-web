@@ -29,7 +29,7 @@ const SOURCE_ID = 4 as const;
 const CAMPAIGN_NAME =
   "Campaña viaje a Cusco 2026";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "PromoPopup";
 const REQUEST_TIMEOUT = 20_000;
 
@@ -41,7 +41,7 @@ const popupConfig = {
   image:
     "/assets/campanias/postjulio.png",
   imageAlt:
-    "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
+    "Campaña Ancosur - Te regalamos un viaje a Cusco",
   imageWidth: 1_080,
   imageHeight: 1_080,
 };
@@ -83,7 +83,7 @@ const SUCCESS_TOAST:
       "¡Registro enviado correctamente!",
 
     message:
-      "Gracias por participar. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte más información sobre la campaña.",
+      "Gracias por participar. Un asesor de Ancosur se comunicará contigo muy pronto para brindarte más información sobre la campaña.",
   };
 
 const ERROR_TOAST:
@@ -965,7 +965,7 @@ export default function PromoPopup() {
 
               <span>
                 Acepto ser contactado por
-                ANCOSUR para recibir
+                Ancosur para recibir
                 información sobre esta
                 campaña y sus proyectos.
               </span>

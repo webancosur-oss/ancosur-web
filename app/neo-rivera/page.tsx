@@ -34,8 +34,8 @@ export const metadata = createSeoMetadata({
     "proyectos inmobiliarios Huancayo",
     "bienestar",
     "Wellness",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:

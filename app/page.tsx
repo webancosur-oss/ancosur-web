@@ -19,7 +19,7 @@ const HOME_TITLE =
   "Departamentos y lotes en Huancayo";
 
 const HOME_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
+  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con Ancosur. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
 
 const HOME_IMAGE =
   "/opengraph-image.png";
@@ -29,20 +29,14 @@ const HOME_IMAGE =
 ========================================================= */
 
 export const metadata: Metadata = {
-  /*
-   * No colocar "| ANCOSUR" aquí porque el layout
-   * ya utiliza el template "%s | ANCOSUR".
-   *
-   * El resultado final será:
-   * Departamentos y lotes en Huancayo | ANCOSUR
-   */
+ 
   title: HOME_TITLE,
 
   description: HOME_DESCRIPTION,
 
   keywords: [
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
     "inmobiliaria Huancayo",
     "inmobiliaria en Huancayo",
     "mejor inmobiliaria en Huancayo",
@@ -86,14 +80,14 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Departamentos y lotes en Huancayo | ANCOSUR",
+      "Departamentos y lotes en Huancayo | Ancosur",
 
     description: HOME_DESCRIPTION,
 
     url: "/",
 
     siteName:
-      "ANCOSUR Inmobiliaria",
+      "Ancosur Inmobiliaria",
 
     locale: "es_PE",
 
@@ -111,7 +105,7 @@ export const metadata: Metadata = {
         height: 630,
 
         alt:
-          "Departamentos, lotes y proyectos inmobiliarios ANCOSUR en Huancayo",
+          "Departamentos, lotes y proyectos inmobiliarios Ancosur en Huancayo",
 
         type: "image/png",
       },
@@ -122,7 +116,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "Departamentos y lotes en Huancayo | ANCOSUR",
+      "Departamentos y lotes en Huancayo | Ancosur",
 
     description: HOME_DESCRIPTION,
 
@@ -166,7 +160,7 @@ export default function Home() {
     url: `${SITE_URL}/`,
 
     name:
-      "Departamentos y lotes en Huancayo | ANCOSUR",
+      "Departamentos y lotes en Huancayo | Ancosur",
 
     headline:
       "Departamentos y lotes en Huancayo",

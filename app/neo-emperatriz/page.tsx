@@ -33,8 +33,8 @@ export const metadata = createSeoMetadata({
     "departamentos cerca Universidad Continental",
     "departamentos en venta Huancayo",
     "proyectos inmobiliarios Huancayo",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:

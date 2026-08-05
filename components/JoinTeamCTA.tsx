@@ -39,7 +39,7 @@ export default function JoinTeamCTA({
 
         <div className={styles.visualBox}>
           <div className={styles.visualContent}>
-            <strong>ANCOSUR</strong>
+            <strong>Ancosur</strong>
             <p>Crecemos contigo.</p>
           </div>
         </div>

@@ -64,10 +64,10 @@ type ApiResponse = {
 };
 
 const WHATSAPP_URL =
-  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
 
 const OFFICE_NAME =
-  "ANCOSUR Inmobiliaria";
+  "Ancosur Inmobiliaria";
 
 const OFFICE_ADDRESS =
   "Av. San Carlos 1481, San Antonio, Huancayo, Junín, Perú";
@@ -99,7 +99,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   title:
     "¡Datos enviados correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -156,7 +156,7 @@ export default function ContactForm({
   title =
     "Encuentra el proyecto ideal para ti",
   subtitle =
-    "Déjanos tus datos y un asesor de ANCOSUR se comunicará contigo para brindarte mayor información.",
+    "Déjanos tus datos y un asesor de Ancosur se comunicará contigo para brindarte mayor información.",
   campaign =
     "contacto-web-general",
 }: ContactFormProps) {
@@ -395,7 +395,7 @@ export default function ContactForm({
     campaña: campaign,
 
     anuncio:
-      `Formulario web ANCOSUR - ${title}`,
+      `Formulario web Ancosur - ${title}`,
 
     /*
      * La API espera msj_client como
@@ -559,7 +559,7 @@ export default function ContactForm({
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Escribir a ANCOSUR por WhatsApp"
+                aria-label="Escribir a Ancosur por WhatsApp"
               >
                 <span
                   className={
@@ -609,7 +609,7 @@ export default function ContactForm({
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Abrir la ubicación de ANCOSUR en la aplicación de mapas"
+                aria-label="Abrir la ubicación de Ancosur en la aplicación de mapas"
               >
                 <span
                   className={
@@ -1099,7 +1099,7 @@ export default function ContactForm({
 
                 <span>
                   Acepto ser contactado
-                  por ANCOSUR para
+                  por Ancosur para
                   recibir información
                   comercial sobre sus
                   proyectos

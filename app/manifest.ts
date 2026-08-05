@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ANCOSUR Inmobiliaria",
-    short_name: "ANCOSUR",
+    name: "Ancosur Inmobiliaria",
+    short_name: "Ancosur",
     description:
       "Departamentos, lotes y proyectos inmobiliarios en Huancayo.",
 

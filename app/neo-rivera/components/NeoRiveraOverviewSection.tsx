@@ -31,7 +31,7 @@ import styles from "../NeoRiveraPage.module.css";
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_NAME = "Neo Rivera";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME =
   "NeoRiveraOverviewSection";
 const REQUEST_TIMEOUT = 20_000;
@@ -67,7 +67,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Solicitud enviada correctamente!",
   message:
-    "Gracias por tu interés en Neo Rivera. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte precios, disponibilidad, tipologías y formas de pago.",
+    "Gracias por tu interés en Neo Rivera. Un asesor de Ancosur se comunicará contigo muy pronto para brindarte precios, disponibilidad, tipologías y formas de pago.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -943,7 +943,7 @@ export default function NeoRiveraOverviewSection() {
 
               <span>
                 Acepto ser contactado por
-                ANCOSUR para recibir
+                Ancosur para recibir
                 información comercial sobre
                 Neo Rivera.
               </span>

@@ -237,7 +237,7 @@ export default function SocioReferidoPage() {
         "socio-referido-web",
 
       campania_nombre:
-        "Socio Referido ANCOSUR",
+        "Socio Referido Ancosur",
 
       origen_ruta:
         window.location.pathname,
@@ -277,7 +277,7 @@ export default function SocioReferidoPage() {
           "referral.referrer_not_found"
         ) {
           setError(
-            "El referente no está registrado como cliente ANCOSUR."
+            "El referente no está registrado como cliente Ancosur."
           );
           return;
         }
@@ -322,7 +322,7 @@ export default function SocioReferidoPage() {
         <section className={styles.hero}>
           <div className={styles.heroContent}>
             <span>
-              SOCIO REFERIDO ANCOSUR
+              SOCIO REFERIDO Ancosur
             </span>
 
             <h1>
@@ -330,7 +330,7 @@ export default function SocioReferidoPage() {
             </h1>
 
             <p>
-              Si eres propietario ANCOSUR,
+              Si eres propietario Ancosur,
               recomienda nuestros proyectos
               y recibe un beneficio cuando
               tu referido concrete su compra.
@@ -425,7 +425,7 @@ export default function SocioReferidoPage() {
 
               <p>
                 Ingresa tus datos como
-                propietario ANCOSUR.
+                propietario Ancosur.
               </p>
             </div>
 
@@ -481,7 +481,7 @@ export default function SocioReferidoPage() {
 
               <p>
                 Persona interesada en
-                adquirir un proyecto ANCOSUR.
+                adquirir un proyecto Ancosur.
               </p>
             </div>
 

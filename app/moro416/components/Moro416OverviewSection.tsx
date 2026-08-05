@@ -31,7 +31,7 @@ import styles from "../Moro416.module.css";
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "Moro 416";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "Moro416OverviewSection";
 const REQUEST_TIMEOUT = 20_000;
 
@@ -69,7 +69,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Solicitud enviada correctamente!",
   message:
-    "Gracias por tu interés en Moro 416. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte precios, disponibilidad y alternativas de inversión.",
+    "Gracias por tu interés en Moro 416. Un asesor de Ancosur se comunicará contigo muy pronto para brindarte precios, disponibilidad y alternativas de inversión.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -1033,7 +1033,7 @@ export default function Moro416OverviewSection() {
 
               <span>
                 Acepto ser contactado por
-                ANCOSUR para recibir
+                Ancosur para recibir
                 información comercial sobre
                 Moro 416 y acepto la Política
                 de Privacidad.

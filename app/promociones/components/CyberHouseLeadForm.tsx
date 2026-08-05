@@ -31,7 +31,7 @@ const SOURCE_ID = 4 as const;
 const CAMPAIGN_NAME =
   "Promociones Cyber House";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME =
   "CyberHouseLeadForm";
 const REQUEST_TIMEOUT = 20_000;
@@ -97,7 +97,7 @@ const SUCCESS_TOAST:
       "¡Visita solicitada correctamente!",
 
     message:
-      "Gracias por tu interés en nuestras promociones. Un asesor de ANCOSUR se comunicará contigo para confirmar el horario de tu visita.",
+      "Gracias por tu interés en nuestras promociones. Un asesor de Ancosur se comunicará contigo para confirmar el horario de tu visita.",
   };
 
 const ERROR_TOAST:
@@ -1224,7 +1224,7 @@ export default function CyberHouseLeadForm() {
               />
 
               <span>
-                Acepto ser contactado por ANCOSUR para recibir información sobre
+                Acepto ser contactado por Ancosur para recibir información sobre
                 promociones, proyectos y coordinación de mi visita.
               </span>
             </label>

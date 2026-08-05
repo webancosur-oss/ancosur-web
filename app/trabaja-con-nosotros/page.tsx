@@ -10,25 +10,25 @@ import styles from "./TrabajaPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Trabaja con Nosotros | ANCOSUR Inmobiliaria",
+    "Trabaja con Nosotros | Ancosur Inmobiliaria",
 
   description:
-    "Conoce las oportunidades laborales disponibles en ANCOSUR Inmobiliaria y postula a nuestra bolsa de trabajo en Huancayo.",
+    "Conoce las oportunidades laborales disponibles en Ancosur Inmobiliaria y postula a nuestra bolsa de trabajo en Huancayo.",
 
   pathname:
     "/trabaja-con-nosotros",
 
   keywords: [
-    "trabaja con nosotros ANCOSUR",
-    "empleos ANCOSUR",
-    "vacantes ANCOSUR",
+    "trabaja con nosotros Ancosur",
+    "empleos Ancosur",
+    "vacantes Ancosur",
     "trabajo inmobiliaria Huancayo",
     "bolsa de trabajo Huancayo",
     "empleos en Huancayo",
     "oportunidades laborales Huancayo",
-    "postular ANCOSUR",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "postular Ancosur",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image:
@@ -55,7 +55,7 @@ export default function TrabajaPage() {
       >
         <div className={styles.heroContent}>
           <span className={styles.eyebrow}>
-            Bolsa de trabajo ANCOSUR
+            Bolsa de trabajo Ancosur
           </span>
 
           <h1 id="trabaja-title">
@@ -85,7 +85,7 @@ export default function TrabajaPage() {
         </div>
 
         <p>
-          En ANCOSUR impulsamos proyectos inmobiliarios con
+          En Ancosur impulsamos proyectos inmobiliarios con
           enfoque en calidad, innovación y servicio. Si quieres
           crecer profesionalmente y aportar a proyectos que
           transforman la ciudad, esta oportunidad es para ti.
@@ -236,7 +236,7 @@ export default function TrabajaPage() {
             </p>
 
             <a
-              href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulaci%C3%B3n%20espont%C3%A1nea%20ANCOSUR"
+              href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulaci%C3%B3n%20espont%C3%A1nea%20Ancosur"
               className={styles.applyButton}
             >
               Enviar CV
@@ -265,7 +265,7 @@ export default function TrabajaPage() {
           </p>
         </div>
 
-        <a href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulaci%C3%B3n%20espont%C3%A1nea%20ANCOSUR">
+        <a href="mailto:jefe.experiencia.cliente@ancosur.com?subject=Postulaci%C3%B3n%20espont%C3%A1nea%20Ancosur">
           Enviar CV
         </a>
       </section>

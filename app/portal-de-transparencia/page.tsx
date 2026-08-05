@@ -10,22 +10,22 @@ import { transparencyProjects } from "./data";
 
 export const metadata = createSeoMetadata({
   title:
-    "Portal de Transparencia | ANCOSUR Inmobiliaria",
+    "Portal de Transparencia | Ancosur Inmobiliaria",
 
   description:
-    "Consulta la información legal, técnica y comercial de los proyectos inmobiliarios desarrollados por ANCOSUR.",
+    "Consulta la información legal, técnica y comercial de los proyectos inmobiliarios desarrollados por Ancosur.",
 
   pathname: "/portal-de-transparencia",
 
   keywords: [
     "Portal de Transparencia",
-    "Transparencia ANCOSUR",
+    "Transparencia Ancosur",
     "documentos inmobiliarios",
-    "proyectos ANCOSUR",
+    "proyectos Ancosur",
     "información legal inmobiliaria",
     "información técnica inmobiliaria",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: "/opengraph-image.png",

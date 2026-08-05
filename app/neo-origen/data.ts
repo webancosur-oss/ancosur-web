@@ -3,7 +3,7 @@
 ========================================================= */
 
 export const whatsappNeoOrigen =
-  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Neo%20Origen";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20informaci%C3%B3n%20sobre%20Neo%20Origen";
 
 export const brochureNeoOrigen =
   "/assets/docs/neo-origen-brochure.pdf";
@@ -107,7 +107,7 @@ export const projectDescription = {
     "Tu espacio en el universo: innovación y conectividad en El Tambo",
 
   paragraphs: [
-    "Neo Origen no es solo un lugar para vivir, es el primer proyecto inmobiliario de ANCOSUR diseñado bajo un concepto temático disruptivo. Inspirado en el universo, este edificio rompe con la arquitectura tradicional de Huancayo para ofrecer una experiencia de vida innovadora y moderna.",
+    "Neo Origen no es solo un lugar para vivir, es el primer proyecto inmobiliario de Ancosur diseñado bajo un concepto temático disruptivo. Inspirado en el universo, este edificio rompe con la arquitectura tradicional de Huancayo para ofrecer una experiencia de vida innovadora y moderna.",
 
     "Ubicado estratégicamente en el distrito de El Tambo, Neo Origen se encuentra en una de las zonas con mayor actividad comercial y conectividad de la ciudad. Su cercanía con Plaza Vea, servicios, comercios y vías principales facilita una vida práctica y dinámica.",
 
@@ -456,7 +456,7 @@ export const locationNeoOrigen = {
     "Proyecto Neo Origen",
 
   officeLabel:
-    "Oficina de ventas ANCOSUR",
+    "Oficina de ventas Ancosur",
 };
 
 /* =========================================================

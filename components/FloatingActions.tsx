@@ -175,7 +175,7 @@ export default function FloatingActions() {
                 </small>
 
                 <strong>
-                  ANCOSUR en WhatsApp
+                  Ancosur en WhatsApp
                 </strong>
               </div>
             </div>
@@ -284,7 +284,7 @@ export default function FloatingActions() {
             </small>
 
             <strong>
-              Canal ANCOSUR
+              Canal Ancosur
             </strong>
           </span>
         </button>

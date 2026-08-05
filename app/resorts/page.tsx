@@ -19,10 +19,10 @@ import styles from "./ResortsPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Resorts en Selva Central | ANCOSUR Inmobiliaria",
+    "Resorts en Selva Central | Ancosur Inmobiliaria",
 
   description:
-    "Conoce los proyectos resort de ANCOSUR en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
+    "Conoce los proyectos resort de Ancosur en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
 
   pathname: "/resorts",
 
@@ -35,8 +35,8 @@ export const metadata = createSeoMetadata({
     "inversión en resorts",
     "proyectos turísticos Selva Central",
     "inversión inmobiliaria Selva Central",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: "/opengraph-image.png",
@@ -96,7 +96,7 @@ export default function ResortsPage() {
             </span>
 
             <h1 id="resorts-title">
-              Resorts ANCOSUR en Selva Central
+              Resorts Ancosur en Selva Central
             </h1>
 
             <p>

@@ -94,7 +94,7 @@ const defaultFilters: FilterGroup[] = [
 
 export default function ProjectFilter({
   eyebrow =
-    "Proyectos ANCOSUR",
+    "Proyectos Ancosur",
 
   title =
     "Tenemos el proyecto ideal para ti",

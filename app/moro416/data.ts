@@ -3,7 +3,7 @@
 ========================================================= */
 
 export const whatsappMoro416 =
-  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20informaci%C3%B3n%20sobre%20Moro%20416";
+  "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20informaci%C3%B3n%20sobre%20Moro%20416";
 
 export const brochureMoro416 =
   "/assets/docs/moro416-brochure.pdf";
@@ -513,7 +513,7 @@ export const locationMoro416 = {
     "Proyecto Moro 416",
 
   officeLabel:
-    "Oficina de ventas ANCOSUR",
+    "Oficina de ventas Ancosur",
 };
 
 /* =========================================================

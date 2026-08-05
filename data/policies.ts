@@ -22,7 +22,7 @@ export const policies: PolicyItem[] = [
     id: 1,
     title: "Política del SIG",
     description:
-      "Consulta la Política del Sistema Integrado de Gestión de ANCOSUR.",
+      "Consulta la Política del Sistema Integrado de Gestión de Ancosur.",
     pdf: "/assets/politicas/sig-politica.pdf",
     featured: true,
   },
@@ -30,7 +30,7 @@ export const policies: PolicyItem[] = [
     id: 2,
     title: "Alcance del SIG",
     description:
-      "Consulta el alcance del Sistema Integrado de Gestión de ANCOSUR.",
+      "Consulta el alcance del Sistema Integrado de Gestión de Ancosur.",
     pdf: "/assets/politicas/sig-alcance.pdf",
     featured: true,
   },

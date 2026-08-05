@@ -10,22 +10,22 @@ import styles from "./EquipoPage.module.css";
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: "Nuestro equipo | ANCOSUR Inmobiliaria",
+  title: "Nuestro equipo | Ancosur Inmobiliaria",
 
   description:
-    "Conoce al equipo de ANCOSUR Inmobiliaria, profesionales especializados en desarrollo inmobiliario, construcción, ventas y atención al cliente en Huancayo.",
+    "Conoce al equipo de Ancosur Inmobiliaria, profesionales especializados en desarrollo inmobiliario, construcción, ventas y atención al cliente en Huancayo.",
 
   pathname: "/equipo",
 
   keywords: [
-    "equipo ANCOSUR",
-    "nuestro equipo ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "equipo Ancosur",
+    "nuestro equipo Ancosur",
+    "Ancosur Inmobiliaria",
     "equipo inmobiliario Huancayo",
     "asesores inmobiliarios Huancayo",
     "profesionales inmobiliarios",
     "empresa inmobiliaria Huancayo",
-    "ANCOSUR Huancayo",
+    "Ancosur Huancayo",
   ],
 
   image: "/opengraph-image.png",
@@ -56,7 +56,7 @@ export default function EquipoPage() {
       className={styles.page}
     >
       <header className={styles.pageHeader}>
-        <span>Equipo ANCOSUR</span>
+        <span>Equipo Ancosur</span>
 
         <h1>
           Profesionales que construyen nuevas experiencias
@@ -90,7 +90,7 @@ export default function EquipoPage() {
 
                   <div className={styles.areaTitleContent}>
                     <span className={styles.areaEyebrow}>
-                      Equipo ANCOSUR
+                      Equipo Ancosur
                     </span>
 
                     <h2 id={sectionId}>
@@ -117,7 +117,7 @@ export default function EquipoPage() {
                       <div className={styles.imageBox}>
                         <Image
                           src={member.image}
-                          alt={`${member.name}, ${member.position} de ANCOSUR`}
+                          alt={`${member.name}, ${member.position} de Ancosur`}
                           fill
                           priority={
                             groupIndex === 0 &&

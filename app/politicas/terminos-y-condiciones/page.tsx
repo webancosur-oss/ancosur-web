@@ -4,9 +4,9 @@ import BackButton from "@/components/BackButton";
 import styles from "./TerminosPage.module.css";
 
 export const metadata = {
-  title: "Términos y Condiciones | ANCOSUR Inmobiliaria",
+  title: "Términos y Condiciones | Ancosur Inmobiliaria",
   description:
-    "Consulta los términos y condiciones de uso del sitio web de ANCOSUR S.A.C.",
+    "Consulta los términos y condiciones de uso del sitio web de Ancosur S.A.C.",
 };
 
 const intellectualProperty = [
@@ -42,24 +42,24 @@ export default function TerminosPage() {
               className={styles.backButton}
             />
 
-            <span className={styles.eyebrow}>Políticas ANCOSUR</span>
+            <span className={styles.eyebrow}>Políticas Ancosur</span>
             <h1>Términos y Condiciones de Uso</h1>
             <p>
               Condiciones generales para el acceso, navegación y uso del sitio
-              web de ANCOSUR S.A.C.
+              web de Ancosur S.A.C.
             </p>
           </div>
         </section>
 
         <section className={styles.contentSection}>
           <article className={styles.article}>
-            <div className={styles.badge}>ANCOSUR S.A.C.</div>
+            <div className={styles.badge}>Ancosur S.A.C.</div>
 
             <section className={styles.block}>
               <h2>1. Datos generales</h2>
               <p>
                 El presente sitio web es propiedad de{" "}
-                <strong>ANCOSUR S.A.C.</strong>, con RUC N.°{" "}
+                <strong>Ancosur S.A.C.</strong>, con RUC N.°{" "}
                 <strong>20601146682</strong>, con domicilio legal en Av. San
                 Carlos N.° 1481, Huancayo, Perú.
               </p>
@@ -170,7 +170,7 @@ export default function TerminosPage() {
                 003-2013-JUS, por el que se aprueba su Reglamento, EL(LA)
                 INTERESADO(A) manifiesta expresamente su consentimiento para que
                 sus datos personales sean incorporados en los bancos de datos de
-                titularidad de la empresa <strong>ANCOSUR S.A.C.</strong>,
+                titularidad de la empresa <strong>Ancosur S.A.C.</strong>,
                 almacenados en el domicilio de LA EMPRESA.
               </p>
 

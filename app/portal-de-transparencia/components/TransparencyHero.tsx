@@ -10,7 +10,7 @@ export default function TransparencyHero() {
     >
       <img
         src="/assets/portal-transparencia/hero-portal-transparencia.webp"
-        alt="Portal de Transparencia de ANCOSUR Inmobiliaria"
+        alt="Portal de Transparencia de Ancosur Inmobiliaria"
         className={styles.heroImage}
         width={1920}
         height={700}
@@ -25,7 +25,7 @@ export default function TransparencyHero() {
       <div className={styles.heroInner}>
         <div className={styles.heroContent}>
           <span className={styles.eyebrow}>
-            ANCOSUR Inmobiliaria
+            Ancosur Inmobiliaria
           </span>
 
           <h1 id="transparency-hero-title">

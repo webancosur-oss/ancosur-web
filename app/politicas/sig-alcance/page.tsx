@@ -6,10 +6,10 @@ import styles from "./AlcanceSigPage.module.css";
 
 export const metadata = {
   title:
-    "Alcance del Sistema Integrado de Gestión | ANCOSUR",
+    "Alcance del Sistema Integrado de Gestión | Ancosur",
 
   description:
-    "Consulta el Alcance del Sistema Integrado de Gestión de ANCOSUR.",
+    "Consulta el Alcance del Sistema Integrado de Gestión de Ancosur.",
 };
 
 export default function AlcanceSIGPage() {
@@ -26,7 +26,7 @@ export default function AlcanceSIGPage() {
 
         <iframe
           src="/politicas/sig-alcance.pdf#toolbar=0&navpanes=0&scrollbar=1"
-          title="Alcance SIG ANCOSUR"
+          title="Alcance SIG Ancosur"
           className={styles.viewer}
         />
       </main>

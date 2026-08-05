@@ -6,10 +6,10 @@ import styles from "./PoliticaSigPage.module.css";
 
 export const metadata = {
   title:
-    "Política del Sistema Integrado de Gestión | ANCOSUR",
+    "Política del Sistema Integrado de Gestión | Ancosur",
 
   description:
-    "Consulta la Política del Sistema Integrado de Gestión de ANCOSUR.",
+    "Consulta la Política del Sistema Integrado de Gestión de Ancosur.",
 };
 
 export default function PoliticaSIGPage() {
@@ -26,7 +26,7 @@ export default function PoliticaSIGPage() {
 
         <iframe
           src="/politicas/sig-politica.pdf#toolbar=0&navpanes=0&scrollbar=1"
-          title="Política SIG ANCOSUR"
+          title="Política SIG Ancosur"
           className={styles.viewer}
         />
       </main>

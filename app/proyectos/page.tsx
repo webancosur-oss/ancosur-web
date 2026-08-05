@@ -13,10 +13,10 @@ import styles from "./ProyectosPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Proyectos inmobiliarios en Huancayo | ANCOSUR",
+    "Proyectos inmobiliarios en Huancayo | Ancosur",
 
   description:
-    "Encuentra departamentos, lotes, resorts y proyectos inmobiliarios en Huancayo con ANCOSUR. Opciones para vivir, invertir y construir tu futuro.",
+    "Encuentra departamentos, lotes, resorts y proyectos inmobiliarios en Huancayo con Ancosur. Opciones para vivir, invertir y construir tu futuro.",
 
   pathname: "/proyectos",
 
@@ -30,8 +30,8 @@ export const metadata = createSeoMetadata({
     "departamentos en construcción",
     "departamentos entrega inmediata",
     "lotes en venta Huancayo",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
     "Neo Rivera",
     "Neo Balto",
     "Neo Eterna",
@@ -63,7 +63,7 @@ export default function ProyectosPage() {
       >
         <div className={styles.heroContent}>
           <span>
-            Proyectos ANCOSUR
+            Proyectos Ancosur
           </span>
 
           <h1 id="proyectos-title">
@@ -101,10 +101,10 @@ export default function ProyectosPage() {
 
       <section
         id="proyectos"
-        aria-label="Listado de proyectos inmobiliarios ANCOSUR"
+        aria-label="Listado de proyectos inmobiliarios Ancosur"
       >
         <ProjectFilter
-          eyebrow="Proyectos ANCOSUR"
+          eyebrow="Proyectos Ancosur"
           title="Encuentra el proyecto ideal para ti"
           description="Filtra nuestros proyectos según su etapa comercial y elige la mejor opción para vivir, invertir o construir."
           visibleLimit={12}

@@ -165,7 +165,7 @@ const normalizePayload = (
       body.campaign,
       body.campania_nombre,
       body.campaignName,
-      "WEB ANCOSUR"
+      "WEB Ancosur"
     ),
     MAX_CAMPAIGN_LENGTH
   );

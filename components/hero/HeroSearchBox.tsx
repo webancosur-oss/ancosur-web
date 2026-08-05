@@ -40,7 +40,7 @@ export default function HeroSearchBox({
 
       <ActionButton
         href={contactHref}
-        ariaLabel="Contactar con ANCOSUR"
+        ariaLabel="Contactar con Ancosur"
         icon={PhoneIcon}
         iconPosition="right"
         size="sm"

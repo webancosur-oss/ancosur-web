@@ -42,7 +42,7 @@ const PROJECT_NAME =
  */
 const CAMPAIGN_CODE = "DSC";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "DistritoSanCarlosLocation";
 
 const REQUEST_TIMEOUT =
@@ -94,7 +94,7 @@ const SUCCESS_TOAST:
       "¡Solicitud recibida con éxito!",
 
     message:
-      "Gracias por tu interés. Un asesor de ANCOSUR se comunicará contigo muy pronto para brindarte toda la información.",
+      "Gracias por tu interés. Un asesor de Ancosur se comunicará contigo muy pronto para brindarte toda la información.",
   };
 
 const ERROR_TOAST:
@@ -712,7 +712,7 @@ export default function DistritoSanCarlosLocation() {
         phone,
 
       nombre:
-        "Cliente web ANCOSUR",
+        "Cliente web Ancosur",
 
       email,
 
@@ -816,7 +816,7 @@ export default function DistritoSanCarlosLocation() {
                 phone,
 
               nombre:
-                "Cliente web ANCOSUR",
+                "Cliente web Ancosur",
 
               email:
                 email || "",
@@ -1173,7 +1173,7 @@ export default function DistritoSanCarlosLocation() {
                     términos y la política
                     de privacidad
                   </Link>{" "}
-                  y autorizo a ANCOSUR a
+                  y autorizo a Ancosur a
                   contactarme para recibir
                   información comercial
                   sobre Distrito San Carlos.

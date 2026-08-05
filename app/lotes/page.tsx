@@ -11,10 +11,10 @@ import styles from "./LotesPage.module.css";
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: "Lotes en Huancayo | ANCOSUR Inmobiliaria",
+  title: "Lotes en Huancayo | Ancosur Inmobiliaria",
 
   description:
-    "Encuentra lotes en venta en Huancayo, La Huaycha, Concepción y otras zonas de crecimiento con ANCOSUR Inmobiliaria.",
+    "Encuentra lotes en venta en Huancayo, La Huaycha, Concepción y otras zonas de crecimiento con Ancosur Inmobiliaria.",
 
   pathname: "/lotes",
 
@@ -34,8 +34,8 @@ export const metadata = createSeoMetadata({
     "Las Colinas de Moro",
     "Las Terrazas de Concepción",
     "Zagari Resort Club",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: "/opengraph-image.png",
@@ -66,10 +66,10 @@ export default function LotesPage() {
     >
       <section
         id="proyectos"
-        aria-label="Proyectos de lotes ANCOSUR"
+        aria-label="Proyectos de lotes Ancosur"
       >
         <ProjectFilter
-          eyebrow="Lotes ANCOSUR"
+          eyebrow="Lotes Ancosur"
           title="Elige tu próximo terreno"
           description="Opciones estratégicas para construir, invertir y tomar una mejor decisión con asesoría personalizada."
           projectNames={lotesPageProjectNames}

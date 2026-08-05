@@ -31,8 +31,8 @@ export const metadata = createSeoMetadata({
     "departamentos pet friendly",
     "departamentos en venta Huancayo",
     "proyectos inmobiliarios Huancayo",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: "/assets/projects/sliders/neo-balto.webp",

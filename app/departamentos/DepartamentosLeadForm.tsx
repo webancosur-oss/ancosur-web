@@ -23,7 +23,7 @@ import styles from "./DepartamentosPage.module.css";
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "DEP";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "DepartamentosLeadForm";
 const REQUEST_TIMEOUT = 20_000;
 
@@ -106,7 +106,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Datos enviados correctamente!",
   message:
-    "Un asesor de ANCOSUR se comunicará contigo pronto.",
+    "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -915,7 +915,7 @@ export default function DepartamentosLeadForm() {
 
           <span>
             Acepto ser contactado por
-            ANCOSUR para recibir información
+            Ancosur para recibir información
             comercial.
           </span>
         </label>

@@ -17,7 +17,7 @@ import styles from "./LotesLeadSection.module.css";
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "LOT";
 const AD_NAME = "Web";
-const LEAD_TYPE = "WEB ANCOSUR";
+const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "LotesLeadSection";
 const REQUEST_TIMEOUT = 20_000;
 
@@ -44,7 +44,7 @@ const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
   title: "¡Solicitud enviada correctamente!",
   message:
-    "Gracias por tu interés. Un asesor de ANCOSUR se comunicará contigo muy pronto para ayudarte a encontrar el lote ideal.",
+    "Gracias por tu interés. Un asesor de Ancosur se comunicará contigo muy pronto para ayudarte a encontrar el lote ideal.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
@@ -761,7 +761,7 @@ export default function LotesLeadSection() {
             </strong>
 
             <p>
-              Completa tus datos y un asesor de ANCOSUR
+              Completa tus datos y un asesor de Ancosur
               se comunicará contigo.
             </p>
           </div>
@@ -888,7 +888,7 @@ export default function LotesLeadSection() {
             />
 
             <span>
-              Acepto ser contactado por ANCOSUR para
+              Acepto ser contactado por Ancosur para
               recibir información comercial sobre sus
               proyectos de lotes.
             </span>

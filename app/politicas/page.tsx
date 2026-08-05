@@ -43,7 +43,7 @@ export default function PoliticasPage() {
 
             <p>
               Accede a la documentación
-              oficial de ANCOSUR,
+              oficial de Ancosur,
               incluyendo documentos del
               Sistema Integrado de Gestión,
               privacidad, términos y
@@ -67,7 +67,7 @@ export default function PoliticasPage() {
               Revisa la documentación
               corporativa y los documentos
               oficiales publicados por
-              ANCOSUR.
+              Ancosur.
             </p>
           </div>
 

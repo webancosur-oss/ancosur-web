@@ -85,7 +85,7 @@ export default function FloatingPromo({
         type="button"
         className={styles.closeButton}
         onClick={closePromo}
-        aria-label="Cerrar promoción de ANCOSUR"
+        aria-label="Cerrar promoción de Ancosur"
         title="Cerrar"
       >
         <XIcon
@@ -99,11 +99,11 @@ export default function FloatingPromo({
         href={href}
         className={styles.floatingPromo}
         onClick={closePromo}
-        aria-label="Conocer las promociones de ANCOSUR"
+        aria-label="Conocer las promociones de Ancosur"
       >
         <Image
           src="/assets/floating/leonito-peruano.svg"
-          alt="Leonito invitando a conocer las promociones de ANCOSUR"
+          alt="Leonito invitando a conocer las promociones de Ancosur"
           width={1057}
           height={1409}
           priority
@@ -117,7 +117,7 @@ export default function FloatingPromo({
 
         <Image
           src="/assets/floating/leonito-peruano.svg"
-          alt="Leonito invitando a conocer las promociones de ANCOSUR"
+          alt="Leonito invitando a conocer las promociones de Ancosur"
           width={1086}
           height={1448}
           priority

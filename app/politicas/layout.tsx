@@ -3,21 +3,21 @@ import type { ReactNode } from "react";
 import { createSeoMetadata } from "@/src/lib/seo";
 
 export const metadata = createSeoMetadata({
-  title: "Políticas | ANCOSUR Inmobiliaria",
+  title: "Políticas | Ancosur Inmobiliaria",
 
   description:
-    "Consulta las políticas corporativas, documentos del Sistema Integrado de Gestión, política de privacidad, términos y condiciones y política de cookies de ANCOSUR.",
+    "Consulta las políticas corporativas, documentos del Sistema Integrado de Gestión, política de privacidad, términos y condiciones y política de cookies de Ancosur.",
 
   pathname: "/politicas",
 
   keywords: [
-    "políticas ANCOSUR",
-    "documentos corporativos ANCOSUR",
-    "Sistema Integrado de Gestión ANCOSUR",
-    "política de privacidad ANCOSUR",
-    "términos y condiciones ANCOSUR",
-    "política de cookies ANCOSUR",
-    "documentación oficial ANCOSUR",
+    "políticas Ancosur",
+    "documentos corporativos Ancosur",
+    "Sistema Integrado de Gestión Ancosur",
+    "política de privacidad Ancosur",
+    "términos y condiciones Ancosur",
+    "política de cookies Ancosur",
+    "documentación oficial Ancosur",
   ],
 
   image: "/opengraph-image.png",

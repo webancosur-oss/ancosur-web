@@ -107,7 +107,7 @@ const socialLinks = [
 const legalItems: LegalItem[] = [
   {
     label: "Libro de Reclamaciones",
-    href: "https://wa.me/51971069763?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20ANCOSUR",
+    href: "https://wa.me/51971069763?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20Ancosur",
     image: "/assets/certificados/libro-reclamaciones.svg",
     width: 240,
     height: 130,
@@ -135,12 +135,12 @@ export default function Footer() {
             <Link
               href="/"
               className={styles.logo}
-              aria-label="Ir al inicio de ANCOSUR"
+              aria-label="Ir al inicio de Ancosur"
             >
               {!logoError ? (
                 <Image
                   src={logoSrc}
-                  alt="ANCOSUR Inmobiliaria"
+                  alt="Ancosur Inmobiliaria"
                   width={280}
                   height={100}
                   priority
@@ -149,7 +149,7 @@ export default function Footer() {
                 />
               ) : (
                 <span className={styles.logoText}>
-                  ANCOSUR INMOBILIARIA
+                  Ancosur INMOBILIARIA
                 </span>
               )}
             </Link>
@@ -201,7 +201,7 @@ export default function Footer() {
           <div className={styles.column}>
             <div className={styles.columnHeading}>
               <span>01</span>
-              <h3>Explora ANCOSUR</h3>
+              <h3>Explora Ancosur</h3>
             </div>
 
             <ul className={styles.linkList}>
@@ -347,7 +347,7 @@ export default function Footer() {
 
         <div className={styles.bottom}>
           <p>
-            © {new Date().getFullYear()} ANCOSUR Inmobiliaria. Todos los
+            © {new Date().getFullYear()} Ancosur Inmobiliaria. Todos los
             derechos reservados.
           </p>
 

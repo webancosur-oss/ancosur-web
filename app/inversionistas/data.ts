@@ -51,7 +51,7 @@ export const investorStats: InvestorStat[] = [
   {
     type: "image",
     src: "/assets/projects/balto.webp",
-    alt: "Proyecto inmobiliario ANCOSUR",
+    alt: "Proyecto inmobiliario Ancosur",
     position: "center",
   },
   {
@@ -63,7 +63,7 @@ export const investorStats: InvestorStat[] = [
   {
     type: "image",
     src: "/assets/projects/moro.webp",
-    alt: "Edificio inmobiliario ANCOSUR",
+    alt: "Edificio inmobiliario Ancosur",
     position: "center",
   },
   {

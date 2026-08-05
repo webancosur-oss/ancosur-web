@@ -36,7 +36,7 @@ export default function CyberHero() {
               aria-hidden="true"
             />
 
-            Evento inmobiliario ANCOSUR
+            Evento inmobiliario Ancosur
           </span>
 
           <h1>
@@ -70,7 +70,7 @@ export default function CyberHero() {
               endAt={
                 CYBER_HOUSE_END
               }
-              eventName="Cyber House ANCOSUR"
+              eventName="Cyber House Ancosur"
             />
           </div>
 
@@ -106,7 +106,7 @@ export default function CyberHero() {
         <div className={styles.media}>
           <Image
             src="/assets/campanias/hero-cyber.webp"
-            alt="Evento Cyber House de ANCOSUR Inmobiliaria"
+            alt="Evento Cyber House de Ancosur Inmobiliaria"
             fill
             priority
             sizes="(max-width: 820px) 100vw, 55vw"

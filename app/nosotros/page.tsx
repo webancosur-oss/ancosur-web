@@ -9,26 +9,26 @@ import styles from "./NosotrosPage.module.css";
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: "Nosotros | ANCOSUR Inmobiliaria",
+  title: "Nosotros | Ancosur Inmobiliaria",
 
   description:
-    "Conoce la historia, misión, visión, valores y fórmula de trabajo de ANCOSUR Inmobiliaria, desarrolladora de proyectos inmobiliarios en Huancayo.",
+    "Conoce la historia, misión, visión, valores y fórmula de trabajo de Ancosur Inmobiliaria, desarrolladora de proyectos inmobiliarios en Huancayo.",
 
   pathname: "/nosotros",
 
   keywords: [
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
-    "nosotros ANCOSUR",
-    "historia ANCOSUR",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
+    "nosotros Ancosur",
+    "historia Ancosur",
     "inmobiliaria Huancayo",
     "empresa inmobiliaria Huancayo",
     "desarrolladora inmobiliaria",
     "proyectos inmobiliarios Huancayo",
-    "misión ANCOSUR",
-    "visión ANCOSUR",
-    "valores ANCOSUR",
-    "equipo ANCOSUR",
+    "misión Ancosur",
+    "visión Ancosur",
+    "valores Ancosur",
+    "equipo Ancosur",
   ],
 
   image: "/assets/heros/10anios.png",
@@ -102,7 +102,7 @@ export default function NosotrosPage() {
       <section className={styles.hero}>
         <Image
           src={images.hero}
-          alt="ANCOSUR Vive Diferente, 10 años contigo"
+          alt="Ancosur Vive Diferente, 10 años contigo"
           fill
           priority
           sizes="100vw"
@@ -120,7 +120,7 @@ export default function NosotrosPage() {
           </span>
 
           <h1>
-            ANCOSUR Inmobiliaria: construimos espacios para vivir diferente
+            Ancosur Inmobiliaria: construimos espacios para vivir diferente
           </h1>
 
           <p>
@@ -181,7 +181,7 @@ export default function NosotrosPage() {
         <div className={styles.imageBox}>
           <Image
             src={images.team}
-            alt="Equipo de ANCOSUR Inmobiliaria"
+            alt="Equipo de Ancosur Inmobiliaria"
             fill
             sizes="
               (max-width: 640px) 100vw,
@@ -294,7 +294,7 @@ export default function NosotrosPage() {
 
               <Image
                 src={images.formula}
-                alt="Pirámide de la fórmula de trabajo de ANCOSUR"
+                alt="Pirámide de la fórmula de trabajo de Ancosur"
                 width={720}
                 height={650}
                 sizes="
@@ -306,7 +306,7 @@ export default function NosotrosPage() {
               />
 
               <span className={styles.pyramidCaption}>
-                Modelo de crecimiento ANCOSUR
+                Modelo de crecimiento Ancosur
               </span>
             </div>
           </div>

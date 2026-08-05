@@ -4,9 +4,9 @@ import BackButton from "@/components/BackButton";
 import styles from "./PoliticasPrivacidadPage.module.css";
 
 export const metadata = {
-  title: "Política de Privacidad | ANCOSUR Inmobiliaria",
+  title: "Política de Privacidad | Ancosur Inmobiliaria",
   description:
-    "Conoce la Política de Privacidad y Tratamiento de Datos Personales de ANCOSUR S.A.C.",
+    "Conoce la Política de Privacidad y Tratamiento de Datos Personales de Ancosur S.A.C.",
 };
 
 const commercialPurposes = [
@@ -45,24 +45,24 @@ export default function PoliticasPrivacidadPage() {
               className={styles.backButton}
             />
 
-            <span className={styles.eyebrow}>Políticas ANCOSUR</span>
+            <span className={styles.eyebrow}>Políticas Ancosur</span>
             <h1>Política de Privacidad y Tratamiento de Datos Personales</h1>
             <p>
               Información sobre la recopilación, uso, protección y tratamiento
-              de datos personales en ANCOSUR S.A.C.
+              de datos personales en Ancosur S.A.C.
             </p>
           </div>
         </section>
 
         <section className={styles.contentSection}>
           <article className={styles.article}>
-            <div className={styles.badge}>ANCOSUR S.A.C.</div>
+            <div className={styles.badge}>Ancosur S.A.C.</div>
 
             <section className={styles.block}>
               <h2>1. Identidad y domicilio del titular</h2>
               <p>
                 La presente Política de Privacidad establece los términos en que{" "}
-                <strong>ANCOSUR S.A.C.</strong>, en adelante{" "}
+                <strong>Ancosur S.A.C.</strong>, en adelante{" "}
                 <strong>LA INMOBILIARIA</strong>, identificada con RUC N.°{" "}
                 <strong>20601146682</strong> y domicilio fiscal en Av. San
                 Carlos N.° 1481, recopila, utiliza y protege la información

@@ -22,7 +22,7 @@ const LOGO_SRC =
   "/assets/images/ancosur-logo.svg";
 
 const WHATSAPP_LINK =
-  "https://wa.me/51971069763?text=Hola,%20vengo%20de%20la%20web%20de%20ANCOSUR%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
+  "https://wa.me/51971069763?text=Hola,%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20recibir%20m%C3%A1s%20informaci%C3%B3n.";
 
 /* =========================================================
    NAVEGACIÓN PRINCIPAL
@@ -310,7 +310,7 @@ export default function Navbar() {
           {!logoError ? (
             <Image
               src={LOGO_SRC}
-              alt="ANCOSUR Inmobiliaria"
+              alt="Ancosur Inmobiliaria"
               width={190}
               height={62}
               priority
@@ -327,7 +327,7 @@ export default function Navbar() {
                 styles.logoText
               }
             >
-              ANCOSUR
+              Ancosur
             </span>
           )}
         </Link>
@@ -414,7 +414,7 @@ export default function Navbar() {
                 }
               >
                 <span>
-                  BENEFICIOS ANCOSUR
+                  BENEFICIOS Ancosur
                 </span>
               </div>
 
@@ -570,7 +570,7 @@ export default function Navbar() {
               styles.mobileHeader
             }
           >
-            MENÚ ANCOSUR
+            MENÚ Ancosur
           </div>
 
           <nav

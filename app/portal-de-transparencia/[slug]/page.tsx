@@ -32,12 +32,12 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: "Portal de Transparencia | ANCOSUR",
+      title: "Portal de Transparencia | Ancosur",
     };
   }
 
   return {
-    title: `${project.name} | Portal de Transparencia ANCOSUR`,
+    title: `${project.name} | Portal de Transparencia Ancosur`,
 
     description:
       `Información legal, técnica y documentos del proyecto ${project.name}.`,

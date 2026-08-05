@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const SITE_NAME =
-  "ANCOSUR Inmobiliaria";
+  "Ancosur Inmobiliaria";
 
 const DEFAULT_IMAGE =
   "/opengraph-image.png";

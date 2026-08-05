@@ -21,7 +21,7 @@ export default function ClubBeneficiosPage() {
             </h1>
 
             <p>
-              Presenta tu constancia de compra ANCOSUR
+              Presenta tu constancia de compra Ancosur
               y accede a promociones especiales.
             </p>
           </div>
@@ -35,7 +35,7 @@ export default function ClubBeneficiosPage() {
                 <div className={styles.imageBox}>
                   <Image
                     src={item.image}
-                    alt={`Beneficio ANCOSUR - ${item.name}`}
+                    alt={`Beneficio Ancosur - ${item.name}`}
                     fill
                     sizes="
                       (max-width: 768px) 100vw,
@@ -61,7 +61,7 @@ export default function ClubBeneficiosPage() {
                     </strong>
 
                     <small>
-                      Beneficio ANCOSUR
+                      Beneficio Ancosur
                     </small>
                   </div>
 

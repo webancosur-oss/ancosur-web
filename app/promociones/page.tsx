@@ -24,10 +24,10 @@ const PAGE_PATH = "/cyber-house";
 const EVENT_URL = `${SITE_URL}${PAGE_PATH}`;
 
 const PAGE_TITLE =
-  "Cyber House ANCOSUR | Evento inmobiliario en Huancayo";
+  "Cyber House Ancosur | Evento inmobiliario en Huancayo";
 
 const PAGE_DESCRIPTION =
-  "Participa en el Cyber House ANCOSUR, conoce nuestros proyectos inmobiliarios, recibe asesoría personalizada y accede a beneficios especiales durante el evento.";
+  "Participa en el Cyber House Ancosur, conoce nuestros proyectos inmobiliarios, recibe asesoría personalizada y accede a beneficios especiales durante el evento.";
 
 const PAGE_IMAGE = "/opengraph-image.png";
 
@@ -43,7 +43,7 @@ export const metadata = createSeoMetadata({
   pathname: PAGE_PATH,
 
   keywords: [
-    "Cyber House ANCOSUR",
+    "Cyber House Ancosur",
     "evento inmobiliario Huancayo",
     "feria inmobiliaria Huancayo",
     "promociones inmobiliarias Huancayo",
@@ -51,8 +51,8 @@ export const metadata = createSeoMetadata({
     "lotes en Huancayo",
     "proyectos inmobiliarios Huancayo",
     "asesoría inmobiliaria Huancayo",
-    "ANCOSUR",
-    "ANCOSUR Inmobiliaria",
+    "Ancosur",
+    "Ancosur Inmobiliaria",
   ],
 
   image: PAGE_IMAGE,
@@ -69,7 +69,7 @@ const eventSchema = {
 
   "@id": `${EVENT_URL}#event`,
 
-  name: "Cyber House ANCOSUR",
+  name: "Cyber House Ancosur",
 
   description: PAGE_DESCRIPTION,
 
@@ -92,7 +92,7 @@ const eventSchema = {
   location: {
     "@type": "Place",
 
-    name: "Sala de ventas ANCOSUR",
+    name: "Sala de ventas Ancosur",
 
     address: {
       "@type": "PostalAddress",
@@ -118,7 +118,7 @@ const eventSchema = {
       `${SITE_URL}/#organization`,
 
     name:
-      "ANCOSUR Inmobiliaria",
+      "Ancosur Inmobiliaria",
 
     url:
       SITE_URL,
@@ -128,7 +128,7 @@ const eventSchema = {
     "@type": "Organization",
 
     name:
-      "ANCOSUR Inmobiliaria",
+      "Ancosur Inmobiliaria",
   },
 
   offers: {

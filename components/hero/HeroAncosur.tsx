@@ -232,7 +232,7 @@ export default function HeroAncosur() {
       onPointerCancel={handlePointerCancel}
       onKeyDown={handleKeyDown}
       tabIndex={0}
-      aria-label="Slider principal de proyectos ANCOSUR"
+      aria-label="Slider principal de proyectos Ancosur"
     >
       <div className={styles.background}>
         <div
@@ -310,7 +310,7 @@ export default function HeroAncosur() {
 
           <ActionButton
             href="#contactar"
-            ariaLabel="Contactar con ANCOSUR"
+            ariaLabel="Contactar con Ancosur"
             icon={PhoneIcon}
             iconPosition="right"
             size="sm"

@@ -14,7 +14,7 @@ export const benefits: Benefit[] = [
     id: 1,
     title: "Socio Referido",
     slug: "socio-referido",
-    shortDescription: "Recomienda, conecta y gana beneficios con ANCOSUR.",
+    shortDescription: "Recomienda, conecta y gana beneficios con Ancosur.",
     image: "/assets/benefits/socio.webp",
     cta: "Quiero referir",
     href: "https://wa.me/51971069763?text=Hola,%20quiero%20información%20sobre%20Socio%20Referido",
