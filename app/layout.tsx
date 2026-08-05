@@ -16,115 +16,19 @@ import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/ui/tawk/TawkChat";
 
 /* =========================================================
-   CONFIGURACIÓN PRINCIPAL
-========================================================= */
-
-const PRODUCTION_URL =
-  "https://ancosur.com";
-
-const BRAND_NAME =
-  "ANCOSUR";
-
-const COMPANY_NAME =
-  "ANCOSUR Inmobiliaria";
-
-const DEFAULT_TITLE =
-  "ANCOSUR | Departamentos y lotes en Huancayo";
-
-const DEFAULT_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
-
-const OG_IMAGE_ALT =
-  "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
-
-/* =========================================================
-   NORMALIZACIÓN DE URL
-========================================================= */
-
-function normalizeSiteUrl(
-  value?: string,
-): string {
-  const normalizedValue = value
-    ?.trim()
-    .replace(/\/+$/, "");
-
-  if (!normalizedValue) {
-    return PRODUCTION_URL;
-  }
-
-  try {
-    const parsedUrl =
-      new URL(normalizedValue);
-
-    const isLocalhost =
-      parsedUrl.hostname ===
-        "localhost" ||
-      parsedUrl.hostname ===
-        "127.0.0.1";
-
-    if (
-      process.env.NODE_ENV ===
-        "production" &&
-      isLocalhost
-    ) {
-      return PRODUCTION_URL;
-    }
-
-    if (
-      parsedUrl.hostname ===
-        "ancosur.com" ||
-      parsedUrl.hostname ===
-        "www.ancosur.com"
-    ) {
-      return PRODUCTION_URL;
-    }
-
-    return parsedUrl.origin;
-  } catch {
-    return PRODUCTION_URL;
-  }
-}
-
-const siteUrl =
-  normalizeSiteUrl(
-    process.env.SITE_URL,
-  );
-
-const xHandle =
-  process.env
-    .NEXT_PUBLIC_X_HANDLE
-    ?.trim();
-
-/* =========================================================
-   FUENTE
+   FUENTE GLOBAL
 ========================================================= */
 
 const manrope = Manrope({
-  variable:
-    "--font-main",
-
-  subsets: [
-    "latin",
-  ],
-
+  variable: "--font-main",
+  subsets: ["latin"],
   weight: [
     "400",
     "500",
     "600",
     "700",
   ],
-
-  display:
-    "swap",
-
-  preload:
-    true,
-
-  fallback: [
-    "Arial",
-    "Helvetica",
-    "sans-serif",
-  ],
+  display: "swap",
 });
 
 /* =========================================================
@@ -132,125 +36,77 @@ const manrope = Manrope({
 ========================================================= */
 
 export const viewport: Viewport = {
-  width:
-    "device-width",
-
-  initialScale:
-    1,
-
-  themeColor: [
-    {
-      media:
-        "(prefers-color-scheme: light)",
-
-      color:
-        "#00a74f",
-    },
-    {
-      media:
-        "(prefers-color-scheme: dark)",
-
-      color:
-        "#101024",
-    },
-  ],
-
-  colorScheme:
-    "light dark",
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#00a74f",
+  colorScheme: "light",
 };
 
 /* =========================================================
    METADATA GLOBAL
-
-   No se agrega canonical global.
-   Cada página debe definir su propia canonical.
 ========================================================= */
 
 export const metadata: Metadata = {
-  metadataBase:
-    new URL(siteUrl),
+  metadataBase: new URL(
+    "https://ancosur.com",
+  ),
 
-  applicationName:
-    BRAND_NAME,
+  applicationName: "ANCOSUR",
 
   title: {
     default:
-      DEFAULT_TITLE,
+      "Departamentos y lotes en Huancayo | ANCOSUR",
 
     template:
       "%s | ANCOSUR",
   },
 
   description:
-    DEFAULT_DESCRIPTION,
+    "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce opciones para vivir, invertir y adquirir una propiedad segura.",
 
   keywords: [
     "ANCOSUR",
     "ANCOSUR Inmobiliaria",
-    "ANCOSUR Huancayo",
     "inmobiliaria en Huancayo",
     "inmobiliaria Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta Huancayo",
-    "departamentos nuevos Huancayo",
-    "venta de departamentos Huancayo",
-    "comprar departamento Huancayo",
     "lotes en Huancayo",
     "lotes en venta Huancayo",
     "terrenos en Huancayo",
-    "terrenos en venta Huancayo",
-    "comprar terreno Huancayo",
     "proyectos inmobiliarios Huancayo",
     "inversión inmobiliaria Huancayo",
-    "venta de propiedades Huancayo",
     "bienes raíces Huancayo",
   ],
 
   authors: [
     {
-      name:
-        COMPANY_NAME,
-
-      url:
-        siteUrl,
+      name: "ANCOSUR Inmobiliaria",
+      url: "https://ancosur.com",
     },
   ],
 
   creator:
-    COMPANY_NAME,
+    "ANCOSUR Inmobiliaria",
 
   publisher:
-    COMPANY_NAME,
+    "ANCOSUR Inmobiliaria",
 
   category:
-    "Inmobiliaria",
-
-  classification:
-    "Bienes raíces y desarrollo inmobiliario",
-
-  referrer:
-    "origin-when-cross-origin",
-
-  formatDetection: {
-    email:
-      false,
-
-    address:
-      false,
-
-    telephone:
-      false,
-  },
+    "Bienes raíces",
 
   openGraph: {
     title:
-      DEFAULT_TITLE,
+      "Departamentos y lotes en Huancayo | ANCOSUR",
 
     description:
-      DEFAULT_DESCRIPTION,
+      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce opciones para vivir e invertir.",
+
+    url:
+      "https://ancosur.com/",
 
     siteName:
-      BRAND_NAME,
+      "ANCOSUR",
 
     locale:
       "es_PE",
@@ -263,9 +119,6 @@ export const metadata: Metadata = {
         url:
           "/opengraph-image.png",
 
-        secureUrl:
-          `${siteUrl}/opengraph-image.png`,
-
         width:
           1200,
 
@@ -273,10 +126,7 @@ export const metadata: Metadata = {
           630,
 
         alt:
-          OG_IMAGE_ALT,
-
-        type:
-          "image/png",
+          "ANCOSUR: departamentos, lotes y proyectos inmobiliarios en Huancayo",
       },
     ],
   },
@@ -286,36 +136,14 @@ export const metadata: Metadata = {
       "summary_large_image",
 
     title:
-      DEFAULT_TITLE,
+      "Departamentos y lotes en Huancayo | ANCOSUR",
 
     description:
-      DEFAULT_DESCRIPTION,
+      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR.",
 
     images: [
-      {
-        url:
-          "/twitter-image.png",
-
-        width:
-          1200,
-
-        height:
-          630,
-
-        alt:
-          OG_IMAGE_ALT,
-      },
+      "/opengraph-image.png",
     ],
-
-    ...(xHandle
-      ? {
-          site:
-            xHandle,
-
-          creator:
-            xHandle,
-        }
-      : {}),
   },
 
   robots: {
@@ -325,18 +153,12 @@ export const metadata: Metadata = {
     follow:
       true,
 
-    nocache:
-      false,
-
     googleBot: {
       index:
         true,
 
       follow:
         true,
-
-      noimageindex:
-        false,
 
       "max-image-preview":
         "large",
@@ -349,28 +171,9 @@ export const metadata: Metadata = {
     },
   },
 
-  /*
-   * Se deja únicamente el favicon que existe.
-   *
-   * Esto evita los errores:
-   * GET /icon-192.png 404
-   * GET /icon-512.png 404
-   * GET /apple-icon.png 404
-   */
-
   icons: {
-    icon: [
-      {
-        url:
-          "/favicon.ico",
-
-        type:
-          "image/x-icon",
-
-        sizes:
-          "any",
-      },
-    ],
+    icon:
+      "/favicon.ico",
 
     shortcut:
       "/favicon.ico",
@@ -385,13 +188,6 @@ export const metadata: Metadata = {
 
     "content-language":
       "es-PE",
-
-    ...(xHandle
-      ? {
-          "twitter:site":
-            xHandle,
-        }
-      : {}),
   },
 };
 
@@ -400,8 +196,7 @@ export const metadata: Metadata = {
 ========================================================= */
 
 type RootLayoutProps = {
-  children:
-    ReactNode;
+  children: ReactNode;
 };
 
 /* =========================================================
@@ -411,56 +206,33 @@ type RootLayoutProps = {
 export default function RootLayout({
   children,
 }: RootLayoutProps) {
-  const organizationJsonLd = {
+  const organizationSchema = {
     "@context":
       "https://schema.org",
 
-    "@type": [
+    "@type":
       "RealEstateAgent",
-      "LocalBusiness",
-    ],
 
     "@id":
-      `${siteUrl}/#organization`,
+      "https://ancosur.com/#organization",
 
     name:
-      BRAND_NAME,
+      "ANCOSUR",
 
-    alternateName: [
-      COMPANY_NAME,
-      "Inmobiliaria ANCOSUR",
-    ],
-
-    description:
-      DEFAULT_DESCRIPTION,
+    alternateName:
+      "ANCOSUR Inmobiliaria",
 
     url:
-      `${siteUrl}/`,
+      "https://ancosur.com/",
 
-    logo: {
-      "@type":
-        "ImageObject",
+    logo:
+      "https://ancosur.com/assets/images/ancosur-logo-black.svg",
 
-      url:
-        `${siteUrl}/assets/images/ancosur-logo-black.svg`,
-    },
+    image:
+      "https://ancosur.com/opengraph-image.png",
 
-    image: {
-      "@type":
-        "ImageObject",
-
-      url:
-        `${siteUrl}/opengraph-image.png`,
-
-      width:
-        1200,
-
-      height:
-        630,
-
-      caption:
-        OG_IMAGE_ALT,
-    },
+    description:
+      "Empresa inmobiliaria dedicada al desarrollo y comercialización de departamentos, lotes y proyectos inmobiliarios en Huancayo y otras zonas del Perú.",
 
     telephone:
       "+51 971 069 763",
@@ -470,12 +242,6 @@ export default function RootLayout({
 
     priceRange:
       "$$",
-
-    currenciesAccepted:
-      "PEN",
-
-    paymentAccepted:
-      "Efectivo, transferencia bancaria y financiamiento",
 
     address: {
       "@type":
@@ -532,28 +298,22 @@ export default function RootLayout({
       },
     ],
 
-    contactPoint: [
-      {
-        "@type":
-          "ContactPoint",
+    contactPoint: {
+      "@type":
+        "ContactPoint",
 
-        telephone:
-          "+51 971 069 763",
+      telephone:
+        "+51 971 069 763",
 
-        email:
-          "jefe.experiencia.cliente@ancosur.com",
+      contactType:
+        "sales",
 
-        contactType:
-          "sales",
+      areaServed:
+        "PE",
 
-        areaServed:
-          "PE",
-
-        availableLanguage: [
-          "Spanish",
-        ],
-      },
-    ],
+      availableLanguage:
+        "Spanish",
+    },
 
     sameAs: [
       "https://www.facebook.com/ancosur",
@@ -562,7 +322,7 @@ export default function RootLayout({
     ],
   };
 
-  const websiteJsonLd = {
+  const websiteSchema = {
     "@context":
       "https://schema.org",
 
@@ -570,43 +330,38 @@ export default function RootLayout({
       "WebSite",
 
     "@id":
-      `${siteUrl}/#website`,
+      "https://ancosur.com/#website",
 
     url:
-      `${siteUrl}/`,
+      "https://ancosur.com/",
 
     name:
-      BRAND_NAME,
+      "ANCOSUR",
 
-    alternateName: [
-      COMPANY_NAME,
-      "Inmobiliaria ANCOSUR",
-    ],
+    alternateName:
+      "ANCOSUR Inmobiliaria",
 
     description:
-      DEFAULT_DESCRIPTION,
+      "Departamentos, lotes y proyectos inmobiliarios en Huancayo.",
 
     inLanguage:
       "es-PE",
 
     publisher: {
       "@id":
-        `${siteUrl}/#organization`,
+        "https://ancosur.com/#organization",
     },
   };
 
-  const jsonLd = [
-    organizationJsonLd,
-    websiteJsonLd,
+  const structuredData = [
+    organizationSchema,
+    websiteSchema,
   ];
 
   return (
     <html
       lang="es-PE"
-      className={
-        manrope.variable
-      }
-      data-scroll-behavior="smooth"
+      className={manrope.variable}
     >
       <body>
         <Navbar />
@@ -630,7 +385,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html:
               JSON.stringify(
-                jsonLd,
+                structuredData,
               ).replace(
                 /</g,
                 "\\u003c",
