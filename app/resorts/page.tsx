@@ -1,15 +1,13 @@
 import {
-  ArrowRightIcon,
+  BuildingsIcon,
   MapPinIcon,
-  MountainsIcon,
+  SparkleIcon,
+  WhatsappLogoIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
-import Link from "next/link";
-import Script from "next/script";
 
+import ActionButton from "@/components/buttons/ActionButton";
 import { createSeoMetadata } from "@/src/lib/seo";
-
-import ResortsLeadForm from "./components/ResortsLeadForm";
 
 import styles from "./ResortsPage.module.css";
 
@@ -19,10 +17,10 @@ import styles from "./ResortsPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Resorts en Selva Central | Ancosur Inmobiliaria",
+    "Resorts en Selva Central | ANCOSUR Inmobiliaria",
 
   description:
-    "Conoce los proyectos resort de Ancosur en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
+    "Conoce los proyectos resort de ANCOSUR en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
 
   pathname: "/resorts",
 
@@ -35,44 +33,123 @@ export const metadata = createSeoMetadata({
     "inversión en resorts",
     "proyectos turísticos Selva Central",
     "inversión inmobiliaria Selva Central",
-    "Ancosur",
-    "Ancosur Inmobiliaria",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
   ],
 
-  image: "/opengraph-image.png",
+  image:
+    "/assets/projects/tarjetas/zagari.webp",
 });
 
 /* =========================================================
-   PROYECTOS
+   CONFIGURACIÓN
 ========================================================= */
 
-const resorts = [
+const WHATSAPP_NUMBER =
+  "51971069763";
+
+type Resort = {
+  id: number;
+  name: string;
+  status: string;
+  location: string;
+  region: string;
+  type: string;
+  amenities: string;
+  image: string;
+  logo: string;
+  logoWidth: number;
+  logoHeight: number;
+  whatsappMessage: string;
+};
+
+const resorts: Resort[] = [
   {
     id: 1,
-    name: "Zagari Resort Club",
-    status: "EN CONSTRUCCIÓN",
-    location: "San Ramón",
-    region: "Selva Central",
-    type: "Resort Club",
+
+    name:
+      "Zagari Resort Club",
+
+    status:
+      "EN CONSTRUCCIÓN",
+
+    location:
+      "San Ramón",
+
+    region:
+      "Selva Central",
+
+    type:
+      "Resort Club",
+
+    amenities:
+      "+20 amenidades",
+
     image:
       "/assets/projects/tarjetas/zagari.webp",
-    href:
-      "/proyectos/zagari-resort-club",
-    cta: "Ver proyecto",
+
+    logo:
+      "/assets/images/zagari.svg",
+
+    logoWidth:
+      180,
+
+    logoHeight:
+      70,
+
+    whatsappMessage:
+      "Hola, deseo recibir información sobre Zagari Resort Club en San Ramón.",
   },
+
   {
     id: 2,
-    name: "Nuevo Resort",
-    status: "PRÓXIMAMENTE",
-    location: "Oxapampa",
-    region: "Selva Central",
-    type: "Resort",
+
+    name:
+      "Nuevo Resort en Oxapampa",
+
+    status:
+      "PRÓXIMAMENTE",
+
+    location:
+      "Oxapampa",
+
+    region:
+      "Selva Central",
+
+    type:
+      "Resort",
+
+    amenities:
+      "+20 amenidades",
+
     image:
       "/assets/projects/tarjetas/proximamente.png",
-    href: "",
-    cta: "Próximamente",
+
+    logo:
+      "/assets/images/zagari.svg",
+
+    logoWidth:
+      180,
+
+    logoHeight:
+      60,
+
+    whatsappMessage:
+      "Hola, deseo recibir información sobre el próximo resort de ANCOSUR en Oxapampa.",
   },
 ];
+
+/* =========================================================
+   UTILIDAD
+========================================================= */
+
+function createWhatsAppUrl(
+  message: string,
+): string {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    message,
+  )}`;
+}
 
 /* =========================================================
    PÁGINA
@@ -80,229 +157,186 @@ const resorts = [
 
 export default function ResortsPage() {
   return (
-    <>
-      <main
-        id="main-content"
-        className={styles.page}
+    <main
+      id="main-content"
+      className={styles.page}
+    >
+      <section
+        className={styles.projectsSection}
+        aria-labelledby="resorts-title"
       >
-        <section
-          className={styles.projectsSection}
-          id="resorts"
-          aria-labelledby="resorts-title"
-        >
-          <div className={styles.sectionHeader}>
-            <span>
-              Proyectos disponibles
-            </span>
+        <header className={styles.sectionHeader}>
+          <span>
+            Proyectos resort ANCOSUR
+          </span>
 
-            <h1 id="resorts-title">
-              Resorts Ancosur en Selva Central
-            </h1>
+          <h1 id="resorts-title">
+            Invierte en experiencias rodeadas de naturaleza
+          </h1>
 
-            <p>
-              Conoce nuestros proyectos resort en Selva Central y
-              descubre una nueva forma de invertir en destinos
-              naturales.
-            </p>
-          </div>
+          <p>
+            Conoce nuestros resorts en Selva Central,
+            desarrollados para disfrutar, descansar e invertir
+            en destinos con gran potencial turístico.
+          </p>
+        </header>
 
-          <div className={styles.grid}>
-            {resorts.map((project) => (
+        <div className={styles.grid}>
+          {resorts.map((resort) => {
+            const whatsappUrl =
+              createWhatsAppUrl(
+                resort.whatsappMessage,
+              );
+
+            return (
               <article
-                key={project.id}
+                key={resort.id}
                 className={styles.card}
+                aria-label={`${resort.name}, ${resort.type}, ubicado en ${resort.location}, ${resort.region}`}
               >
+                {/* =================================================
+                    IMAGEN PRINCIPAL
+                ================================================== */}
+
                 <div className={styles.imageBox}>
                   <Image
-                    src={project.image}
-                    alt={`${project.name} en ${project.location}, ${project.region}`}
-                    width={900}
-                    height={680}
+                    src={resort.image}
+                    alt={`${resort.name} ubicado en ${resort.location}, ${resort.region}`}
+                    fill
                     className={styles.image}
                     sizes="
                       (max-width: 640px) 100vw,
                       (max-width: 1024px) 50vw,
-                      33vw
+                      420px
                     "
                   />
+
+                  <div
+                    className={styles.overlay}
+                    aria-hidden="true"
+                  />
+
+                  <span className={styles.status}>
+                    {resort.status}
+                  </span>
                 </div>
 
-                <div
-                  className={styles.overlay}
-                  aria-hidden="true"
-                />
+                {/* =================================================
+                    CONTENIDO
+                ================================================== */}
 
-                <span className={styles.statusBadge}>
-                  {project.status}
-                </span>
+                <div className={styles.content}>
+                  <div className={styles.titleArea}>
 
-                <div className={styles.cardContent}>
-                  <div className={styles.mainInfo}>
-                    <span className={styles.type}>
-                      {project.type}
+                    <div
+                      className={styles.logoContainer}
+                      role="img"
+                      aria-label={`Logo de ${resort.name}`}
+                    >
+                      <Image
+                        src={resort.logo}
+                        alt={`Logo oficial de ${resort.name}`}
+                        width={resort.logoWidth}
+                        height={resort.logoHeight}
+                        className={styles.logo}
+                      />
+                    </div>
+
+                    <span className={styles.srOnly}>
+                      {resort.name}
+                    </span>
+                  </div>
+
+                  {/* =================================================
+                      UBICACIÓN
+                  ================================================== */}
+
+                  <div className={styles.location}>
+                    <strong>
+                      {resort.location}
+                    </strong>
+
+                    <span>
+                      {resort.region}
+                    </span>
+                  </div>
+
+                  {/* =================================================
+                      CARACTERÍSTICAS
+                  ================================================== */}
+
+                  <div className={styles.features}>
+                    <div className={styles.feature}>
+                      <BuildingsIcon
+                        size={21}
+                        weight="regular"
+                        aria-hidden="true"
+                      />
+
+                      <span>
+                        {resort.type}
+                      </span>
+                    </div>
+
+                    <div className={styles.feature}>
+                      <SparkleIcon
+                        size={21}
+                        weight="regular"
+                        aria-hidden="true"
+                      />
+
+                      <span>
+                        {resort.amenities}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* =================================================
+                      UBICACIÓN DETALLADA
+                  ================================================== */}
+
+                  <div className={styles.locationDetail}>
+                    <MapPinIcon
+                      size={18}
+                      weight="fill"
+                      aria-hidden="true"
+                    />
+
+                    <span>
+                      {resort.location},{" "}
+                      {resort.region}
+                    </span>
+                  </div>
+                </div>
+
+                {/* =================================================
+                    BOTÓN
+                ================================================== */}
+
+                <div className={styles.buttonArea}>
+                  <ActionButton
+                    href={whatsappUrl}
+                    variant="primary"
+                    size="md"
+                    fullWidth
+                    iconPosition="right"
+                  >
+                    <span>
+                      Solicitar información
                     </span>
 
-                    <h2>
-                      {project.name}
-                    </h2>
-                  </div>
-
-                  <div className={styles.details}>
-                    <div className={styles.metaGrid}>
-                      <div className={styles.metaItem}>
-                        <MapPinIcon
-                          size={18}
-                          weight="bold"
-                          aria-hidden="true"
-                        />
-
-                        <div>
-                          <span>
-                            Ubicación
-                          </span>
-
-                          <strong>
-                            {project.location}
-                          </strong>
-                        </div>
-                      </div>
-
-                      <div className={styles.metaItem}>
-                        <MountainsIcon
-                          size={18}
-                          weight="bold"
-                          aria-hidden="true"
-                        />
-
-                        <div>
-                          <span>
-                            Zona
-                          </span>
-
-                          <strong>
-                            {project.region}
-                          </strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={styles.footer}>
-                      <div className={styles.footerText}>
-                        <span>
-                          Estado
-                        </span>
-
-                        <strong>
-                          {project.status}
-                        </strong>
-                      </div>
-
-                      {project.href ? (
-                        <Link
-                          href={project.href}
-                          className={styles.link}
-                          aria-label={`Ver proyecto ${project.name}`}
-                        >
-                          {project.cta}
-
-                          <ArrowRightIcon
-                            size={17}
-                            weight="bold"
-                            aria-hidden="true"
-                          />
-                        </Link>
-                      ) : (
-                        <span
-                          className={styles.linkDisabled}
-                          aria-disabled="true"
-                        >
-                          {project.cta}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                    <WhatsappLogoIcon
+                      size={19}
+                      weight="fill"
+                      aria-hidden="true"
+                    />
+                  </ActionButton>
                 </div>
               </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          className={styles.leadSection}
-          id="asesoria"
-          aria-labelledby="resorts-lead-title"
-        >
-          <div className={styles.leadContent}>
-            <span>
-              Asesoría personalizada
-            </span>
-
-            <h2 id="resorts-lead-title">
-              ¿Quieres saber más sobre nuestros resorts?
-            </h2>
-
-            <p>
-              Déjanos tus datos y un asesor te brindará información
-              sobre Zagari Resort Club y los próximos proyectos en
-              Selva Central.
-            </p>
-          </div>
-
-          <ResortsLeadForm />
-        </section>
-      </main>
-
-      <Script
-        id="resorts-scroll-fix"
-        strategy="afterInteractive"
-      >
-        {`
-          document.addEventListener("click", function (event) {
-            const targetElement = event.target;
-
-            if (!(targetElement instanceof Element)) {
-              return;
-            }
-
-            const trigger = targetElement.closest(
-              "[data-scroll-target]"
             );
-
-            if (!trigger) {
-              return;
-            }
-
-            const targetId = trigger.getAttribute(
-              "data-scroll-target"
-            );
-
-            if (!targetId) {
-              return;
-            }
-
-            const target = document.getElementById(
-              targetId
-            );
-
-            if (!target) {
-              return;
-            }
-
-            event.preventDefault();
-
-            window.history.replaceState(
-              null,
-              "",
-              "#" + targetId
-            );
-
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-          });
-        `}
-      </Script>
-    </>
+          })}
+        </div>
+      </section>
+    </main>
   );
 }
