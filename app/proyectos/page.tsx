@@ -6,6 +6,7 @@ import { createSeoMetadata } from "@/src/lib/seo";
 import ProyectosLeadForm from "./ProyectosLeadForm";
 
 import styles from "./ProyectosPage.module.css";
+import ProyectosEntregadosPage from "../proyectos-entregados/page";
 
 /* =========================================================
    SEO
@@ -111,7 +112,6 @@ export default function ProyectosPage() {
           showFilters={true}
           showResultsInfo={true}
           showCta={false}
-          initialFilterId="pre-venta"
           filterGroups={[
             {
               id: "pre-venta",
@@ -149,8 +149,10 @@ export default function ProyectosPage() {
               statuses: ["ENTREGADO"],
             },
           ]}
-        />
+/>
       </section>
+
+      <ProyectosEntregadosPage />
 
       <section
         className={styles.leadSection}
