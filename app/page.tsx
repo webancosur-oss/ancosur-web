@@ -13,13 +13,20 @@ import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
    CONFIGURACIÓN SEO DE LA PORTADA
 ========================================================= */
 
-const SITE_URL = "https://ancosur.com";
+const SITE_URL =
+  "https://ancosur.com";
+
+const BRAND_NAME =
+  "ANCOSUR";
+
+const COMPANY_NAME =
+  "ANCOSUR Inmobiliaria";
 
 const HOME_TITLE =
-  "ANCOSUR - Departamentos y lotes en Huancayo";
+  "ANCOSUR | Departamentos y lotes en Huancayo";
 
 const HOME_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con Ancosur. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
+  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
 
 const HOME_IMAGE =
   "/opengraph-image.png";
@@ -29,14 +36,22 @@ const HOME_IMAGE =
 ========================================================= */
 
 export const metadata: Metadata = {
- 
-  title: HOME_TITLE,
+  /*
+   * Absolute evita que el template global agregue
+   * nuevamente "| ANCOSUR".
+   */
 
-  description: HOME_DESCRIPTION,
+  title: {
+    absolute: HOME_TITLE,
+  },
+
+  description:
+    HOME_DESCRIPTION,
 
   keywords: [
-    "Ancosur",
-    "Ancosur Inmobiliaria",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "ANCOSUR Huancayo",
     "inmobiliaria Huancayo",
     "inmobiliaria en Huancayo",
     "mejor inmobiliaria en Huancayo",
@@ -71,75 +86,94 @@ export const metadata: Metadata = {
   ],
 
   alternates: {
-    canonical: "/",
+    canonical:
+      `${SITE_URL}/`,
 
     languages: {
-      "es-PE": "/",
+      "es-PE":
+        `${SITE_URL}/`,
     },
   },
 
   openGraph: {
     title:
-      "Departamentos y lotes en Huancayo | Ancosur",
+      HOME_TITLE,
 
-    description: HOME_DESCRIPTION,
+    description:
+      HOME_DESCRIPTION,
 
-    url: "/",
+    url:
+      `${SITE_URL}/`,
 
     siteName:
-      "Ancosur Inmobiliaria",
+      BRAND_NAME,
 
-    locale: "es_PE",
+    locale:
+      "es_PE",
 
-    type: "website",
+    type:
+      "website",
 
     images: [
       {
-        url: HOME_IMAGE,
+        url:
+          `${SITE_URL}${HOME_IMAGE}`,
 
         secureUrl:
           `${SITE_URL}${HOME_IMAGE}`,
 
-        width: 1200,
+        width:
+          1200,
 
-        height: 630,
+        height:
+          630,
 
         alt:
-          "Departamentos, lotes y proyectos inmobiliarios Ancosur en Huancayo",
+          "ANCOSUR: departamentos, lotes y proyectos inmobiliarios en Huancayo",
 
-        type: "image/png",
+        type:
+          "image/png",
       },
     ],
   },
 
   twitter: {
-    card: "summary_large_image",
+    card:
+      "summary_large_image",
 
     title:
-      "Departamentos y lotes en Huancayo | Ancosur",
+      HOME_TITLE,
 
-    description: HOME_DESCRIPTION,
+    description:
+      HOME_DESCRIPTION,
 
     images: [
-      HOME_IMAGE,
+      `${SITE_URL}${HOME_IMAGE}`,
     ],
   },
 
   robots: {
-    index: true,
+    index:
+      true,
 
-    follow: true,
+    follow:
+      true,
 
     googleBot: {
-      index: true,
+      index:
+        true,
 
-      follow: true,
+      follow:
+        true,
 
-      "max-image-preview": "large",
+      "max-image-preview":
+        "large",
 
-      "max-snippet": -1,
+      "max-snippet":
+        -1,
 
-      "max-video-preview": -1,
+      "max-video-preview":
+        -1,
     },
   },
 };
@@ -150,25 +184,29 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const homePageJsonLd = {
-    "@context": "https://schema.org",
+    "@context":
+      "https://schema.org",
 
-    "@type": "WebPage",
+    "@type":
+      "WebPage",
 
     "@id":
       `${SITE_URL}/#webpage`,
 
-    url: `${SITE_URL}/`,
+    url:
+      `${SITE_URL}/`,
 
     name:
-      "Departamentos y lotes en Huancayo | Ancosur",
+      HOME_TITLE,
 
     headline:
-      "Departamentos y lotes en Huancayo",
+      "Departamentos y lotes en Huancayo con ANCOSUR",
 
     description:
       HOME_DESCRIPTION,
 
-    inLanguage: "es-PE",
+    inLanguage:
+      "es-PE",
 
     isPartOf: {
       "@id":
@@ -181,14 +219,17 @@ export default function Home() {
     },
 
     primaryImageOfPage: {
-      "@type": "ImageObject",
+      "@type":
+        "ImageObject",
 
       url:
         `${SITE_URL}${HOME_IMAGE}`,
 
-      width: 1200,
+      width:
+        1200,
 
-      height: 630,
+      height:
+        630,
     },
 
     breadcrumb: {
@@ -198,29 +239,58 @@ export default function Home() {
   };
 
   const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
+    "@context":
+      "https://schema.org",
 
-    "@type": "BreadcrumbList",
+    "@type":
+      "BreadcrumbList",
 
     "@id":
       `${SITE_URL}/#breadcrumb`,
 
     itemListElement: [
       {
-        "@type": "ListItem",
+        "@type":
+          "ListItem",
 
-        position: 1,
+        position:
+          1,
 
-        name: "Inicio",
+        name:
+          "Inicio",
 
-        item: `${SITE_URL}/`,
+        item:
+          `${SITE_URL}/`,
       },
     ],
+  };
+
+  const organizationReferenceJsonLd = {
+    "@context":
+      "https://schema.org",
+
+    "@type":
+      "Organization",
+
+    "@id":
+      `${SITE_URL}/#organization`,
+
+    name:
+      BRAND_NAME,
+
+    alternateName: [
+      COMPANY_NAME,
+      "Inmobiliaria ANCOSUR",
+    ],
+
+    url:
+      `${SITE_URL}/`,
   };
 
   const jsonLd = [
     homePageJsonLd,
     breadcrumbJsonLd,
+    organizationReferenceJsonLd,
   ];
 
   return (
@@ -246,12 +316,13 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            jsonLd,
-          ).replace(
-            /</g,
-            "\\u003c",
-          ),
+          __html:
+            JSON.stringify(
+              jsonLd,
+            ).replace(
+              /</g,
+              "\\u003c",
+            ),
         }}
       />
     </>
