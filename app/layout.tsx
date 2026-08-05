@@ -2,7 +2,6 @@ import type {
   Metadata,
   Viewport,
 } from "next";
-
 import type { ReactNode } from "react";
 
 import { Manrope } from "next/font/google";
@@ -20,26 +19,31 @@ import TawkChat from "@/components/ui/tawk/TawkChat";
    CONFIGURACIÓN PRINCIPAL
 ========================================================= */
 
-const PRODUCTION_URL = "https://ancosur.com";
+const PRODUCTION_URL =
+  "https://ancosur.com";
 
-const SITE_NAME = "Ancosur Inmobiliaria";
+const BRAND_NAME =
+  "ANCOSUR";
+
+const COMPANY_NAME =
+  "ANCOSUR Inmobiliaria";
 
 const DEFAULT_TITLE =
-  "Departamentos y lotes en Huancayo";
+  "ANCOSUR | Departamentos y lotes en Huancayo";
 
 const DEFAULT_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con Ancosur. Opciones para vivir, invertir y construir nuevas experiencias.";
+  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
 
 const OG_IMAGE_ALT =
-  "Ancosur Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
+  "ANCOSUR Inmobiliaria: departamentos, lotes y proyectos inmobiliarios en Huancayo";
 
 /* =========================================================
-   NORMALIZACIÓN DE LA URL
+   NORMALIZACIÓN DE URL
 ========================================================= */
 
-const normalizeSiteUrl = (
+function normalizeSiteUrl(
   value?: string,
-): string => {
+): string {
   const normalizedValue = value
     ?.trim()
     .replace(/\/+$/, "");
@@ -49,22 +53,28 @@ const normalizeSiteUrl = (
   }
 
   try {
-    const parsedUrl = new URL(normalizedValue);
+    const parsedUrl =
+      new URL(normalizedValue);
 
     const isLocalhost =
-      parsedUrl.hostname === "localhost" ||
-      parsedUrl.hostname === "127.0.0.1";
+      parsedUrl.hostname ===
+        "localhost" ||
+      parsedUrl.hostname ===
+        "127.0.0.1";
 
     if (
-      process.env.NODE_ENV === "production" &&
+      process.env.NODE_ENV ===
+        "production" &&
       isLocalhost
     ) {
       return PRODUCTION_URL;
     }
 
     if (
-      parsedUrl.hostname === "ancosur.com" ||
-      parsedUrl.hostname === "www.ancosur.com"
+      parsedUrl.hostname ===
+        "ancosur.com" ||
+      parsedUrl.hostname ===
+        "www.ancosur.com"
     ) {
       return PRODUCTION_URL;
     }
@@ -73,23 +83,29 @@ const normalizeSiteUrl = (
   } catch {
     return PRODUCTION_URL;
   }
-};
+}
 
-const siteUrl = normalizeSiteUrl(
-  process.env.SITE_URL,
-);
+const siteUrl =
+  normalizeSiteUrl(
+    process.env.SITE_URL,
+  );
 
 const xHandle =
-  process.env.NEXT_PUBLIC_X_HANDLE?.trim();
+  process.env
+    .NEXT_PUBLIC_X_HANDLE
+    ?.trim();
 
 /* =========================================================
    FUENTE
 ========================================================= */
 
 const manrope = Manrope({
-  variable: "--font-main",
+  variable:
+    "--font-main",
 
-  subsets: ["latin"],
+  subsets: [
+    "latin",
+  ],
 
   weight: [
     "400",
@@ -98,9 +114,11 @@ const manrope = Manrope({
     "700",
   ],
 
-  display: "swap",
+  display:
+    "swap",
 
-  preload: true,
+  preload:
+    true,
 
   fallback: [
     "Arial",
@@ -114,64 +132,74 @@ const manrope = Manrope({
 ========================================================= */
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width:
+    "device-width",
 
-  initialScale: 1,
+  initialScale:
+    1,
 
   themeColor: [
     {
       media:
         "(prefers-color-scheme: light)",
 
-      color: "#00a74f",
+      color:
+        "#00a74f",
     },
     {
       media:
         "(prefers-color-scheme: dark)",
 
-      color: "#101024",
+      color:
+        "#101024",
     },
   ],
 
-  colorScheme: "light dark",
+  colorScheme:
+    "light dark",
 };
 
 /* =========================================================
    METADATA GLOBAL
 
-   IMPORTANTE:
-   No se coloca canonical aquí.
-
-   Cada página define su propia canonical.
+   No se agrega canonical global.
+   Cada página debe definir su propia canonical.
 ========================================================= */
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase:
+    new URL(siteUrl),
 
-  applicationName: SITE_NAME,
+  applicationName:
+    BRAND_NAME,
 
   title: {
-    default: DEFAULT_TITLE,
+    default:
+      DEFAULT_TITLE,
 
-    template: "%s | Ancosur",
+    template:
+      "%s | ANCOSUR",
   },
 
-  description: DEFAULT_DESCRIPTION,
+  description:
+    DEFAULT_DESCRIPTION,
 
   keywords: [
-    "Ancosur",
-    "Ancosur Inmobiliaria",
-    "Ancosur Huancayo",
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
+    "ANCOSUR Huancayo",
     "inmobiliaria en Huancayo",
     "inmobiliaria Huancayo",
     "departamentos en Huancayo",
     "departamentos en venta Huancayo",
     "departamentos nuevos Huancayo",
     "venta de departamentos Huancayo",
+    "comprar departamento Huancayo",
     "lotes en Huancayo",
     "lotes en venta Huancayo",
     "terrenos en Huancayo",
     "terrenos en venta Huancayo",
+    "comprar terreno Huancayo",
     "proyectos inmobiliarios Huancayo",
     "inversión inmobiliaria Huancayo",
     "venta de propiedades Huancayo",
@@ -180,16 +208,22 @@ export const metadata: Metadata = {
 
   authors: [
     {
-      name: SITE_NAME,
-      url: siteUrl,
+      name:
+        COMPANY_NAME,
+
+      url:
+        siteUrl,
     },
   ],
 
-  creator: SITE_NAME,
+  creator:
+    COMPANY_NAME,
 
-  publisher: SITE_NAME,
+  publisher:
+    COMPANY_NAME,
 
-  category: "Inmobiliaria",
+  category:
+    "Inmobiliaria",
 
   classification:
     "Bienes raíces y desarrollo inmobiliario",
@@ -198,157 +232,164 @@ export const metadata: Metadata = {
     "origin-when-cross-origin",
 
   formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
+    email:
+      false,
+
+    address:
+      false,
+
+    telephone:
+      false,
   },
 
-  /*
-   * No colocar aquí:
-   *
-   * alternates: {
-   *   canonical: "/"
-   * }
-   *
-   * Porque haría que las páginas internas pudieran
-   * apuntar incorrectamente hacia la portada.
-   */
-
   openGraph: {
-    title: DEFAULT_TITLE,
+    title:
+      DEFAULT_TITLE,
 
-    description: DEFAULT_DESCRIPTION,
+    description:
+      DEFAULT_DESCRIPTION,
 
-    /*
-     * No colocar url: "/" globalmente.
-     *
-     * Cada página tendrá su propia URL.
-     */
+    siteName:
+      BRAND_NAME,
 
-    siteName: SITE_NAME,
+    locale:
+      "es_PE",
 
-    locale: "es_PE",
-
-    type: "website",
+    type:
+      "website",
 
     images: [
       {
-        url: "/opengraph-image.png",
+        url:
+          "/opengraph-image.png",
 
         secureUrl:
           `${siteUrl}/opengraph-image.png`,
 
-        width: 1200,
+        width:
+          1200,
 
-        height: 630,
+        height:
+          630,
 
-        alt: OG_IMAGE_ALT,
+        alt:
+          OG_IMAGE_ALT,
 
-        type: "image/png",
+        type:
+          "image/png",
       },
     ],
   },
 
   twitter: {
-    card: "summary_large_image",
+    card:
+      "summary_large_image",
 
-    title: DEFAULT_TITLE,
+    title:
+      DEFAULT_TITLE,
 
-    description: DEFAULT_DESCRIPTION,
+    description:
+      DEFAULT_DESCRIPTION,
 
     images: [
       {
-        url: "/twitter-image.png",
+        url:
+          "/twitter-image.png",
 
-        width: 1200,
+        width:
+          1200,
 
-        height: 630,
+        height:
+          630,
 
-        alt: OG_IMAGE_ALT,
+        alt:
+          OG_IMAGE_ALT,
       },
     ],
 
     ...(xHandle
       ? {
-          site: xHandle,
-          creator: xHandle,
+          site:
+            xHandle,
+
+          creator:
+            xHandle,
         }
       : {}),
   },
 
   robots: {
-    index: true,
+    index:
+      true,
 
-    follow: true,
+    follow:
+      true,
 
-    nocache: false,
+    nocache:
+      false,
 
     googleBot: {
-      index: true,
+      index:
+        true,
 
-      follow: true,
+      follow:
+        true,
 
-      noimageindex: false,
+      noimageindex:
+        false,
 
-      "max-image-preview": "large",
+      "max-image-preview":
+        "large",
 
-      "max-snippet": -1,
+      "max-snippet":
+        -1,
 
-      "max-video-preview": -1,
+      "max-video-preview":
+        -1,
     },
   },
+
+  /*
+   * Se deja únicamente el favicon que existe.
+   *
+   * Esto evita los errores:
+   * GET /icon-192.png 404
+   * GET /icon-512.png 404
+   * GET /apple-icon.png 404
+   */
 
   icons: {
     icon: [
       {
-        url: "/favicon.ico",
+        url:
+          "/favicon.ico",
 
-        type: "image/x-icon",
+        type:
+          "image/x-icon",
 
-        sizes: "any",
-      },
-      
-      {
-        url: "/icon-192.png",
-
-        type: "image/png",
-
-        sizes: "192x192",
-      },
-      {
-        url: "/icon-512.png",
-
-        type: "image/png",
-
-        sizes: "512x512",
+        sizes:
+          "any",
       },
     ],
 
-    shortcut: "/favicon.ico",
-
-    apple: [
-      {
-        url: "/apple-icon.png",
-
-        type: "image/png",
-
-        sizes: "180x180",
-      },
-    ],
+    shortcut:
+      "/favicon.ico",
   },
 
-  manifest: "/manifest.webmanifest",
-
   other: {
-    "geo.region": "PE-JUN",
+    "geo.region":
+      "PE-JUN",
 
-    "geo.placename": "Huancayo",
+    "geo.placename":
+      "Huancayo",
 
-    "content-language": "es-PE",
+    "content-language":
+      "es-PE",
 
     ...(xHandle
       ? {
-          "twitter:site": xHandle,
+          "twitter:site":
+            xHandle,
         }
       : {}),
   },
@@ -359,7 +400,8 @@ export const metadata: Metadata = {
 ========================================================= */
 
 type RootLayoutProps = {
-  children: ReactNode;
+  children:
+    ReactNode;
 };
 
 /* =========================================================
@@ -370,7 +412,8 @@ export default function RootLayout({
   children,
 }: RootLayoutProps) {
   const organizationJsonLd = {
-    "@context": "https://schema.org",
+    "@context":
+      "https://schema.org",
 
     "@type": [
       "RealEstateAgent",
@@ -380,32 +423,43 @@ export default function RootLayout({
     "@id":
       `${siteUrl}/#organization`,
 
-    name: SITE_NAME,
+    name:
+      BRAND_NAME,
 
-    alternateName: "Ancosur",
+    alternateName: [
+      COMPANY_NAME,
+      "Inmobiliaria ANCOSUR",
+    ],
 
-    description: DEFAULT_DESCRIPTION,
+    description:
+      DEFAULT_DESCRIPTION,
 
-    url: siteUrl,
+    url:
+      `${siteUrl}/`,
 
     logo: {
-      "@type": "ImageObject",
+      "@type":
+        "ImageObject",
 
       url:
         `${siteUrl}/assets/images/ancosur-logo-black.svg`,
     },
 
     image: {
-      "@type": "ImageObject",
+      "@type":
+        "ImageObject",
 
       url:
         `${siteUrl}/opengraph-image.png`,
 
-      width: 1200,
+      width:
+        1200,
 
-      height: 630,
+      height:
+        630,
 
-      caption: OG_IMAGE_ALT,
+      caption:
+        OG_IMAGE_ALT,
     },
 
     telephone:
@@ -414,58 +468,74 @@ export default function RootLayout({
     email:
       "jefe.experiencia.cliente@ancosur.com",
 
-    priceRange: "$$",
+    priceRange:
+      "$$",
 
-    currenciesAccepted: "PEN",
+    currenciesAccepted:
+      "PEN",
 
     paymentAccepted:
       "Efectivo, transferencia bancaria y financiamiento",
 
     address: {
-      "@type": "PostalAddress",
+      "@type":
+        "PostalAddress",
 
       streetAddress:
         "Av. San Carlos 1481",
 
-      addressLocality: "Huancayo",
+      addressLocality:
+        "Huancayo",
 
-      addressRegion: "Junín",
+      addressRegion:
+        "Junín",
 
-      postalCode: "12002",
+      postalCode:
+        "12002",
 
-      addressCountry: "PE",
+      addressCountry:
+        "PE",
     },
 
     geo: {
-      "@type": "GeoCoordinates",
+      "@type":
+        "GeoCoordinates",
 
-      latitude: -12.0651,
+      latitude:
+        -12.0651,
 
-      longitude: -75.2049,
+      longitude:
+        -75.2049,
     },
 
     areaServed: [
       {
-        "@type": "City",
+        "@type":
+          "City",
 
-        name: "Huancayo",
+        name:
+          "Huancayo",
       },
       {
         "@type":
           "AdministrativeArea",
 
-        name: "Junín",
+        name:
+          "Junín",
       },
       {
-        "@type": "Country",
+        "@type":
+          "Country",
 
-        name: "Perú",
+        name:
+          "Perú",
       },
     ],
 
     contactPoint: [
       {
-        "@type": "ContactPoint",
+        "@type":
+          "ContactPoint",
 
         telephone:
           "+51 971 069 763",
@@ -473,9 +543,11 @@ export default function RootLayout({
         email:
           "jefe.experiencia.cliente@ancosur.com",
 
-        contactType: "sales",
+        contactType:
+          "sales",
 
-        areaServed: "PE",
+        areaServed:
+          "PE",
 
         availableLanguage: [
           "Spanish",
@@ -491,40 +563,35 @@ export default function RootLayout({
   };
 
   const websiteJsonLd = {
-    "@context": "https://schema.org",
+    "@context":
+      "https://schema.org",
 
-    "@type": "WebSite",
+    "@type":
+      "WebSite",
 
     "@id":
       `${siteUrl}/#website`,
 
-    url: siteUrl,
+    url:
+      `${siteUrl}/`,
 
-    name: SITE_NAME,
+    name:
+      BRAND_NAME,
 
-    alternateName: "Ancosur",
+    alternateName: [
+      COMPANY_NAME,
+      "Inmobiliaria ANCOSUR",
+    ],
 
-    description: DEFAULT_DESCRIPTION,
+    description:
+      DEFAULT_DESCRIPTION,
 
-    inLanguage: "es-PE",
+    inLanguage:
+      "es-PE",
 
     publisher: {
       "@id":
         `${siteUrl}/#organization`,
-    },
-
-    potentialAction: {
-      "@type": "SearchAction",
-
-      target: {
-        "@type": "EntryPoint",
-
-        urlTemplate:
-          `${siteUrl}/proyectos?search={search_term_string}`,
-      },
-
-      "query-input":
-        "required name=search_term_string",
     },
   };
 
@@ -536,7 +603,9 @@ export default function RootLayout({
   return (
     <html
       lang="es-PE"
-      className={manrope.variable}
+      className={
+        manrope.variable
+      }
       data-scroll-behavior="smooth"
     >
       <body>
@@ -559,12 +628,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              jsonLd,
-            ).replace(
-              /</g,
-              "\\u003c",
-            ),
+            __html:
+              JSON.stringify(
+                jsonLd,
+              ).replace(
+                /</g,
+                "\\u003c",
+              ),
           }}
         />
       </body>
