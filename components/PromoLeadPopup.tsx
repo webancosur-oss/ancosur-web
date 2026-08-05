@@ -54,14 +54,14 @@ const popupConfig = {
 
 const campaigns: PopupCampaign[] = [
   {
-    id: "campania-cusco-2026",
+    id: "Compra tu lote y ahorra",
     title: "Quiero participar",
     eyebrow: "Campaña exclusiva",
     description:
       "Déjanos tus datos para recibir mayor información.",
-    image: "/assets/campanias/campania.webp",
+    image: "/assets/campanias/campania_lote.webp",
     imageAlt:
-      "Campaña ANCOSUR - Te regalamos un viaje a Cusco",
+      "Campaña ANCOSUR - Elige un Beneficio (Plano o Notaria Gratis)",
     imageWidth: 1080,
     imageHeight: 1080,
   },
@@ -663,7 +663,7 @@ export default function PromoLeadPopup() {
                   )}
                 </div>
 
-                <div
+                {/* <div
                   className={styles.field}
                 >
                   <label htmlFor="popup-dni">
@@ -705,7 +705,7 @@ export default function PromoLeadPopup() {
                       {errors.dni}
                     </small>
                   )}
-                </div>
+                </div> */}
 
                 <div
                   className={styles.field}

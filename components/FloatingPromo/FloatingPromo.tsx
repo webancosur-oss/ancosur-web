@@ -4,13 +4,26 @@ import { XIcon } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import styles from "./FloatingPromo.module.css";
 
 type FloatingPromoProps = {
   href?: string;
 };
+
+function normalizePath(path: string): string {
+  const cleanedPath = path
+    .split("?")[0]
+    .split("#")[0]
+    .replace(/\/+$/, "");
+
+  return cleanedPath || "/";
+}
 
 export default function FloatingPromo({
   href = "/promociones",
@@ -20,31 +33,49 @@ export default function FloatingPromo({
   const [isVisible, setIsVisible] =
     useState(true);
 
-  const closePromo = () => {
-    setIsVisible(false);
-  };
+  const targetPath = useMemo(
+    () => normalizePath(href),
+    [href],
+  );
 
-  /*
-   * Elimina parámetros, hash y barra final para
-   * comparar correctamente la ruta actual.
-   */
-  const targetPath = href
-    .split("?")[0]
-    .split("#")[0]
-    .replace(/\/$/, "");
-
-  const currentPath = pathname
-    .replace(/\/$/, "");
+  const currentPath = useMemo(
+    () => normalizePath(pathname),
+    [pathname],
+  );
 
   const isTargetPage =
     currentPath === targetPath;
 
   /*
-   * No mostrar si:
-   * 1. El usuario cerró la promoción.
-   * 2. Ya está dentro de la página promocionada.
+   * Al salir de la página de promociones,
+   * el león vuelve a mostrarse.
+   *
+   * Ejemplo:
+   * /promociones → /
+   * /promociones → /departamentos
    */
-  if (!isVisible || isTargetPage) {
+  useEffect(() => {
+    if (!isTargetPage) {
+      setIsVisible(true);
+    }
+  }, [
+    currentPath,
+    isTargetPage,
+  ]);
+
+  const closePromo = () => {
+    setIsVisible(false);
+  };
+
+  /*
+   * No mostrar si:
+   * 1. Ya está en la página de promociones.
+   * 2. El usuario lo cerró en la ruta actual.
+   */
+  if (
+    isTargetPage ||
+    !isVisible
+  ) {
     return null;
   }
 
@@ -54,7 +85,7 @@ export default function FloatingPromo({
         type="button"
         className={styles.closeButton}
         onClick={closePromo}
-        aria-label="Cerrar promoción del Cyber House"
+        aria-label="Cerrar promoción de ANCOSUR"
         title="Cerrar"
       >
         <XIcon
@@ -68,26 +99,33 @@ export default function FloatingPromo({
         href={href}
         className={styles.floatingPromo}
         onClick={closePromo}
-        aria-label="Conocer el Cyber House de ANCOSUR"
+        aria-label="Conocer las promociones de ANCOSUR"
       >
         <Image
           src="/assets/floating/leonito-peruano.svg"
-          alt="Leonito invitando al Cyber House de ANCOSUR"
+          alt="Leonito invitando a conocer las promociones de ANCOSUR"
           width={1057}
           height={1409}
           priority
           className={`${styles.image} ${styles.desktopImage}`}
-          sizes="(max-width: 640px) 0px, (max-width: 1024px) 185px, 210px"
+          sizes="
+            (max-width: 640px) 0px,
+            (max-width: 1024px) 185px,
+            210px
+          "
         />
 
         <Image
           src="/assets/floating/leonito-peruano.svg"
-          alt="Leonito invitando al Cyber House de ANCOSUR"
+          alt="Leonito invitando a conocer las promociones de ANCOSUR"
           width={1086}
           height={1448}
           priority
           className={`${styles.image} ${styles.mobileImage}`}
-          sizes="(max-width: 640px) 195px, 0px"
+          sizes="
+            (max-width: 640px) 195px,
+            0px
+          "
         />
       </Link>
     </div>

@@ -13,6 +13,7 @@ import {
 } from "./data";
 
 import styles from "./CyberHousePage.module.css";
+import CaminoRealPromoHero from "./components/CaminoRealPromoHero";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -161,6 +162,8 @@ export default function CyberHousePage() {
         id="main-content"
         className={styles.page}
       >
+        <CaminoRealPromoHero />
+        
         <CuscoPromoHero />
 
         <CyberHero />

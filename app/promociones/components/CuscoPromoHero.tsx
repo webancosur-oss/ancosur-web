@@ -22,7 +22,7 @@ export default function CuscoPromoHero() {
 
         <div className={styles.media}>
           <Image
-            src="/assets/campanias/campania.webp"
+            src="/assets/campanias/campania_cusco.webp"
             alt="Promoción de viaje a Cusco con ANCOSUR"
             fill
             priority
@@ -93,7 +93,7 @@ export default function CuscoPromoHero() {
             </a>
 
             <Link
-              href="/promociones/terminos-y-condiciones"
+              href="/politicas/terminos-y-condiciones"
               className={styles.secondaryButton}
             >
               Ver términos y condiciones

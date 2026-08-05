@@ -93,7 +93,7 @@ export default function CyberHero() {
             </a>
 
             <a
-              href="#proyectos"
+              href="/proyectos"
               className={
                 styles.secondaryButton
               }
