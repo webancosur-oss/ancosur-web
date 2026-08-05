@@ -16,7 +16,7 @@ import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
 const SITE_URL = "https://ancosur.com";
 
 const HOME_TITLE =
-  "Departamentos y lotes en Huancayo";
+  "ANCOSUR - Departamentos y lotes en Huancayo";
 
 const HOME_DESCRIPTION =
   "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con Ancosur. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
