@@ -29,23 +29,29 @@ const deliveredProjects = projects
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: "Departamentos en Huancayo | Ancosur",
+  title:
+    "Departamentos en Huancayo",
 
   description:
-    "Encuentra departamentos en preventa, en construcción y entrega inmediata en Huancayo con Ancosur Inmobiliaria. Descubre proyectos modernos para vivir o invertir.",
+    "Encuentra departamentos en preventa, construcción y entrega inmediata en Huancayo con ANCOSUR Inmobiliaria. Conoce proyectos modernos para vivir o invertir.",
 
-  pathname: "/departamentos",
+  pathname:
+    "/departamentos",
 
   keywords: [
+    "ANCOSUR",
+    "ANCOSUR Inmobiliaria",
     "departamentos Huancayo",
     "departamentos en Huancayo",
-    "departamentos en venta",
-    "departamentos nuevos",
-    "departamentos de estreno",
-    "departamentos preventa",
-    "departamentos entrega inmediata",
+    "departamentos en venta Huancayo",
+    "departamentos nuevos Huancayo",
+    "departamentos de estreno Huancayo",
+    "departamentos en preventa Huancayo",
+    "departamentos en construcción Huancayo",
+    "departamentos entrega inmediata Huancayo",
     "comprar departamento Huancayo",
     "proyectos inmobiliarios Huancayo",
+    "inversión inmobiliaria Huancayo",
     "Moro 416",
     "Neo Rivera",
     "Neo Balto",
@@ -53,8 +59,6 @@ export const metadata = createSeoMetadata({
     "Neo Origen",
     "Neo Eterna",
     "Distrito San Carlos",
-    "Ancosur",
-    "Ancosur Inmobiliaria",
   ],
 
   image:
@@ -72,10 +76,12 @@ export default function DepartamentosPage() {
       className={styles.page}
     >
       <ProjectFilter
-        eyebrow="Departamentos Ancosur"
+        eyebrow="Departamentos ANCOSUR"
         title="Elige tu próximo hogar"
         description="Descubre proyectos diseñados para elevar tu estilo de vida y recibe asesoría personalizada para elegir la mejor inversión."
-        projectTypes={["Departamento"]}
+        projectTypes={[
+          "Departamento",
+        ]}
         visibleLimit={12}
         showFilters={true}
         showResultsInfo={true}
@@ -94,15 +100,18 @@ export default function DepartamentosPage() {
           },
           {
             id: "en-construccion",
-            label: "En construcción",
+            label:
+              "En construcción",
             projectNames: [
               "Neo Xport",
               "Moro 416",
             ],
           },
           {
-            id: "entrega-inmediata",
-            label: "Entrega inmediata",
+            id:
+              "entrega-inmediata",
+            label:
+              "Entrega inmediata",
             projectNames: [
               "Neo Origen",
             ],
@@ -111,21 +120,29 @@ export default function DepartamentosPage() {
       />
 
       <DeliveredProjectsSection
-        projects={deliveredProjects}
+        projects={
+          deliveredProjects
+        }
         limit={3}
         eyebrow="Departamentos entregados"
         title="Proyectos entregados que respaldan nuestra experiencia"
-        description="Conoce algunos de los proyectos desarrollados y entregados por Ancosur en Huancayo."
+        description="Conoce algunos de los proyectos desarrollados y entregados por ANCOSUR en Huancayo."
         ctaHref="/proyectos-entregados"
         ctaLabel="Ver más proyectos entregados"
       />
 
       <section
-        className={styles.leadSection}
+        className={
+          styles.leadSection
+        }
         id="asesoria"
         aria-labelledby="departamentos-lead-title"
       >
-        <div className={styles.leadContent}>
+        <div
+          className={
+            styles.leadContent
+          }
+        >
           <span>
             Asesoría personalizada
           </span>
@@ -135,11 +152,14 @@ export default function DepartamentosPage() {
           </h2>
 
           <p>
-            Déjanos tus datos y un asesor te ayudará a elegir la mejor opción
-            según tus necesidades, presupuesto y estilo de vida.
+            Déjanos tus datos y un asesor te ayudará a elegir la mejor opción según tus necesidades, presupuesto y estilo de vida.
           </p>
 
-          <div className={styles.leadMiniList}>
+          <div
+            className={
+              styles.leadMiniList
+            }
+          >
             <span>
               Respuesta rápida por WhatsApp
             </span>
