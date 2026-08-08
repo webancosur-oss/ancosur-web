@@ -2,7 +2,7 @@ export const whatsappColinasDeMoro =
   "https://wa.me/51971069763?text=Hola%2C%20vengo%20de%20la%20web%20de%20Ancosur%20y%20quiero%20informaci%C3%B3n%20sobre%20Las%20Colinas%20de%20Moro";
 
 export const brochureColinasDeMoro =
-  "/assets/projects/colinas-de-moro/brochure/brochure-colinas-de-moro.pdf";
+  "/assets/projects/colinas-de-moro/brochure/colinas-de-moro-brochure.pdf";
 
 
 export const hero = {

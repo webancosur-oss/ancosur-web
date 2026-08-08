@@ -14,6 +14,8 @@ import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/ui/tawk/TawkChat";
+import { GoogleTagManager } from "@next/third-parties/google";
+
 
 /* =========================================================
    FUENTE GLOBAL
@@ -367,6 +369,8 @@ export default function RootLayout({
         <Navbar />
 
         {children}
+
+        <GoogleTagManager gtmId="GTM-WG5V57RC" />
 
         <FloatingActions />
 
