@@ -49,9 +49,7 @@ export const viewport: Viewport = {
 ========================================================= */
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    "https://ancosur.com",
-  ),
+ metadataBase: new URL("https://ancosur.com"),
 
   applicationName: "ANCOSUR",
 
@@ -83,16 +81,16 @@ export const metadata: Metadata = {
 
   authors: [
     {
-      name: "ANCOSUR Inmobiliaria",
+      name: "Ancosur Inmobiliaria",
       url: "https://ancosur.com",
     },
   ],
 
   creator:
-    "ANCOSUR Inmobiliaria",
+    "Ancosur Inmobiliaria",
 
   publisher:
-    "ANCOSUR Inmobiliaria",
+    "Ancosur Inmobiliaria",
 
   category:
     "Bienes raíces",
@@ -366,11 +364,11 @@ export default function RootLayout({
       className={manrope.variable}
     >
       <body>
+        <GoogleTagManager gtmId="GTM-WG5V57RC" />
         <Navbar />
 
         {children}
 
-        <GoogleTagManager gtmId="GTM-WG5V57RC" />
 
         <FloatingActions />
 
