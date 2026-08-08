@@ -615,80 +615,104 @@ export default function DepartamentosLeadForm() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const serverMessage =
-          extractApiMessage(result);
+  const serverMessage =
+    extractApiMessage(result);
 
-        console.error(
-          "Error API Departamentos:",
-          {
-            status: response.status,
-            result,
-            serverMessage,
-            payload: {
-              fuente_id: SOURCE_ID,
-              telefono: phone,
-              nombre: fullName,
-              email: email || "",
-              dni: "",
-              campaña: CAMPAIGN_CODE,
-              anuncio: AD_NAME,
-              msj_client: clientMetadata,
-            },
-          }
-        );
+  console.error(
+    "Error API Departamentos:",
+    {
+      status: response.status,
+      result,
+      serverMessage,
 
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
+      payload: {
+        fuente_id: SOURCE_ID,
+        telefono: phone,
+        nombre: fullName,
+        email: email || "",
+        dni: "",
+        campaña: CAMPAIGN_CODE,
+        anuncio: AD_NAME,
+        msj_client: clientMetadata,
+      },
+    }
+  );
+
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
+
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
+
+  return;
+        }
+
+        /* =========================================
+          GOOGLE TAG MANAGER - LEAD EXITOSO
+        ========================================= */
+
+        window.dataLayer =
+          window.dataLayer || [];
+
+        window.dataLayer.push({
+          event: "lead_form_submit",
+          form_name: "Departamentos",
+          lead_type: LEAD_TYPE,
+          campaign: CAMPAIGN_CODE,
+          source_id: SOURCE_ID,
+          page_path: window.location.pathname,
+        });
+
+        /* =========================================
+          LIMPIAR FORMULARIO
+        ========================================= */
+
+        setFormData(initialFormData);
+        setErrors({});
+
+        showToast({
+          ...SUCCESS_TOAST,
+          message:
+            result.message ||
+            SUCCESS_TOAST.message,
+          });
+
+        } catch (error) {
+          console.error(
+            "Error enviando formulario de Departamentos:",
+            error
           );
 
-        showToast({
-          variant: "error",
-          title: friendlyError.title,
-          message: friendlyError.message,
-        });
+          if (
+            error instanceof Error &&
+            error.name === "AbortError"
+          ) {
+            showToast({
+              variant: "error",
+              title:
+                "El servidor tardó demasiado",
+              message:
+                "La solicitud superó los 20 segundos de espera.",
+            });
 
-        return;
-      }
+            return;
+          }
 
-      setFormData(initialFormData);
-      setErrors({});
+          showToast(ERROR_TOAST);
 
-      showToast({
-        ...SUCCESS_TOAST,
-        message:
-          result.message ||
-          SUCCESS_TOAST.message,
-      });
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Departamentos:",
-        error
-      );
+        } finally {
+          window.clearTimeout(timeoutId);
 
-      if (
-        error instanceof Error &&
-        error.name === "AbortError"
-      ) {
-        showToast({
-          variant: "error",
-          title:
-            "El servidor tardó demasiado",
-          message:
-            "La solicitud superó los 20 segundos de espera.",
-        });
-
-        return;
-      }
-
-      showToast(ERROR_TOAST);
-    } finally {
-      window.clearTimeout(timeoutId);
-      submitLockRef.current = false;
-      setIsSending(false);
-    }
-  };
+          submitLockRef.current = false;
+          setIsSending(false);
+        }
+        };
 
   return (
     <>

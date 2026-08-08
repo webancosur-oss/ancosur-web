@@ -19,7 +19,7 @@ import FeedbackToast, {
 import styles from "../ResortsPage.module.css";
 
 const SOURCE_ID = 4 as const;
-const CAMPAIGN_NAME = "Resorts Ancosur";
+const CAMPAIGN_CODE = "Resorts Ancosur";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "ResortsLeadForm";
@@ -622,7 +622,7 @@ export default function ResortsLeadForm() {
       email,
       dni,
       campaña:
-        CAMPAIGN_NAME,
+        CAMPAIGN_CODE,
       anuncio:
         AD_NAME,
       msj_client:
@@ -675,36 +675,49 @@ export default function ResortsLeadForm() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result,
-          );
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-        console.error(
-          "Error API Resorts:",
-          {
-            status:
-              response.status,
-            result,
-            payload: {
-              ...leadPayload,
-              msj_client:
-                clientMetadata,
-            },
-          },
-        );
+  console.error(
+    "Error API Resorts:",
+    {
+      status: response.status,
+      result,
 
-        showToast({
-          variant: "error",
-          title:
-            friendlyError.title,
-          message:
-            friendlyError.message,
-        });
+      payload: {
+        ...leadPayload,
+        msj_client: clientMetadata,
+      },
+    }
+  );
 
-        return;
-      }
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
+
+  return;
+}
+
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
+
+window.dataLayer =
+  window.dataLayer || [];
+
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Resorts",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
       form.reset();
 

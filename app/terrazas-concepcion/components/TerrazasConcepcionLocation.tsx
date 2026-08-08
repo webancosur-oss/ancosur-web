@@ -133,101 +133,340 @@ export default function TerrazasConcepcionLocation() {
   };
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const form = event.currentTarget;
+  const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  /* =========================================
+     VALIDACIÓN HTML
+  ========================================= */
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+
+    showToast({
+      variant: "error",
+      title: "Revisa tus datos",
+      message:
+        "Completa correctamente los campos requeridos.",
+    });
+
+    return;
+  }
+
+  /* =========================================
+     OBTENER DATOS
+  ========================================= */
+
+  const formData =
+    new FormData(form);
+
+  const fullName = String(
+    formData.get("fullName") ?? ""
+  )
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const phone = String(
+    formData.get("phone") ?? ""
+  )
+    .replace(/\D/g, "")
+    .slice(0, 9);
+
+  const interest = String(
+    formData.get("interest") ?? ""
+  ).trim();
+
+  /* =========================================
+     VALIDACIONES ADICIONALES
+  ========================================= */
+
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+  const phoneRegex =
+    /^9\d{8}$/;
+
+  if (!nameRegex.test(fullName)) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo usando letras y espacios.",
+    });
+
+    return;
+  }
+
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
+
+    return;
+  }
+
+  /* =========================================
+     METADATA DEL LEAD
+  ========================================= */
+
+  const clientMetadata = {
+    proyecto:
+      PROJECT_NAME,
+
+    interes:
+      interest || "Lotes",
+
+    origenRuta:
+      window.location.pathname,
+
+    origenComponente:
+      `TerrazasConcepcionLocation - ${PROJECT_NAME}`,
+
+    mensaje:
+      `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${
+        interest || "Lotes"
+      }. Enviada desde la sección de ubicación.`,
+  };
+
+  /* =========================================
+     PAYLOAD PARA /api/leads
+  ========================================= */
+
+  const leadData = {
+    fuente_id: 4,
+
+    telefono:
+      phone,
+
+    nombre:
+      fullName,
+
+    email:
+      "",
+
+    dni:
+      "",
+
+    campaña:
+      "WEB Terrazas Concepcion",
+
+    anuncio:
+      "Formulario Ubicacion",
+
+    msj_client:
+      JSON.stringify(
+        clientMetadata
+      ),
+
+    comentario:
+      "",
+  };
+
+  /* =========================================
+     TIMEOUT
+  ========================================= */
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      20_000
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    /* =========================================
+       ENVIAR A API
+    ========================================= */
+
+    const response =
+      await fetch(
+        "/api/leads",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              leadData
+            ),
+
+          cache:
+            "no-store",
+
+          signal:
+            controller.signal,
+        }
+      );
+
+    const result =
+      await readApiResponse(
+        response
+      );
+
+    /* =========================================
+       DETECTAR ERROR API / CRM
+    ========================================= */
+
+    const requestFailed =
+      !response.ok ||
+      result?.success === false;
+
+    if (requestFailed) {
+      console.error(
+        "Error API Terrazas Concepción:",
+        {
+          status:
+            response.status,
+
+          result,
+
+          payload: {
+            fuente_id:
+              leadData.fuente_id,
+
+            telefono:
+              phone,
+
+            nombre:
+              fullName,
+
+            campaña:
+              leadData.campaña,
+
+            anuncio:
+              leadData.anuncio,
+
+            msj_client:
+              clientMetadata,
+          },
+        }
+      );
 
       showToast({
         variant: "error",
-        title: "Revisa tus datos",
+
+        title:
+          "No pudimos enviar tus datos",
+
         message:
-          "Completa correctamente los campos requeridos.",
+          getApiErrorMessage(
+            result,
+            response.status
+          ),
       });
 
       return;
     }
 
-    const formData = new FormData(form);
+    /* =========================================
+       GOOGLE TAG MANAGER
+       SOLO SI EL CRM ACEPTÓ EL LEAD
+    ========================================= */
 
-    const fullName = String(
-      formData.get("fullName") ?? ""
-    ).trim();
+    window.dataLayer =
+      window.dataLayer || [];
 
-    const phone = String(
-      formData.get("phone") ?? ""
-    ).replace(/\D/g, "");
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
 
-    const interest = String(
-      formData.get("interest") ?? ""
-    ).trim();
+      form_name:
+        "Terrazas Concepción",
 
-    const leadData = {
-      nombres_completos: fullName,
-      telefono: phone,
-      email: "",
-      proyecto_interes: PROJECT_NAME,
-      categoria_interes: interest || "Lotes",
-      fuente_prospeccion: "Web",
-      mensaje:
-        `Solicitud de información sobre ${PROJECT_NAME}. Interés: ${interest}. Enviada desde la sección de ubicación.`,
-      origen_ruta: window.location.pathname,
-      origen_componente:
-        `TerrazasConcepcionLocation - ${PROJECT_NAME}`,
-    };
+      lead_type:
+        "Lotes",
 
-    try {
-      setIsSending(true);
-      setToast(null);
+      campaign:
+        "WEB Terrazas Concepcion",
 
-      const response = await fetch(
-        "/api/leads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(leadData),
-          cache: "no-store",
-        }
-      );
+      source_id:
+        4,
 
-      const result =
-        await readApiResponse(response);
+      page_path:
+        window.location.pathname,
+    });
 
-      if (
-        !response.ok ||
-        result?.success === false
-      ) {
-        showToast({
-          variant: "error",
-          title:
-            "No pudimos enviar tus datos",
-          message: getApiErrorMessage(
-            result,
-            response.status
-          ),
-        });
+    /* =========================================
+       LIMPIAR FORMULARIO
+    ========================================= */
 
-        return;
-      }
+    form.reset();
 
-      form.reset();
+    /* =========================================
+       MENSAJE DE ÉXITO
+    ========================================= */
 
-      showToast(SUCCESS_TOAST);
-    } catch {
-      showToast(ERROR_TOAST);
-    } finally {
-      setIsSending(false);
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        result?.message ||
+        SUCCESS_TOAST.message,
+    });
+
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Terrazas Concepción:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+      });
+
+      return;
     }
-  };
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

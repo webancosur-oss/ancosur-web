@@ -299,139 +299,273 @@ export default function PromoLeadPopup() {
     );
   };
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+ const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) return;
+  if (isSending) return;
 
-    const isValid = validateForm();
+  const isValid =
+    validateForm();
 
-    if (!isValid) return;
+  if (!isValid) return;
 
-    const cleanMessage =
-      formData.message.trim();
+  const cleanMessage =
+    formData.message.trim();
 
-    const leadData = {
-  telefono:
-    formData.phone.replace(
-      /\D/g,
+  const leadData = {
+    telefono:
+      formData.phone.replace(
+        /\D/g,
+        ""
+      ),
+
+    nombre:
+      formData.fullName.trim(),
+
+    email:
+      formData.email
+        .trim()
+        .toLowerCase(),
+
+    dni:
+      formData.dni
+        ?.replace(/\D/g, "") ||
       "",
-    ),
 
-  nombre:
-    formData.fullName.trim(),
+    campaña:
+      "Campaña viaje a Cusco 2026",
 
-  email:
-    formData.email
-      .trim()
-      .toLowerCase(),
+    anuncio:
+      "Popup web Ancosur",
 
-  dni:
-    formData.dni
-      ?.replace(/\D/g, "") ||
-    "",
+    msj_client:
+      JSON.stringify({
+        interes:
+          formData.project,
 
-  campaña:
-    "Campaña viaje a Cusco 2026",
+        mensaje:
+          cleanMessage,
 
-  anuncio:
-    "Popup web Ancosur",
+        origenRuta:
+          window.location.pathname,
 
-  msj_client:
-    JSON.stringify({
-      interes:
-        formData.project,
+        origenComponente:
+          "Popup Viaje Cusco 2026",
+      }),
 
-      mensaje:
-        formData.message,
+    comentario:
+      cleanMessage ||
+      "Cliente interesado.",
+  };
 
-      origenRuta:
-        window.location.pathname,
-    }),
+  const controller =
+    new AbortController();
 
-  comentario:
-    formData.message ||
-    "Cliente interesado.",
-};
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      20_000
+    );
 
-    try {
-      setIsSending(true);
-      setErrors({});
-      setToast(null);
+  try {
+    setIsSending(true);
+    setErrors({});
+    setToast(null);
 
-     
-            const response = await fetch(
-          "/api/leads",
-          {
-            method: "POST",
+    const response =
+      await fetch(
+        "/api/leads",
+        {
+          method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json",
+          headers: {
+            "Content-Type":
+              "application/json",
 
-              Accept:
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              leadData,
-            ),
+            Accept:
+              "application/json",
           },
-        );
 
-      const contentType =
-        response.headers.get(
-          "content-type"
-        );
+          body:
+            JSON.stringify(
+              leadData
+            ),
 
-      const responseData =
-        contentType?.includes(
-          "application/json"
-        )
-          ? await response.json()
-          : {
-              message:
-                await response.text(),
-            };
+          signal:
+            controller.signal,
 
-      if (!response.ok) {
-        console.error(
-          "Error API CRM Sentinel:",
-          responseData
-        );
-
-        throw new Error(
-          responseData?.message ||
-            responseData?.error ||
-            `Error HTTP ${response.status}`
-        );
-      }
-
-      setFormData(initialFormData);
-      setErrors({});
-      setIsVisible(false);
-      registerPopupAsClosed();
-
-      showToast(SUCCESS_TOAST);
-    } catch (error) {
-      console.error(
-        "Error enviando formulario al CRM:",
-        error
+          cache:
+            "no-store",
+        }
       );
 
+    const contentType =
+      response.headers.get(
+        "content-type"
+      );
+
+    const responseData =
+      contentType?.includes(
+        "application/json"
+      )
+        ? await response.json()
+        : {
+            message:
+              await response.text(),
+          };
+
+    /* =========================================
+       DETECTAR ERROR HTTP O ERROR LÓGICO
+    ========================================= */
+
+    const requestFailed =
+      !response.ok ||
+      responseData?.success === false;
+
+    if (requestFailed) {
+      console.error(
+        "Error API CRM Sentinel:",
+        {
+          status:
+            response.status,
+
+          result:
+            responseData,
+
+          payload: {
+            campaña:
+              leadData.campaña,
+
+            anuncio:
+              leadData.anuncio,
+
+            msj_client: {
+              interes:
+                formData.project,
+
+              mensaje:
+                cleanMessage,
+
+              origenRuta:
+                window.location.pathname,
+
+              origenComponente:
+                "Popup Viaje Cusco 2026",
+            },
+          },
+        }
+      );
+
+      const apiMessage =
+        responseData?.message ||
+        responseData?.error ||
+        `Error HTTP ${response.status}`;
+
       showToast({
-        ...ERROR_TOAST,
+        variant: "error",
+        title:
+          "No pudimos enviar tus datos",
         message:
-          error instanceof Error
-            ? error.message
-            : ERROR_TOAST.message,
+          apiMessage,
       });
-    } finally {
-      setIsSending(false);
+
+      return;
     }
-  };
+
+    /* =========================================
+       GOOGLE TAG MANAGER - LEAD EXITOSO
+       SOLO DESPUÉS DE QUE EL CRM RESPONDA OK
+    ========================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Popup Viaje Cusco 2026",
+
+      lead_type:
+        "Promoción",
+
+      campaign:
+        "Campaña viaje a Cusco 2026",
+
+      source_id:
+        4,
+
+      page_path:
+        window.location.pathname,
+    });
+
+    /* =========================================
+       LIMPIAR Y CERRAR POPUP
+    ========================================= */
+
+    setFormData(
+      initialFormData
+    );
+
+    setErrors({});
+
+    setIsVisible(false);
+
+    registerPopupAsClosed();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        responseData?.message ||
+        SUCCESS_TOAST.message,
+    });
+
+  } catch (error) {
+    console.error(
+      "Error enviando formulario al CRM:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      message:
+        error instanceof Error
+          ? error.message
+          : ERROR_TOAST.message,
+    });
+
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

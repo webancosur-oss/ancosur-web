@@ -28,8 +28,7 @@ import {
 import styles from "./CyberHouseLeadForm.module.css";
 
 const SOURCE_ID = 4 as const;
-const CAMPAIGN_NAME =
-  "Promociones Cyber House";
+const CAMPAIGN_CODE = "Promociones Cyber House";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME =
@@ -512,7 +511,7 @@ export default function CyberHouseLeadForm() {
       dni,
 
       campaña:
-        CAMPAIGN_NAME,
+        CAMPAIGN_CODE,
 
       anuncio:
         AD_NAME,
@@ -579,44 +578,51 @@ export default function CyberHouseLeadForm() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const apiMessage =
-          extractApiMessage(
-            result,
-          );
+  const apiMessage =
+    extractApiMessage(result);
 
-        console.error(
-          "Error API promociones Cyber House:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API promociones Cyber House:",
+    {
+      status: response.status,
+      result,
 
-            result,
+      payload: {
+        ...leadPayload,
+        msj_client: clientMetadata,
+        comentario:
+          message || undefined,
+      },
+    }
+  );
 
-            payload: {
-              ...leadPayload,
+  showToast({
+    variant: "error",
+    title:
+      "No pudimos separar tu visita",
+    message:
+      apiMessage ||
+      "La API rechazó la solicitud. Revisa tus datos e inténtalo nuevamente.",
+  });
 
-              msj_client:
-                clientMetadata,
+  return;
+}
 
-              comentario:
-                message || undefined,
-            },
-          },
-        );
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
 
-        showToast({
-          variant: "error",
+window.dataLayer =
+  window.dataLayer || [];
 
-          title:
-            "No pudimos separar tu visita",
-
-          message:
-            apiMessage ||
-            "La API rechazó la solicitud. Revisa tus datos e inténtalo nuevamente.",
-        });
-
-        return;
-      }
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Promociones Cyber House",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
       setFormData(
         INITIAL_FORM,

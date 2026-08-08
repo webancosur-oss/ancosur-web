@@ -648,39 +648,49 @@ export default function Moro416OverviewSection() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-        console.error(
-          "Error API Moro 416:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API Moro 416:",
+    {
+      status: response.status,
+      result,
 
-            result,
+      payload: {
+        ...leadData,
+        msj_client: clientMetadata,
+      },
+    }
+  );
 
-            payload: {
-              ...leadData,
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
 
-              msj_client:
-                clientMetadata,
-            },
-          }
-        );
+  return;
+}
 
-        showToast({
-          variant: "error",
-          title:
-            friendlyError.title,
-          message:
-            friendlyError.message,
-        });
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
 
-        return;
-      }
+window.dataLayer =
+  window.dataLayer || [];
+
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Moro 416",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
       form.reset();
 

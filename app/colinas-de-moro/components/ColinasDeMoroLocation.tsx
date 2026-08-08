@@ -786,71 +786,74 @@ export default function ColinasDeMoroLocation() {
         !response.ok ||
         hasApiFailure(result);
 
-      if (requestFailed) {
-        const serverMessage =
-          extractApiMessage(
-            result
-          );
+    if (requestFailed) {
+  const serverMessage =
+    extractApiMessage(result);
 
-        console.error(
-          "Error API Las Colinas de Moro:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API Las Colinas de Moro:",
+    {
+      status: response.status,
+      result,
+      serverMessage,
 
-            result,
+      payload: {
+        telefono: phone,
+        nombre: fullName,
+        email: email || "",
+        dni: dni || "",
+        campaña: CAMPAIGN_CODE,
+        anuncio: AD_NAME,
+        msj_client: clientMetadata,
+        comentario: message || "",
+        fuente_id: SOURCE_ID,
+      },
+    }
+  );
 
-            serverMessage,
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-            payload: {
-              telefono:
-                phone,
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
 
-              nombre:
-                fullName,
+  return;
+}
 
-              email:
-                email || "",
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
 
-              dni:
-                dni || "",
+window.dataLayer =
+  window.dataLayer || [];
 
-              campaña:
-                CAMPAIGN_CODE,
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Las Colinas de Moro",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
-              anuncio:
-                AD_NAME,
+/* =========================================
+   FIN GOOGLE TAG MANAGER
+========================================= */
 
-              msj_client:
-                clientMetadata,
+form.reset();
 
-              comentario:
-                message || "",
-
-              fuente_id:
-                SOURCE_ID,
-            },
-          }
-        );
-
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
-
-        showToast({
-          variant: "error",
-
-          title:
-            friendlyError.title,
-
-          message:
-            friendlyError.message,
-        });
-
-        return;
-      }
+showToast({
+  ...SUCCESS_TOAST,
+  message:
+    result.message ||
+    SUCCESS_TOAST.message,
+});
 
       form.reset();
 

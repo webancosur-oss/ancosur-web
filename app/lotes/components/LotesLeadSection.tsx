@@ -613,77 +613,95 @@ export default function LotesLeadSection() {
         !response.ok ||
         hasApiFailure(result);
 
-      if (requestFailed) {
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
+     if (requestFailed) {
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-        console.error(
-          "Error API Lotes:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API Lotes:",
+    {
+      status: response.status,
+      result,
 
-            result,
-
-            payload: {
-              ...leadData,
-
-              msj_client:
-                clientMetadata,
-            },
-          }
-        );
-
-        showToast({
-          variant: "error",
-          title:
-            friendlyError.title,
-          message:
-            friendlyError.message,
-        });
-
-        return;
-      }
-
-      form.reset();
-
-      showToast(
-        SUCCESS_TOAST
-      );
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Lotes:",
-        error
-      );
-
-      if (
-        error instanceof Error &&
-        error.name === "AbortError"
-      ) {
-        showToast({
-          variant: "error",
-          title:
-            "El servidor tardó demasiado",
-          message:
-            "La solicitud superó los 20 segundos de espera.",
-        });
-
-        return;
-      }
-
-      showToast(ERROR_TOAST);
-    } finally {
-      window.clearTimeout(
-        timeoutId
-      );
-
-      submitLockRef.current = false;
-      setIsSending(false);
+      payload: {
+        ...leadData,
+        msj_client: clientMetadata,
+      },
     }
-  };
+  );
+
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
+
+  return;
+}
+
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
+
+window.dataLayer =
+  window.dataLayer || [];
+
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Lotes",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
+
+/* =========================================
+   LIMPIAR FORMULARIO Y MOSTRAR ÉXITO
+========================================= */
+
+form.reset();
+
+showToast(
+  SUCCESS_TOAST
+);
+
+} catch (error) {
+  console.error(
+    "Error enviando formulario de Lotes:",
+    error
+  );
+
+  if (
+    error instanceof Error &&
+    error.name === "AbortError"
+  ) {
+    showToast({
+      variant: "error",
+      title:
+        "El servidor tardó demasiado",
+      message:
+        "La solicitud superó los 20 segundos de espera.",
+    });
+
+    return;
+  }
+
+  showToast(
+    ERROR_TOAST
+  );
+
+} finally {
+  window.clearTimeout(
+    timeoutId
+  );
+
+  submitLockRef.current = false;
+  setIsSending(false);
+}
+};
 
   return (
     <>

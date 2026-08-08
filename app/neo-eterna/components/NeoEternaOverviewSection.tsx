@@ -29,7 +29,7 @@ import styles from "../NeoEternaPage.module.css";
 ========================================================= */
 
 const SOURCE_ID = 4 as const;
-const CAMPAIGN_NAME = "Neo Eterna";
+const CAMPAIGN_CODE = "Neo Eterna";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME =
@@ -586,7 +586,7 @@ export default function NeoEternaOverviewSection() {
       dni,
 
       campaña:
-        CAMPAIGN_NAME,
+        CAMPAIGN_CODE,
 
       anuncio:
         AD_NAME,
@@ -646,39 +646,49 @@ export default function NeoEternaOverviewSection() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-        console.error(
-          "Error API Neo Eterna:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API Neo Eterna:",
+    {
+      status: response.status,
+      result,
 
-            result,
+      payload: {
+        ...leadData,
+        msj_client: clientMetadata,
+      },
+    }
+  );
 
-            payload: {
-              ...leadData,
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
 
-              msj_client:
-                clientMetadata,
-            },
-          }
-        );
+  return;
+}
 
-        showToast({
-          variant: "error",
-          title:
-            friendlyError.title,
-          message:
-            friendlyError.message,
-        });
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
 
-        return;
-      }
+window.dataLayer =
+  window.dataLayer || [];
+
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Neo Eterna",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
       form.reset();
 

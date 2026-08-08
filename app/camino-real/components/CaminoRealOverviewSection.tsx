@@ -723,99 +723,119 @@ export default function CaminoRealOverviewSection() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        console.error(
-          "Error API Camino Real:",
-          {
-            status:
-              response.status,
-
-            result,
-
-            serverMessage:
-              extractApiMessage(
-                result
-              ),
-          }
-        );
-
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
-
-        showToast({
-          variant: "error",
-
-          title:
-            friendlyError.title,
-
-          message:
-            friendlyError.message,
-        });
-
-        return;
-      }
-
-      /*
-       * La respuesta de éxito puede ser:
-       *
-       * {
-       *   success: true,
-       *   accion: "creado",
-       *   id: 39906,
-       *   message: "Lead creado exitosamente..."
-       * }
-       */
-      form.reset();
-
-      showToast({
-        ...SUCCESS_TOAST,
-
-        message:
-          result.message ||
-          SUCCESS_TOAST.message,
-      });
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Camino Real:",
-        error
-      );
-
-      if (
-        error instanceof DOMException &&
-        error.name === "AbortError"
-      ) {
-        showToast({
-          variant: "error",
-
-          title:
-            "El servidor tardó demasiado",
-
-          message:
-            "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
-        });
-
-        return;
-      }
-
-      showToast({
-        ...ERROR_TOAST,
-
-        title:
-          "No pudimos conectar con el servidor",
-
-        message:
-          "Comprueba tu conexión a Internet e inténtalo nuevamente.",
-      });
-    } finally {
-      window.clearTimeout(
-        timeoutId
-      );
-
-      setIsSending(false);
+  console.error(
+    "Error API Camino Real:",
+    {
+      status: response.status,
+      result,
+      serverMessage:
+        extractApiMessage(result),
     }
-  };
+  );
+
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
+
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
+
+  return;
+          }
+
+          /* =========================================
+            GOOGLE TAG MANAGER - LEAD EXITOSO
+          ========================================= */
+
+          window.dataLayer =
+            window.dataLayer || [];
+
+          window.dataLayer.push({
+            event: "lead_form_submit",
+            form_name: "Camino Real",
+            lead_type: LEAD_TYPE,
+            campaign: CAMPAIGN_CODE,
+            source_id: SOURCE_ID,
+            page_path:
+              window.location.pathname,
+          });
+
+          /* =========================================
+            FIN GOOGLE TAG MANAGER
+          ========================================= */
+
+          form.reset();
+
+          showToast({
+            ...SUCCESS_TOAST,
+            message:
+              result.message ||
+              SUCCESS_TOAST.message,
+          });
+                /*
+                * La respuesta de éxito puede ser:
+                *
+                * {
+                *   success: true,
+                *   accion: "creado",
+                *   id: 39906,
+                *   message: "Lead creado exitosamente..."
+                * }
+                */
+                form.reset();
+
+                showToast({
+                  ...SUCCESS_TOAST,
+
+                  message:
+                    result.message ||
+                    SUCCESS_TOAST.message,
+                });
+              } catch (error) {
+                console.error(
+                  "Error enviando formulario de Camino Real:",
+                  error
+                );
+
+                if (
+                  error instanceof DOMException &&
+                  error.name === "AbortError"
+                ) {
+                  showToast({
+                    variant: "error",
+
+                    title:
+                      "El servidor tardó demasiado",
+
+                    message:
+                      "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+                  });
+
+                  return;
+                }
+
+                showToast({
+                  ...ERROR_TOAST,
+
+                  title:
+                    "No pudimos conectar con el servidor",
+
+                  message:
+                    "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+                });
+              } finally {
+                window.clearTimeout(
+                  timeoutId
+                );
+
+                setIsSending(false);
+              }
+            };
 
   return (
     <>

@@ -662,45 +662,74 @@ export default function ColinasDeMoroOverviewSection() {
         !response.ok ||
         hasApiFailure(result);
 
-      if (requestFailed) {
-        const serverMessage =
-          extractApiMessage(result);
+     if (requestFailed) {
+  const serverMessage =
+    extractApiMessage(result);
 
-        console.error(
-          "Error API Las Colinas de Moro:",
-          {
-            status: response.status,
-            result,
-            serverMessage,
+  console.error(
+    "Error API Las Colinas de Moro:",
+    {
+      status: response.status,
+      result,
+      serverMessage,
 
-            payload: {
-              telefono: phone,
-              nombre: fullName,
-              email: email || "",
-              dni: dni || "",
-              campaña: CAMPAIGN_CODE,
-              anuncio: AD_NAME,
-              msj_client: clientMetadata,
-              comentario: message || "",
-              fuente_id: SOURCE_ID,
-            },
-          }
-        );
+      payload: {
+        telefono: phone,
+        nombre: fullName,
+        email: email || "",
+        dni: dni || "",
+        campaña: CAMPAIGN_CODE,
+        anuncio: AD_NAME,
+        msj_client: clientMetadata,
+        comentario: message || "",
+        fuente_id: SOURCE_ID,
+      },
+    }
+  );
 
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-        showToast({
-          variant: "error",
-          title: friendlyError.title,
-          message: friendlyError.message,
-        });
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
 
-        return;
-      }
+  return;
+}
+
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
+
+window.dataLayer =
+  window.dataLayer || [];
+
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Las Colinas de Moro",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
+
+/* =========================================
+   CONTINUAR CON ÉXITO DEL FORMULARIO
+========================================= */
+
+form.reset();
+
+showToast({
+  ...SUCCESS_TOAST,
+  message:
+    result.message ||
+    SUCCESS_TOAST.message,
+});
 
       form.reset();
 

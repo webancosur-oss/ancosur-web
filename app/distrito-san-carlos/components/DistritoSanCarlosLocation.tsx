@@ -793,67 +793,59 @@ export default function DistritoSanCarlosLocation() {
         hasApiFailure(result);
 
       if (requestFailed) {
-        const serverMessage =
-          extractApiMessage(
-            result
-          );
+  const serverMessage =
+    extractApiMessage(result);
 
-        console.error(
-          "Error API Distrito San Carlos:",
-          {
-            status:
-              response.status,
+  console.error(
+    "Error API Distrito San Carlos:",
+    {
+      status: response.status,
+      result,
+      serverMessage,
 
-            result,
+      payload: {
+        fuente_id: SOURCE_ID,
+        telefono: phone,
+        nombre: "Cliente web Ancosur",
+        email: email || "",
+        dni: dni || "",
+        campaña: CAMPAIGN_CODE,
+        anuncio: AD_NAME,
+        msj_client: clientMetadata,
+      },
+    }
+  );
 
-            serverMessage,
+  const friendlyError =
+    getFriendlyServerError(
+      response.status,
+      result
+    );
 
-            payload: {
-              fuente_id:
-                SOURCE_ID,
+  showToast({
+    variant: "error",
+    title: friendlyError.title,
+    message: friendlyError.message,
+  });
 
-              telefono:
-                phone,
+  return;
+}
 
-              nombre:
-                "Cliente web Ancosur",
+/* =========================================
+   GOOGLE TAG MANAGER - LEAD EXITOSO
+========================================= */
 
-              email:
-                email || "",
+window.dataLayer =
+  window.dataLayer || [];
 
-              dni:
-                dni || "",
-
-              campaña:
-                CAMPAIGN_CODE,
-
-              anuncio:
-                AD_NAME,
-
-              msj_client:
-                clientMetadata,
-            },
-          }
-        );
-
-        const friendlyError =
-          getFriendlyServerError(
-            response.status,
-            result
-          );
-
-        showToast({
-          variant: "error",
-
-          title:
-            friendlyError.title,
-
-          message:
-            friendlyError.message,
-        });
-
-        return;
-      }
+window.dataLayer.push({
+  event: "lead_form_submit",
+  form_name: "Distrito San Carlos",
+  lead_type: LEAD_TYPE,
+  campaign: CAMPAIGN_CODE,
+  source_id: SOURCE_ID,
+  page_path: window.location.pathname,
+});
 
       form.reset();
 

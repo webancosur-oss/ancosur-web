@@ -600,6 +600,32 @@ export default function CaminoRealLocation() {
         return;
       }
 
+      /* =========================================
+        GOOGLE TAG MANAGER - LEAD EXITOSO
+      ========================================= */
+
+      window.dataLayer = window.dataLayer || [];
+
+      window.dataLayer.push({
+        event: "lead_form_submit",
+        form_name: "Camino Real",
+        lead_type: LEAD_TYPE,
+        campaign: CAMPAIGN_CODE,
+        source_id: SOURCE_ID,
+        page_path: window.location.pathname,
+      });
+
+      /* ========================================= */
+
+      form.reset();
+
+      showToast({
+        ...SUCCESS_TOAST,
+        message:
+          result.message ||
+          SUCCESS_TOAST.message,
+      });
+
       form.reset();
 
       showToast({
