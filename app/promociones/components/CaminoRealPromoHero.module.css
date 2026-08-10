@@ -1,146 +1,255 @@
+/*==================================================
+  HERO
+==================================================*/
+
 .hero {
   position: relative;
+
+  width: 100%;
+
   overflow: hidden;
 
   padding-top: 88px;
 
-  background: #080b09;
+  background: #050806;
+
   color: #ffffff;
 }
 
-.main {
-  width: min(1440px, 100%);
-  min-height: 680px;
 
-  margin: 0 auto;
+/*==================================================
+  MAIN
+==================================================*/
+
+.main {
+  width: 100%;
+
+  min-height: 690px;
 
   display: grid;
 
   grid-template-columns:
-    minmax(0, 0.92fr)
-    minmax(520px, 1.08fr);
+    minmax(430px, 0.82fr)
+    minmax(0, 1.18fr);
+
+  background: #050806;
 }
 
-/* =========================================================
-   CONTENIDO
-========================================================= */
+
+/*==================================================
+  CONTENT
+==================================================*/
 
 .content {
   position: relative;
-  z-index: 2;
 
-  display: flex;
+  z-index: 5;
+
   min-width: 0;
 
-  padding:
-    clamp(55px, 7vw, 100px)
-    clamp(28px, 6vw, 95px);
+  display: flex;
 
   flex-direction: column;
+
   justify-content: center;
+
+  padding:
+    64px
+    34px
+    64px
+    max(
+      42px,
+      calc((100vw - 1440px) / 2 + 52px)
+    );
+
+  background: #050806;
 }
 
+
+/*==================================================
+  TRANSICIÓN HACIA IMAGEN
+==================================================*/
+
+.content::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: 6;
+
+  top: 0;
+  right: -130px;
+  bottom: 0;
+
+  width: 180px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      #050806 0%,
+      rgba(5, 8, 6, 0.92) 28%,
+      rgba(5, 8, 6, 0.5) 62%,
+      transparent 100%
+    );
+}
+
+
+/*==================================================
+  EYEBROW
+==================================================*/
+
 .eyebrow {
+  position: relative;
+
+  z-index: 7;
+
+  width: fit-content;
+
   display: inline-flex;
+
   align-items: center;
 
   gap: 8px;
 
-  width: fit-content;
-
   margin-bottom: 18px;
-  padding: 7px 11px;
+
+  padding:
+    7px
+    11px;
 
   border:
     1px solid
-    rgba(0, 167, 79, 0.45);
+    rgba(83, 231, 153, 0.27);
 
   border-radius: 999px;
 
   background:
-    rgba(0, 167, 79, 0.12);
+    rgba(0, 167, 79, 0.09);
 
-  color: #58e69a;
+  color: #55e69a;
 
-  font-size: 0.68rem;
+  font-size: 0.66rem;
+
   font-weight: 900;
 
   text-transform: uppercase;
+
   letter-spacing: 0.12em;
+
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
 }
 
+
+/*==================================================
+  TITLE
+==================================================*/
+
 .content h1 {
-  max-width: 650px;
+  position: relative;
+
+  z-index: 7;
+
+  max-width: 620px;
+
   margin: 0;
 
   color: #ffffff;
 
   font-size:
     clamp(
-      3rem,
-      5.5vw,
-      5.8rem
+      4rem,
+      5vw,
+      5.6rem
     );
 
-  line-height: 0.94;
-  letter-spacing: -0.065em;
+  line-height: 0.91;
+
+  letter-spacing: -0.06em;
 
   text-transform: uppercase;
 }
 
+
 .content h1 span {
   display: block;
 
-  margin-top: 12px;
+  margin-top: 13px;
 
-  color: #58e69a;
+  color: #50e495;
 
   font-size: 0.54em;
-  line-height: 1.08;
 
-  letter-spacing: -0.045em;
+  line-height: 1;
+
+  letter-spacing: -0.04em;
 }
+
+
+/*==================================================
+  SUBTITLE
+==================================================*/
 
 .subtitle {
-  max-width: 610px;
+  position: relative;
 
-  margin: 24px 0 0;
+  z-index: 7;
+
+  max-width: 560px;
+
+  margin:
+    24px
+    0
+    0;
 
   color:
-    rgba(255, 255, 255, 0.68);
+    rgba(255, 255, 255, 0.67);
 
-  font-size:
-    clamp(
-      0.97rem,
-      1.4vw,
-      1.1rem
-    );
+  font-size: 0.96rem;
 
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
-/* =========================================================
-   BENEFICIOS
-========================================================= */
+
+/*==================================================
+  BENEFITS
+==================================================*/
 
 .benefits {
+  position: relative;
+
+  z-index: 7;
+
+  width: 100%;
+
+  max-width: 580px;
+
+  margin-top: 25px;
+
   display: grid;
 
   grid-template-columns:
-    repeat(2, minmax(0, 1fr));
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
 
   gap: 11px;
-
-  width: 100%;
-  max-width: 590px;
-
-  margin-top: 26px;
 }
+
+
+/*==================================================
+  BENEFIT CARD
+==================================================*/
 
 .benefitCard {
   min-width: 0;
 
   display: flex;
+
   align-items: flex-start;
 
   gap: 12px;
@@ -149,414 +258,681 @@
 
   border:
     1px solid
-    rgba(255, 255, 255, 0.13);
+    rgba(255, 255, 255, 0.12);
 
-  border-radius: 14px;
+  border-radius: 16px;
 
   background:
     rgba(255, 255, 255, 0.055);
 
   box-shadow:
-    0 16px 40px
-    rgba(0, 0, 0, 0.16);
+    inset
+      0
+      1px
+      0
+      rgba(255, 255, 255, 0.05),
+    0
+      16px
+      45px
+      rgba(0, 0, 0, 0.15);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter:
+    blur(16px);
+
+  -webkit-backdrop-filter:
+    blur(16px);
 
   transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
 }
+
 
 .benefitCard:hover {
+  transform:
+    translateY(-3px);
+
   border-color:
-    rgba(88, 230, 154, 0.36);
+    rgba(82, 232, 153, 0.3);
 
   background:
-    rgba(255, 255, 255, 0.09);
-
-  transform: translateY(-2px);
+    rgba(255, 255, 255, 0.08);
 }
+
+
+/*==================================================
+  BENEFIT ICON
+==================================================*/
 
 .benefitIcon {
   width: 42px;
+
   height: 42px;
+
+  flex: 0 0 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(82, 232, 153, 0.13);
 
   border-radius: 12px;
 
   background:
-    rgba(0, 167, 79, 0.16);
+    rgba(0, 167, 79, 0.14);
 
-  color: #58e69a;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
+  color: #55e69a;
 }
+
+
+/*==================================================
+  BENEFIT CONTENT
+==================================================*/
 
 .benefitContent {
   min-width: 0;
 }
 
+
 .benefitContent span {
   display: block;
 
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 
-  color: #58e69a;
+  color: #55e69a;
 
-  font-size: 0.58rem;
+  font-size: 0.56rem;
+
   font-weight: 900;
 
   text-transform: uppercase;
+
   letter-spacing: 0.1em;
 }
+
 
 .benefitContent strong {
   display: block;
 
   color: #ffffff;
 
-  font-size: 0.88rem;
+  font-size: 0.86rem;
+
   line-height: 1.3;
 
   text-transform: uppercase;
 }
 
+
 .benefitContent p {
-  margin: 5px 0 0;
+  margin:
+    5px
+    0
+    0;
 
   color:
-    rgba(255, 255, 255, 0.6);
+    rgba(255, 255, 255, 0.58);
 
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+
   line-height: 1.45;
 }
 
-/* =========================================================
-   BOTONES
-========================================================= */
+
+/*==================================================
+  ACTIONS
+==================================================*/
 
 .actions {
+  position: relative;
+
+  z-index: 7;
+
+  margin-top: 23px;
+
   display: flex;
+
   flex-wrap: wrap;
 
-  gap: 11px;
-
-  margin-top: 24px;
+  gap: 10px;
 }
+
 
 .primaryButton,
 .secondaryButton {
-  min-height: 49px;
+  min-height: 48px;
 
-  padding: 0 20px;
-
-  border-radius: 12px;
+  padding:
+    0
+    20px;
 
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   gap: 9px;
 
-  font-size: 0.8rem;
+  border-radius: 13px;
+
+  font-size: 0.78rem;
+
   font-weight: 900;
 
   text-decoration: none;
 
   transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+    transform 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease;
 }
+
+
+/*==================================================
+  PRIMARY
+==================================================*/
 
 .primaryButton {
   border:
-    1px solid #00a74f;
+    1px solid
+    #00b756;
 
-  background: #00a74f;
+  background:
+    linear-gradient(
+      135deg,
+      #10c864,
+      #00a74f
+    );
+
   color: #ffffff;
+
+  box-shadow:
+    0
+    14px
+    36px
+    rgba(0, 167, 79, 0.18);
 }
+
 
 .primaryButton:hover {
-  border-color: #00bd5a;
-  background: #00bd5a;
+  transform:
+    translateY(-2px);
 
-  transform: translateY(-2px);
+  background:
+    linear-gradient(
+      135deg,
+      #17d36f,
+      #00b756
+    );
 }
+
+
+/*==================================================
+  SECONDARY
+==================================================*/
 
 .secondaryButton {
   border:
     1px solid
-    rgba(255, 255, 255, 0.2);
+    rgba(255, 255, 255, 0.16);
 
   background:
-    rgba(255, 255, 255, 0.055);
+    rgba(255, 255, 255, 0.045);
 
   color: #ffffff;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
 }
+
 
 .secondaryButton:hover {
-  background:
-    rgba(255, 255, 255, 0.12);
+  transform:
+    translateY(-2px);
 
-  transform: translateY(-2px);
+  border-color:
+    rgba(255, 255, 255, 0.28);
+
+  background:
+    rgba(255, 255, 255, 0.09);
 }
 
-.legal {
-  max-width: 590px;
 
-  margin: 17px 0 0;
+/*==================================================
+  LEGAL
+==================================================*/
+
+.legal {
+  position: relative;
+
+  z-index: 7;
+
+  max-width: 560px;
+
+  margin:
+    16px
+    0
+    0;
 
   color:
-    rgba(255, 255, 255, 0.46);
+    rgba(255, 255, 255, 0.4);
 
-  font-size: 0.69rem;
+  font-size: 0.65rem;
+
   line-height: 1.5;
 }
 
-/* =========================================================
-   IMAGEN
-========================================================= */
+
+/*==================================================
+  MEDIA
+==================================================*/
 
 .media {
   position: relative;
 
-  min-height: 680px;
+  min-width: 0;
+
+  min-height: 690px;
 
   overflow: hidden;
 
-  background: #132019;
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  background: #000000;
+
+  isolation: isolate;
 }
 
+
+/*==================================================
+  IMAGE
+
+  DESKTOP:
+  mantiene su proporción.
+  El sobrante es negro.
+==================================================*/
+
 .image {
-  object-fit: cover;
-  object-position: center center;
+  position: absolute !important;
+
+  z-index: 1;
+
+  inset: 0;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  object-fit: contain;
+
+  object-position:
+    left
+    center;
+
+  transform: none !important;
 }
+
+
+/*==================================================
+  MEDIA OVERLAY
+
+  Degradado únicamente del lado izquierdo.
+==================================================*/
 
 .mediaOverlay {
   position: absolute;
+
+  z-index: 2;
+
   inset: 0;
+
+  pointer-events: none;
 
   background:
     linear-gradient(
       90deg,
-      #080b09 0%,
-      rgba(8, 11, 9, 0.58) 13%,
-      rgba(8, 11, 9, 0.05) 44%,
-      rgba(8, 11, 9, 0.06) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(3, 8, 5, 0.56),
-      transparent 48%
+      #050806 0%,
+      rgba(5, 8, 6, 0.72) 5%,
+      rgba(5, 8, 6, 0.28) 12%,
+      rgba(5, 8, 6, 0.07) 20%,
+      transparent 29%
     );
-
-  pointer-events: none;
 }
+
+
+/*==================================================
+  IMAGE BADGE
+==================================================*/
 
 .imageBadge {
   position: absolute;
 
-  right: 28px;
-  bottom: 28px;
+  z-index: 5;
 
-  min-width: 230px;
+  top: 25px;
 
-  padding: 15px 17px;
+  right: 24px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding:
+    8px
+    12px;
 
   border:
     1px solid
-    rgba(255, 255, 255, 0.18);
+    rgba(255, 255, 255, 0.17);
 
-  border-radius: 14px;
+  border-radius: 999px;
 
   background:
-    rgba(7, 15, 10, 0.78);
+    rgba(3, 8, 5, 0.72);
 
   box-shadow:
-    0 18px 45px
-    rgba(0, 0, 0, 0.28);
-
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.imageBadge span {
-  display: block;
-
-  margin-bottom: 5px;
-
-  color: #53e698;
-
-  font-size: 0.65rem;
-  font-weight: 900;
-
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.imageBadge strong {
-  display: block;
+    0
+    14px
+    35px
+    rgba(0, 0, 0, 0.24);
 
   color: #ffffff;
 
-  font-size: 0.96rem;
-  line-height: 1.3;
+  font-size: 0.59rem;
+
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.09em;
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
 }
 
-/* =========================================================
-   BARRA INFERIOR
-========================================================= */
+
+.imageBadge svg {
+  color: #55e69a;
+}
+
+
+/*==================================================
+  EVENT BAR
+==================================================*/
 
 .eventBar {
   position: relative;
-  z-index: 4;
 
-  border-bottom:
-    5px double #101410;
+  z-index: 20;
 
-  background: #ffffff;
-  color: #172019;
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  background: #0a0e0b;
+
+  color: #ffffff;
 }
 
+
 .eventBarInner {
-  width: min(1180px, 100%);
+  width:
+    min(
+      1280px,
+      calc(100% - 48px)
+    );
 
   margin: 0 auto;
-  padding: 24px;
+
+  padding:
+    18px
+    0;
 
   display: grid;
 
   grid-template-columns:
-    repeat(4, minmax(0, 1fr));
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
 }
 
+
+/*==================================================
+  EVENT ITEM
+==================================================*/
+
 .eventItem {
+  min-width: 0;
+
+  padding:
+    8px
+    22px;
+
   display: flex;
+
   align-items: center;
-  justify-content: center;
 
   gap: 11px;
 
-  min-width: 0;
-
-  padding: 7px 22px;
-
   border-right:
-    1px solid #dfe4e1;
+    1px solid
+    rgba(255, 255, 255, 0.09);
 }
+
 
 .eventItem:last-child {
   border-right: 0;
 }
 
+
 .eventItem > svg {
   flex-shrink: 0;
 
-  color: #00a74f;
+  color: #55e69a;
 }
+
 
 .eventItem div {
   min-width: 0;
 }
 
+
 .eventItem span {
   display: block;
 
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 
-  color: #849088;
+  color:
+    rgba(255, 255, 255, 0.4);
 
-  font-size: 0.58rem;
-  font-weight: 800;
+  font-size: 0.55rem;
+
+  font-weight: 900;
 
   text-transform: uppercase;
+
   letter-spacing: 0.1em;
 }
+
 
 .eventItem strong {
   display: block;
 
-  color: #172019;
+  color:
+    rgba(255, 255, 255, 0.92);
 
-  font-size: 0.78rem;
+  font-size: 0.75rem;
+
   line-height: 1.35;
 }
 
-/* =========================================================
-   TABLET GRANDE
-========================================================= */
 
-@media (max-width: 1150px) {
-  .main {
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(440px, 0.96fr);
+/*==================================================
+  LARGE DESKTOP
+==================================================*/
+
+@media (
+  min-width: 1600px
+) {
+  .main,
+  .media {
+    min-height: 730px;
   }
+
 
   .content {
-    padding:
-      60px
-      38px
-      60px
-      48px;
-  }
+    padding-top: 75px;
 
-  .benefits {
-    grid-template-columns: 1fr;
+    padding-bottom: 75px;
   }
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
 
-@media (max-width: 1024px) {
+/*==================================================
+  LAPTOP
+==================================================*/
+
+@media (
+  max-width: 1280px
+) {
+  .main {
+    min-height: 630px;
+
+    grid-template-columns:
+      minmax(
+        390px,
+        0.9fr
+      )
+      minmax(
+        0,
+        1.1fr
+      );
+  }
+
+
+  .media {
+    min-height: 630px;
+  }
+
+
+  .content {
+    padding:
+      50px
+      28px
+      50px
+      40px;
+  }
+
+
+  .content h1 {
+    font-size: 4.5rem;
+  }
+}
+
+
+/*==================================================
+  TABLET LANDSCAPE
+==================================================*/
+
+@media (
+  max-width: 1024px
+) {
   .hero {
     padding-top: 76px;
   }
 
+
   .main {
-    min-height: 620px;
+    min-height: 590px;
 
     grid-template-columns:
-      minmax(0, 1fr)
-      minmax(400px, 0.92fr);
+      minmax(
+        350px,
+        0.92fr
+      )
+      minmax(
+        0,
+        1.08fr
+      );
   }
+
+
+  .media {
+    min-height: 590px;
+  }
+
 
   .content {
     padding:
-      55px
-      28px
-      55px
-      38px;
+      40px
+      20px
+      40px
+      28px;
   }
 
-  .media {
-    min-height: 620px;
+
+  .content h1 {
+    font-size: 3.9rem;
   }
+
+
+  .subtitle {
+    margin-top: 18px;
+
+    font-size: 0.86rem;
+  }
+
+
+  .benefits {
+    margin-top: 19px;
+
+    grid-template-columns: 1fr;
+  }
+
 
   .eventBarInner {
     grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
   }
+
 
   .eventItem {
-    justify-content: flex-start;
-
     border-bottom:
-      1px solid #dfe4e1;
+      1px solid
+      rgba(255, 255, 255, 0.08);
   }
+
 
   .eventItem:nth-child(2) {
     border-right: 0;
   }
+
 
   .eventItem:nth-child(3),
   .eventItem:nth-child(4) {
@@ -564,199 +940,508 @@
   }
 }
 
-/* =========================================================
-   TABLET VERTICAL
-========================================================= */
 
-@media (max-width: 820px) {
+/*==================================================
+  TABLET PORTRAIT
+==================================================*/
+
+@media (
+  max-width: 820px
+) {
+  .hero {
+    padding-top: 72px;
+  }
+
+
   .main {
-    grid-template-columns: 1fr;
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 0;
   }
 
-  .content {
-    order: 2;
-  }
+
+  /*
+    IMAGEN ARRIBA
+  */
 
   .media {
     order: 1;
 
-    min-height: auto;
-    aspect-ratio: 1015 / 1476;
+    width: 100%;
+
+    min-height: 0;
+
+    /*
+      En tablet mantenemos una caja amplia.
+      La imagen sigue con contain.
+    */
+
+    aspect-ratio:
+      16 / 11;
+
+    background: #000000;
   }
+
 
   .image {
     object-fit: contain;
-    object-position: center top;
 
-    background: #eef3f4;
+    object-position:
+      center
+      center;
   }
+
+
+  /*
+    La transición cambia
+    de horizontal a vertical.
+  */
 
   .mediaOverlay {
     background:
       linear-gradient(
         0deg,
-        #080b09 0%,
-        rgba(8, 11, 9, 0.3) 20%,
-        transparent 50%
+        #050806 0%,
+        rgba(5, 8, 6, 0.54) 4%,
+        rgba(5, 8, 6, 0.1) 12%,
+        transparent 25%
       );
   }
 
+
+  .imageBadge {
+    top: 16px;
+
+    right: 16px;
+  }
+
+
+  /*
+    CONTENIDO ABAJO
+  */
+
+  .content {
+    order: 2;
+
+    width: 100%;
+
+    padding:
+      42px
+      30px
+      52px;
+
+    background: #050806;
+  }
+
+
+  .content::after {
+    display: none;
+  }
+
+
+  .content h1 {
+    max-width: 600px;
+
+    font-size:
+      clamp(
+        3.6rem,
+        9vw,
+        4.8rem
+      );
+  }
+
+
+  .subtitle {
+    max-width: 600px;
+  }
+
+
   .benefits {
-    max-width: 620px;
+    max-width: 650px;
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
   }
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
 
-@media (max-width: 720px) {
+/*==================================================
+  MOBILE
+==================================================*/
+
+@media (
+  max-width: 640px
+) {
   .hero {
-    padding-top: 70px;
+    padding-top: 66px;
   }
+
+
+  /*
+    MUY IMPORTANTE:
+
+    La imagen tiene ancho completo.
+    No se recorta.
+    No se estira.
+    Su altura se adapta según su proporción.
+  */
+
+  .media {
+    order: 1;
+
+    width: 100%;
+
+    height: auto;
+
+    min-height: 0;
+
+    /*
+      La propia pieza es vertical/casi cuadrada.
+      Esta caja permite verla grande y completa.
+    */
+
+    aspect-ratio:
+      1 / 1;
+
+    background: #000000;
+  }
+
+
+  .image {
+    object-fit: contain;
+
+    object-position:
+      center
+      center;
+
+    transform: none !important;
+  }
+
+
+  .mediaOverlay {
+    background:
+      linear-gradient(
+        0deg,
+        #050806 0%,
+        rgba(5, 8, 6, 0.48) 3%,
+        rgba(5, 8, 6, 0.08) 10%,
+        transparent 21%
+      );
+  }
+
+
+  .imageBadge {
+    top: 11px;
+
+    right: 11px;
+
+    padding:
+      7px
+      10px;
+
+    font-size: 0.5rem;
+  }
+
+
+  /*================================================
+    CONTENT MOBILE
+  ================================================*/
 
   .content {
     padding:
-      38px
+      30px
       18px
-      52px;
+      42px;
   }
 
-  .imageBadge {
-    right: 14px;
-    bottom: 14px;
 
-    min-width: 175px;
+  .eyebrow {
+    margin-bottom: 15px;
 
-    padding: 12px 14px;
+    padding:
+      6px
+      9px;
+
+    font-size: 0.56rem;
   }
+
 
   .content h1 {
     font-size:
       clamp(
-        2.8rem,
+        2.9rem,
         13vw,
-        4.2rem
+        3.8rem
       );
   }
 
+
   .content h1 span {
-    font-size: 0.5em;
+    margin-top: 9px;
   }
+
 
   .subtitle {
-    margin-top: 20px;
+    margin-top: 18px;
+
+    font-size: 0.84rem;
+
+    line-height: 1.6;
   }
 
+
   .benefits {
+    margin-top: 20px;
+
     grid-template-columns: 1fr;
   }
 
+
+  .benefitCard {
+    padding: 13px;
+  }
+
+
+  .benefitIcon {
+    width: 40px;
+
+    height: 40px;
+
+    flex-basis: 40px;
+  }
+
+
   .actions {
+    width: 100%;
+
+    margin-top: 19px;
+
     display: grid;
 
     grid-template-columns: 1fr;
   }
 
+
   .primaryButton,
   .secondaryButton {
     width: 100%;
+
+    min-height: 49px;
   }
+
+
+  .legal {
+    margin-top: 14px;
+
+    font-size: 0.62rem;
+  }
+
+
+  /*================================================
+    EVENT BAR
+  ================================================*/
 
   .eventBarInner {
-    grid-template-columns: 1fr;
+    width: 100%;
 
     padding:
-      14px
+      8px
       18px;
+
+    grid-template-columns: 1fr;
   }
 
-  .eventItem {
-    justify-content: flex-start;
 
+  .eventItem {
     padding:
-      15px
-      4px;
+      14px
+      2px;
 
     border-right: 0;
 
     border-bottom:
-      1px solid #dfe4e1;
+      1px solid
+      rgba(255, 255, 255, 0.08);
   }
+
 
   .eventItem:nth-child(3) {
     border-bottom:
-      1px solid #dfe4e1;
+      1px solid
+      rgba(255, 255, 255, 0.08);
   }
+
 
   .eventItem:last-child {
     border-bottom: 0;
   }
 }
 
-/* =========================================================
-   MÓVIL PEQUEÑO
-========================================================= */
 
-@media (max-width: 480px) {
+/*==================================================
+  MOBILE PEQUEÑO
+==================================================*/
+
+@media (
+  max-width: 430px
+) {
+  .hero {
+    padding-top: 64px;
+  }
+
+
+  .media {
+    aspect-ratio:
+      1 / 1;
+  }
+
+
   .content {
     padding:
-      32px
+      27px
       15px
-      45px;
+      38px;
   }
 
-  .eyebrow {
-    padding: 6px 9px;
-
-    font-size: 0.59rem;
-  }
 
   .content h1 {
     font-size:
       clamp(
         2.65rem,
         14vw,
-        3.8rem
+        3.3rem
       );
   }
 
-  .benefitCard {
-    padding: 12px;
+
+  .subtitle {
+    font-size: 0.8rem;
   }
 
-  .benefitIcon {
-    width: 39px;
-    height: 39px;
+
+  .benefitContent strong {
+    font-size: 0.8rem;
   }
+
+
+  .benefitContent p {
+    font-size: 0.66rem;
+  }
+
 
   .imageBadge {
-    max-width:
-      calc(100% - 28px);
+    top: 9px;
+
+    right: 9px;
+
+    padding:
+      6px
+      8px;
+
+    font-size: 0.45rem;
   }
 }
 
-/* =========================================================
-   ACCESIBILIDAD
-========================================================= */
+
+/*==================================================
+  VERY SMALL
+==================================================*/
+
+@media (
+  max-width: 360px
+) {
+  .content {
+    padding-left: 13px;
+
+    padding-right: 13px;
+  }
+
+
+  .content h1 {
+    font-size: 2.55rem;
+  }
+}
+
+
+/*==================================================
+  DESKTOP BAJO
+==================================================*/
+
+@media
+  (min-width: 821px)
+  and
+  (max-height: 760px) {
+
+  .main,
+  .media {
+    min-height: 610px;
+  }
+
+
+  .content {
+    padding-top: 38px;
+
+    padding-bottom: 38px;
+  }
+
+
+  .content h1 {
+    font-size: 4.35rem;
+  }
+
+
+  .subtitle {
+    margin-top: 17px;
+  }
+
+
+  .benefits {
+    margin-top: 19px;
+  }
+
+
+  .actions {
+    margin-top: 18px;
+  }
+}
+
+
+/*==================================================
+  FOCUS
+==================================================*/
 
 .primaryButton:focus-visible,
 .secondaryButton:focus-visible {
   outline:
     3px solid
-    rgba(88, 230, 154, 0.38);
+    rgba(82, 232, 153, 0.4);
 
   outline-offset: 4px;
 }
 
+
+/*==================================================
+  REDUCED MOTION
+==================================================*/
+
 @media (
-  prefers-reduced-motion: reduce
+  prefers-reduced-motion:
+    reduce
 ) {
   .benefitCard,
   .primaryButton,
   .secondaryButton {
     transition: none;
   }
+
 
   .benefitCard:hover,
   .primaryButton:hover,

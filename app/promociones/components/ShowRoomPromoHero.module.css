@@ -1,0 +1,1240 @@
+/* =========================================================
+   SHOW INMOBILIARIO — ANCOSUR
+========================================================= */
+
+.hero {
+  --green: #00a74f;
+  --green-hover: #00c35c;
+  --green-light: #62eba1;
+
+  --black: #060907;
+  --black-soft: #090d0a;
+
+  --white: #ffffff;
+  --text-soft: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.48);
+
+  position: relative;
+
+  width: 100%;
+
+  padding-top: 88px;
+
+  overflow: hidden;
+
+  background: var(--black);
+  color: var(--white);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.main {
+  position: relative;
+
+  width: min(1600px, 100%);
+  min-height: 720px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  /*
+   * La imagen tiene más espacio.
+   * El contenido se monta ligeramente encima.
+   */
+  grid-template-columns:
+    minmax(0, 1.2fr)
+    minmax(430px, 0.8fr);
+
+  background: var(--black);
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   IMAGEN
+========================================================= */
+
+.media {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+  min-height: 720px;
+
+  overflow: hidden;
+
+  background: #111;
+
+  isolation: isolate;
+}
+
+
+/* Imagen */
+
+.image {
+  object-fit: cover;
+
+  /*
+   * El afiche tiene contenido importante en el centro.
+   * Evitamos desplazarlo demasiado.
+   */
+  object-position: center center;
+
+  transform: scale(1.01);
+
+  transition:
+    transform 1.2s
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.main:hover .image {
+  transform: scale(1.035);
+}
+
+
+/* =========================================================
+   DIFUMINADO PRINCIPAL
+========================================================= */
+
+.mediaOverlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  /*
+   * IMPORTANTE:
+   *
+   * Ya no existe el corte negro duro.
+   *
+   * El degradado empieza tarde y ocupa una zona
+   * bastante amplia antes de llegar al contenido.
+   */
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 9, 7, 0) 0%,
+      rgba(6, 9, 7, 0) 48%,
+      rgba(6, 9, 7, 0.08) 58%,
+      rgba(6, 9, 7, 0.28) 68%,
+      rgba(6, 9, 7, 0.62) 79%,
+      rgba(6, 9, 7, 0.9) 91%,
+      #060907 100%
+    );
+}
+
+
+/* Sombra inferior elegante */
+
+.mediaShade {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(2, 5, 3, 0.64) 0%,
+      rgba(2, 5, 3, 0.16) 24%,
+      transparent 48%
+    );
+}
+
+
+/* =========================================================
+   BADGE SOBRE IMAGEN
+========================================================= */
+
+.imageBadge {
+  position: absolute;
+
+  top: 28px;
+  left: 30px;
+
+  z-index: 4;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
+  border-radius: 999px;
+
+  background:
+    rgba(5, 14, 8, 0.62);
+
+  color: #ffffff;
+
+  font-size: 0.66rem;
+  font-weight: 800;
+
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.22);
+}
+
+
+.imageBadge svg {
+  color: var(--green-light);
+}
+
+
+/* =========================================================
+   TEXTO INFERIOR DE IMAGEN
+========================================================= */
+
+.destination {
+  position: absolute;
+
+  left: 30px;
+  bottom: 30px;
+
+  z-index: 4;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  padding: 14px 17px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 14px;
+
+  background:
+    rgba(5, 12, 7, 0.6);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+
+.destination span {
+  color: var(--green-light);
+
+  font-size: 0.61rem;
+  font-weight: 900;
+
+  letter-spacing: 0.12em;
+}
+
+
+.destination strong {
+  color: white;
+
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   CONTENIDO DERECHO
+========================================================= */
+
+.content {
+  position: relative;
+  z-index: 3;
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /*
+   * Se monta sobre la imagen.
+   * Esto elimina visualmente la división de columnas.
+   */
+
+  margin-left: -80px;
+
+  padding:
+    65px
+    clamp(36px, 5vw, 82px)
+    65px
+    115px;
+
+  background:
+    radial-gradient(
+      circle at 15% 30%,
+      rgba(0, 167, 79, 0.055),
+      transparent 33%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(6, 9, 7, 0) 0%,
+      rgba(6, 9, 7, 0.78) 14%,
+      #060907 30%,
+      #060907 100%
+    );
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.eyebrow {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 20px;
+
+  padding: 7px 11px;
+
+  border:
+    1px solid
+    rgba(0, 167, 79, 0.38);
+
+  border-radius: 999px;
+
+  background:
+    rgba(0, 167, 79, 0.1);
+
+  color: var(--green-light);
+
+  font-size: 0.66rem;
+  font-weight: 900;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   H1
+========================================================= */
+
+.content h1 {
+  max-width: 600px;
+
+  margin: 0;
+
+  color: white;
+
+  font-size:
+    clamp(
+      3.4rem,
+      5vw,
+      5.8rem
+    );
+
+  font-weight: 700;
+  line-height: 0.91;
+
+  letter-spacing: -0.065em;
+
+  text-wrap: balance;
+}
+
+
+.content h1 span {
+  display: block;
+
+  margin-top: 15px;
+
+  color: var(--green-light);
+
+  font-size: 0.48em;
+  font-weight: 650;
+  line-height: 1.06;
+
+  letter-spacing: -0.04em;
+}
+
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.subtitle {
+  max-width: 520px;
+
+  margin:
+    25px
+    0
+    0;
+
+  color: var(--text-soft);
+
+  font-size:
+    clamp(
+      0.96rem,
+      1.15vw,
+      1.08rem
+    );
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   INFORMACIÓN DEL EVENTO
+========================================================= */
+
+.eventDetails {
+  width: 100%;
+  max-width: 520px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 8px;
+
+  margin-top: 27px;
+}
+
+
+.detail {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 12px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.085);
+
+  border-radius: 12px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+
+.detail:hover {
+  transform: translateX(3px);
+
+  border-color:
+    rgba(0, 167, 79, 0.28);
+
+  background:
+    rgba(0, 167, 79, 0.055);
+}
+
+
+.detailIcon {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background:
+    rgba(0, 167, 79, 0.12);
+
+  color: var(--green-light);
+}
+
+
+.detail div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.detail span {
+  color: var(--text-muted);
+
+  font-size: 0.59rem;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+
+.detail strong {
+  color: white;
+
+  font-size: 0.86rem;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 26px;
+}
+
+
+.primaryButton,
+.secondaryButton {
+  min-height: 50px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0 21px;
+
+  border-radius: 11px;
+
+  font-size: 0.8rem;
+  font-weight: 850;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+
+.primaryButton {
+  border:
+    1px solid
+    var(--green);
+
+  background:
+    var(--green);
+
+  color: white;
+
+  box-shadow:
+    0 15px 35px
+    rgba(0, 167, 79, 0.18);
+}
+
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+
+  background:
+    var(--green-hover);
+
+  border-color:
+    var(--green-hover);
+
+  box-shadow:
+    0 20px 45px
+    rgba(0, 167, 79, 0.27);
+}
+
+
+.secondaryButton {
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.17);
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  color: white;
+}
+
+
+.secondaryButton:hover {
+  transform: translateY(-2px);
+
+  background:
+    rgba(255, 255, 255, 0.1);
+
+  border-color:
+    rgba(255, 255, 255, 0.28);
+}
+
+
+/* =========================================================
+   NOTA
+========================================================= */
+
+.note {
+  max-width: 480px;
+
+  margin:
+    17px
+    0
+    0;
+
+  color:
+    rgba(255, 255, 255, 0.4);
+
+  font-size: 0.69rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   BARRA INFERIOR
+========================================================= */
+
+.eventBar {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.06);
+
+  background: #ffffff;
+
+  color: #172019;
+}
+
+
+.eventBarInner {
+  width: min(1180px, 100%);
+
+  margin: 0 auto;
+
+  padding: 22px 24px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+}
+
+
+.eventItem {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  padding: 6px 20px;
+
+  border-right:
+    1px solid
+    #e1e6e3;
+}
+
+
+.eventItem:last-child {
+  border-right: 0;
+}
+
+
+.eventItem > svg {
+  flex-shrink: 0;
+
+  color: var(--green);
+}
+
+
+.eventItem div {
+  min-width: 0;
+}
+
+
+.eventItem span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #8a948e;
+
+  font-size: 0.57rem;
+  font-weight: 850;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+
+.eventItem strong {
+  display: block;
+
+  color: #172019;
+
+  font-size: 0.78rem;
+  font-weight: 750;
+
+  line-height: 1.3;
+}
+
+
+/* =========================================================
+   DESKTOP MEDIANO
+========================================================= */
+
+@media (max-width: 1250px) {
+  .main {
+    grid-template-columns:
+      minmax(0, 1.08fr)
+      minmax(410px, 0.92fr);
+  }
+
+  .content {
+    margin-left: -65px;
+
+    padding:
+      58px
+      42px
+      58px
+      90px;
+  }
+
+  .content h1 {
+    font-size:
+      clamp(
+        3.2rem,
+        5vw,
+        4.9rem
+      );
+  }
+}
+
+
+/* =========================================================
+   TABLET HORIZONTAL
+========================================================= */
+
+@media (max-width: 1024px) {
+  .hero {
+    padding-top: 76px;
+  }
+
+  .main {
+    min-height: auto;
+
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Imagen completa arriba */
+
+  .media {
+    min-height: 620px;
+  }
+
+
+  .image {
+    object-fit: cover;
+    object-position: center 48%;
+  }
+
+
+  /*
+   * En tablet el degradado cambia de horizontal
+   * a vertical.
+   */
+
+  .mediaOverlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(6, 9, 7, 0) 0%,
+        rgba(6, 9, 7, 0) 56%,
+        rgba(6, 9, 7, 0.16) 67%,
+        rgba(6, 9, 7, 0.55) 81%,
+        rgba(6, 9, 7, 0.88) 93%,
+        #060907 100%
+      );
+  }
+
+
+  .mediaShade {
+    background:
+      linear-gradient(
+        to top,
+        rgba(6, 9, 7, 0.6),
+        transparent 42%
+      );
+  }
+
+
+  .content {
+    margin:
+      -2px
+      0
+      0;
+
+    padding:
+      50px
+      clamp(32px, 7vw, 72px)
+      60px;
+
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(0, 167, 79, 0.07),
+        transparent 35%
+      ),
+      #060907;
+  }
+
+
+  .content h1 {
+    max-width: 700px;
+
+    font-size:
+      clamp(
+        3.6rem,
+        8vw,
+        5.6rem
+      );
+  }
+
+
+  .subtitle,
+  .eventDetails {
+    max-width: 680px;
+  }
+
+
+  .eventDetails {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+
+  .detail {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .eventBarInner {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .eventItem {
+    justify-content: flex-start;
+
+    padding: 15px 25px;
+  }
+
+
+  .eventItem:nth-child(2) {
+    border-right: 0;
+  }
+
+
+  .eventItem:nth-child(-n + 2) {
+    border-bottom:
+      1px solid
+      #e1e6e3;
+  }
+}
+
+
+/* =========================================================
+   TABLET VERTICAL
+========================================================= */
+
+@media (max-width: 820px) {
+  .media {
+    /*
+     * La imagen original es prácticamente cuadrada.
+     * Así evitamos destrozarla en tablet.
+     */
+
+    min-height: auto;
+
+    aspect-ratio: 1 / 0.94;
+  }
+
+
+  .image {
+    object-fit: cover;
+
+    object-position: center center;
+  }
+
+
+  .imageBadge {
+    top: 20px;
+    left: 20px;
+  }
+
+
+  .destination {
+    left: 20px;
+    bottom: 20px;
+  }
+
+
+  .content {
+    padding:
+      45px
+      30px
+      55px;
+  }
+
+
+  .content h1 {
+    font-size:
+      clamp(
+        3.2rem,
+        10vw,
+        5rem
+      );
+  }
+
+
+  .eventDetails {
+    grid-template-columns: 1fr;
+  }
+
+
+  .detail {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 68px;
+  }
+
+
+  /*
+   * En móvil mostramos el afiche casi completo.
+   * No utilizamos un hero horizontal.
+   */
+
+  .media {
+    width: 100%;
+
+    min-height: auto;
+
+    aspect-ratio: 1 / 1;
+  }
+
+
+  .image {
+    object-fit: cover;
+
+    object-position: center;
+
+    transform: none;
+  }
+
+
+  .main:hover .image {
+    transform: none;
+  }
+
+
+  /*
+   * Muy importante:
+   * degradado suave únicamente abajo.
+   */
+
+  .mediaOverlay {
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 63%,
+        rgba(6, 9, 7, 0.12) 72%,
+        rgba(6, 9, 7, 0.55) 88%,
+        #060907 100%
+      );
+  }
+
+
+  .mediaShade {
+    display: none;
+  }
+
+
+  .imageBadge {
+    top: 13px;
+    left: 13px;
+
+    padding:
+      7px
+      10px;
+
+    font-size: 0.56rem;
+  }
+
+
+  /*
+   * La propia imagen ya contiene mucha información.
+   * Ocultamos esta etiqueta secundaria para no taparla.
+   */
+
+  .destination {
+    display: none;
+  }
+
+
+  .content {
+    padding:
+      32px
+      18px
+      46px;
+  }
+
+
+  .eyebrow {
+    margin-bottom: 15px;
+
+    padding:
+      6px
+      9px;
+
+    font-size: 0.58rem;
+  }
+
+
+  .content h1 {
+    font-size:
+      clamp(
+        2.65rem,
+        13vw,
+        4rem
+      );
+
+    line-height: 0.93;
+  }
+
+
+  .content h1 span {
+    margin-top: 11px;
+
+    font-size: 0.48em;
+  }
+
+
+  .subtitle {
+    margin-top: 19px;
+
+    font-size: 0.93rem;
+    line-height: 1.62;
+  }
+
+
+  .eventDetails {
+    gap: 7px;
+
+    margin-top: 22px;
+  }
+
+
+  .detail {
+    padding: 11px 12px;
+  }
+
+
+  .detailIcon {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+
+  .actions {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    margin-top: 22px;
+  }
+
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+
+  .note {
+    margin-top: 14px;
+
+    text-align: center;
+  }
+
+
+  .eventBarInner {
+    grid-template-columns: 1fr;
+
+    padding:
+      10px
+      18px;
+  }
+
+
+  .eventItem {
+    justify-content: flex-start;
+
+    padding:
+      14px
+      3px;
+
+    border-right: 0;
+
+    border-bottom:
+      1px solid
+      #e1e6e3;
+  }
+
+
+  .eventItem:nth-child(2) {
+    border-right: 0;
+  }
+
+
+  .eventItem:nth-child(-n + 2) {
+    border-bottom:
+      1px solid
+      #e1e6e3;
+  }
+
+
+  .eventItem:last-child {
+    border-bottom: 0;
+  }
+}
+
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 420px) {
+  .media {
+    aspect-ratio: 1 / 1;
+  }
+
+
+  .content {
+    padding:
+      28px
+      15px
+      42px;
+  }
+
+
+  .content h1 {
+    font-size:
+      clamp(
+        2.45rem,
+        13vw,
+        3.3rem
+      );
+  }
+
+
+  .subtitle {
+    font-size: 0.88rem;
+  }
+
+
+  .detail strong {
+    font-size: 0.8rem;
+  }
+
+
+  .eventBarInner {
+    padding:
+      8px
+      15px;
+  }
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline:
+    3px solid
+    rgba(0, 167, 79, 0.35);
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   REDUCIR MOVIMIENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .detail,
+  .primaryButton,
+  .secondaryButton {
+    transition: none;
+  }
+
+
+  .main:hover .image,
+  .detail:hover,
+  .primaryButton:hover,
+  .secondaryButton:hover {
+    transform: none;
+  }
+}

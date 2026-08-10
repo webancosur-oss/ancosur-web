@@ -6,6 +6,7 @@ import {
   MapPinIcon,
   SparkleIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ const benefits = [
   {
     id: "planos-gratis",
     icon: HouseLineIcon,
-    label: "Beneficio 1",
+    label: "Beneficio 01",
     title: "Planos gratis",
     description:
       "Planos de tu casa diseñados por Darkham Studio.",
@@ -23,7 +24,7 @@ const benefits = [
   {
     id: "notaria-gratis",
     icon: FileTextIcon,
-    label: "Beneficio 2",
+    label: "Beneficio 02",
     title: "Notaría gratis",
     description:
       "Cubrimos tus gastos notariales y registrales.",
@@ -37,10 +38,14 @@ export default function CaminoRealPromoHero() {
       aria-labelledby="camino-real-promo-title"
     >
       <div className={styles.main}>
+        {/* =========================================
+            CONTENIDO
+        ========================================== */}
+
         <div className={styles.content}>
           <span className={styles.eyebrow}>
             <SparkleIcon
-              size={16}
+              size={15}
               weight="fill"
               aria-hidden="true"
             />
@@ -57,10 +62,14 @@ export default function CaminoRealPromoHero() {
           </h1>
 
           <p className={styles.subtitle}>
-            Adquiere tu lote en Camino Real Residencial y elige uno
-            de dos beneficios exclusivos para comenzar a construir
-            tu futuro.
+            Adquiere tu lote en Camino Real Residencial
+            y elige uno de dos beneficios exclusivos para
+            comenzar a construir tu futuro.
           </p>
+
+          {/* =====================================
+              BENEFICIOS
+          ====================================== */}
 
           <div
             className={styles.benefits}
@@ -79,7 +88,7 @@ export default function CaminoRealPromoHero() {
                     aria-hidden="true"
                   >
                     <Icon
-                      size={24}
+                      size={23}
                       weight="duotone"
                     />
                   </div>
@@ -102,12 +111,18 @@ export default function CaminoRealPromoHero() {
             })}
           </div>
 
+          {/* =====================================
+              ACCIONES
+          ====================================== */}
+
           <div className={styles.actions}>
             <a
               href="#registro"
               className={styles.primaryButton}
             >
-              Quiero esta promoción
+              <span>
+                Quiero esta promoción
+              </span>
 
               <ArrowRightIcon
                 size={18}
@@ -125,20 +140,29 @@ export default function CaminoRealPromoHero() {
           </div>
 
           <p className={styles.legal}>
-            El cliente podrá elegir uno de los beneficios disponibles.
-            Promoción sujeta a términos, condiciones, disponibilidad y
-            evaluación comercial.
+            El cliente podrá elegir uno de los beneficios
+            disponibles. Promoción sujeta a términos,
+            condiciones, disponibilidad y evaluación
+            comercial.
           </p>
         </div>
 
+        {/* =========================================
+            IMAGEN
+        ========================================== */}
+
         <div className={styles.media}>
           <Image
-            src="/assets/campanias/campania_lote.webp"
-            alt="Promoción Compra tu lote y ahorra en Camino Real Residencial con planos gratis o notaría gratis"
+            src="/assets/campanias/campania-camino-real.webp"
+            alt="Promoción Compra tu lote y ahorra en Camino Real Residencial"
             fill
             priority
-            quality={80}
-            sizes="(max-width: 820px) 100vw, 55vw"
+            quality={90}
+            sizes="
+              (max-width: 820px) 100vw,
+              (max-width: 1200px) 54vw,
+              58vw
+            "
             className={styles.image}
           />
 
@@ -146,8 +170,24 @@ export default function CaminoRealPromoHero() {
             className={styles.mediaOverlay}
             aria-hidden="true"
           />
+
+          <div className={styles.imageBadge}>
+            <SparkleIcon
+              size={14}
+              weight="fill"
+              aria-hidden="true"
+            />
+
+            <span>
+              Elige tu beneficio
+            </span>
+          </div>
         </div>
       </div>
+
+      {/* =========================================
+          INFORMACIÓN INFERIOR
+      ========================================== */}
 
       <div className={styles.eventBar}>
         <div className={styles.eventBarInner}>
@@ -196,7 +236,7 @@ export default function CaminoRealPromoHero() {
 
             <div>
               <span>
-                Opción 1
+                Beneficio 01
               </span>
 
               <strong>
@@ -214,7 +254,7 @@ export default function CaminoRealPromoHero() {
 
             <div>
               <span>
-                Opción 2
+                Beneficio 02
               </span>
 
               <strong>
