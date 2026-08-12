@@ -1,10 +1,12 @@
 "use client";
 
 import ActionButton from "@/components/buttons/ActionButton";
+
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "@phosphor-icons/react";
+
 import {
   useCallback,
   useEffect,
@@ -13,6 +15,7 @@ import {
 } from "react";
 
 import { typologies } from "../data";
+
 import styles from "./Typologies.module.css";
 
 type TypologiesProps = {
@@ -20,50 +23,109 @@ type TypologiesProps = {
   projectHref?: string;
 };
 
-type Typology = (typeof typologies)[number];
+type Typology =
+  (typeof typologies)[number];
 
 const AUTOPLAY_DELAY = 5200;
 
 export default function Typologies({
   mode = "compact",
-  projectHref = "#informacion-neo-balto",
+
+  projectHref =
+    "#informacion-distrito-san-carlos",
 }: TypologiesProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [selectedTypology, setSelectedTypology] =
-    useState<Typology | null>(null);
+  const [
+    activeIndex,
+    setActiveIndex,
+  ] = useState(0);
 
-  const totalTypologies = typologies.length;
-  const hasMultipleTypologies = totalTypologies > 1;
-  const activeTypology = typologies[activeIndex];
+  const [
+    isPaused,
+    setIsPaused,
+  ] = useState(false);
 
-  const closeImageModal = useCallback(() => {
-    setSelectedTypology(null);
-  }, []);
+  const [
+    selectedTypology,
+    setSelectedTypology,
+  ] =
+    useState<Typology | null>(
+      null,
+    );
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (!totalTypologies) return;
+  const totalTypologies =
+    typologies.length;
 
-      const nextIndex =
-        (index + totalTypologies) % totalTypologies;
+  const hasMultipleTypologies =
+    totalTypologies > 1;
 
-      setActiveIndex(nextIndex);
-    },
-    [totalTypologies]
-  );
+  const activeTypology =
+    typologies[activeIndex];
 
-  const goPrevious = useCallback(() => {
-    if (!hasMultipleTypologies) return;
+  const closeImageModal =
+    useCallback(() => {
+      setSelectedTypology(
+        null,
+      );
+    }, []);
 
-    goToSlide(activeIndex - 1);
-  }, [activeIndex, goToSlide, hasMultipleTypologies]);
+  const goToSlide =
+    useCallback(
+      (index: number) => {
+        if (
+          !totalTypologies
+        ) {
+          return;
+        }
 
-  const goNext = useCallback(() => {
-    if (!hasMultipleTypologies) return;
+        const nextIndex =
+          (
+            index +
+            totalTypologies
+          ) %
+          totalTypologies;
 
-    goToSlide(activeIndex + 1);
-  }, [activeIndex, goToSlide, hasMultipleTypologies]);
+        setActiveIndex(
+          nextIndex,
+        );
+      },
+      [
+        totalTypologies,
+      ],
+    );
+
+  const goPrevious =
+    useCallback(() => {
+      if (
+        !hasMultipleTypologies
+      ) {
+        return;
+      }
+
+      goToSlide(
+        activeIndex - 1,
+      );
+    }, [
+      activeIndex,
+      goToSlide,
+      hasMultipleTypologies,
+    ]);
+
+  const goNext =
+    useCallback(() => {
+      if (
+        !hasMultipleTypologies
+      ) {
+        return;
+      }
+
+      goToSlide(
+        activeIndex + 1,
+      );
+    }, [
+      activeIndex,
+      goToSlide,
+      hasMultipleTypologies,
+    ]);
 
   useEffect(() => {
     if (
@@ -74,16 +136,26 @@ export default function Typologies({
       return;
     }
 
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) =>
-        current === totalTypologies - 1
-          ? 0
-          : current + 1
+    const timer =
+      window.setInterval(
+        () => {
+          setActiveIndex(
+            (current) =>
+              current ===
+              totalTypologies -
+                1
+                ? 0
+                : current +
+                  1,
+          );
+        },
+        AUTOPLAY_DELAY,
       );
-    }, AUTOPLAY_DELAY);
 
     return () => {
-      window.clearInterval(timer);
+      window.clearInterval(
+        timer,
+      );
     };
   }, [
     hasMultipleTypologies,
@@ -93,255 +165,497 @@ export default function Typologies({
   ]);
 
   useEffect(() => {
-    if (!selectedTypology) return;
+    if (
+      !selectedTypology
+    ) {
+      return;
+    }
 
-    const handleKeyDown = (
-      event: globalThis.KeyboardEvent
-    ) => {
-      if (event.key === "Escape") {
-        closeImageModal();
-      }
-    };
+    const handleKeyDown =
+      (
+        event:
+          globalThis.KeyboardEvent,
+      ) => {
+        if (
+          event.key ===
+          "Escape"
+        ) {
+          closeImageModal();
+        }
+      };
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
+    document.addEventListener(
+      "keydown",
+      handleKeyDown,
+    );
+
+    document.body.style.overflow =
+      "hidden";
 
     return () => {
       document.removeEventListener(
         "keydown",
-        handleKeyDown
+        handleKeyDown,
       );
 
-      document.body.style.overflow = "";
+      document.body.style.overflow =
+        "";
     };
-  }, [closeImageModal, selectedTypology]);
+  }, [
+    closeImageModal,
+    selectedTypology,
+  ]);
 
-  const handleKeyDown = (
-    event: KeyboardEvent<HTMLDivElement>
-  ) => {
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      goPrevious();
-    }
+  const handleKeyDown =
+    (
+      event:
+        KeyboardEvent<HTMLDivElement>,
+    ) => {
+      if (
+        event.key ===
+        "ArrowLeft"
+      ) {
+        event.preventDefault();
 
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      goNext();
-    }
-  };
+        goPrevious();
+      }
 
-  if (!activeTypology) return null;
+      if (
+        event.key ===
+        "ArrowRight"
+      ) {
+        event.preventDefault();
 
-  const sliderTransform = `translate3d(-${
-    activeIndex * 100
-  }%, 0, 0)`;
+        goNext();
+      }
+    };
+
+  if (
+    !activeTypology
+  ) {
+    return null;
+  }
+
+  const sliderTransform =
+    `translate3d(-${
+      activeIndex * 100
+    }%, 0, 0)`;
 
   return (
     <>
       <section
-        className={styles.typologies}
-        data-mode={mode}
-        aria-label="Tipologías de departamentos Neo Balto"
-        onMouseEnter={() => setIsPaused(true)}
+        className={
+          styles.typologies
+        }
+        data-mode={
+          mode
+        }
+        aria-label="Tipologías de departamentos de Distrito San Carlos"
+        onMouseEnter={() =>
+          setIsPaused(
+            true,
+          )
+        }
         onMouseLeave={() => {
-          if (!selectedTypology) {
-            setIsPaused(false);
+          if (
+            !selectedTypology
+          ) {
+            setIsPaused(
+              false,
+            );
           }
         }}
-        onFocus={() => setIsPaused(true)}
+        onFocus={() =>
+          setIsPaused(
+            true,
+          )
+        }
         onBlur={() => {
-          if (!selectedTypology) {
-            setIsPaused(false);
+          if (
+            !selectedTypology
+          ) {
+            setIsPaused(
+              false,
+            );
           }
         }}
       >
+        {/* IMAGEN */}
+
         <div
-          className={styles.visual}
+          className={
+            styles.visual
+          }
           role="region"
-          aria-label="Slider de tipologías Neo Balto"
+          aria-label="Galería de tipologías de Distrito San Carlos"
           tabIndex={0}
-          onKeyDown={handleKeyDown}
+          onKeyDown={
+            handleKeyDown
+          }
         >
           <div
-            className={styles.visualTrack}
+            className={
+              styles.visualTrack
+            }
             style={{
-              transform: sliderTransform,
+              transform:
+                sliderTransform,
             }}
           >
-            {typologies.map((typology, index) => (
-              <article
-                key={typology.id}
-                className={styles.visualSlide}
-                aria-hidden={index !== activeIndex}
-              >
-                <button
-                  type="button"
-                  className={styles.imageButton}
-                  onClick={() =>
-                    setSelectedTypology(typology)
+            {typologies.map(
+              (
+                typology,
+                index,
+              ) => (
+                <article
+                  key={
+                    typology.id
                   }
-                  aria-label={`Ver imagen ampliada de ${typology.type}`}
+                  className={
+                    styles.visualSlide
+                  }
+                  aria-hidden={
+                    index !==
+                    activeIndex
+                  }
                 >
-                  <img
-                    src={typology.image}
-                    alt={`${typology.type} de Neo Balto`}
-                    className={styles.image}
-                    draggable={false}
+                  <button
+                    type="button"
+                    className={
+                      styles.imageButton
+                    }
+                    onClick={() =>
+                      setSelectedTypology(
+                        typology,
+                      )
+                    }
+                    aria-label={`Ampliar imagen de ${typology.type} en Distrito San Carlos`}
+                  >
+                    <img
+                      src={
+                        typology.image
+                      }
+                      alt={`${typology.type} de Distrito San Carlos`}
+                      className={
+                        styles.image
+                      }
+                      draggable={
+                        false
+                      }
+                    />
+                  </button>
+
+                  <div
+                    className={
+                      styles.imageOverlay
+                    }
+                    aria-hidden={
+                      true
+                    }
                   />
-                </button>
 
-                <div
-                  className={styles.imageOverlay}
-                  aria-hidden={true}
-                />
+                  <div
+                    className={
+                      styles.visualTop
+                    }
+                  >
+                    <span>
+                      {
+                        typology.tag
+                      }
+                    </span>
+                  </div>
 
-                <div className={styles.visualTop}>
-                  <span>{typology.tag}</span>
-                </div>
+                  <div
+                    className={
+                      styles.visualTitle
+                    }
+                  >
+                    <span>
+                      {
+                        typology.type
+                      }
+                    </span>
 
-                <div className={styles.visualTitle}>
-                  <span>{typology.type}</span>
-                  <h3>{typology.title}</h3>
-                </div>
-              </article>
-            ))}
+                    <h3>
+                      {
+                        typology.title
+                      }
+                    </h3>
+                  </div>
+                </article>
+              ),
+            )}
           </div>
 
-          <div className={styles.counter}>
-            {String(activeIndex + 1).padStart(2, "0")} /{" "}
-            {String(totalTypologies).padStart(2, "0")}
+          {/* CONTADOR */}
+
+          <div
+            className={
+              styles.counter
+            }
+          >
+            {String(
+              activeIndex +
+                1,
+            ).padStart(
+              2,
+              "0",
+            )}{" "}
+            /{" "}
+            {String(
+              totalTypologies,
+            ).padStart(
+              2,
+              "0",
+            )}
           </div>
+
+          {/* CONTROLES */}
 
           {hasMultipleTypologies && (
-            <div className={styles.controls}>
+            <div
+              className={
+                styles.controls
+              }
+            >
               <button
                 type="button"
-                onClick={goPrevious}
+                onClick={
+                  goPrevious
+                }
                 aria-label="Ver tipología anterior"
               >
                 <ArrowLeftIcon
                   size={18}
                   weight="bold"
-                  aria-hidden={true}
+                  aria-hidden={
+                    true
+                  }
                 />
               </button>
 
               <button
                 type="button"
-                onClick={goNext}
+                onClick={
+                  goNext
+                }
                 aria-label="Ver siguiente tipología"
               >
                 <ArrowRightIcon
                   size={18}
                   weight="bold"
-                  aria-hidden={true}
+                  aria-hidden={
+                    true
+                  }
                 />
               </button>
             </div>
           )}
         </div>
 
+        {/* INFORMACIÓN */}
+
         <div
-          key={activeTypology.id}
-          className={styles.content}
+          key={
+            activeTypology.id
+          }
+          className={
+            styles.content
+          }
         >
-          <div className={styles.contentHeader}>
-            <span>Tipologías Neo Balto</span>
+          <div
+            className={
+              styles.contentHeader
+            }
+          >
+            <span>
+              Tipologías ·
+              Distrito San
+              Carlos
+            </span>
 
             <strong>
-              Encuentra el departamento ideal para ti y tu
-              mascota
+              Un departamento
+              pensado para tu
+              forma de vivir
             </strong>
           </div>
 
-          <p className={styles.concept}>
-            {activeTypology.concept}
+          <p
+            className={
+              styles.concept
+            }
+          >
+            {
+              activeTypology.concept
+            }
           </p>
 
-          <div className={styles.details}>
+          <div
+            className={
+              styles.details
+            }
+          >
             <div>
-              <span>Ideal para</span>
-              <strong>{activeTypology.audience}</strong>
+              <span>
+                Ideal para
+              </span>
+
+              <strong>
+                {
+                  activeTypology.audience
+                }
+              </strong>
             </div>
 
             <div>
-              <span>Diseño</span>
-              <strong>{activeTypology.design}</strong>
+              <span>
+                Distribución
+              </span>
+
+              <strong>
+                {
+                  activeTypology.design
+                }
+              </strong>
             </div>
           </div>
 
-          <div className={styles.ctaArea}>
+          <div
+            className={
+              styles.ctaArea
+            }
+          >
             <ActionButton
-              href={projectHref}
-              icon={ArrowRightIcon}
+              href={
+                projectHref
+              }
+              icon={
+                ArrowRightIcon
+              }
               iconPosition="right"
               variant="light"
               size="md"
               mobileSize="sm"
-              className={styles.ctaButton}
+              className={
+                styles.ctaButton
+              }
             >
-              Quiero esta tipología
+              Cotizar esta
+              tipología
             </ActionButton>
 
-            <span className={styles.ctaHint}>
-              Recibe precios y disponibilidad
+            <span
+              className={
+                styles.ctaHint
+              }
+            >
+              Consulta precios,
+              disponibilidad y
+              formas de pago
             </span>
           </div>
 
+          {/* SELECTORES */}
+
           {hasMultipleTypologies && (
             <div
-              className={styles.dots}
-              aria-label="Seleccionar tipología"
+              className={
+                styles.dots
+              }
+              aria-label="Seleccionar tipología de departamento"
             >
-              {typologies.map((typology, index) => (
-                <button
-                  key={typology.id}
-                  type="button"
-                  className={
-                    index === activeIndex
-                      ? styles.activeDot
-                      : ""
-                  }
-                  aria-label={`Ver ${typology.type}`}
-                  aria-current={
-                    index === activeIndex ? "true" : undefined
-                  }
-                  onClick={() => goToSlide(index)}
-                />
-              ))}
+              {typologies.map(
+                (
+                  typology,
+                  index,
+                ) => (
+                  <button
+                    key={
+                      typology.id
+                    }
+                    type="button"
+                    className={
+                      index ===
+                      activeIndex
+                        ? styles.activeDot
+                        : ""
+                    }
+                    aria-label={`Ver ${typology.type}`}
+                    aria-current={
+                      index ===
+                      activeIndex
+                        ? "true"
+                        : undefined
+                    }
+                    onClick={() =>
+                      goToSlide(
+                        index,
+                      )
+                    }
+                  />
+                ),
+              )}
             </div>
           )}
         </div>
       </section>
 
+      {/* MODAL */}
+
       {selectedTypology && (
         <div
-          className={styles.imageModalOverlay}
+          className={
+            styles.imageModalOverlay
+          }
           role="dialog"
           aria-modal="true"
           aria-label={`Imagen ampliada de ${selectedTypology.type}`}
-          onClick={closeImageModal}
+          onClick={
+            closeImageModal
+          }
         >
           <div
-            className={styles.imageModal}
-            onClick={(event) => event.stopPropagation()}
+            className={
+              styles.imageModal
+            }
+            onClick={(
+              event,
+            ) =>
+              event.stopPropagation()
+            }
           >
             <button
               type="button"
-              className={styles.imageModalClose}
-              onClick={closeImageModal}
+              className={
+                styles.imageModalClose
+              }
+              onClick={
+                closeImageModal
+              }
               aria-label="Cerrar imagen"
             >
               ×
             </button>
 
             <img
-              src={selectedTypology.image}
-              alt={`${selectedTypology.type} ampliada`}
+              src={
+                selectedTypology.image
+              }
+              alt={`${selectedTypology.type} de Distrito San Carlos ampliada`}
             />
 
-            <p className={styles.imageModalCaption}>
-              {selectedTypology.type}
+            <p
+              className={
+                styles.imageModalCaption
+              }
+            >
+              {
+                selectedTypology.type
+              }{" "}
+              · Distrito San
+              Carlos
             </p>
           </div>
         </div>

@@ -26,6 +26,7 @@ import styles from "./ColinasDeMoroLocation.module.css";
 /* =========================================================
    CONFIGURACIÓN
 ========================================================= */
+const PROJECT_NAME = "Las Colinas de Moro";
 
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "Colinas de Moro";
@@ -483,423 +484,529 @@ export default function ColinasDeMoroLocation() {
   ======================================================= */
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) {
-      return;
-    }
+  if (isSending) {
+    return;
+  }
 
-    const form =
-      event.currentTarget;
+  const form =
+    event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
 
-      showToast({
-        variant: "error",
-        title:
-          "Revisa tus datos",
-        message:
-          "Completa correctamente los campos obligatorios.",
-      });
+    showToast({
+      variant: "error",
+      title: "Revisa tus datos",
+      message:
+        "Completa correctamente los campos obligatorios.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    const formData =
-      new FormData(form);
+  const formData =
+    new FormData(form);
 
-    const fullName =
-      String(
-        formData.get(
-          "fullName"
-        ) ?? ""
-      )
-        .replace(/\s+/g, " ")
-        .trim();
+  const fullName =
+    String(
+      formData.get("fullName") ?? ""
+    )
+      .replace(/\s+/g, " ")
+      .trim();
 
-    const phone =
-      String(
-        formData.get(
-          "phone"
-        ) ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 9);
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-    /*
-     * Correo electrónico opcional.
-     */
-    const email =
-      String(
-        formData.get(
-          "email"
-        ) ?? ""
-      )
-        .trim()
-        .toLowerCase();
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
 
-    /*
-     * DNI opcional.
-     */
-    const dni =
-      String(
-        formData.get(
-          "dni"
-        ) ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 8);
+  const dni =
+    String(
+      formData.get("dni") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 8);
 
-    /*
-     * Mensaje opcional.
-     * No se genera ningún mensaje automático.
-     */
-    const message =
-      String(
-        formData.get(
-          "message"
-        ) ?? ""
-      ).trim();
+  const message =
+    String(
+      formData.get("message") ?? ""
+    ).trim();
 
-    const consent =
-      formData.get(
-        "consent"
-      ) === "accepted";
+  const consent =
+    formData.get("consent") ===
+    "accepted";
 
-    const nameRegex =
-      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+  /* ================================
+     VALIDACIONES
+  ================================= */
 
-    const phoneRegex =
-      /^9\d{8}$/;
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phoneRegex =
+    /^9\d{8}$/;
 
-    const dniRegex =
-      /^\d{8}$/;
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    /* =====================================================
-       VALIDACIONES
-    ===================================================== */
+  const dniRegex =
+    /^\d{8}$/;
 
-    if (
-      !nameRegex.test(
-        fullName
-      )
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Nombre no válido",
-        message:
-          "Ingresa tu nombre completo usando letras y espacios.",
-      });
+  if (!nameRegex.test(fullName)) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo usando letras y espacios.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    if (
-      !phoneRegex.test(
-        phone
-      )
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Celular no válido",
-        message:
-          "El celular debe tener 9 dígitos y comenzar con 9.",
-      });
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    /*
-     * El correo se valida solamente
-     * cuando el usuario escribe un valor.
-     */
-    if (
-      email &&
-      !emailRegex.test(email)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Correo no válido",
-        message:
-          "Ingresa un correo electrónico válido o deja el campo vacío.",
-      });
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo electrónico válido o deja el campo vacío.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    /*
-     * El DNI se valida solamente
-     * cuando el usuario escribe un valor.
-     */
-    if (
-      dni &&
-      !dniRegex.test(dni)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "DNI no válido",
-        message:
-          "El DNI debe contener exactamente 8 dígitos o dejarse vacío.",
-      });
+  if (
+    dni &&
+    !dniRegex.test(dni)
+  ) {
+    showToast({
+      variant: "error",
+      title: "DNI no válido",
+      message:
+        "El DNI debe contener exactamente 8 dígitos o dejarse vacío.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    if (
-      message.length > 250
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Mensaje demasiado largo",
-        message:
-          "El mensaje no debe superar los 250 caracteres.",
-      });
+  if (message.length > 250) {
+    showToast({
+      variant: "error",
+      title: "Mensaje demasiado largo",
+      message:
+        "El mensaje no debe superar los 250 caracteres.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    if (!consent) {
-      showToast({
-        variant: "error",
-        title:
-          "Consentimiento requerido",
-        message:
-          "Debes aceptar la política de privacidad para enviar tus datos.",
-      });
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title: "Consentimiento requerido",
+      message:
+        "Debes aceptar la política de privacidad para enviar tus datos.",
+    });
 
-      return;
-    }
+    return;
+  }
 
-    /*
-     * msj_client contiene únicamente:
-     *
-     * - Ruta actual.
-     * - Componente que envía el formulario.
-     * - Tipo de lead.
-     *
-     * No contiene:
-     *
-     * - Nombre.
-     * - Celular.
-     * - Correo.
-     * - DNI.
-     * - Mensaje.
-     * - Dirección.
-     * - Referencia.
-     * - Precio.
-     * - Metraje.
-     */
-    const clientMetadata = {
-      origenRuta:
-        window.location.pathname,
+  /* ================================
+     UTM
+  ================================= */
 
-      origenComponente:
-        COMPONENT_NAME,
-
-      tipoLead:
-        LEAD_TYPE,
-    };
-
-
-    const leadData = {
-      telefono:
-        phone,
-
-      nombre:
-        fullName,
-
-      email,
-
-      dni,
-
-      campaña:
-        CAMPAIGN_CODE,
-
-      anuncio:
-        AD_NAME,
-
-      msj_client:
-        JSON.stringify(
-          clientMetadata
-        ),
-
-      fuente_id:
-        SOURCE_ID,
-    };
-
-    const controller =
-      new AbortController();
-
-    const timeoutId =
-      window.setTimeout(
-        () => {
-          controller.abort();
-        },
-        REQUEST_TIMEOUT
-      );
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Accept:
-                "application/json",
-            },
-
-            body:
-              JSON.stringify(
-                leadData
-              ),
-
-            signal:
-              controller.signal,
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
-
-    if (requestFailed) {
-  const serverMessage =
-    extractApiMessage(result);
-
-  console.error(
-    "Error API Las Colinas de Moro:",
-    {
-      status: response.status,
-      result,
-      serverMessage,
-
-      payload: {
-        telefono: phone,
-        nombre: fullName,
-        email: email || "",
-        dni: dni || "",
-        campaña: CAMPAIGN_CODE,
-        anuncio: AD_NAME,
-        msj_client: clientMetadata,
-        comentario: message || "",
-        fuente_id: SOURCE_ID,
-      },
-    }
-  );
-
-  const friendlyError =
-    getFriendlyServerError(
-      response.status,
-      result
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  showToast({
-    variant: "error",
-    title: friendlyError.title,
-    message: friendlyError.message,
-  });
+  const utmSource =
+    params.get("utm_source") ?? "";
 
-  return;
-}
+  const utmMedium =
+    params.get("utm_medium") ?? "";
 
-/* =========================================
-   GOOGLE TAG MANAGER - LEAD EXITOSO
-========================================= */
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
 
-window.dataLayer =
-  window.dataLayer || [];
+  const utmContent =
+    params.get("utm_content") ?? "";
 
-window.dataLayer.push({
-  event: "lead_form_submit",
-  form_name: "Las Colinas de Moro",
-  lead_type: LEAD_TYPE,
-  campaign: CAMPAIGN_CODE,
-  source_id: SOURCE_ID,
-  page_path: window.location.pathname,
-});
+  const utmTerm =
+    params.get("utm_term") ?? "";
 
-/* =========================================
-   FIN GOOGLE TAG MANAGER
-========================================= */
+  /* ================================
+     PAYLOAD ÚNICO ANCOSUR
+  ================================= */
 
-form.reset();
+  const formularioData = {
+    codigo_formulario:
+      "colinas_de_moro_principal",
 
-showToast({
-  ...SUCCESS_TOAST,
-  message:
-    result.message ||
-    SUCCESS_TOAST.message,
-});
+    nombre_formulario:
+      "Formulario principal Las Colinas de Moro",
 
-      form.reset();
+    tipo_formulario:
+      "lotes",
 
-      showToast({
-        ...SUCCESS_TOAST,
+    nombre:
+      fullName,
 
-        message:
-          result.message ||
-          SUCCESS_TOAST.message,
-      });
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Las Colinas de Moro:",
-        error
+    telefono:
+      phone,
+
+    email:
+      email,
+
+    dni:
+      dni,
+
+    mensaje:
+      message,
+
+    proyecto:
+      PROJECT_NAME,
+
+    tipo_inmueble:
+      "Lote",
+
+    interes:
+      LEAD_TYPE,
+
+    horario_visita:
+      "",
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      REQUEST_TIMEOUT
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              formularioData
+            ),
+
+          signal:
+            controller.signal,
+        }
       );
 
-      if (
-        error instanceof Error &&
-        error.name === "AbortError"
-      ) {
+    const raw =
+      await response.text();
+
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
+
         showToast({
           variant: "error",
           title:
-            "El servidor tardó demasiado",
+            "Respuesta inválida del servidor",
           message:
-            "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+            `La API respondió HTTP ${response.status}.`,
         });
 
         return;
       }
+    }
 
-      showToast({
-        ...ERROR_TOAST,
-        title:
-          "No pudimos conectar con el servidor",
-        message:
-          "Comprueba tu conexión a Internet e inténtalo nuevamente.",
-      });
-    } finally {
-      window.clearTimeout(
-        timeoutId
+    /* ================================
+       VALIDAR GUARDADO LOCAL
+    ================================= */
+
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !==
+        true
+    ) {
+      console.error(
+        "Error guardando lead:",
+        {
+          status:
+            response.status,
+
+          result,
+
+          payload:
+            formularioData,
+        }
       );
 
-      setIsSending(false);
+      showToast({
+        variant: "error",
+        title:
+          "No pudimos registrar tus datos",
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible guardar el formulario.",
+      });
+
+      return;
     }
-  };
+
+    /* ================================
+       RESULTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    console.log(
+      "LEAD PROCESADO:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        proyecto:
+          PROJECT_NAME,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Las Colinas de Moro",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        PROJECT_NAME,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       ÉXITO
+    ================================= */
+
+    form.reset();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tus datos fueron registrados correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Las Colinas de Moro:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+        title:
+          "El servidor tardó demasiado",
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    setIsSending(false);
+  }
+};
 
   /* =======================================================
      INTERFAZ

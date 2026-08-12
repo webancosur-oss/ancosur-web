@@ -1,0 +1,1171 @@
+/* =========================================================
+   CONVOCATORIA IMAGE VIEWER
+========================================================= */
+
+/* =========================================================
+   BOTÓN / CONTENEDOR DE IMAGEN EN LA CARD
+========================================================= */
+
+.trigger {
+  position: absolute;
+  inset: 0;
+
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  display: block;
+
+  overflow: hidden;
+
+  border: 0;
+
+  background: #ffffff;
+
+  cursor: zoom-in;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* =========================================================
+   IMAGEN EN LA CARD
+
+   IMPORTANTE:
+   contain = muestra todo el flyer sin recortarlo.
+========================================================= */
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #ffffff;
+
+  pointer-events: none;
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+/* No hacemos zoom porque el flyer contiene texto */
+.trigger:hover .thumbnail {
+  transform: none;
+}
+
+/* =========================================================
+   BOTÓN "VER IMAGEN"
+========================================================= */
+
+.viewLabel {
+  position: absolute;
+
+  right: 10px;
+  bottom: 10px;
+
+  z-index: 10;
+
+  min-height: 32px;
+
+  padding:
+    0
+    11px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  border-radius: 999px;
+
+  background:
+    rgba(10, 14, 12, 0.82);
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.14);
+}
+
+/* =========================================================
+   MODAL / OVERLAY
+========================================================= */
+
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2147483000;
+
+  width: 100vw;
+  height: 100dvh;
+
+  padding:
+    28px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    rgba(0, 0, 0, 0.9);
+}
+
+/* =========================================================
+   VIEWER
+========================================================= */
+
+.viewer {
+  position: relative;
+
+  width:
+    min(
+      1000px,
+      calc(100vw - 56px)
+    );
+
+  height:
+    min(
+      820px,
+      calc(100dvh - 56px)
+    );
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: #080a09;
+
+  box-shadow:
+    0 30px 100px
+    rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   BARRA SUPERIOR FLOTANTE
+========================================================= */
+
+.topBar {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 30;
+
+  padding:
+    14px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 14px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      transparent 100%
+    );
+}
+
+/* =========================================================
+   INFORMACIÓN DEL VIEWER
+========================================================= */
+
+.titleBox {
+  min-width: 0;
+
+  max-width:
+    calc(100% - 62px);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  color: #ffffff;
+
+  pointer-events: none;
+}
+
+.titleBox span {
+  color: #22d979;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.titleBox strong {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BOTÓN CERRAR
+========================================================= */
+
+.closeButton {
+  width: 42px;
+  height: 42px;
+
+  min-width: 42px;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 50%;
+
+  background:
+    rgba(20, 20, 20, 0.78);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.closeButton:hover {
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  transform:
+    scale(1.04);
+}
+
+.closeButton:active {
+  transform:
+    scale(0.96);
+}
+
+/* =========================================================
+   ÁREA DE LA IMAGEN DEL VIEWER
+========================================================= */
+
+.imageArea {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding:
+    18px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #080a09;
+}
+
+/* =========================================================
+   IMAGEN COMPLETA EN EL VIEWER
+
+   Nunca se corta.
+   Nunca se deforma.
+========================================================= */
+
+.fullImage {
+  width: auto;
+  height: auto;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+/* =========================================================
+   DESKTOP GRANDE
+========================================================= */
+
+@media (min-width: 1440px) {
+  .viewer {
+    width:
+      min(
+        1050px,
+        calc(100vw - 80px)
+      );
+
+    height:
+      min(
+        840px,
+        calc(100dvh - 80px)
+      );
+  }
+
+  .imageArea {
+    padding: 22px;
+  }
+}
+
+/* =========================================================
+   DESKTOP / LAPTOP
+========================================================= */
+
+@media (
+  min-width: 1025px
+) and (
+  max-width: 1439px
+) {
+  .viewer {
+    width:
+      min(
+        920px,
+        calc(100vw - 48px)
+      );
+
+    height:
+      min(
+        760px,
+        calc(100dvh - 48px)
+      );
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .overlay {
+    padding: 18px;
+  }
+
+  .viewer {
+    width:
+      calc(100vw - 36px);
+
+    height:
+      calc(100dvh - 36px);
+
+    border-radius: 14px;
+  }
+
+  .imageArea {
+    padding: 14px;
+  }
+
+  .topBar {
+    padding: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 0;
+
+    background: #000000;
+  }
+
+  .viewer {
+    width: 100vw;
+    height: 100dvh;
+
+    max-width: none;
+    max-height: none;
+
+    border-radius: 0;
+
+    background: #000000;
+
+    box-shadow: none;
+  }
+
+  .topBar {
+    padding:
+      max(
+        12px,
+        env(safe-area-inset-top)
+      )
+      12px
+      18px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.3) 55%,
+        transparent 100%
+      );
+  }
+
+  .titleBox {
+    max-width:
+      calc(100% - 56px);
+  }
+
+  .titleBox span {
+    font-size: 7px;
+  }
+
+  .titleBox strong {
+    font-size: 11px;
+  }
+
+  .closeButton {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+  }
+
+  .imageArea {
+    padding:
+      56px
+      0
+      max(
+        8px,
+        env(safe-area-inset-bottom)
+      );
+
+    background: #000000;
+  }
+
+  .fullImage {
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+  }
+
+  .viewLabel {
+    right: 8px;
+    bottom: 8px;
+
+    min-height: 29px;
+
+    padding:
+      0
+      9px;
+
+    font-size: 8px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 390px) {
+  .closeButton {
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+  }
+
+  .imageArea {
+    padding:
+      52px
+      0
+      max(
+        6px,
+        env(safe-area-inset-bottom)
+      );
+  }
+
+  .viewLabel {
+    min-height: 27px;
+
+    padding:
+      0
+      8px;
+
+    font-size: 7px;
+  }
+}/* =========================================================
+   CONVOCATORIA IMAGE VIEWER
+========================================================= */
+
+/* =========================================================
+   BOTÓN / CONTENEDOR DE IMAGEN EN LA CARD
+========================================================= */
+
+.trigger {
+  position: absolute;
+  inset: 0;
+
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  display: block;
+
+  overflow: hidden;
+
+  border: 0;
+
+  background: #ffffff;
+
+  cursor: zoom-in;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* =========================================================
+   IMAGEN EN LA CARD
+
+   IMPORTANTE:
+   contain = muestra todo el flyer sin recortarlo.
+========================================================= */
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #ffffff;
+
+  pointer-events: none;
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+/* No hacemos zoom porque el flyer contiene texto */
+.trigger:hover .thumbnail {
+  transform: none;
+}
+
+/* =========================================================
+   BOTÓN "VER IMAGEN"
+========================================================= */
+
+.viewLabel {
+  position: absolute;
+
+  right: 10px;
+  bottom: 10px;
+
+  z-index: 10;
+
+  min-height: 32px;
+
+  padding:
+    0
+    11px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  border-radius: 999px;
+
+  background:
+    rgba(10, 14, 12, 0.82);
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.14);
+}
+
+/* =========================================================
+   MODAL / OVERLAY
+========================================================= */
+
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2147483000;
+
+  width: 100vw;
+  height: 100dvh;
+
+  padding:
+    28px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    rgba(0, 0, 0, 0.9);
+}
+
+/* =========================================================
+   VIEWER
+========================================================= */
+
+.viewer {
+  position: relative;
+
+  width:
+    min(
+      1000px,
+      calc(100vw - 56px)
+    );
+
+  height:
+    min(
+      820px,
+      calc(100dvh - 56px)
+    );
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: #080a09;
+
+  box-shadow:
+    0 30px 100px
+    rgba(0, 0, 0, 0.55);
+}
+
+/* =========================================================
+   BARRA SUPERIOR FLOTANTE
+========================================================= */
+
+.topBar {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 30;
+
+  padding:
+    14px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 14px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.35) 45%,
+      transparent 100%
+    );
+}
+
+/* =========================================================
+   INFORMACIÓN DEL VIEWER
+========================================================= */
+
+.titleBox {
+  min-width: 0;
+
+  max-width:
+    calc(100% - 62px);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  color: #ffffff;
+
+  pointer-events: none;
+}
+
+.titleBox span {
+  color: #22d979;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  line-height: 1.2;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.titleBox strong {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1.3;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BOTÓN CERRAR
+========================================================= */
+
+.closeButton {
+  width: 42px;
+  height: 42px;
+
+  min-width: 42px;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 50%;
+
+  background:
+    rgba(20, 20, 20, 0.78);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.closeButton:hover {
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  transform:
+    scale(1.04);
+}
+
+.closeButton:active {
+  transform:
+    scale(0.96);
+}
+
+/* =========================================================
+   ÁREA DE LA IMAGEN DEL VIEWER
+========================================================= */
+
+.imageArea {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  padding:
+    18px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #080a09;
+}
+
+/* =========================================================
+   IMAGEN COMPLETA EN EL VIEWER
+
+   Nunca se corta.
+   Nunca se deforma.
+========================================================= */
+
+.fullImage {
+  width: auto;
+  height: auto;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+}
+
+/* =========================================================
+   DESKTOP GRANDE
+========================================================= */
+
+@media (min-width: 1440px) {
+  .viewer {
+    width:
+      min(
+        1050px,
+        calc(100vw - 80px)
+      );
+
+    height:
+      min(
+        840px,
+        calc(100dvh - 80px)
+      );
+  }
+
+  .imageArea {
+    padding: 22px;
+  }
+}
+
+/* =========================================================
+   DESKTOP / LAPTOP
+========================================================= */
+
+@media (
+  min-width: 1025px
+) and (
+  max-width: 1439px
+) {
+  .viewer {
+    width:
+      min(
+        920px,
+        calc(100vw - 48px)
+      );
+
+    height:
+      min(
+        760px,
+        calc(100dvh - 48px)
+      );
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .overlay {
+    padding: 18px;
+  }
+
+  .viewer {
+    width:
+      calc(100vw - 36px);
+
+    height:
+      calc(100dvh - 36px);
+
+    border-radius: 14px;
+  }
+
+  .imageArea {
+    padding: 14px;
+  }
+
+  .topBar {
+    padding: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 0;
+
+    background: #000000;
+  }
+
+  .viewer {
+    width: 100vw;
+    height: 100dvh;
+
+    max-width: none;
+    max-height: none;
+
+    border-radius: 0;
+
+    background: #000000;
+
+    box-shadow: none;
+  }
+
+  .topBar {
+    padding:
+      max(
+        12px,
+        env(safe-area-inset-top)
+      )
+      12px
+      18px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.3) 55%,
+        transparent 100%
+      );
+  }
+
+  .titleBox {
+    max-width:
+      calc(100% - 56px);
+  }
+
+  .titleBox span {
+    font-size: 7px;
+  }
+
+  .titleBox strong {
+    font-size: 11px;
+  }
+
+  .closeButton {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+  }
+
+  .imageArea {
+    padding:
+      56px
+      0
+      max(
+        8px,
+        env(safe-area-inset-bottom)
+      );
+
+    background: #000000;
+  }
+
+  .fullImage {
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+  }
+
+  .viewLabel {
+    right: 8px;
+    bottom: 8px;
+
+    min-height: 29px;
+
+    padding:
+      0
+      9px;
+
+    font-size: 8px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 390px) {
+  .closeButton {
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+  }
+
+  .imageArea {
+    padding:
+      52px
+      0
+      max(
+        6px,
+        env(safe-area-inset-bottom)
+      );
+  }
+
+  .viewLabel {
+    min-height: 27px;
+
+    padding:
+      0
+      8px;
+
+    font-size: 7px;
+  }
+}

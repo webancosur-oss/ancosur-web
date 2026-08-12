@@ -520,379 +520,521 @@ export default function DistritoSanCarlosLocation() {
   ======================================================= */
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (
-      isSending ||
-      submitLockRef.current
-    ) {
-      return;
-    }
+  if (
+    isSending ||
+    submitLockRef.current
+  ) {
+    return;
+  }
 
-    /*
-     * Bloqueo inmediato para impedir que dos eventos
-     * submit se ejecuten al mismo tiempo.
-     */
-    submitLockRef.current = true;
+  submitLockRef.current = true;
 
-    const form =
-      event.currentTarget;
+  const form =
+    event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+  if (!form.checkValidity()) {
+    form.reportValidity();
 
-      showToast({
-        variant: "error",
+    showToast({
+      variant: "error",
+      title: "Revisa tus datos",
+      message:
+        "Completa correctamente los campos del formulario.",
+    });
 
-        title:
-          "Revisa tus datos",
+    submitLockRef.current = false;
 
-        message:
-          "Completa correctamente los campos del formulario.",
-      });
+    return;
+  }
 
-      submitLockRef.current = false;
-      return;
-    }
+  const formData =
+    new FormData(form);
 
-    const formData =
-      new FormData(form);
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-    const phone =
-      String(
-        formData.get(
-          "phone"
-        ) ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 9);
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
 
-    const email =
-      String(
-        formData.get(
-          "email"
-        ) ?? ""
-      )
-        .trim()
-        .toLowerCase();
+  const dni =
+    String(
+      formData.get("dni") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 8);
 
-    /*
-     * Número de documento opcional.
-     */
-    const dni =
-      String(
-        formData.get(
-          "dni"
-        ) ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 8);
+  const consent =
+    formData.get("consent") ===
+    "accepted";
 
-    const consent =
-      formData.get(
-        "consent"
-      ) === "accepted";
+  /* ================================
+     VALIDACIONES
+  ================================= */
 
-    /* =====================================================
-       VALIDACIONES
-    ===================================================== */
+  const phoneRegex =
+    /^9\d{8}$/;
 
-    const phoneRegex =
-      /^9\d{8}$/;
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const dniRegex =
+    /^\d{8}$/;
 
-    const dniRegex =
-      /^\d{8}$/;
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
 
-    if (
-      !phoneRegex.test(
-        phone
-      )
-    ) {
-      showToast({
-        variant: "error",
+    submitLockRef.current = false;
 
-        title:
-          "Celular no válido",
+    return;
+  }
 
-        message:
-          "El celular debe tener 9 dígitos y comenzar con 9.",
-      });
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo electrónico válido o deja el campo vacío.",
+    });
 
-      submitLockRef.current = false;
-      return;
-    }
+    submitLockRef.current = false;
 
-    if (
-      email &&
-      !emailRegex.test(
-        email
-      )
-    ) {
-      showToast({
-        variant: "error",
+    return;
+  }
 
-        title:
-          "Correo no válido",
+  if (
+    dni &&
+    !dniRegex.test(dni)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Documento no válido",
+      message:
+        "El número de documento debe tener exactamente 8 dígitos o dejarse vacío.",
+    });
 
-        message:
-          "Ingresa un correo electrónico válido o deja el campo vacío.",
-      });
+    submitLockRef.current = false;
 
-      submitLockRef.current = false;
-      return;
-    }
+    return;
+  }
 
-    if (
-      dni &&
-      !dniRegex.test(
-        dni
-      )
-    ) {
-      showToast({
-        variant: "error",
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title: "Consentimiento requerido",
+      message:
+        "Debes aceptar la política de privacidad para enviar tus datos.",
+    });
 
-        title:
-          "Documento no válido",
+    submitLockRef.current = false;
 
-        message:
-          "El número de documento debe tener exactamente 8 dígitos o dejarse vacío.",
-      });
+    return;
+  }
 
-      submitLockRef.current = false;
-      return;
-    }
+  /* ================================
+     UTM
+  ================================= */
 
-    if (!consent) {
-      showToast({
-        variant: "error",
-
-        title:
-          "Consentimiento requerido",
-
-        message:
-          "Debes aceptar la política de privacidad para enviar tus datos.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    /*
-     * Este formulario tiene celular,
-     * correo y número de documento.
-     *
-     * El correo y el documento son opcionales.
-     * El nombre se completa automáticamente
-     * porque la API externa lo necesita.
-     *
-     * No se envía comentario porque no existe
-     * un textarea de mensaje en este formulario.
-     */
-    const clientMetadata = {
-      origenRuta:
-        window.location.pathname,
-
-      origenComponente:
-        COMPONENT_NAME,
-
-      tipoLead:
-        LEAD_TYPE,
-    };
-
-    const leadData = {
-      fuente_id:
-        SOURCE_ID,
-
-      telefono:
-        phone,
-
-      nombre:
-        "Cliente web Ancosur",
-
-      email,
-
-      dni,
-
-      campaña:
-        CAMPAIGN_CODE,
-
-      anuncio:
-        AD_NAME,
-
-      /*
-       * Solo se envía un campo de contexto.
-       * No se envía comentario ni mensajes duplicados.
-       */
-      msj_client:
-        JSON.stringify(
-          clientMetadata
-        ),
-    };
-
-    const controller =
-      new AbortController();
-
-    const timeoutId =
-      window.setTimeout(
-        () => {
-          controller.abort();
-        },
-        REQUEST_TIMEOUT
-      );
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Accept:
-                "application/json",
-            },
-
-            body:
-              JSON.stringify(
-                leadData
-              ),
-
-            signal:
-              controller.signal,
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      /*
-       * Detecta errores HTTP y también:
-       *
-       * {
-       *   success: true,
-       *   data: {
-       *     success: false
-       *   }
-       * }
-       */
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
-
-      if (requestFailed) {
-  const serverMessage =
-    extractApiMessage(result);
-
-  console.error(
-    "Error API Distrito San Carlos:",
-    {
-      status: response.status,
-      result,
-      serverMessage,
-
-      payload: {
-        fuente_id: SOURCE_ID,
-        telefono: phone,
-        nombre: "Cliente web Ancosur",
-        email: email || "",
-        dni: dni || "",
-        campaña: CAMPAIGN_CODE,
-        anuncio: AD_NAME,
-        msj_client: clientMetadata,
-      },
-    }
-  );
-
-  const friendlyError =
-    getFriendlyServerError(
-      response.status,
-      result
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  showToast({
-    variant: "error",
-    title: friendlyError.title,
-    message: friendlyError.message,
-  });
+  const utmSource =
+    params.get("utm_source") ?? "";
 
-  return;
-}
+  const utmMedium =
+    params.get("utm_medium") ?? "";
 
-/* =========================================
-   GOOGLE TAG MANAGER - LEAD EXITOSO
-========================================= */
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
 
-window.dataLayer =
-  window.dataLayer || [];
+  const utmContent =
+    params.get("utm_content") ?? "";
 
-window.dataLayer.push({
-  event: "lead_form_submit",
-  form_name: "Distrito San Carlos",
-  lead_type: LEAD_TYPE,
-  campaign: CAMPAIGN_CODE,
-  source_id: SOURCE_ID,
-  page_path: window.location.pathname,
-});
+  const utmTerm =
+    params.get("utm_term") ?? "";
 
-      form.reset();
+  /* ================================
+     PAYLOAD ANCOSUR API
+  ================================= */
 
-      showToast(
-        SUCCESS_TOAST
+  const formularioData = {
+    codigo_formulario:
+      "distrito_san_carlos_contacto_simple",
+
+    nombre_formulario:
+      "Formulario simple Distrito San Carlos",
+
+    tipo_formulario:
+      "departamentos",
+
+    /*
+     * Este formulario no solicita nombre.
+     * Usamos un nombre genérico estable.
+     */
+    nombre:
+      "Cliente web Distrito San Carlos",
+
+    telefono:
+      phone,
+
+    email:
+      email,
+
+    dni:
+      dni,
+
+    /*
+     * No existe textarea en este formulario.
+     */
+    mensaje:
+      "",
+
+    proyecto:
+      "Distrito San Carlos",
+
+    tipo_inmueble:
+      "Departamento",
+
+    interes:
+      LEAD_TYPE,
+
+    horario_visita:
+      "",
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      REQUEST_TIMEOUT
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    /* ================================
+       API GO
+    ================================= */
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              formularioData
+            ),
+
+          signal:
+            controller.signal,
+        }
       );
-    } catch (error) {
-      console.error(
-        "Error enviando formulario de Distrito San Carlos:",
-        error
-      );
 
-      if (
-        error instanceof Error &&
-        error.name === "AbortError"
-      ) {
+    const raw =
+      await response.text();
+
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
+
         showToast({
           variant: "error",
-
           title:
-            "El servidor tardó demasiado",
-
+            "Respuesta inválida del servidor",
           message:
-            "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+            `La API respondió HTTP ${response.status}.`,
         });
 
         return;
       }
+    }
 
-      showToast({
-        ...ERROR_TOAST,
+    /* ================================
+       VALIDAR GUARDADO LOCAL
+    ================================= */
 
-        title:
-          "No pudimos conectar con el servidor",
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !==
+        true
+    ) {
+      console.error(
+        "Error guardando lead Distrito San Carlos:",
+        {
+          status:
+            response.status,
 
-        message:
-          "Comprueba tu conexión a Internet e inténtalo nuevamente.",
-      });
-    } finally {
-      window.clearTimeout(
-        timeoutId
+          result,
+
+          payload:
+            formularioData,
+        }
       );
 
-      submitLockRef.current = false;
-      setIsSending(false);
+      showToast({
+        variant: "error",
+
+        title:
+          "No pudimos registrar tus datos",
+
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible guardar el formulario.",
+      });
+
+      return;
     }
-  };
+
+    /* ================================
+       ESTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    console.log(
+      "LEAD DISTRITO SAN CARLOS:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          formularioData.nombre,
+
+        telefono:
+          phone,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Distrito San Carlos",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        formularioData.proyecto,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       ÉXITO
+    ================================= */
+
+    form.reset();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tus datos fueron registrados correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Distrito San Carlos:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    submitLockRef.current = false;
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

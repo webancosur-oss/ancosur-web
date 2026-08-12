@@ -458,384 +458,526 @@ export default function CaminoRealOverviewSection() {
   ======================================================= */
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (isSending) {
-      return;
-    }
+  if (isSending) {
+    return;
+  }
 
-    const form =
-      event.currentTarget;
+  const form =
+    event.currentTarget;
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
+  if (!form.checkValidity()) {
+    form.reportValidity();
 
-    const formData =
-      new FormData(form);
+    return;
+  }
 
-    const fullName =
-      String(
-        formData.get(
-          "fullName"
-        ) ?? ""
-      ).trim();
+  const formData =
+    new FormData(form);
 
-    const phone =
-      String(
-        formData.get(
-          "phone"
-        ) ?? ""
-      ).replace(/\D/g, "");
+  const fullName =
+    String(
+      formData.get("fullName") ?? ""
+    )
+      .replace(/\s+/g, " ")
+      .trim();
 
-    const email =
-      String(
-        formData.get(
-          "email"
-        ) ?? ""
-      )
-        .trim()
-        .toLowerCase();
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-    /*
-     * El DNI es opcional.
-     * Solo permite números.
-     */
-    const dni =
-      String(
-        formData.get(
-          "dni"
-        ) ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 8);
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
 
-    const message =
-      String(
-        formData.get(
-          "message"
-        ) ?? ""
-      ).trim();
+  const dni =
+    String(
+      formData.get("dni") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 8);
 
-    const consent =
-      formData.get(
-        "consent"
-      ) === "accepted";
+  const message =
+    String(
+      formData.get("message") ?? ""
+    ).trim();
 
-    /* =====================================================
-       VALIDACIONES
-    ===================================================== */
+  const consent =
+    formData.get("consent") ===
+    "accepted";
 
-    const nameRegex =
-      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+  /* ================================
+     VALIDACIONES
+  ================================= */
 
-    const phoneRegex =
-      /^9\d{8}$/;
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phoneRegex =
+    /^9\d{8}$/;
 
-    const dniRegex =
-      /^\d{8}$/;
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    if (
-      !nameRegex.test(fullName)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Nombre no válido",
-        message:
-          "Ingresa tu nombre completo usando letras y espacios.",
-      });
+  const dniRegex =
+    /^\d{8}$/;
 
-      return;
-    }
+  if (!nameRegex.test(fullName)) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo usando letras y espacios.",
+    });
 
-    if (
-      !phoneRegex.test(phone)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Celular no válido",
-        message:
-          "El celular debe tener 9 dígitos y comenzar con 9.",
-      });
+    return;
+  }
 
-      return;
-    }
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
 
-    /*
-     * El correo es opcional.
-     * Solo se valida cuando se completa.
-     */
-    if (
-      email &&
-      !emailRegex.test(email)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Correo no válido",
-        message:
-          "Ingresa un correo electrónico válido.",
-      });
+    return;
+  }
 
-      return;
-    }
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo electrónico válido.",
+    });
 
-    /*
-     * El DNI es opcional.
-     * Solo se valida cuando se completa.
-     */
-    if (
-      dni &&
-      !dniRegex.test(dni)
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "DNI no válido",
-        message:
-          "El DNI debe contener exactamente 8 dígitos.",
-      });
+    return;
+  }
 
-      return;
-    }
+  if (
+    dni &&
+    !dniRegex.test(dni)
+  ) {
+    showToast({
+      variant: "error",
+      title: "DNI no válido",
+      message:
+        "El DNI debe contener exactamente 8 dígitos.",
+    });
 
-    if (
-      message.length > 250
-    ) {
-      showToast({
-        variant: "error",
-        title:
-          "Mensaje demasiado largo",
-        message:
-          "El mensaje no debe superar los 250 caracteres.",
-      });
+    return;
+  }
 
-      return;
-    }
+  if (message.length > 250) {
+    showToast({
+      variant: "error",
+      title: "Mensaje demasiado largo",
+      message:
+        "El mensaje no debe superar los 250 caracteres.",
+    });
 
-    if (!consent) {
-      showToast({
-        variant: "error",
-        title:
-          "Consentimiento requerido",
-        message:
-          "Debes aceptar la política de privacidad para enviar tus datos.",
-      });
+    return;
+  }
 
-      return;
-    }
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title: "Consentimiento requerido",
+      message:
+        "Debes aceptar la política de privacidad para enviar tus datos.",
+    });
 
-    const clientMetadata: Record<string, string> = {
-      origenRuta:
-        window.location.pathname,
-      origenComponente:
-        COMPONENT_NAME,
-      tipoLead:
-        LEAD_TYPE,
-    };
+    return;
+  }
 
-    /*
-     * El textarea se agrega dentro de msj_client
-     * únicamente cuando el usuario escribe un mensaje.
-     * Si está vacío, la propiedad mensaje no se envía.
-     */
-    if (message) {
-      clientMetadata.mensaje = message;
-    }
+  /* ================================
+     UTM
+  ================================= */
 
-    const leadData = {
-      fuente_id:
-        SOURCE_ID,
-      telefono:
-        phone,
-      nombre:
-        fullName,
-      email,
-      dni,
-      campaña:
-        CAMPAIGN_CODE,
-      anuncio:
-        AD_NAME,
-      msj_client:
-        JSON.stringify(clientMetadata),
-      comentario:
-        message,
-    };
-
-    const controller =
-      new AbortController();
-
-    const timeoutId =
-      window.setTimeout(
-        () => {
-          controller.abort();
-        },
-        REQUEST_TIMEOUT
-      );
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Accept:
-                "application/json",
-            },
-
-            body:
-              JSON.stringify(
-                leadData
-              ),
-
-            signal:
-              controller.signal,
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      /*
-       * Detecta errores HTTP y también
-       * errores internos anidados.
-       */
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
-
-      if (requestFailed) {
-  console.error(
-    "Error API Camino Real:",
-    {
-      status: response.status,
-      result,
-      serverMessage:
-        extractApiMessage(result),
-    }
-  );
-
-  const friendlyError =
-    getFriendlyServerError(
-      response.status,
-      result
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  showToast({
-    variant: "error",
-    title: friendlyError.title,
-    message: friendlyError.message,
-  });
+  const utmSource =
+    params.get("utm_source") ?? "";
 
-  return;
-          }
+  const utmMedium =
+    params.get("utm_medium") ?? "";
 
-          /* =========================================
-            GOOGLE TAG MANAGER - LEAD EXITOSO
-          ========================================= */
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
 
-          window.dataLayer =
-            window.dataLayer || [];
+  const utmContent =
+    params.get("utm_content") ?? "";
 
-          window.dataLayer.push({
-            event: "lead_form_submit",
-            form_name: "Camino Real",
-            lead_type: LEAD_TYPE,
-            campaign: CAMPAIGN_CODE,
-            source_id: SOURCE_ID,
-            page_path:
-              window.location.pathname,
-          });
+  const utmTerm =
+    params.get("utm_term") ?? "";
 
-          /* =========================================
-            FIN GOOGLE TAG MANAGER
-          ========================================= */
+  /* ================================
+     PAYLOAD ÚNICO ANCOSUR
+  ================================= */
 
-          form.reset();
+  const formularioData = {
+    codigo_formulario:
+      "camino_real_principal",
 
-          showToast({
-            ...SUCCESS_TOAST,
-            message:
-              result.message ||
-              SUCCESS_TOAST.message,
-          });
-                /*
-                * La respuesta de éxito puede ser:
-                *
-                * {
-                *   success: true,
-                *   accion: "creado",
-                *   id: 39906,
-                *   message: "Lead creado exitosamente..."
-                * }
-                */
-                form.reset();
+    nombre_formulario:
+      "Formulario principal Camino Real",
 
-                showToast({
-                  ...SUCCESS_TOAST,
+    tipo_formulario:
+      "lotes",
 
-                  message:
-                    result.message ||
-                    SUCCESS_TOAST.message,
-                });
-              } catch (error) {
-                console.error(
-                  "Error enviando formulario de Camino Real:",
-                  error
-                );
+    nombre:
+      fullName,
 
-                if (
-                  error instanceof DOMException &&
-                  error.name === "AbortError"
-                ) {
-                  showToast({
-                    variant: "error",
+    telefono:
+      phone,
 
-                    title:
-                      "El servidor tardó demasiado",
+    email:
+      email,
 
-                    message:
-                      "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
-                  });
+    dni:
+      dni,
 
-                  return;
-                }
+    mensaje:
+      message,
 
-                showToast({
-                  ...ERROR_TOAST,
+    proyecto:
+      "Camino Real Residencial",
 
-                  title:
-                    "No pudimos conectar con el servidor",
+    tipo_inmueble:
+      "Lote",
 
-                  message:
-                    "Comprueba tu conexión a Internet e inténtalo nuevamente.",
-                });
-              } finally {
-                window.clearTimeout(
-                  timeoutId
-                );
+    interes:
+      LEAD_TYPE,
 
-                setIsSending(false);
-              }
-            };
+    horario_visita:
+      "",
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      REQUEST_TIMEOUT
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    /* ================================
+       API GO
+
+       1. Guarda en PostgreSQL
+       2. Envía al CRM
+       3. Actualiza estado_crm
+    ================================= */
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              formularioData
+            ),
+
+          signal:
+            controller.signal,
+        }
+      );
+
+    const raw =
+      await response.text();
+
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
+
+        showToast({
+          variant: "error",
+          title:
+            "Respuesta inválida del servidor",
+          message:
+            `La API respondió HTTP ${response.status}.`,
+        });
+
+        return;
+      }
+    }
+
+    /* ================================
+       VALIDAR GUARDADO LOCAL
+    ================================= */
+
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !== true
+    ) {
+      console.error(
+        "Error guardando lead:",
+        {
+          status:
+            response.status,
+
+          result,
+
+          payload:
+            formularioData,
+        }
+      );
+
+      showToast({
+        variant: "error",
+        title:
+          "No pudimos registrar tus datos",
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible guardar el formulario.",
+      });
+
+      return;
+    }
+
+    /* ================================
+       RESULTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    console.log(
+      "LEAD PROCESADO:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Camino Real",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        formularioData.proyecto,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       LIMPIAR
+    ================================= */
+
+    form.reset();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tus datos fueron registrados correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando formulario:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+        title:
+          "El servidor tardó demasiado",
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

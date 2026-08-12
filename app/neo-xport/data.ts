@@ -72,7 +72,7 @@ export const details = [
   },
   {
     label: "Exclusividad",
-    value: "Solo 15 departamentos",
+    value: "Solo 14 departamentos",
   },
   {
     label: "Áreas comunes",
@@ -229,7 +229,7 @@ export const benefits = [
     title: "Proyecto exclusivo",
 
     description:
-      "Un edificio boutique de solo 15 departamentos, diseñado para brindar mayor privacidad y tranquilidad.",
+      "Un edificio boutique de solo 4 departamentos, diseñado para brindar mayor privacidad y tranquilidad.",
   },
   {
     number: "03",

@@ -1,376 +1,1005 @@
+/* =========================================================
+   PÁGINA
+========================================================= */
+
 .page {
   width: 100%;
-  background: #ffffff;
-  color: #111111;
+  min-width: 0;
+
   overflow-x: hidden;
+
+  background: #ffffff;
+
+  color: #111813;
 }
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
   width: 100%;
-  min-height: 58vh;
-  padding: 140px 6% 84px;
+
+  min-height: 360px;
+
+  padding:
+    clamp(110px, 10vw, 150px)
+    clamp(24px, 5vw, 82px)
+    clamp(60px, 7vw, 90px);
+
+  box-sizing: border-box;
+
   display: flex;
-  align-items: center;
-  background: #111111;
-  color: #ffffff;
+  align-items: flex-end;
+
+  background:
+    linear-gradient(
+      120deg,
+      #0d2b24 0%,
+      #10182b 56%,
+      #111020 100%
+    );
 }
 
 .heroContent {
-  max-width: 960px;
+  width: min(720px, 100%);
+
+  min-width: 0;
 }
 
-.backButton {
-  margin-bottom: 32px;
-}
-
-.eyebrow,
-.heroContent > span,
-.introText span,
-.header span,
-.cta span {
+.eyebrow {
   display: block;
-  margin-bottom: 14px;
-  color: #00a74f;
-  font-size: 14px;
- 
+
+  margin-bottom: 13px;
+
+  color: #21d879;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+
   text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .heroContent h1 {
-  max-width: 920px;
-  margin: 0 0 18px;
-  line-height: 1.02;
- 
-  letter-spacing: -1.5px;
+  max-width: 700px;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size:
+    clamp(
+      2.5rem,
+      4.6vw,
+      4.4rem
+    );
+
+  font-weight: 700;
+
+  line-height: 0.98;
+
+  letter-spacing: -0.055em;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .heroContent p {
-  max-width: 720px;
-  margin: 0;
-  color: #d8d8d8;
-  font-size: 18px;
-  line-height: 1.7;
-}
+  width: min(600px, 100%);
 
-.introSection {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 90px 6% 40px;
-  display: grid;
-  grid-template-columns: 0.9fr 1fr;
-  gap: 60px;
-  align-items: start;
-}
+  margin:
+    22px
+    0
+    0;
 
-.introText h2,
-.header h2 {
-  margin: 0;
-  line-height: 1.05;
- 
-  letter-spacing: -1px;
-}
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.73
+    );
 
-.introSection p {
-  margin: 0;
-  color: #555555;
-  font-size: 17px;
-  line-height: 1.8;
-}
+  font-size:
+    clamp(
+      0.94rem,
+      1.2vw,
+      1.04rem
+    );
 
-.jobsSection {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 60px 6% 100px;
-}
-
-.header {
-  max-width: 760px;
-  margin-bottom: 42px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-}
-
-.card {
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
-  border-radius: 24px;
-  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.07);
-  transition: all 0.22s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
-}
-
-.cardHeader span {
-  display: block;
-  margin-bottom: 12px;
-  color: #00a74f;
-  font-size: 13px;
- 
-  text-transform: uppercase;
-}
-
-.cardHeader h3 {
-  margin: 0 0 14px;
-  color: #111111;
-  font-size: 28px;
-  line-height: 1.1;
- 
-}
-
-.cardHeader p {
-  margin: 0 0 22px;
-  color: #5c5c5c;
-  font-size: 15px;
   line-height: 1.65;
 }
 
-.meta {
-  margin-bottom: 26px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+/* =========================================================
+   SECCIÓN CONVOCATORIAS
+========================================================= */
+
+.jobsSection {
+  width:
+    min(
+      1540px,
+      calc(100% - 48px)
+    );
+
+  margin:
+    0
+    auto;
+
+  padding:
+    clamp(65px, 7vw, 100px)
+    0
+    90px;
+
+  box-sizing: border-box;
 }
 
-.meta small {
-  padding: 8px 12px;
-  background: #f2f2f2;
-  color: #111111;
-  border-radius: 999px;
-  font-size: 12px;
- 
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  width: min(760px, 100%);
+
+  margin-bottom:
+    clamp(
+      32px,
+      4vw,
+      48px
+    );
+
+  min-width: 0;
 }
 
-.requirements {
-  margin-bottom: 28px;
+.header > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #00a74f;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
 }
 
-.requirements h4 {
-  margin: 0 0 14px;
-  color: #111111;
-  font-size: 17px;
- 
-}
-
-.requirements ul {
+.header h2 {
   margin: 0;
-  padding: 0;
+
+  color: #101713;
+
+  font-size:
+    clamp(
+      2rem,
+      3.6vw,
+      3.25rem
+    );
+
+  font-weight: 700;
+
+  line-height: 1.03;
+
+  letter-spacing: -0.05em;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.header p {
+  width: min(620px, 100%);
+
+  margin:
+    15px
+    0
+    0;
+
+  color: #727c76;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+/* =========================================================
+   GRID
+   DESKTOP GRANDE = 4
+========================================================= */
+
+.grid {
+  width: 100%;
+
+  min-width: 0;
+
   display: grid;
-  gap: 10px;
-  list-style: none;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  align-items: stretch;
+
+  gap: 20px;
 }
 
-.requirements li {
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+  width: 100%;
+
+  min-width: 0;
+  max-width: 100%;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    #dde4df;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0
+    10px
+    32px
+    rgba(
+      24,
+      36,
+      29,
+      0.05
+    );
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    #d0dad4;
+
+  box-shadow:
+    0
+    18px
+    42px
+    rgba(
+      24,
+      36,
+      29,
+      0.08
+    );
+}
+
+/* =========================================================
+   IMAGEN
+
+   IMPORTANTE:
+   16 / 10 mantiene formato horizontal.
+========================================================= */
+
+.jobImageBox {
   position: relative;
-  padding-left: 22px;
-  color: #444444;
-  font-size: 14px;
-  line-height: 1.55;
+
+  width: 100%;
+
+  min-width: 0;
+
+  aspect-ratio:
+    16 / 10;
+
+  overflow: hidden;
+
+  background: #f1f4f2;
 }
 
-.requirements li::before {
-  content: "";
-  width: 8px;
-  height: 8px;
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.jobImagePlaceholder {
   position: absolute;
-  top: 7px;
-  left: 0;
-  background: #00a74f;
-  border-radius: 50%;
-}
 
-.applyButton,
-.cta a {
-  width: fit-content;
-  min-height: 48px;
-  margin-top: auto;
-  padding: 0 22px;
-  display: inline-flex;
+  inset: 0;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  background: #00a74f;
-  color: #ffffff;
-  border-radius: 999px;
-  font-size: 13px;
- 
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
+
+  color: #87938c;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f6f8f7,
+      #e9efeb
+    );
 }
 
-.applyButton:hover,
-.cta a:hover {
-  background: #008f43;
-  transform: translateY(-2px);
+/* =========================================================
+   STATUS
+========================================================= */
+
+.jobStatus {
+  position: absolute;
+
+  top: 11px;
+  left: 11px;
+
+  z-index: 20;
+
+  max-width:
+    calc(
+      100% - 22px
+    );
+
+  min-height: 28px;
+
+  padding:
+    0
+    9px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.94
+    );
+
+  color: #008c43;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  backdrop-filter:
+    blur(7px);
+
+  -webkit-backdrop-filter:
+    blur(7px);
+
+  box-shadow:
+    0
+    5px
+    14px
+    rgba(
+      0,
+      0,
+      0,
+      0.08
+    );
 }
+
+.jobStatus svg {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.cardBody {
+  width: 100%;
+
+  min-width: 0;
+
+  flex: 1;
+
+  padding:
+    18px
+    18px
+    19px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.cardHeader {
+  width: 100%;
+
+  min-width: 0;
+}
+
+.cardHeader > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #00a74f;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   TÍTULO
+
+   No desborda aunque escriban una palabra enorme.
+========================================================= */
+
+.cardHeader h3 {
+  width: 100%;
+
+  min-width: 0;
+  max-width: 100%;
+
+  margin: 0;
+
+  color: #101813;
+
+  font-size:
+    clamp(
+      1.25rem,
+      1.55vw,
+      1.55rem
+    );
+
+  font-weight: 650;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.035em;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere !important;
+
+  word-break: break-word !important;
+
+  hyphens: auto;
+}
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.cardHeader p {
+  width: 100%;
+
+  min-width: 0;
+  max-width: 100%;
+
+  margin:
+    9px
+    0
+    0;
+
+  color: #77817b;
+
+  font-size: 11px;
+
+  line-height: 1.55;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere !important;
+
+  word-break: break-word !important;
+
+  hyphens: auto;
+}
+
+/* =========================================================
+   META
+========================================================= */
+
+.meta {
+  width: 100%;
+
+  min-width: 0;
+
+  margin-top: 16px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.meta > div {
+  min-width: 0;
+
+  max-width: 100%;
+
+  min-height: 31px;
+
+  padding:
+    0
+    9px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  border-radius: 999px;
+
+  background: #f3f7f5;
+
+  color: #59645e;
+
+  font-size: 9px;
+
+  line-height: 1.2;
+}
+
+.meta > div svg {
+  flex-shrink: 0;
+
+  color: #00a74f;
+}
+
+.meta > div span {
+  min-width: 0;
+
+  max-width: 100%;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+}
+
+/* =========================================================
+   ÁREA BOTÓN
+========================================================= */
+
+.cardApplicationArea {
+  width: 100%;
+
+  min-width: 0;
+
+  margin-top: auto;
+
+  padding-top: 18px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .emptyState {
-  padding: 44px;
-  background: #f6f6f6;
-  border: 1px solid #eeeeee;
-  border-radius: 24px;
+  width: 100%;
+
+  min-height: 260px;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 9px;
+
+  border:
+    1px dashed
+    #d4ddd7;
+
+  border-radius: 18px;
+
+  background: #f8faf9;
+
+  text-align: center;
+}
+
+.emptyState svg {
+  color: #00a74f;
 }
 
 .emptyState h3 {
-  margin: 0 0 12px;
-  font-size: 32px;
-  line-height: 1.1;
- 
+  margin:
+    6px
+    0
+    0;
+
+  color: #26322b;
+
+  font-size: 1.2rem;
 }
 
 .emptyState p {
-  max-width: 640px;
-  margin: 0 0 24px;
-  color: #555555;
-  font-size: 16px;
-  line-height: 1.7;
-}
+  width: min(460px, 100%);
 
-.cta {
-  max-width: 1120px;
-  margin: 0 auto 100px;
-  padding: 52px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 40px;
-  align-items: center;
-  background: #111111;
-  color: #ffffff;
-  border-radius: 28px;
-}
-
-.cta h2 {
-  max-width: 760px;
-  margin: 0 0 16px;
-  line-height: 1.08;
- 
-}
-
-.cta p {
-  max-width: 660px;
   margin: 0;
-  color: #d6d6d6;
-  font-size: 16px;
-  line-height: 1.7;
+
+  color: #7c8780;
+
+  font-size: 12px;
+
+  line-height: 1.6;
 }
 
-.applyBox {
-  margin-top: auto;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+/* =========================================================
+   ULTRA WIDE
 
-.whatsappButton {
-  width: fit-content;
-  min-height: 48px;
-  padding: 0 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #111111;
-  color: #ffffff;
-  border-radius: 999px;
-  font-size: 13px;
- 
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.2s ease;
-}
+   Mantiene máximo 4.
+========================================================= */
 
-.whatsappButton:hover {
-  background: #00a74f;
-  transform: translateY(-2px);
-}
-
-@media (max-width: 720px) {
-  .applyBox {
-    flex-direction: column;
-  }
-
-  .whatsappButton {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .introSection {
-    grid-template-columns: 1fr;
-    gap: 28px;
+@media (min-width: 1650px) {
+  .jobsSection {
+    width:
+      min(
+        1580px,
+        calc(
+          100% - 80px
+        )
+      );
   }
 
   .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .cta {
-    margin: 0 5% 90px;
-    grid-template-columns: 1fr;
-    padding: 42px;
+    gap: 24px;
   }
 }
+
+/* =========================================================
+   DESKTOP NORMAL
+   3 COLUMNAS
+========================================================= */
+
+@media (max-width: 1280px) {
+  .jobsSection {
+    width:
+      min(
+        1180px,
+        calc(
+          100% - 40px
+        )
+      );
+  }
+
+  .grid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+/* =========================================================
+   TABLET HORIZONTAL
+   2 COLUMNAS
+========================================================= */
+
+@media (max-width: 960px) {
+  .jobsSection {
+    width:
+      calc(
+        100% - 32px
+      );
+
+    padding:
+      60px
+      0
+      72px;
+  }
+
+  .grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap: 18px;
+  }
+
+  .jobImageBox {
+    aspect-ratio:
+      16 / 10;
+  }
+
+  .cardBody {
+    padding:
+      18px
+      17px
+      19px;
+  }
+
+  .cardHeader h3 {
+    font-size: 1.4rem;
+  }
+}
+
+/* =========================================================
+   TABLET VERTICAL
+========================================================= */
 
 @media (max-width: 720px) {
   .hero {
-    min-height: auto;
-    padding: 120px 20px 70px;
-  }
+    min-height: 320px;
 
-  .backButton {
-    margin-bottom: 26px;
+    padding:
+      100px
+      24px
+      55px;
   }
 
   .heroContent h1 {
-    letter-spacing: -1px;
-  }
-
-  .heroContent p {
-    font-size: 16px;
-  }
-
-  .introSection {
-    padding: 70px 20px 34px;
+    font-size:
+      clamp(
+        2.2rem,
+        9vw,
+        3rem
+      );
   }
 
   .jobsSection {
-    padding: 54px 20px 80px;
+    width:
+      calc(
+        100% - 26px
+      );
+
+    padding:
+      50px
+      0
+      65px;
+  }
+
+  .header {
+    margin-bottom: 28px;
+  }
+
+  .header h2 {
+    font-size:
+      clamp(
+        1.8rem,
+        7.5vw,
+        2.45rem
+      );
   }
 
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
   }
 
   .card {
-    padding: 26px 22px;
-    border-radius: 22px;
+    max-width: 580px;
+
+    margin:
+      0
+      auto;
+
+    border-radius: 17px;
   }
 
-  .applyButton,
-  .cta a {
+  .jobImageBox {
+    aspect-ratio:
+      16 / 10;
+  }
+
+  .cardHeader h3 {
+    font-size: 1.45rem;
+  }
+
+  .cardHeader p {
+    font-size: 12px;
+  }
+
+  .meta > div {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .hero {
+    min-height: 300px;
+
+    padding:
+      92px
+      18px
+      48px;
+  }
+
+  .heroContent h1 {
+    font-size:
+      clamp(
+        2rem,
+        10vw,
+        2.65rem
+      );
+  }
+
+  .heroContent p {
+    margin-top: 16px;
+
+    font-size: 13px;
+  }
+
+  .jobsSection {
+    width:
+      calc(
+        100% - 20px
+      );
+
+    padding:
+      44px
+      0
+      58px;
+  }
+
+  .header > span {
+    font-size: 9px;
+  }
+
+  .header h2 {
+    font-size:
+      clamp(
+        1.7rem,
+        8vw,
+        2.15rem
+      );
+  }
+
+  .header p {
+    font-size: 12px;
+  }
+
+  .grid {
+    gap: 16px;
+  }
+
+  .card {
     width: 100%;
+
+    border-radius: 16px;
   }
 
-  .emptyState {
-    padding: 32px 22px;
+  /*
+   * En móvil mantenemos la imagen
+   * proporcionada y no excesivamente alta.
+   */
+  .jobImageBox {
+    aspect-ratio:
+      16 / 10;
   }
 
-  .emptyState h3 {
-    font-size: 28px;
+  .jobStatus {
+    top: 10px;
+    left: 10px;
+
+    min-height: 27px;
+
+    max-width:
+      calc(
+        100% - 20px
+      );
+
+    padding:
+      0
+      8px;
+
+    font-size: 8px;
   }
 
-  .cta {
-    margin: 0 20px 74px;
-    padding: 32px 22px;
-    border-radius: 22px;
+  .cardBody {
+    padding:
+      17px
+      15px
+      18px;
+  }
+
+  .cardHeader h3 {
+    font-size: 1.35rem;
+  }
+
+  .cardHeader p {
+    margin-top: 8px;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+  }
+
+  .meta {
+    margin-top: 15px;
+
+    gap: 6px;
+  }
+
+  .meta > div {
+    min-height: 30px;
+
+    padding:
+      0
+      8px;
+
+    font-size: 9px;
+  }
+
+  .cardApplicationArea {
+    padding-top: 16px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 380px) {
+  .jobsSection {
+    width:
+      calc(
+        100% - 16px
+      );
+  }
+
+  .cardBody {
+    padding:
+      15px
+      13px
+      16px;
+  }
+
+  .cardHeader h3 {
+    font-size: 1.25rem;
+  }
+
+  .meta {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .meta > div {
+    width: 100%;
+
+    border-radius: 9px;
   }
 }

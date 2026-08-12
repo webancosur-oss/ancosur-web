@@ -119,14 +119,17 @@ export default function TerrazasConcepcionOverviewSection() {
     });
   };
 
-  const handleSubmit = async (
+const handleSubmit = async (
   event: FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault();
 
-  if (isSending) return;
+  if (isSending) {
+    return;
+  }
 
-  const form = event.currentTarget;
+  const form =
+    event.currentTarget;
 
   if (!form.checkValidity()) {
     form.reportValidity();
@@ -144,31 +147,41 @@ export default function TerrazasConcepcionOverviewSection() {
   const formData =
     new FormData(form);
 
-  const fullName = String(
-    formData.get("fullName") ?? ""
-  )
-    .replace(/\s+/g, " ")
-    .trim();
+  const fullName =
+    String(
+      formData.get("fullName") ?? ""
+    )
+      .replace(/\s+/g, " ")
+      .trim();
 
-  const phone = String(
-    formData.get("phone") ?? ""
-  )
-    .replace(/\D/g, "")
-    .slice(0, 9);
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-  const email = String(
-    formData.get("email") ?? ""
-  )
-    .trim()
-    .toLowerCase();
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
 
-  const message = String(
-    formData.get("message") ?? ""
-  ).trim();
+  const message =
+    String(
+      formData.get("message") ?? ""
+    )
+      .trim()
+      .slice(0, 250);
 
-  /* =========================================
+  const consent =
+    formData.get("consent") ===
+    "accepted";
+
+  /* ================================
      VALIDACIONES
-  ========================================= */
+  ================================= */
 
   const nameRegex =
     /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
@@ -218,7 +231,8 @@ export default function TerrazasConcepcionOverviewSection() {
   if (message.length > 250) {
     showToast({
       variant: "error",
-      title: "Mensaje demasiado largo",
+      title:
+        "Mensaje demasiado largo",
       message:
         "El mensaje no debe superar los 250 caracteres.",
     });
@@ -226,59 +240,115 @@ export default function TerrazasConcepcionOverviewSection() {
     return;
   }
 
-  /* =========================================
-     METADATA
-  ========================================= */
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title:
+        "Consentimiento requerido",
+      message:
+        "Debes aceptar la autorización de contacto.",
+    });
 
-  const clientMetadata = {
-    proyecto:
-      PROJECT_NAME,
+    return;
+  }
 
-    categoria:
-      "Lotes",
+  /* ================================
+     UTM
+  ================================= */
 
-    origenRuta:
-      window.location.pathname,
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
-    origenComponente:
-      `TerrazasConcepcionOverviewSection - ${PROJECT_NAME}`,
+  const utmSource =
+    params.get("utm_source") ?? "";
 
-    mensaje:
-      message ||
-      `Solicitud de información sobre ${PROJECT_NAME}.`,
-  };
+  const utmMedium =
+    params.get("utm_medium") ?? "";
 
-  /* =========================================
-     PAYLOAD PARA /api/leads
-  ========================================= */
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
 
-  const leadData = {
-    fuente_id: 4,
+  const utmContent =
+    params.get("utm_content") ?? "";
 
-    telefono:
-      phone,
+  const utmTerm =
+    params.get("utm_term") ?? "";
+
+  /* ================================
+     PAYLOAD ANCOSUR API
+  ================================= */
+
+  const formularioData = {
+    codigo_formulario:
+      "terrazas_concepcion_overview",
+
+    nombre_formulario:
+      "Formulario Terrazas Concepción",
+
+    tipo_formulario:
+      "lotes",
 
     nombre:
       fullName,
 
-    email,
+    telefono:
+      phone,
+
+    email:
+      email,
 
     dni:
       "",
 
-    campaña:
+    mensaje:
+      message,
+
+    proyecto:
+      PROJECT_NAME,
+
+    tipo_inmueble:
+      "Lote",
+
+    interes:
+      PROJECT_NAME,
+
+    horario_visita:
+      "",
+
+    campania:
       "WEB Terrazas Concepcion",
 
     anuncio:
       "Formulario Overview",
 
-    msj_client:
-      JSON.stringify(
-        clientMetadata
-      ),
+    fuente_id:
+      4,
 
-    comentario:
-      message,
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
   };
 
   const controller =
@@ -296,9 +366,13 @@ export default function TerrazasConcepcionOverviewSection() {
     setIsSending(true);
     setToast(null);
 
+    /* ================================
+       API GO
+    ================================= */
+
     const response =
       await fetch(
-        "/api/leads",
+        "http://localhost:5000/api/formularios",
         {
           method: "POST",
 
@@ -312,7 +386,7 @@ export default function TerrazasConcepcionOverviewSection() {
 
           body:
             JSON.stringify(
-              leadData
+              formularioData
             ),
 
           cache:
@@ -323,46 +397,55 @@ export default function TerrazasConcepcionOverviewSection() {
         }
       );
 
-    const result =
-      await readApiResponse(
-        response
-      );
+    const raw =
+      await response.text();
 
-    const requestFailed =
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON de ANCOSUR API:",
+          raw
+        );
+
+        showToast({
+          variant: "error",
+
+          title:
+            "Respuesta inválida del servidor",
+
+          message:
+            `La API respondió HTTP ${response.status}.`,
+        });
+
+        return;
+      }
+    }
+
+    /* ================================
+       VALIDAR GUARDADO EN POSTGRESQL
+    ================================= */
+
+    if (
       !response.ok ||
-      result?.success === false;
-
-    if (requestFailed) {
+      result.success !== true ||
+      result.data?.guardado_local !==
+        true
+    ) {
       console.error(
-        "Error API Terrazas Concepción Overview:",
+        "Error guardando Terrazas Concepción:",
         {
           status:
             response.status,
 
           result,
 
-          payload: {
-            fuente_id:
-              leadData.fuente_id,
-
-            telefono:
-              phone,
-
-            nombre:
-              fullName,
-
-            email:
-              email || "",
-
-            campaña:
-              leadData.campaña,
-
-            anuncio:
-              leadData.anuncio,
-
-            msj_client:
-              clientMetadata,
-          },
+          payload:
+            formularioData,
         }
       );
 
@@ -370,22 +453,78 @@ export default function TerrazasConcepcionOverviewSection() {
         variant: "error",
 
         title:
-          "No pudimos enviar tus datos",
+          "No pudimos registrar tus datos",
 
         message:
-          getApiErrorMessage(
-            result,
-            response.status
-          ),
+          result.message ||
+          result.error ||
+          "No fue posible registrar tus datos.",
       });
 
       return;
     }
 
-    /* =========================================
+    /* ================================
+       RESULTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      result.data?.crm_lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    const crmMessage =
+      result.data?.crm?.message ??
+      "";
+
+    console.log(
+      "TERRAZAS CONCEPCIÓN PROCESADO:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        proyecto:
+          PROJECT_NAME,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+
+        crmMessage,
+      }
+    );
+
+    /* ================================
        GOOGLE TAG MANAGER
-       SOLO SI EL LEAD FUE ACEPTADO
-    ========================================= */
+    ================================= */
 
     window.dataLayer =
       window.dataLayer || [];
@@ -397,40 +536,80 @@ export default function TerrazasConcepcionOverviewSection() {
       form_name:
         "Terrazas Concepción Overview",
 
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
       lead_type:
         "Lotes",
 
+      project:
+        PROJECT_NAME,
+
       campaign:
-        "WEB Terrazas Concepcion",
+        formularioData.campania,
 
       source_id:
-        4,
+        formularioData.fuente_id,
 
       page_path:
         window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
     });
 
-    /* =========================================
-       LIMPIAR FORMULARIO
-    ========================================= */
+    /* ================================
+       LIMPIAR
+    ================================= */
 
     form.reset();
 
-    /* =========================================
+    /* ================================
        ÉXITO
-    ========================================= */
+    ================================= */
 
     showToast({
       ...SUCCESS_TOAST,
 
       message:
-        result?.message ||
-        SUCCESS_TOAST.message,
+        "Tus datos fueron registrados correctamente.",
     });
-
   } catch (error) {
     console.error(
-      "Error enviando formulario de Terrazas Concepción Overview:",
+      "Error enviando formulario de Terrazas Concepción:",
       error
     );
 
@@ -445,7 +624,7 @@ export default function TerrazasConcepcionOverviewSection() {
           "El servidor tardó demasiado",
 
         message:
-          "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
       });
 
       return;
@@ -460,7 +639,6 @@ export default function TerrazasConcepcionOverviewSection() {
       message:
         "Comprueba tu conexión a Internet e inténtalo nuevamente.",
     });
-
   } finally {
     window.clearTimeout(
       timeoutId

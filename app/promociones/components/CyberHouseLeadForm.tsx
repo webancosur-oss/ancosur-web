@@ -367,307 +367,509 @@ export default function CyberHouseLeadForm() {
   };
 
   const handleSubmit = async (
-    event:
-      FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (
-      isSending ||
-      submitLockRef.current
-    ) {
-      return;
-    }
+  if (
+    isSending ||
+    submitLockRef.current
+  ) {
+    return;
+  }
 
-    submitLockRef.current = true;
+  submitLockRef.current = true;
 
-    if (formData.website.trim()) {
-      submitLockRef.current = false;
-      return;
-    }
+  if (formData.website.trim()) {
+    submitLockRef.current = false;
+    return;
+  }
 
-    const validationErrors =
-      validateForm(formData);
+  const validationErrors =
+    validateForm(formData);
 
-    setErrors(
-      validationErrors,
-    );
-
-    const errorFields =
-      Object.keys(
-        validationErrors,
-      ) as Array<
-        keyof FormDataState
-      >;
-
-    const firstError =
-      errorFields[0];
-
-    if (firstError) {
-      showToast({
-        variant: "error",
-
-        title:
-          "Revisa tus datos",
-
-        message:
-          validationErrors[
-            firstError
-          ] ||
-          "Completa correctamente el formulario.",
-      });
-
-      requestAnimationFrame(() => {
-        const element =
-          event.currentTarget.elements.namedItem(
-            firstError,
-          );
-
-        if (
-          element instanceof
-          HTMLElement
-        ) {
-          element.focus();
-
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-        }
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    const fullName =
-      formData.fullName
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const phone =
-      formData.phone
-        .replace(/\D/g, "")
-        .slice(0, 9);
-
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
-
-    const dni =
-      formData.dni
-        .replace(/\D/g, "")
-        .slice(0, 8);
-
-    const project =
-      formData.project.trim();
-
-    const visitTime =
-      formData.visitTime.trim();
-
-    const message =
-      formData.message.trim();
-
-    /*
-     * La campaña conserva únicamente su nombre.
-     *
-     * msj_client contiene una sola vez los datos
-     * técnicos para identificar el origen del lead.
-     *
-     * comentario contiene únicamente el texto escrito
-     * por el cliente y se omite cuando está vacío.
-     */
-    const clientMetadata:
-      Record<string, string> = {
-        origenRuta:
-          window.location.pathname,
-
-        origenComponente:
-          COMPONENT_NAME,
-
-        tipoLead:
-          LEAD_TYPE,
-
-        interes:
-          project,
-
-        horarioVisita:
-          visitTime,
-      };
-
-    const leadPayload = {
-      fuente_id:
-        SOURCE_ID,
-
-      telefono:
-        phone,
-
-      nombre:
-        fullName,
-
-      email,
-
-      dni,
-
-      campaña:
-        CAMPAIGN_CODE,
-
-      anuncio:
-        AD_NAME,
-
-      msj_client:
-        JSON.stringify(
-          clientMetadata,
-        ),
-
-      ...(message
-        ? {
-            comentario:
-              message,
-          }
-        : {}),
-    };
-
-    const controller =
-      new AbortController();
-
-    const timeoutId =
-      window.setTimeout(() => {
-        controller.abort();
-      }, REQUEST_TIMEOUT);
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Accept:
-                "application/json",
-            },
-
-            body:
-              JSON.stringify(
-                leadPayload,
-              ),
-
-            cache:
-              "no-store",
-
-            signal:
-              controller.signal,
-          },
-        );
-
-      const result =
-        await readApiResponse(
-          response,
-        );
-
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
-
-      if (requestFailed) {
-  const apiMessage =
-    extractApiMessage(result);
-
-  console.error(
-    "Error API promociones Cyber House:",
-    {
-      status: response.status,
-      result,
-
-      payload: {
-        ...leadPayload,
-        msj_client: clientMetadata,
-        comentario:
-          message || undefined,
-      },
-    }
+  setErrors(
+    validationErrors
   );
 
-  showToast({
-    variant: "error",
-    title:
-      "No pudimos separar tu visita",
-    message:
-      apiMessage ||
-      "La API rechazó la solicitud. Revisa tus datos e inténtalo nuevamente.",
-  });
+  const errorFields =
+    Object.keys(
+      validationErrors
+    ) as Array<
+      keyof FormDataState
+    >;
 
-  return;
-}
+  const firstError =
+    errorFields[0];
 
-/* =========================================
-   GOOGLE TAG MANAGER - LEAD EXITOSO
-========================================= */
+  if (firstError) {
+    showToast({
+      variant: "error",
 
-window.dataLayer =
-  window.dataLayer || [];
+      title:
+        "Revisa tus datos",
 
-window.dataLayer.push({
-  event: "lead_form_submit",
-  form_name: "Promociones Cyber House",
-  lead_type: LEAD_TYPE,
-  campaign: CAMPAIGN_CODE,
-  source_id: SOURCE_ID,
-  page_path: window.location.pathname,
-});
+      message:
+        validationErrors[
+          firstError
+        ] ||
+        "Completa correctamente el formulario.",
+    });
 
-      setFormData(
-        INITIAL_FORM,
-      );
-
-      setErrors({});
-
-      showToast(
-        SUCCESS_TOAST,
-      );
-    } catch (error) {
-      console.error(
-        "Error enviando promociones Cyber House:",
-        error,
-      );
+    requestAnimationFrame(() => {
+      const element =
+        event.currentTarget.elements.namedItem(
+          firstError
+        );
 
       if (
-        error instanceof Error &&
-        error.name === "AbortError"
+        element instanceof
+        HTMLElement
       ) {
+        element.focus();
+
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    });
+
+    submitLockRef.current = false;
+    return;
+  }
+
+  const fullName =
+    formData.fullName
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const phone =
+    formData.phone
+      .replace(/\D/g, "")
+      .slice(0, 9);
+
+  const email =
+    formData.email
+      .trim()
+      .toLowerCase();
+
+  const dni =
+    formData.dni
+      .replace(/\D/g, "")
+      .slice(0, 8);
+
+  const project =
+    formData.project.trim();
+
+  const visitTime =
+    formData.visitTime.trim();
+
+  const message =
+    formData.message.trim();
+
+  /* ================================
+     UTM
+  ================================= */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const utmSource =
+    params.get("utm_source") ?? "";
+
+  const utmMedium =
+    params.get("utm_medium") ?? "";
+
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
+
+  const utmContent =
+    params.get("utm_content") ?? "";
+
+  const utmTerm =
+    params.get("utm_term") ?? "";
+
+  /* ================================
+     PAYLOAD ANCOSUR API
+  ================================= */
+
+  const formularioData = {
+    codigo_formulario:
+      "cyber_house_promociones",
+
+    nombre_formulario:
+      "Formulario promociones Cyber House",
+
+    tipo_formulario:
+      "promociones",
+
+    nombre:
+      fullName,
+
+    telefono:
+      phone,
+
+    email:
+      email,
+
+    dni:
+      dni,
+
+    mensaje:
+      message,
+
+    proyecto:
+      project,
+
+    tipo_inmueble:
+      "",
+
+    interes:
+      project,
+
+    horario_visita:
+      visitTime,
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      REQUEST_TIMEOUT
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    /* ================================
+       API GO
+    ================================= */
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              formularioData
+            ),
+
+          cache:
+            "no-store",
+
+          signal:
+            controller.signal,
+        }
+      );
+
+    const raw =
+      await response.text();
+
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON de ANCOSUR API:",
+          raw
+        );
+
         showToast({
           variant: "error",
 
           title:
-            "El servidor tardó demasiado",
+            "Respuesta inválida del servidor",
 
           message:
-            "La solicitud superó los 20 segundos de espera.",
+            `La API respondió HTTP ${response.status}.`,
         });
 
         return;
       }
-
-      showToast(
-        ERROR_TOAST,
-      );
-    } finally {
-      window.clearTimeout(
-        timeoutId,
-      );
-
-      submitLockRef.current = false;
-      setIsSending(false);
     }
-  };
+
+    /* ================================
+       VALIDAR GUARDADO LOCAL
+    ================================= */
+
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !==
+        true
+    ) {
+      console.error(
+        "Error guardando promociones Cyber House:",
+        {
+          status:
+            response.status,
+
+          result,
+
+          payload:
+            formularioData,
+        }
+      );
+
+      showToast({
+        variant: "error",
+
+        title:
+          "No pudimos separar tu visita",
+
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible registrar tus datos.",
+      });
+
+      return;
+    }
+
+    /* ================================
+       RESULTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    const crmMessage =
+      result.data?.crm?.message ??
+      "";
+
+    console.log(
+      "CYBER HOUSE PROCESADO:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        proyecto:
+          project,
+
+        horarioVisita:
+          visitTime,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+
+        crmMessage,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Promociones Cyber House",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        project,
+
+      visit_time:
+        visitTime,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       LIMPIAR FORMULARIO
+    ================================= */
+
+    setFormData(
+      INITIAL_FORM
+    );
+
+    setErrors({});
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tu visita fue registrada correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando promociones Cyber House:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    submitLockRef.current = false;
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

@@ -26,6 +26,7 @@ const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "DepartamentosLeadForm";
 const REQUEST_TIMEOUT = 20_000;
+const PROJECT_NAME = "Departamentos Ancosur";
 
 type LeadFormData = {
   fullName: string;
@@ -512,207 +513,538 @@ export default function DepartamentosLeadForm() {
     );
   };
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+ const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
-    if (
-      isSending ||
-      submitLockRef.current
-    ) {
-      return;
-    }
+  if (isSending) {
+    return;
+  }
 
-    const isValid = validateForm();
+  const form =
+    event.currentTarget;
 
-    if (!isValid) {
-      return;
-    }
+  if (!form.checkValidity()) {
+    form.reportValidity();
 
-    const fullName =
-      formData.fullName
-        .replace(/\s+/g, " ")
-        .trim();
+    showToast({
+      variant: "error",
+      title: "Revisa tus datos",
+      message:
+        "Completa correctamente los campos obligatorios.",
+    });
 
-    const phone =
-      formData.phone
-        .replace(/\D/g, "")
-        .slice(0, 9);
+    return;
+  }
 
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
+  const formData =
+    new FormData(form);
 
-    const projectName =
-      formData.project.trim();
+  const fullName =
+    String(
+      formData.get("fullName") ?? ""
+    )
+      .replace(/\s+/g, " ")
+      .trim();
 
-    /*
-     * Se conserva el proyecto seleccionado porque
-     * es uno de los campos reales del formulario.
-     *
-     * No se genera mensaje automático.
-     * No se envía comentario desde el componente.
-     */
-    const clientMetadata = {
-      interes: projectName,
-      origenRuta: window.location.pathname,
-      origenComponente: COMPONENT_NAME,
-      tipoLead: LEAD_TYPE,
-    };
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-    const leadPayload = {
-      fuente_id: SOURCE_ID,
-      telefono: phone,
-      nombre: fullName,
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
+
+  const dni =
+    String(
+      formData.get("dni") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 8);
+
+  const message =
+    String(
+      formData.get("message") ?? ""
+    ).trim();
+
+  const consent =
+    formData.get("consent") ===
+    "accepted";
+
+  /* ================================
+     VALIDACIONES
+  ================================= */
+
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+  const phoneRegex =
+    /^9\d{8}$/;
+
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  const dniRegex =
+    /^\d{8}$/;
+
+  if (!nameRegex.test(fullName)) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo usando letras y espacios.",
+    });
+
+    return;
+  }
+
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
+
+    return;
+  }
+
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo electrónico válido o deja el campo vacío.",
+    });
+
+    return;
+  }
+
+  if (
+    dni &&
+    !dniRegex.test(dni)
+  ) {
+    showToast({
+      variant: "error",
+      title: "DNI no válido",
+      message:
+        "El DNI debe contener exactamente 8 dígitos o dejarse vacío.",
+    });
+
+    return;
+  }
+
+  if (message.length > 250) {
+    showToast({
+      variant: "error",
+      title: "Mensaje demasiado largo",
+      message:
+        "El mensaje no debe superar los 250 caracteres.",
+    });
+
+    return;
+  }
+
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title: "Consentimiento requerido",
+      message:
+        "Debes aceptar la política de privacidad para enviar tus datos.",
+    });
+
+    return;
+  }
+
+  /* ================================
+     UTM
+  ================================= */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const utmSource =
+    params.get("utm_source") ?? "";
+
+  const utmMedium =
+    params.get("utm_medium") ?? "";
+
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
+
+  const utmContent =
+    params.get("utm_content") ?? "";
+
+  const utmTerm =
+    params.get("utm_term") ?? "";
+
+  /* ================================
+     PAYLOAD ANCOSUR API
+  ================================= */
+
+  const formularioData = {
+    codigo_formulario:
+      "colinas_de_moro_principal",
+
+    nombre_formulario:
+      "Formulario principal Las Colinas de Moro",
+
+    tipo_formulario:
+      "lotes",
+
+    nombre:
+      fullName,
+
+    telefono:
+      phone,
+
+    email:
       email,
-      dni: "",
-      campaña: CAMPAIGN_CODE,
-      anuncio: AD_NAME,
-      msj_client:
-        JSON.stringify(clientMetadata),
-    };
 
-    const controller =
-      new AbortController();
+    dni:
+      dni,
 
-    const timeoutId =
-      window.setTimeout(() => {
+    mensaje:
+      message,
+
+    proyecto:
+      PROJECT_NAME,
+
+    tipo_inmueble:
+      "Lote",
+
+    interes:
+      LEAD_TYPE,
+
+    horario_visita:
+      "",
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
         controller.abort();
-      }, REQUEST_TIMEOUT);
+      },
+      REQUEST_TIMEOUT
+    );
 
-    try {
-      submitLockRef.current = true;
-      setIsSending(true);
-      setToast(null);
+  try {
+    setIsSending(true);
+    setToast(null);
 
-      const response = await fetch(
-        "/api/leads",
+    /* ================================
+       API GO
+    ================================= */
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
         {
           method: "POST",
 
           headers: {
             "Content-Type":
               "application/json",
+
             Accept:
               "application/json",
           },
 
           body:
-            JSON.stringify(leadPayload),
+            JSON.stringify(
+              formularioData
+            ),
 
           signal:
             controller.signal,
         }
       );
 
-      const result =
-        await readApiResponse(response);
+    const raw =
+      await response.text();
 
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
+    let result: any = {};
 
-      if (requestFailed) {
-  const serverMessage =
-    extractApiMessage(result);
-
-  console.error(
-    "Error API Departamentos:",
-    {
-      status: response.status,
-      result,
-      serverMessage,
-
-      payload: {
-        fuente_id: SOURCE_ID,
-        telefono: phone,
-        nombre: fullName,
-        email: email || "",
-        dni: "",
-        campaña: CAMPAIGN_CODE,
-        anuncio: AD_NAME,
-        msj_client: clientMetadata,
-      },
-    }
-  );
-
-  const friendlyError =
-    getFriendlyServerError(
-      response.status,
-      result
-    );
-
-  showToast({
-    variant: "error",
-    title: friendlyError.title,
-    message: friendlyError.message,
-  });
-
-  return;
-        }
-
-        /* =========================================
-          GOOGLE TAG MANAGER - LEAD EXITOSO
-        ========================================= */
-
-        window.dataLayer =
-          window.dataLayer || [];
-
-        window.dataLayer.push({
-          event: "lead_form_submit",
-          form_name: "Departamentos",
-          lead_type: LEAD_TYPE,
-          campaign: CAMPAIGN_CODE,
-          source_id: SOURCE_ID,
-          page_path: window.location.pathname,
-        });
-
-        /* =========================================
-          LIMPIAR FORMULARIO
-        ========================================= */
-
-        setFormData(initialFormData);
-        setErrors({});
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
 
         showToast({
-          ...SUCCESS_TOAST,
+          variant: "error",
+          title:
+            "Respuesta inválida del servidor",
           message:
-            result.message ||
-            SUCCESS_TOAST.message,
-          });
+            `La API respondió HTTP ${response.status}.`,
+        });
 
-        } catch (error) {
-          console.error(
-            "Error enviando formulario de Departamentos:",
-            error
-          );
+        return;
+      }
+    }
 
-          if (
-            error instanceof Error &&
-            error.name === "AbortError"
-          ) {
-            showToast({
-              variant: "error",
-              title:
-                "El servidor tardó demasiado",
-              message:
-                "La solicitud superó los 20 segundos de espera.",
-            });
+    /* ================================
+       VALIDAR GUARDADO EN DB
+    ================================= */
 
-            return;
-          }
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !==
+        true
+    ) {
+      console.error(
+        "Error guardando lead:",
+        {
+          status:
+            response.status,
 
-          showToast(ERROR_TOAST);
+          result,
 
-        } finally {
-          window.clearTimeout(timeoutId);
-
-          submitLockRef.current = false;
-          setIsSending(false);
+          payload:
+            formularioData,
         }
-        };
+      );
+
+      showToast({
+        variant: "error",
+
+        title:
+          "No pudimos registrar tus datos",
+
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible guardar el formulario.",
+      });
+
+      return;
+    }
+
+    /* ================================
+       RESULTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    console.log(
+      "LEAD PROCESADO:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        proyecto:
+          PROJECT_NAME,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Las Colinas de Moro",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        PROJECT_NAME,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       ÉXITO
+    ================================= */
+
+    form.reset();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tus datos fueron registrados correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Las Colinas de Moro:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    setIsSending(false);
+  }
+};
 
   return (
     <>

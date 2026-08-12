@@ -1,0 +1,1106 @@
+/* =========================================================
+   SECTION FULL WIDTH - RESORTS
+========================================================= */
+
+.leadSection {
+  position: relative;
+
+  width: 100vw;
+
+  margin-top: 80px;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: calc(50% - 50vw);
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(0, 167, 79, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      115deg,
+      #11272d 0%,
+      #17172b 52%,
+      #101024 100%
+    );
+}
+
+/* =========================================================
+   CONTENEDOR INTERNO
+========================================================= */
+
+.leadContainer {
+  width: min(1760px, 100%);
+
+  min-height: 720px;
+
+  margin: 0 auto;
+
+  padding:
+    72px
+    clamp(48px, 6vw, 110px);
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.93fr)
+    minmax(610px, 1.07fr);
+
+  align-items: center;
+
+  gap: clamp(70px, 7vw, 130px);
+}
+
+/* =========================================================
+   COLUMNA IZQUIERDA
+========================================================= */
+
+.leadInfo {
+  width: 100%;
+  max-width: 650px;
+}
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.eyebrow {
+  display: block;
+
+  margin: 0 0 18px;
+
+  color: #00f078;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 0.11em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.leadInfo h2 {
+  max-width: 620px;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(
+    2.8rem,
+    3.8vw,
+    4.15rem
+  );
+
+  font-weight: 700;
+
+  line-height: 1.01;
+
+  letter-spacing: -0.055em;
+
+  text-wrap: balance;
+}
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.description {
+  max-width: 600px;
+
+  margin: 24px 0 0;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.72
+  );
+
+  font-size: 16px;
+
+  line-height: 1.62;
+}
+
+/* =========================================================
+   BENEFICIOS
+========================================================= */
+
+.benefits {
+  width: 100%;
+
+  margin-top: 36px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.benefit {
+  width: 100%;
+
+  padding: 18px 20px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.13
+    );
+
+  border-radius: 15px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.065
+    );
+
+  box-shadow:
+    inset
+    0
+    1px
+    0
+    rgba(
+      255,
+      255,
+      255,
+      0.025
+    );
+
+  backdrop-filter: blur(7px);
+
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.benefit strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1.35;
+}
+
+.benefit span {
+  display: block;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      0.59
+    );
+
+  font-size: 13px;
+
+  line-height: 1.45;
+}
+
+/* =========================================================
+   TARJETA FORMULARIO
+========================================================= */
+
+.formCard {
+  width: 100%;
+
+  max-width: 760px;
+
+  justify-self: end;
+
+  padding:
+    34px
+    35px
+    32px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid
+    rgba(
+      15,
+      23,
+      42,
+      0.06
+    );
+
+  border-radius: 27px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0
+    30px
+    80px
+    rgba(
+      0,
+      0,
+      0,
+      0.24
+    );
+}
+
+/* =========================================================
+   HEADER FORMULARIO
+========================================================= */
+
+.formHeader {
+  margin: 0 0 26px;
+}
+
+.formHeader > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #00a74f;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.formHeader h3 {
+  margin: 0;
+
+  color: #11152b;
+
+  font-size: clamp(
+    1.85rem,
+    2.2vw,
+    2.35rem
+  );
+
+  font-weight: 700;
+
+  line-height: 1.04;
+
+  letter-spacing: -0.04em;
+}
+
+.formHeader p {
+  margin: 10px 0 0;
+
+  color: #7b8193;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   FORMULARIO
+========================================================= */
+
+.leadForm {
+  width: 100%;
+
+  margin: 0;
+
+  padding: 0;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.formGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  column-gap: 16px;
+
+  row-gap: 17px;
+}
+
+.fullField {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.leadForm label {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  min-width: 0;
+
+  margin: 0;
+
+  color: #12162a;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  line-height: 1.25;
+}
+
+/* =========================================================
+   INPUTS / SELECT
+========================================================= */
+
+.leadForm input:not([type="checkbox"]),
+.leadForm select {
+  display: block;
+
+  width: 100%;
+
+  height: 48px;
+
+  min-width: 0;
+
+  margin: 0;
+
+  padding: 0 14px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid
+    #d4d8df;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.leadForm input:not([type="checkbox"])::placeholder {
+  color: #9ca3af;
+
+  opacity: 1;
+}
+
+.leadForm select {
+  cursor: pointer;
+
+  color: #111827;
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.leadForm input:not([type="checkbox"]):focus,
+.leadForm select:focus {
+  border-color: #00b45a;
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      0,
+      180,
+      90,
+      0.11
+    );
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkbox {
+  width: 100%;
+
+  display: grid !important;
+
+  grid-template-columns:
+    18px
+    minmax(0, 1fr);
+
+  align-items: start;
+
+  column-gap: 10px !important;
+
+  margin:
+    20px
+    0
+    0 !important;
+
+  padding: 0 !important;
+
+  cursor: pointer;
+}
+
+.leadForm .checkbox input[type="checkbox"] {
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  display: block;
+
+  width: 18px !important;
+  height: 18px !important;
+
+  min-width: 18px !important;
+  min-height: 18px !important;
+
+  max-width: 18px !important;
+  max-height: 18px !important;
+
+  margin:
+    1px
+    0
+    0 !important;
+
+  padding: 0 !important;
+
+  position: relative;
+
+  border:
+    1px solid
+    #aeb6c0 !important;
+
+  border-radius:
+    3px !important;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow: none;
+}
+
+.leadForm .checkbox input[type="checkbox"]:checked {
+  border-color:
+    #00b65b !important;
+
+  background: #00b65b;
+}
+
+.leadForm .checkbox input[type="checkbox"]:checked::after {
+  content: "";
+
+  position: absolute;
+
+  left: 5px;
+  top: 2px;
+
+  width: 4px;
+  height: 8px;
+
+  border:
+    solid
+    #ffffff;
+
+  border-width:
+    0
+    2px
+    2px
+    0;
+
+  transform: rotate(45deg);
+}
+
+.leadForm .checkbox input[type="checkbox"]:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0
+    0
+    0
+    3px
+    rgba(
+      0,
+      182,
+      91,
+      0.15
+    );
+}
+
+.checkbox span {
+  display: block;
+
+  padding-top: 1px;
+
+  color: #7a8190;
+
+  font-size: 12px;
+  font-weight: 400;
+
+  line-height: 1.45;
+}
+
+/* =========================================================
+   BOTÓN
+========================================================= */
+
+.leadForm > button {
+  width: 100%;
+
+  height: 52px;
+
+  margin: 22px 0 0;
+
+  padding: 0 22px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 11px;
+
+  border: 0;
+
+  border-radius: 999px;
+
+  outline: none;
+
+  background: #00b65b;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.leadForm > button svg {
+  display: block;
+
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .leadForm > button:hover:not(:disabled) {
+    background: #009d4e;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+      0
+      12px
+      28px
+      rgba(
+        0,
+        182,
+        91,
+        0.25
+      );
+  }
+}
+
+.leadForm > button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.leadForm > button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.6;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+/* =========================================================
+   DESKTOP GRANDE
+========================================================= */
+
+@media (min-width: 1600px) {
+  .leadSection {
+    margin-top: 90px;
+  }
+
+  .leadContainer {
+    width:
+      min(
+        1760px,
+        100%
+      );
+
+    min-height: 720px;
+
+    padding:
+      72px
+      110px;
+  }
+}
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1300px) {
+  .leadSection {
+    margin-top: 72px;
+  }
+
+  .leadContainer {
+    width: 100%;
+
+    min-height: 680px;
+
+    padding:
+      64px
+      48px;
+
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(520px, 1.1fr);
+
+    gap: 54px;
+  }
+
+  .leadInfo h2 {
+    font-size:
+      clamp(
+        2.5rem,
+        4vw,
+        3.5rem
+      );
+  }
+
+  .formCard {
+    max-width: 700px;
+
+    padding:
+      31px
+      30px
+      28px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .leadSection {
+    margin-top: 64px;
+  }
+
+  .leadContainer {
+    width: 100%;
+
+    min-height: auto;
+
+    padding:
+      64px
+      36px;
+
+    grid-template-columns: 1fr;
+
+    gap: 42px;
+  }
+
+  .leadInfo {
+    width: 100%;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    text-align: center;
+  }
+
+  .leadInfo h2 {
+    max-width: 680px;
+
+    margin: 0 auto;
+  }
+
+  .description {
+    max-width: 620px;
+
+    margin:
+      20px
+      auto
+      0;
+  }
+
+  .benefits {
+    max-width: 680px;
+
+    margin:
+      32px
+      auto
+      0;
+
+    text-align: left;
+  }
+
+  .formCard {
+    width: 100%;
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    justify-self: center;
+  }
+}
+
+/* =========================================================
+   TABLET VERTICAL
+========================================================= */
+
+@media (max-width: 768px) {
+  .leadSection {
+    margin-top: 56px;
+  }
+
+  .leadContainer {
+    padding:
+      56px
+      24px;
+  }
+
+  .leadInfo h2 {
+    font-size:
+      clamp(
+        2.25rem,
+        7vw,
+        3rem
+      );
+  }
+
+  .formCard {
+    padding:
+      28px
+      24px
+      24px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .leadSection {
+    width: 100vw;
+
+    margin-top: 48px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: calc(50% - 50vw);
+
+    padding: 0;
+  }
+
+  .leadContainer {
+    width: 100%;
+
+    min-height: auto;
+
+    padding:
+      44px
+      14px
+      46px;
+
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+  }
+
+  .leadInfo {
+    width: 100%;
+
+    max-width: none;
+
+    margin: 0;
+
+    text-align: left;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+
+    font-size: 10px;
+  }
+
+  .leadInfo h2 {
+    max-width: none;
+
+    margin: 0;
+
+    font-size:
+      clamp(
+        2rem,
+        9.3vw,
+        2.65rem
+      );
+
+    line-height: 1.03;
+  }
+
+  .description {
+    max-width: none;
+
+    margin:
+      16px
+      0
+      0;
+
+    font-size: 14px;
+
+    line-height: 1.58;
+  }
+
+  .benefits {
+    width: 100%;
+
+    max-width: none;
+
+    margin-top: 25px;
+
+    gap: 10px;
+  }
+
+  .benefit {
+    padding:
+      15px
+      16px;
+
+    border-radius: 13px;
+  }
+
+  .benefit strong {
+    font-size: 13px;
+  }
+
+  .benefit span {
+    font-size: 12px;
+  }
+
+  .formCard {
+    width: 100%;
+
+    max-width: none;
+
+    margin: 0;
+
+    padding:
+      25px
+      17px
+      21px;
+
+    justify-self: stretch;
+
+    border-radius: 20px;
+
+    box-shadow:
+      0
+      22px
+      56px
+      rgba(
+        0,
+        0,
+        0,
+        0.2
+      );
+  }
+
+  .formHeader {
+    margin-bottom: 21px;
+  }
+
+  .formHeader > span {
+    font-size: 10px;
+  }
+
+  .formHeader h3 {
+    font-size: 1.65rem;
+
+    line-height: 1.06;
+  }
+
+  .formHeader p {
+    margin-top: 8px;
+
+    font-size: 12px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+
+    column-gap: 0;
+
+    row-gap: 15px;
+  }
+
+  .fullField {
+    grid-column: auto;
+  }
+
+  .leadForm label {
+    gap: 7px;
+
+    font-size: 12px;
+  }
+
+  .leadForm input:not([type="checkbox"]),
+  .leadForm select {
+    height: 49px;
+
+    padding: 0 13px;
+
+    font-size: 16px;
+  }
+
+  .checkbox {
+    margin-top:
+      17px !important;
+
+    column-gap:
+      9px !important;
+  }
+
+  .checkbox span {
+    font-size: 11px;
+
+    line-height: 1.42;
+  }
+
+  .leadForm > button {
+    height: 50px;
+
+    margin-top: 18px;
+
+    padding: 0 15px;
+
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 400px) {
+  .leadSection {
+    margin-top: 40px;
+  }
+
+  .leadContainer {
+    padding:
+      38px
+      10px
+      40px;
+  }
+
+  .leadInfo h2 {
+    font-size: 1.9rem;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .formCard {
+    padding:
+      22px
+      14px
+      18px;
+
+    border-radius: 17px;
+  }
+
+  .formHeader h3 {
+    font-size: 1.5rem;
+  }
+
+  .leadForm input:not([type="checkbox"]),
+  .leadForm select {
+    height: 47px;
+  }
+
+  .leadForm > button {
+    height: 48px;
+
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   MOVIMIENTO REDUCIDO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .leadForm input,
+  .leadForm select,
+  .checkbox input,
+  .leadForm > button {
+    transition: none;
+  }
+
+  .leadForm > button:hover {
+    transform: none;
+  }
+}

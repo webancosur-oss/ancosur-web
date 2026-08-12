@@ -16,7 +16,7 @@ import FeedbackToast, {
   type FeedbackToastData,
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
-import styles from "../ResortsPage.module.css";
+import styles from "./ResortsLeadForm.module.css";
 
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "Resorts Ancosur";
@@ -759,235 +759,250 @@ window.dataLayer.push({
   };
 
   return (
-    <>
-      <form
-        className={
-          styles.leadForm
-        }
-        onSubmit={
-          handleSubmit
-        }
-      >
-        <div
-          className={
-            styles.formGrid
-          }
-        >
-          <label>
-            Nombre completo
+  <>
+    <section
+      className={styles.leadSection}
+      aria-labelledby="resorts-lead-title"
+    >
+      <div className={styles.leadContainer}>
+        {/* =========================================
+            COLUMNA IZQUIERDA
+        ========================================= */}
+        <div className={styles.leadInfo}>
+          <span className={styles.eyebrow}>
+            Asesoría personalizada
+          </span>
 
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Ej. Miguel Asto"
-              autoComplete="name"
-              minLength={3}
-              maxLength={80}
-              pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü.'’ -]{3,80}"
-              title="Ingresa tu nombre usando únicamente letras y espacios."
-              disabled={
-                isSending
-              }
-              onInput={(event) => {
-                event.currentTarget.value =
-                  event.currentTarget.value
-                    .replace(
-                      /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]/g,
-                      "",
-                    )
-                    .replace(
-                      /\s{2,}/g,
-                      " ",
-                    )
-                    .slice(
-                      0,
-                      80,
-                    );
-              }}
-              required
-            />
-          </label>
+          <h2 id="resorts-lead-title">
+            Encuentra el proyecto resort ideal para ti
+          </h2>
 
-          <label>
-            Celular
+          <p className={styles.description}>
+            Déjanos tus datos y cuéntanos qué proyecto te interesa.
+            Uno de nuestros asesores te brindará información sobre
+            disponibilidad, ubicación y oportunidades de inversión.
+          </p>
 
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Ej. 987654321"
-              autoComplete="tel"
-              inputMode="numeric"
-              pattern="9[0-9]{8}"
-              minLength={9}
-              maxLength={9}
-              title="Ingresa un celular peruano de 9 dígitos que empiece con 9."
-              onInput={(event) => {
-                event.currentTarget.value =
-                  event.currentTarget.value
-                    .replace(
-                      /\D/g,
-                      "",
-                    )
-                    .slice(
-                      0,
-                      9,
-                    );
-              }}
-              disabled={
-                isSending
-              }
-              required
-            />
-          </label>
+          <div className={styles.benefits}>
+            <div className={styles.benefit}>
+              <strong>
+                Proyectos para disfrutar
+              </strong>
 
-          <label>
-            Correo opcional
+              <span>
+                Descubre espacios rodeados de naturaleza,
+                descanso y experiencias únicas.
+              </span>
+            </div>
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Ej. correo@gmail.com"
-              autoComplete="email"
-              maxLength={120}
-              title="Ingresa un correo válido o deja el campo vacío."
-              disabled={
-                isSending
-              }
-            />
-          </label>
+            <div className={styles.benefit}>
+              <strong>
+                Oportunidades para invertir
+              </strong>
 
-          <label>
-            Número de documento opcional
+              <span>
+                Conoce proyectos ubicados en destinos con
+                potencial turístico y crecimiento.
+              </span>
+            </div>
 
-            <input
-              type="text"
-              name="dni"
-              placeholder="12345678"
-              autoComplete="off"
-              inputMode="numeric"
-              pattern="[0-9]{8}"
-              minLength={8}
-              maxLength={8}
-              title="Ingresa un número de documento de 8 dígitos o deja el campo vacío."
-              onInput={(event) => {
-                event.currentTarget.value =
-                  event.currentTarget.value
-                    .replace(
-                      /\D/g,
-                      "",
-                    )
-                    .slice(
-                      0,
-                      8,
-                    );
-              }}
-              disabled={
-                isSending
-              }
-            />
-          </label>
-
-          <label>
-            Estoy interesado en
-
-            <select
-              name="interest"
-              defaultValue=""
-              disabled={
-                isSending
-              }
-              required
-            >
-              <option
-                value=""
-                disabled
-              >
-                Selecciona una opción
-              </option>
-
-              <option
-                value="Zagari Resort Club"
-              >
-                Zagari Resort Club
-              </option>
-
-              <option
-                value="Nuevo Resort Oxapampa"
-              >
-                Nuevo Resort Oxapampa
-              </option>
-
-              <option
-                value="Asesoría personalizada"
-              >
+            <div className={styles.benefit}>
+              <strong>
                 Asesoría personalizada
-              </option>
-            </select>
-          </label>
+              </strong>
+
+              <span>
+                Recibe información sobre disponibilidad,
+                ubicación y alternativas de inversión.
+              </span>
+            </div>
+          </div>
         </div>
 
-        <label
-          className={
-            styles.checkbox
-          }
-        >
-          <input
-            type="checkbox"
-            name="consent"
-            value="accepted"
-            defaultChecked
-            disabled={
-              isSending
-            }
-            required
-          />
+        {/* =========================================
+            TARJETA FORMULARIO
+        ========================================= */}
+        <div className={styles.formCard}>
+          <header className={styles.formHeader}>
+            <span>
+              Solicita información
+            </span>
 
-          <span>
-            Acepto ser contactado por Ancosur para recibir información
-            comercial sobre sus proyectos resort.
-          </span>
-        </label>
+            <h3>
+              Quiero conocer los resorts
+            </h3>
 
-        <button
-          type="submit"
-          disabled={
-            isSending
-          }
-          aria-busy={
-            isSending
-          }
-        >
-          {isSending
-            ? "Enviando..."
-            : "Quiero que me contacten"}
+            <p>
+              Completa tus datos y un asesor de Ancosur
+              se comunicará contigo.
+            </p>
+          </header>
 
-          <ArrowRightIcon
-            size={18}
-            weight="bold"
-            aria-hidden="true"
-          />
-        </button>
-      </form>
+          <form
+            className={styles.leadForm}
+            onSubmit={handleSubmit}
+          >
+            <div className={styles.formGrid}>
+              <label>
+                Nombre completo
 
-      <FeedbackToast
-        key={toast?.id}
-        open={
-          toast !== null
-        }
-        variant={
-          toast?.variant ??
-          "info"
-        }
-        title={
-          toast?.title ?? ""
-        }
-        message={
-          toast?.message ?? ""
-        }
-        onClose={
-          closeToast
-        }
-      />
-    </>
-  );
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Ej. Miguel Asto"
+                  autoComplete="name"
+                  minLength={3}
+                  maxLength={80}
+                  pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü.'’ -]{3,80}"
+                  title="Ingresa tu nombre usando únicamente letras y espacios."
+                  disabled={isSending}
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(
+                          /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]/g,
+                          "",
+                        )
+                        .replace(/\s{2,}/g, " ")
+                        .slice(0, 80);
+                  }}
+                  required
+                />
+              </label>
+
+              <label>
+                Celular
+
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Ej. 987654321"
+                  autoComplete="tel"
+                  inputMode="numeric"
+                  pattern="9[0-9]{8}"
+                  minLength={9}
+                  maxLength={9}
+                  title="Ingresa un celular peruano de 9 dígitos que empiece con 9."
+                  disabled={isSending}
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(/\D/g, "")
+                        .slice(0, 9);
+                  }}
+                  required
+                />
+              </label>
+
+              <label>
+                Correo electrónico opcional
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Ej. correo@gmail.com"
+                  autoComplete="email"
+                  maxLength={120}
+                  title="Ingresa un correo válido o deja el campo vacío."
+                  disabled={isSending}
+                />
+              </label>
+
+              <label>
+                Número de documento opcional
+
+                <input
+                  type="text"
+                  name="dni"
+                  placeholder="12345678"
+                  autoComplete="off"
+                  inputMode="numeric"
+                  pattern="[0-9]{8}"
+                  minLength={8}
+                  maxLength={8}
+                  title="Ingresa un número de documento de 8 dígitos o deja el campo vacío."
+                  disabled={isSending}
+                  onInput={(event) => {
+                    event.currentTarget.value =
+                      event.currentTarget.value
+                        .replace(/\D/g, "")
+                        .slice(0, 8);
+                  }}
+                />
+              </label>
+
+              <label className={styles.fullField}>
+                Estoy interesado en
+
+                <select
+                  name="interest"
+                  defaultValue=""
+                  disabled={isSending}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecciona una opción
+                  </option>
+
+                  <option value="Zagari Resort Club">
+                    Zagari Resort Club
+                  </option>
+
+                  <option value="Nuevo Resort Oxapampa">
+                    Nuevo Resort Oxapampa
+                  </option>
+
+                  <option value="Asesoría personalizada">
+                    Asesoría personalizada
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <label className={styles.checkbox}>
+              <input
+                type="checkbox"
+                name="consent"
+                value="accepted"
+                defaultChecked
+                disabled={isSending}
+                required
+              />
+
+              <span>
+                Acepto ser contactado por Ancosur para recibir
+                información comercial sobre sus proyectos resort.
+              </span>
+            </label>
+
+            <button
+              type="submit"
+              disabled={isSending}
+              aria-busy={isSending}
+            >
+              {isSending
+                ? "Enviando..."
+                : "Quiero que me contacten"}
+
+              <ArrowRightIcon
+                size={18}
+                weight="bold"
+                aria-hidden="true"
+              />
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <FeedbackToast
+      key={toast?.id}
+      open={toast !== null}
+      variant={toast?.variant ?? "info"}
+      title={toast?.title ?? ""}
+      message={toast?.message ?? ""}
+      onClose={closeToast}
+    />
+  </>
+);
 }

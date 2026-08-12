@@ -4,10 +4,13 @@ import {
   SparkleIcon,
   WhatsappLogoIcon,
 } from "@phosphor-icons/react/dist/ssr";
+
 import Image from "next/image";
 
 import ActionButton from "@/components/buttons/ActionButton";
 import { createSeoMetadata } from "@/src/lib/seo";
+
+import ResortsLeadForm from "./components/ResortsLeadForm";
 
 import styles from "./ResortsPage.module.css";
 
@@ -22,7 +25,8 @@ export const metadata = createSeoMetadata({
   description:
     "Conoce los proyectos resort de ANCOSUR en Selva Central. Descubre Zagari Resort Club en San Ramón y próximos desarrollos inmobiliarios en Oxapampa.",
 
-  pathname: "/resorts",
+  pathname:
+    "/resorts",
 
   keywords: [
     "resorts Selva Central",
@@ -50,16 +54,27 @@ const WHATSAPP_NUMBER =
 
 type Resort = {
   id: number;
+
   name: string;
+
   status: string;
+
   location: string;
+
   region: string;
+
   type: string;
+
   amenities: string;
+
   image: string;
+
   logo: string;
+
   logoWidth: number;
+
   logoHeight: number;
+
   whatsappMessage: string;
 };
 
@@ -140,19 +155,19 @@ const resorts: Resort[] = [
 ];
 
 /* =========================================================
-   UTILIDAD
+   WHATSAPP
 ========================================================= */
 
 function createWhatsAppUrl(
-  message: string,
+  message: string
 ): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    message,
+    message
   )}`;
 }
 
 /* =========================================================
-   PÁGINA
+   PAGE
 ========================================================= */
 
 export default function ResortsPage() {
@@ -162,180 +177,295 @@ export default function ResortsPage() {
       className={styles.page}
     >
       <section
-        className={styles.projectsSection}
+        className={
+          styles.projectsSection
+        }
         aria-labelledby="resorts-title"
       >
-        <header className={styles.sectionHeader}>
+        {/* =================================================
+            HEADER
+        ================================================= */}
+
+        <header
+          className={
+            styles.sectionHeader
+          }
+        >
           <span>
             Proyectos resort ANCOSUR
           </span>
 
           <h1 id="resorts-title">
-            Invierte en experiencias rodeadas de naturaleza
+            Invierte en experiencias
+            rodeadas de naturaleza
           </h1>
 
           <p>
-            Conoce nuestros resorts en Selva Central,
-            desarrollados para disfrutar, descansar e invertir
-            en destinos con gran potencial turístico.
+            Conoce nuestros resorts en
+            Selva Central, desarrollados
+            para disfrutar, descansar e
+            invertir en destinos con gran
+            potencial turístico.
           </p>
         </header>
 
-        <div className={styles.grid}>
-          {resorts.map((resort) => {
-            const whatsappUrl =
-              createWhatsAppUrl(
-                resort.whatsappMessage,
-              );
+        {/* =================================================
+            PROYECTOS
+        ================================================= */}
 
-            return (
-              <article
-                key={resort.id}
-                className={styles.card}
-                aria-label={`${resort.name}, ${resort.type}, ubicado en ${resort.location}, ${resort.region}`}
-              >
-                {/* =================================================
-                    IMAGEN PRINCIPAL
-                ================================================== */}
+        <div
+          className={
+            styles.grid
+          }
+        >
+          {resorts.map(
+            (resort) => {
+              const whatsappUrl =
+                createWhatsAppUrl(
+                  resort.whatsappMessage
+                );
 
-                <div className={styles.imageBox}>
-                  <Image
-                    src={resort.image}
-                    alt={`${resort.name} ubicado en ${resort.location}, ${resort.region}`}
-                    fill
-                    className={styles.image}
-                    sizes="
-                      (max-width: 640px) 100vw,
-                      (max-width: 1024px) 50vw,
-                      420px
-                    "
-                  />
+              return (
+                <article
+                  key={
+                    resort.id
+                  }
+                  className={
+                    styles.card
+                  }
+                  aria-label={`${resort.name}, ${resort.type}, ubicado en ${resort.location}, ${resort.region}`}
+                >
+                  {/* =====================================
+                      IMAGEN
+                  ====================================== */}
 
                   <div
-                    className={styles.overlay}
-                    aria-hidden="true"
-                  />
-
-                  <span className={styles.status}>
-                    {resort.status}
-                  </span>
-                </div>
-
-                {/* =================================================
-                    CONTENIDO
-                ================================================== */}
-
-                <div className={styles.content}>
-                  <div className={styles.titleArea}>
+                    className={
+                      styles.imageBox
+                    }
+                  >
+                    <Image
+                      src={
+                        resort.image
+                      }
+                      alt={`${resort.name} ubicado en ${resort.location}, ${resort.region}`}
+                      fill
+                      priority={
+                        resort.id === 1
+                      }
+                      className={
+                        styles.image
+                      }
+                      sizes="
+                        (max-width: 640px) 100vw,
+                        (max-width: 1024px) 50vw,
+                        420px
+                      "
+                    />
 
                     <div
-                      className={styles.logoContainer}
-                      role="img"
-                      aria-label={`Logo de ${resort.name}`}
+                      className={
+                        styles.overlay
+                      }
+                      aria-hidden="true"
+                    />
+
+                    <span
+                      className={
+                        styles.status
+                      }
                     >
-                      <Image
-                        src={resort.logo}
-                        alt={`Logo oficial de ${resort.name}`}
-                        width={resort.logoWidth}
-                        height={resort.logoHeight}
-                        className={styles.logo}
-                      />
-                    </div>
-
-                    <span className={styles.srOnly}>
-                      {resort.name}
+                      {
+                        resort.status
+                      }
                     </span>
                   </div>
 
-                  {/* =================================================
-                      UBICACIÓN
-                  ================================================== */}
+                  {/* =====================================
+                      CONTENIDO
+                  ====================================== */}
 
-                  <div className={styles.location}>
-                    <strong>
-                      {resort.location}
-                    </strong>
-
-                    <span>
-                      {resort.region}
-                    </span>
-                  </div>
-
-                  {/* =================================================
-                      CARACTERÍSTICAS
-                  ================================================== */}
-
-                  <div className={styles.features}>
-                    <div className={styles.feature}>
-                      <BuildingsIcon
-                        size={21}
-                        weight="regular"
-                        aria-hidden="true"
-                      />
-
-                      <span>
-                        {resort.type}
-                      </span>
-                    </div>
-
-                    <div className={styles.feature}>
-                      <SparkleIcon
-                        size={21}
-                        weight="regular"
-                        aria-hidden="true"
-                      />
-
-                      <span>
-                        {resort.amenities}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* =================================================
-                      UBICACIÓN DETALLADA
-                  ================================================== */}
-
-                  <div className={styles.locationDetail}>
-                    <MapPinIcon
-                      size={18}
-                      weight="fill"
-                      aria-hidden="true"
-                    />
-
-                    <span>
-                      {resort.location},{" "}
-                      {resort.region}
-                    </span>
-                  </div>
-                </div>
-
-                {/* =================================================
-                    BOTÓN
-                ================================================== */}
-
-                <div className={styles.buttonArea}>
-                  <ActionButton
-                    href={whatsappUrl}
-                    variant="primary"
-                    size="md"
-                    fullWidth
-                    iconPosition="right"
+                  <div
+                    className={
+                      styles.content
+                    }
                   >
-                    <span>
-                      Solicitar información
-                    </span>
+                    {/* LOGO */}
 
-                    <WhatsappLogoIcon
-                      size={19}
-                      weight="fill"
-                      aria-hidden="true"
-                    />
-                  </ActionButton>
-                </div>
-              </article>
-            );
-          })}
+                    <div
+                      className={
+                        styles.titleArea
+                      }
+                    >
+                      <div
+                        className={
+                          styles.logoContainer
+                        }
+                        role="img"
+                        aria-label={`Logo de ${resort.name}`}
+                      >
+                        <Image
+                          src={
+                            resort.logo
+                          }
+                          alt={`Logo oficial de ${resort.name}`}
+                          width={
+                            resort.logoWidth
+                          }
+                          height={
+                            resort.logoHeight
+                          }
+                          className={
+                            styles.logo
+                          }
+                        />
+                      </div>
+
+                      <span
+                        className={
+                          styles.srOnly
+                        }
+                      >
+                        {
+                          resort.name
+                        }
+                      </span>
+                    </div>
+
+                    {/* UBICACIÓN */}
+
+                    <div
+                      className={
+                        styles.location
+                      }
+                    >
+                      <strong>
+                        {
+                          resort.location
+                        }
+                      </strong>
+
+                      <span>
+                        {
+                          resort.region
+                        }
+                      </span>
+                    </div>
+
+                    {/* CARACTERÍSTICAS */}
+
+                    <div
+                      className={
+                        styles.features
+                      }
+                    >
+                      <div
+                        className={
+                          styles.feature
+                        }
+                      >
+                        <BuildingsIcon
+                          size={
+                            21
+                          }
+                          weight="regular"
+                          aria-hidden="true"
+                        />
+
+                        <span>
+                          {
+                            resort.type
+                          }
+                        </span>
+                      </div>
+
+                      <div
+                        className={
+                          styles.feature
+                        }
+                      >
+                        <SparkleIcon
+                          size={
+                            21
+                          }
+                          weight="regular"
+                          aria-hidden="true"
+                        />
+
+                        <span>
+                          {
+                            resort.amenities
+                          }
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* UBICACIÓN DETALLADA */}
+
+                    <div
+                      className={
+                        styles.locationDetail
+                      }
+                    >
+                      <MapPinIcon
+                        size={
+                          18
+                        }
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+
+                      <span>
+                        {
+                          resort.location
+                        }
+                        ,{" "}
+                        {
+                          resort.region
+                        }
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* =====================================
+                      WHATSAPP
+                  ====================================== */}
+
+                  <div
+                    className={
+                      styles.buttonArea
+                    }
+                  >
+                    <ActionButton
+                      href={
+                        whatsappUrl
+                      }
+                      variant="primary"
+                      size="md"
+                      fullWidth
+                      iconPosition="right"
+                    >
+                      <span>
+                        Solicitar
+                        información
+                      </span>
+
+                      <WhatsappLogoIcon
+                        size={
+                          19
+                        }
+                        weight="fill"
+                        aria-hidden="true"
+                      />
+                    </ActionButton>
+                  </div>
+                </article>
+              );
+            }
+          )}
         </div>
+
+       <ResortsLeadForm />
       </section>
     </main>
   );

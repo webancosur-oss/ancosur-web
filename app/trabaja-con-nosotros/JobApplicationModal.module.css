@@ -1,0 +1,464 @@
+/* =========================================================
+   BOTÓN ABRIR
+========================================================= */
+
+.openButton {
+  width: 100%;
+
+  min-height: 50px;
+
+  padding:
+    0
+    18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  background: #00a74f;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: 0.025em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.openButton:hover {
+  background: #009347;
+
+  transform:
+    translateY(-1px);
+}
+
+.openButton:active {
+  transform: none;
+}
+
+/* =========================================================
+   OVERLAY
+
+   IMPORTANTE:
+   vive en document.body gracias al portal
+========================================================= */
+
+.overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2147482000;
+
+  width: 100vw;
+  height: 100dvh;
+
+  padding:
+    24px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    rgba(
+      7,
+      10,
+      8,
+      0.82
+    );
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal {
+  width:
+    min(
+      680px,
+      100%
+    );
+
+  max-height:
+    calc(
+      100dvh - 48px
+    );
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(
+      18,
+      33,
+      23,
+      0.08
+    );
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0
+    26px
+    90px
+    rgba(
+      0,
+      0,
+      0,
+      0.32
+    );
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  flex-shrink: 0;
+
+  padding:
+    20px
+    22px
+    17px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 18px;
+
+  border-bottom:
+    1px solid
+    #e7ece9;
+
+  background: #ffffff;
+}
+
+.heading {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.heading > span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #00a74f;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  width: 100%;
+
+  min-width: 0;
+
+  margin: 0;
+
+  color: #131b16;
+
+  font-size:
+    clamp(
+      1.45rem,
+      3vw,
+      1.9rem
+    );
+
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  letter-spacing: -0.04em;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+}
+
+.heading p {
+  margin:
+    7px
+    0
+    0;
+
+  color: #747e78;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   CERRAR
+========================================================= */
+
+.closeButton {
+  width: 38px;
+  height: 38px;
+
+  min-width: 38px;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background: #f0f3f1;
+
+  color: #445048;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease;
+}
+
+.closeButton:hover {
+  background: #e4e9e6;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.body {
+  flex: 1;
+
+  min-width: 0;
+
+  overflow-y: auto;
+
+  overscroll-behavior:
+    contain;
+
+  padding:
+    22px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+}
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+.body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background: #ced6d1;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+  max-width: 800px
+) {
+  .overlay {
+    padding: 16px;
+  }
+
+  .modal {
+    max-height:
+      calc(
+        100dvh - 32px
+      );
+
+    border-radius: 16px;
+  }
+
+  .header {
+    padding:
+      18px
+      18px
+      15px;
+  }
+
+  .body {
+    padding: 18px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+  max-width: 640px
+) {
+  .overlay {
+    padding: 0;
+
+    align-items: flex-end;
+
+    background:
+      rgba(
+        4,
+        7,
+        5,
+        0.78
+      );
+  }
+
+  .modal {
+    width: 100%;
+
+    max-height: 94dvh;
+
+    border: 0;
+
+    border-radius:
+      20px
+      20px
+      0
+      0;
+
+    box-shadow:
+      0
+      -16px
+      50px
+      rgba(
+        0,
+        0,
+        0,
+        0.25
+      );
+  }
+
+  .header {
+    padding:
+      17px
+      16px
+      14px;
+  }
+
+  .heading h2 {
+    font-size: 1.4rem;
+  }
+
+  .heading p {
+    font-size: 10px;
+  }
+
+  .closeButton {
+    width: 36px;
+    height: 36px;
+
+    min-width: 36px;
+  }
+
+  .body {
+    padding:
+      17px
+      15px
+      max(
+        22px,
+        env(
+          safe-area-inset-bottom
+        )
+      );
+  }
+
+  .openButton {
+    min-height: 48px;
+
+    padding:
+      0
+      13px;
+
+    font-size: 9px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (
+  max-width: 390px
+) {
+  .modal {
+    max-height: 96dvh;
+  }
+
+  .header {
+    padding:
+      15px
+      14px
+      13px;
+  }
+
+  .body {
+    padding:
+      15px
+      13px
+      22px;
+  }
+
+  .heading h2 {
+    font-size: 1.3rem;
+  }
+}

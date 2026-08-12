@@ -349,358 +349,558 @@ export default function LotesLeadSection() {
     });
   };
 
-  const handleSubmit = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-
-    if (
-      isSending ||
-      submitLockRef.current
-    ) {
-      return;
-    }
-
-    submitLockRef.current = true;
-
-    const form =
-      event.currentTarget;
-
-    if (!form.checkValidity()) {
-      form.reportValidity();
-
-      showToast({
-        variant: "error",
-        title: "Revisa tus datos",
-        message:
-          "Completa correctamente los campos requeridos.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    const formData =
-      new FormData(form);
-
-    const fullName =
-      String(
-        formData.get("fullName") ?? ""
-      )
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const phone =
-      String(
-        formData.get("phone") ?? ""
-      )
-        .replace(/\D/g, "")
-        .slice(0, 9);
-
-    const email =
-      String(
-        formData.get("email") ?? ""
-      )
-        .trim()
-        .toLowerCase();
-
-    const interest =
-      String(
-        formData.get("interest") ?? ""
-      ).trim();
-
-    const message =
-      String(
-        formData.get("message") ?? ""
-      ).trim();
-
-    const consent =
-      formData.get("consent") ===
-      "accepted";
-
-    const nameRegex =
-      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
-
-    const phoneRegex =
-      /^9\d{8}$/;
-
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-    if (!nameRegex.test(fullName)) {
-      showToast({
-        variant: "error",
-        title: "Nombre no válido",
-        message:
-          "Ingresa tu nombre completo usando letras y espacios.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    if (!phoneRegex.test(phone)) {
-      showToast({
-        variant: "error",
-        title: "Celular no válido",
-        message:
-          "El celular debe tener 9 dígitos y comenzar con 9.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    /*
-     * El correo es opcional.
-     */
-    if (
-      email &&
-      !emailRegex.test(email)
-    ) {
-      showToast({
-        variant: "error",
-        title: "Correo no válido",
-        message:
-          "Ingresa un correo válido o deja el campo vacío.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    if (!interest) {
-      showToast({
-        variant: "error",
-        title: "Selecciona una opción",
-        message:
-          "Indica qué tipo de lote estás buscando.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    if (message.length > 250) {
-      showToast({
-        variant: "error",
-        title: "Mensaje demasiado largo",
-        message:
-          "El mensaje no debe superar los 250 caracteres.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    if (!consent) {
-      showToast({
-        variant: "error",
-        title:
-          "Consentimiento requerido",
-        message:
-          "Debes aceptar la autorización de contacto.",
-      });
-
-      submitLockRef.current = false;
-      return;
-    }
-
-    /*
-     * msj_client contiene únicamente:
-     *
-     * - Interés seleccionado.
-     * - Ruta del formulario.
-     * - Componente de origen.
-     * - Tipo de lead.
-     * - Mensaje, solo cuando fue escrito.
-     *
-     * No se envía comentario para evitar
-     * duplicar el contenido dentro del CRM.
-     */
-    const clientMetadata:
-      Record<string, string> = {
-        interes:
-          interest,
-
-        origenRuta:
-          window.location.pathname,
-
-        origenComponente:
-          COMPONENT_NAME,
-
-        tipoLead:
-          LEAD_TYPE,
-      };
-
-    if (message) {
-      clientMetadata.mensaje =
-        message;
-    }
-
-    const leadData = {
-      fuente_id:
-        SOURCE_ID,
-
-      telefono:
-        phone,
-
-      nombre:
-        fullName,
-
-      email,
-
-      dni:
-        "",
-
-      campaña:
-        CAMPAIGN_CODE,
-
-      anuncio:
-        AD_NAME,
-
-      msj_client:
-        JSON.stringify(
-          clientMetadata
-        ),
-    };
-
-    const controller =
-      new AbortController();
-
-    const timeoutId =
-      window.setTimeout(() => {
-        controller.abort();
-      }, REQUEST_TIMEOUT);
-
-    try {
-      setIsSending(true);
-      setToast(null);
-
-      const response =
-        await fetch(
-          "/api/leads",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Accept:
-                "application/json",
-            },
-
-            body:
-              JSON.stringify(
-                leadData
-              ),
-
-            cache:
-              "no-store",
-
-            signal:
-              controller.signal,
-          }
-        );
-
-      const result =
-        await readApiResponse(
-          response
-        );
-
-      const requestFailed =
-        !response.ok ||
-        hasApiFailure(result);
-
-     if (requestFailed) {
-  const friendlyError =
-    getFriendlyServerError(
-      response.status,
-      result
-    );
-
-  console.error(
-    "Error API Lotes:",
-    {
-      status: response.status,
-      result,
-
-      payload: {
-        ...leadData,
-        msj_client: clientMetadata,
-      },
-    }
-  );
-
-  showToast({
-    variant: "error",
-    title: friendlyError.title,
-    message: friendlyError.message,
-  });
-
-  return;
-}
-
-/* =========================================
-   GOOGLE TAG MANAGER - LEAD EXITOSO
-========================================= */
-
-window.dataLayer =
-  window.dataLayer || [];
-
-window.dataLayer.push({
-  event: "lead_form_submit",
-  form_name: "Lotes",
-  lead_type: LEAD_TYPE,
-  campaign: CAMPAIGN_CODE,
-  source_id: SOURCE_ID,
-  page_path: window.location.pathname,
-});
-
-/* =========================================
-   LIMPIAR FORMULARIO Y MOSTRAR ÉXITO
-========================================= */
-
-form.reset();
-
-showToast(
-  SUCCESS_TOAST
-);
-
-} catch (error) {
-  console.error(
-    "Error enviando formulario de Lotes:",
-    error
-  );
+ const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
+  event.preventDefault();
 
   if (
-    error instanceof Error &&
-    error.name === "AbortError"
+    isSending ||
+    submitLockRef.current
   ) {
+    return;
+  }
+
+  submitLockRef.current = true;
+
+  const form =
+    event.currentTarget;
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+
     showToast({
       variant: "error",
-      title:
-        "El servidor tardó demasiado",
+      title: "Revisa tus datos",
       message:
-        "La solicitud superó los 20 segundos de espera.",
+        "Completa correctamente los campos requeridos.",
     });
+
+    submitLockRef.current = false;
 
     return;
   }
 
-  showToast(
-    ERROR_TOAST
-  );
+  const formData =
+    new FormData(form);
 
-} finally {
-  window.clearTimeout(
-    timeoutId
-  );
+  const fullName =
+    String(
+      formData.get("fullName") ?? ""
+    )
+      .replace(/\s+/g, " ")
+      .trim();
 
-  submitLockRef.current = false;
-  setIsSending(false);
-}
+  const phone =
+    String(
+      formData.get("phone") ?? ""
+    )
+      .replace(/\D/g, "")
+      .slice(0, 9);
+
+  const email =
+    String(
+      formData.get("email") ?? ""
+    )
+      .trim()
+      .toLowerCase();
+
+  const interest =
+    String(
+      formData.get("interest") ?? ""
+    ).trim();
+
+  const message =
+    String(
+      formData.get("message") ?? ""
+    ).trim();
+
+  const consent =
+    formData.get("consent") ===
+    "accepted";
+
+  /* ================================
+     VALIDACIONES
+  ================================= */
+
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+  const phoneRegex =
+    /^9\d{8}$/;
+
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  if (!nameRegex.test(fullName)) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo usando letras y espacios.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  if (!phoneRegex.test(phone)) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "El celular debe tener 9 dígitos y comenzar con 9.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  if (
+    email &&
+    !emailRegex.test(email)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Correo no válido",
+      message:
+        "Ingresa un correo válido o deja el campo vacío.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  if (!interest) {
+    showToast({
+      variant: "error",
+      title: "Selecciona una opción",
+      message:
+        "Indica qué tipo de lote estás buscando.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  if (message.length > 250) {
+    showToast({
+      variant: "error",
+      title: "Mensaje demasiado largo",
+      message:
+        "El mensaje no debe superar los 250 caracteres.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  if (!consent) {
+    showToast({
+      variant: "error",
+      title:
+        "Consentimiento requerido",
+      message:
+        "Debes aceptar la autorización de contacto.",
+    });
+
+    submitLockRef.current = false;
+
+    return;
+  }
+
+  /* ================================
+     UTM
+  ================================= */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const utmSource =
+    params.get("utm_source") ?? "";
+
+  const utmMedium =
+    params.get("utm_medium") ?? "";
+
+  const utmCampaign =
+    params.get("utm_campaign") ?? "";
+
+  const utmContent =
+    params.get("utm_content") ?? "";
+
+  const utmTerm =
+    params.get("utm_term") ?? "";
+
+  /* ================================
+     PAYLOAD ANCOSUR API
+  ================================= */
+
+  const formularioData = {
+    codigo_formulario:
+      "lotes_principal",
+
+    nombre_formulario:
+      "Formulario principal Lotes",
+
+    tipo_formulario:
+      "lotes",
+
+    nombre:
+      fullName,
+
+    telefono:
+      phone,
+
+    email:
+      email,
+
+    dni:
+      "",
+
+    mensaje:
+      message,
+
+    proyecto:
+      "",
+
+    tipo_inmueble:
+      "Lote",
+
+    interes:
+      interest,
+
+    horario_visita:
+      "",
+
+    campania:
+      CAMPAIGN_CODE,
+
+    anuncio:
+      AD_NAME,
+
+    fuente_id:
+      SOURCE_ID,
+
+    ruta_pagina:
+      window.location.pathname,
+
+    url_pagina:
+      window.location.href,
+
+    pagina_referencia:
+      document.referrer || "",
+
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
+  };
+
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    window.setTimeout(
+      () => {
+        controller.abort();
+      },
+      REQUEST_TIMEOUT
+    );
+
+  try {
+    setIsSending(true);
+    setToast(null);
+
+    /* ================================
+       API GO
+    ================================= */
+
+    const response =
+      await fetch(
+        "http://localhost:5000/api/formularios",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
+          },
+
+          body:
+            JSON.stringify(
+              formularioData
+            ),
+
+          cache:
+            "no-store",
+
+          signal:
+            controller.signal,
+        }
+      );
+
+    const raw =
+      await response.text();
+
+    let result: any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
+
+        showToast({
+          variant: "error",
+
+          title:
+            "Respuesta inválida del servidor",
+
+          message:
+            `La API respondió HTTP ${response.status}.`,
+        });
+
+        return;
+      }
+    }
+
+    /* ================================
+       VALIDAR GUARDADO LOCAL
+    ================================= */
+
+    if (
+      !response.ok ||
+      result.success !== true ||
+      result.data?.guardado_local !== true
+    ) {
+      console.error(
+        "Error guardando lead Lotes:",
+        {
+          status:
+            response.status,
+
+          result,
+
+          payload:
+            formularioData,
+        }
+      );
+
+      showToast({
+        variant: "error",
+
+        title:
+          "No pudimos registrar tus datos",
+
+        message:
+          result.message ||
+          result.error ||
+          "No fue posible guardar el formulario.",
+      });
+
+      return;
+    }
+
+    /* ================================
+       ESTADO CRM
+    ================================= */
+
+    const crmSuccess =
+      result.data?.crm?.success ===
+      true;
+
+    const crmStatus =
+      result.data?.estado_crm ??
+      result.data?.crm?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result.data?.crm?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result.data?.crm?.http_status ??
+      null;
+
+    console.log(
+      "LEAD LOTES:",
+      {
+        idLocal:
+          result.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        interes:
+          interest,
+
+        guardadoLocal:
+          true,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+      }
+    );
+
+    /* ================================
+       GOOGLE TAG MANAGER
+    ================================= */
+
+    window.dataLayer =
+      window.dataLayer || [];
+
+    window.dataLayer.push({
+      event:
+        "lead_form_submit",
+
+      form_name:
+        "Lotes",
+
+      form_code:
+        formularioData.codigo_formulario,
+
+      form_type:
+        formularioData.tipo_formulario,
+
+      lead_type:
+        LEAD_TYPE,
+
+      project:
+        formularioData.proyecto,
+
+      interest:
+        interest,
+
+      campaign:
+        CAMPAIGN_CODE,
+
+      source_id:
+        SOURCE_ID,
+
+      page_path:
+        window.location.pathname,
+
+      local_lead_id:
+        result.data?.id ?? "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ?? "",
+
+      crm_http_status:
+        crmHttpStatus ?? "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
+    });
+
+    /* ================================
+       ÉXITO
+    ================================= */
+
+    form.reset();
+
+    showToast({
+      ...SUCCESS_TOAST,
+
+      message:
+        "Tus datos fueron registrados correctamente.",
+    });
+  } catch (error) {
+    console.error(
+      "Error enviando formulario de Lotes:",
+      error
+    );
+
+    if (
+      error instanceof Error &&
+      error.name === "AbortError"
+    ) {
+      showToast({
+        variant: "error",
+
+        title:
+          "El servidor tardó demasiado",
+
+        message:
+          "La solicitud superó el tiempo de espera. Inténtalo nuevamente.",
+      });
+
+      return;
+    }
+
+    showToast({
+      ...ERROR_TOAST,
+
+      title:
+        "No pudimos conectar con el servidor",
+
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
+  } finally {
+    window.clearTimeout(
+      timeoutId
+    );
+
+    submitLockRef.current = false;
+
+    setIsSending(false);
+  }
 };
 
   return (
