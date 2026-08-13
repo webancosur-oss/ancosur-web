@@ -299,66 +299,171 @@ export default function PromoLeadPopup() {
     );
   };
 
- const handleSubmit = async (
+const handleSubmit = async (
   event: FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault();
 
-  if (isSending) return;
+  if (isSending) {
+    return;
+  }
+
+  /* =====================================================
+     VALIDAR FORMULARIO
+  ===================================================== */
 
   const isValid =
     validateForm();
 
-  if (!isValid) return;
+  if (!isValid) {
+    return;
+  }
+
+  /* =====================================================
+     LIMPIAR DATOS
+  ===================================================== */
+
+  const fullName =
+    formData.fullName
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const phone =
+    formData.phone
+      .replace(/\D/g, "")
+      .slice(0, 9);
+
+  const email =
+    formData.email
+      .trim()
+      .toLowerCase();
+
+  const dni =
+    formData.dni
+      ?.replace(/\D/g, "")
+      .slice(0, 8) ||
+    "";
+
+  const project =
+    formData.project
+      .trim();
 
   const cleanMessage =
-    formData.message.trim();
+    formData.message
+      .trim();
 
-  const leadData = {
-    telefono:
-      formData.phone.replace(
-        /\D/g,
-        ""
-      ),
+  /* =====================================================
+     UTM / ORIGEN
+  ===================================================== */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const utmSource =
+    params.get(
+      "utm_source"
+    ) ?? "";
+
+  const utmMedium =
+    params.get(
+      "utm_medium"
+    ) ?? "";
+
+  const utmCampaign =
+    params.get(
+      "utm_campaign"
+    ) ?? "";
+
+  const utmContent =
+    params.get(
+      "utm_content"
+    ) ?? "";
+
+  const utmTerm =
+    params.get(
+      "utm_term"
+    ) ?? "";
+
+  /* =====================================================
+     PAYLOAD PARA ANCOSUR API
+  ===================================================== */
+
+  const formularioData = {
+    codigo_formulario:
+      "popup_viaje_cusco_2026",
+
+    nombre_formulario:
+      "Popup Viaje Cusco 2026",
+
+    tipo_formulario:
+      "promocion",
 
     nombre:
-      formData.fullName.trim(),
+      fullName,
+
+    telefono:
+      phone,
 
     email:
-      formData.email
-        .trim()
-        .toLowerCase(),
+      email,
 
     dni:
-      formData.dni
-        ?.replace(/\D/g, "") ||
+      dni,
+
+    mensaje:
+      cleanMessage,
+
+    proyecto:
+      project,
+
+    tipo_inmueble:
       "",
 
-    campaña:
+    interes:
+      project,
+
+    horario_visita:
+      "",
+
+    campania:
       "Campaña viaje a Cusco 2026",
 
     anuncio:
       "Popup web Ancosur",
 
-    msj_client:
-      JSON.stringify({
-        interes:
-          formData.project,
+    fuente_id:
+      4,
 
-        mensaje:
-          cleanMessage,
+    ruta_pagina:
+      window.location.pathname,
 
-        origenRuta:
-          window.location.pathname,
+    url_pagina:
+      window.location.href,
 
-        origenComponente:
-          "Popup Viaje Cusco 2026",
-      }),
+    pagina_referencia:
+      document.referrer || "",
 
-    comentario:
-      cleanMessage ||
-      "Cliente interesado.",
+    utm_source:
+      utmSource,
+
+    utm_medium:
+      utmMedium,
+
+    utm_campaign:
+      utmCampaign,
+
+    utm_content:
+      utmContent,
+
+    utm_term:
+      utmTerm,
   };
+
+  /* =====================================================
+     TIMEOUT
+  ===================================================== */
 
   const controller =
     new AbortController();
@@ -373,14 +478,24 @@ export default function PromoLeadPopup() {
 
   try {
     setIsSending(true);
+
     setErrors({});
+
     setToast(null);
+
+    /* ===================================================
+       ENVIAR A API GO
+
+       IMPORTANTE:
+       Aquí se registra primero en PostgreSQL.
+    =================================================== */
 
     const response =
       await fetch(
-        "/api/leads",
+        "https://ancosur-api-production.up.railway.app/api/formularios",
         {
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
             "Content-Type":
@@ -392,94 +507,188 @@ export default function PromoLeadPopup() {
 
           body:
             JSON.stringify(
-              leadData
+              formularioData
             ),
-
-          signal:
-            controller.signal,
 
           cache:
             "no-store",
+
+          signal:
+            controller.signal,
         }
       );
 
-    const contentType =
-      response.headers.get(
-        "content-type"
-      );
+    /* ===================================================
+       LEER RESPUESTA
+    =================================================== */
 
-    const responseData =
-      contentType?.includes(
-        "application/json"
-      )
-        ? await response.json()
-        : {
-            message:
-              await response.text(),
-          };
+    const raw =
+      await response.text();
 
-    /* =========================================
-       DETECTAR ERROR HTTP O ERROR LÓGICO
-    ========================================= */
+    let result:
+      any = {};
+
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON de ANCOSUR API:",
+          raw
+        );
+
+        showToast({
+          variant:
+            "error",
+
+          title:
+            "Respuesta inválida del servidor",
+
+          message:
+            `La API respondió HTTP ${response.status}.`,
+        });
+
+        return;
+      }
+    }
+
+    /* ===================================================
+       VALIDAR REGISTRO EN BASE DE DATOS
+
+       Solo consideramos éxito si:
+       - HTTP OK
+       - success === true
+       - guardado_local === true
+    =================================================== */
+
+    const savedLocally =
+      result?.data
+        ?.guardado_local ===
+      true;
 
     const requestFailed =
       !response.ok ||
-      responseData?.success === false;
+      result?.success !==
+        true ||
+      !savedLocally;
 
     if (requestFailed) {
       console.error(
-        "Error API CRM Sentinel:",
+        "Error registrando Popup Viaje Cusco 2026:",
         {
           status:
             response.status,
 
-          result:
-            responseData,
+          result,
 
-          payload: {
-            campaña:
-              leadData.campaña,
-
-            anuncio:
-              leadData.anuncio,
-
-            msj_client: {
-              interes:
-                formData.project,
-
-              mensaje:
-                cleanMessage,
-
-              origenRuta:
-                window.location.pathname,
-
-              origenComponente:
-                "Popup Viaje Cusco 2026",
-            },
-          },
+          payload:
+            formularioData,
         }
       );
 
-      const apiMessage =
-        responseData?.message ||
-        responseData?.error ||
-        `Error HTTP ${response.status}`;
-
       showToast({
-        variant: "error",
+        variant:
+          "error",
+
         title:
-          "No pudimos enviar tus datos",
+          "No pudimos registrar tus datos",
+
         message:
-          apiMessage,
+          result?.message ||
+          result?.error ||
+          "No fue posible registrar tu información. Inténtalo nuevamente.",
       });
 
       return;
     }
 
-    /* =========================================
-       GOOGLE TAG MANAGER - LEAD EXITOSO
-       SOLO DESPUÉS DE QUE EL CRM RESPONDA OK
-    ========================================= */
+    /* ===================================================
+       RESULTADO CRM
+
+       El lead YA quedó guardado en PostgreSQL.
+       El CRM puede haber:
+       - enviado
+       - fallado
+       - quedado pendiente
+
+       Eso NO impide confirmar el formulario al cliente.
+    =================================================== */
+
+    const crmSuccess =
+      result?.data
+        ?.crm
+        ?.success ===
+      true;
+
+    const crmStatus =
+      result?.data
+        ?.estado_crm ??
+      result?.data
+        ?.crm
+        ?.estado ??
+      "pendiente";
+
+    const crmLeadId =
+      result?.data
+        ?.crm
+        ?.lead_id ??
+      null;
+
+    const crmHttpStatus =
+      result?.data
+        ?.crm
+        ?.http_status ??
+      null;
+
+    const crmMessage =
+      result?.data
+        ?.crm
+        ?.message ??
+      "";
+
+    /* ===================================================
+       LOG INTERNO
+    =================================================== */
+
+    console.log(
+      "POPUP VIAJE CUSCO PROCESADO:",
+      {
+        idLocal:
+          result?.data?.id,
+
+        nombre:
+          fullName,
+
+        telefono:
+          phone,
+
+        proyecto:
+          project,
+
+        guardadoLocal:
+          savedLocally,
+
+        estadoCRM:
+          crmStatus,
+
+        enviadoCRM:
+          crmSuccess,
+
+        crmLeadId,
+
+        crmHttpStatus,
+
+        crmMessage,
+      }
+    );
+
+    /* ===================================================
+       GOOGLE TAG MANAGER
+
+       Solo ocurre DESPUÉS de guardar correctamente
+       el registro en PostgreSQL.
+    =================================================== */
 
     window.dataLayer =
       window.dataLayer || [];
@@ -491,8 +700,19 @@ export default function PromoLeadPopup() {
       form_name:
         "Popup Viaje Cusco 2026",
 
+      form_code:
+        formularioData
+          .codigo_formulario,
+
+      form_type:
+        formularioData
+          .tipo_formulario,
+
       lead_type:
         "Promoción",
+
+      project:
+        project,
 
       campaign:
         "Campaña viaje a Cusco 2026",
@@ -502,11 +722,47 @@ export default function PromoLeadPopup() {
 
       page_path:
         window.location.pathname,
+
+      local_lead_id:
+        result?.data?.id ??
+        "",
+
+      local_saved:
+        true,
+
+      crm_sent:
+        crmSuccess,
+
+      crm_status:
+        crmStatus,
+
+      crm_lead_id:
+        crmLeadId ??
+        "",
+
+      crm_http_status:
+        crmHttpStatus ??
+        "",
+
+      utm_source:
+        utmSource,
+
+      utm_medium:
+        utmMedium,
+
+      utm_campaign:
+        utmCampaign,
+
+      utm_content:
+        utmContent,
+
+      utm_term:
+        utmTerm,
     });
 
-    /* =========================================
-       LIMPIAR Y CERRAR POPUP
-    ========================================= */
+    /* ===================================================
+       LIMPIAR FORMULARIO
+    =================================================== */
 
     setFormData(
       initialFormData
@@ -514,30 +770,47 @@ export default function PromoLeadPopup() {
 
     setErrors({});
 
-    setIsVisible(false);
+    /* ===================================================
+       CERRAR POPUP
+    =================================================== */
+
+    setIsVisible(
+      false
+    );
 
     registerPopupAsClosed();
+
+    /* ===================================================
+       ÉXITO
+
+       Confirmamos porque YA está guardado
+       en nuestra base de datos.
+    =================================================== */
 
     showToast({
       ...SUCCESS_TOAST,
 
       message:
-        responseData?.message ||
-        SUCCESS_TOAST.message,
+        "Tus datos fueron registrados correctamente. Nos pondremos en contacto contigo.",
     });
-
   } catch (error) {
     console.error(
-      "Error enviando formulario al CRM:",
+      "Error enviando Popup Viaje Cusco 2026:",
       error
     );
 
+    /* ===================================================
+       TIMEOUT
+    =================================================== */
+
     if (
       error instanceof Error &&
-      error.name === "AbortError"
+      error.name ===
+        "AbortError"
     ) {
       showToast({
-        variant: "error",
+        variant:
+          "error",
 
         title:
           "El servidor tardó demasiado",
@@ -549,21 +822,27 @@ export default function PromoLeadPopup() {
       return;
     }
 
+    /* ===================================================
+       ERROR DE CONEXIÓN
+    =================================================== */
+
     showToast({
       ...ERROR_TOAST,
 
-      message:
-        error instanceof Error
-          ? error.message
-          : ERROR_TOAST.message,
-    });
+      title:
+        "No pudimos conectar con el servidor",
 
+      message:
+        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+    });
   } finally {
     window.clearTimeout(
       timeoutId
     );
 
-    setIsSending(false);
+    setIsSending(
+      false
+    );
   }
 };
 
