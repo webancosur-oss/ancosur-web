@@ -465,10 +465,10 @@ const handleSubmit = async (
 
   const formularioData = {
     codigo_formulario:
-      "popup_viaje_cusco_2026",
+      "Popup Campaña Camino Real",
 
     nombre_formulario:
-      "Popup Viaje Cusco 2026",
+      "Popup Campaña Camino Real",
 
     tipo_formulario:
       "promocion",
@@ -733,7 +733,7 @@ const handleSubmit = async (
         "lead_form_submit",
 
       form_name:
-        "Popup Viaje Cusco 2026",
+        "Popup Campaña Camino Real",
 
       form_code:
         formularioData
