@@ -502,7 +502,7 @@ const handleSubmit = async (
       "",
 
     campania:
-      "Campaña viaje a Cusco 2026",
+      "Popup Campaña Camino Real",
 
     anuncio:
       "Popup web Ancosur",

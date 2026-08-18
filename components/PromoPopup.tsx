@@ -27,7 +27,7 @@ import styles from "./PromoPopup.module.css";
 
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_NAME =
-  "Campaña viaje a Cusco 2026";
+  "Popup Campaña Camino Real";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "PromoPopup";
@@ -569,7 +569,7 @@ export default function PromoPopup() {
 
       const response =
         await fetch(
-          "/api/leads",
+          "https://ancosur-api-production.up.railway.app/api/leads",
           {
             method: "POST",
 
