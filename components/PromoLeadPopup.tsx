@@ -308,9 +308,9 @@ const handleSubmit = async (
     return;
   }
 
-  /* =====================================================
+  /* =========================================
      VALIDAR FORMULARIO
-  ===================================================== */
+  ========================================= */
 
   const isValid =
     validateForm();
@@ -319,9 +319,9 @@ const handleSubmit = async (
     return;
   }
 
-  /* =====================================================
+  /* =========================================
      LIMPIAR DATOS
-  ===================================================== */
+  ========================================= */
 
   const fullName =
     formData.fullName
@@ -341,20 +341,59 @@ const handleSubmit = async (
   const dni =
     formData.dni
       ?.replace(/\D/g, "")
-      .slice(0, 8) ||
-    "";
+      .slice(0, 8) || "";
 
   const project =
-    formData.project
-      .trim();
+    formData.project.trim();
 
   const cleanMessage =
-    formData.message
-      .trim();
+    formData.message.trim();
 
-  /* =====================================================
-     UTM / ORIGEN
-  ===================================================== */
+  /* =========================================
+     VALIDACIONES EXTRA
+  ========================================= */
+
+  if (
+    !fullName ||
+    fullName.length < 3
+  ) {
+    showToast({
+      variant: "error",
+      title: "Nombre no válido",
+      message:
+        "Ingresa tu nombre completo.",
+    });
+
+    return;
+  }
+
+  if (
+    !/^9\d{8}$/.test(phone)
+  ) {
+    showToast({
+      variant: "error",
+      title: "Celular no válido",
+      message:
+        "Ingresa un celular peruano válido de 9 dígitos.",
+    });
+
+    return;
+  }
+
+  if (!project) {
+    showToast({
+      variant: "error",
+      title: "Selecciona un proyecto",
+      message:
+        "Selecciona el proyecto de tu interés.",
+    });
+
+    return;
+  }
+
+  /* =========================================
+     UTM
+  ========================================= */
 
   const params =
     new URLSearchParams(
@@ -386,9 +425,9 @@ const handleSubmit = async (
       "utm_term"
     ) ?? "";
 
-  /* =====================================================
-     PAYLOAD PARA ANCOSUR API
-  ===================================================== */
+  /* =========================================
+     PAYLOAD ANCOSUR
+  ========================================= */
 
   const formularioData = {
     codigo_formulario:
@@ -461,9 +500,27 @@ const handleSubmit = async (
       utmTerm,
   };
 
-  /* =====================================================
+  /* =========================================
+     API URL
+
+     En Railway:
+     NEXT_PUBLIC_API_URL=
+     https://ancosur-api-production.up.railway.app
+  ========================================= */
+
+  const API_URL =
+    (
+      process.env
+        .NEXT_PUBLIC_API_URL ||
+      "https://ancosur-api-production.up.railway.app"
+    ).replace(/\/+$/, "");
+
+  const endpoint =
+    `${API_URL}/api/formularios`;
+
+  /* =========================================
      TIMEOUT
-  ===================================================== */
+  ========================================= */
 
   const controller =
     new AbortController();
@@ -478,24 +535,28 @@ const handleSubmit = async (
 
   try {
     setIsSending(true);
-
     setErrors({});
-
     setToast(null);
 
-    /* ===================================================
-       ENVIAR A API GO
+    console.log(
+      "Enviando formulario:",
+      endpoint,
+      formularioData
+    );
 
-       IMPORTANTE:
-       Aquí se registra primero en PostgreSQL.
-    =================================================== */
+    /* =========================================
+       POST → API GO
+
+       La API Go se encarga de:
+       1. PostgreSQL
+       2. CRM
+    ========================================= */
 
     const response =
       await fetch(
-        "https://ancosur-api-production.up.railway.app/api/formularios",
+        endpoint,
         {
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
             "Content-Type":
@@ -518,64 +579,59 @@ const handleSubmit = async (
         }
       );
 
-    /* ===================================================
+    /* =========================================
        LEER RESPUESTA
-    =================================================== */
+    ========================================= */
 
-    const raw =
-      await response.text();
+    const contentType =
+      response.headers.get(
+        "content-type"
+      ) || "";
 
-    let result:
-      any = {};
+    let result: any = null;
 
-    if (raw) {
-      try {
-        result =
-          JSON.parse(raw);
-      } catch {
-        console.error(
-          "Respuesta no JSON de ANCOSUR API:",
-          raw
-        );
+    if (
+      contentType.includes(
+        "application/json"
+      )
+    ) {
+      result =
+        await response.json();
+    } else {
+      const text =
+        await response.text();
 
-        showToast({
-          variant:
-            "error",
+      console.error(
+        "La API respondió texto:",
+        text
+      );
 
-          title:
-            "Respuesta inválida del servidor",
-
-          message:
-            `La API respondió HTTP ${response.status}.`,
-        });
-
-        return;
-      }
+      throw new Error(
+        text ||
+          `Respuesta HTTP ${response.status}`
+      );
     }
 
-    /* ===================================================
-       VALIDAR REGISTRO EN BASE DE DATOS
+    console.log(
+      "Respuesta ANCOSUR API:",
+      {
+        status:
+          response.status,
 
-       Solo consideramos éxito si:
-       - HTTP OK
-       - success === true
-       - guardado_local === true
-    =================================================== */
+        ok:
+          response.ok,
 
-    const savedLocally =
-      result?.data
-        ?.guardado_local ===
-      true;
+        result,
+      }
+    );
 
-    const requestFailed =
-      !response.ok ||
-      result?.success !==
-        true ||
-      !savedLocally;
+    /* =========================================
+       ERROR HTTP
+    ========================================= */
 
-    if (requestFailed) {
+    if (!response.ok) {
       console.error(
-        "Error registrando Popup Viaje Cusco 2026:",
+        "HTTP ERROR:",
         {
           status:
             response.status,
@@ -588,8 +644,7 @@ const handleSubmit = async (
       );
 
       showToast({
-        variant:
-          "error",
+        variant: "error",
 
         title:
           "No pudimos registrar tus datos",
@@ -597,29 +652,72 @@ const handleSubmit = async (
         message:
           result?.message ||
           result?.error ||
-          "No fue posible registrar tu información. Inténtalo nuevamente.",
+          `Error HTTP ${response.status}`,
       });
 
       return;
     }
 
-    /* ===================================================
-       RESULTADO CRM
+    /* =========================================
+       ERROR LÓGICO DE API
+    ========================================= */
 
-       El lead YA quedó guardado en PostgreSQL.
-       El CRM puede haber:
-       - enviado
-       - fallado
-       - quedado pendiente
+    if (
+      result?.success !== true
+    ) {
+      console.error(
+        "API ERROR:",
+        result
+      );
 
-       Eso NO impide confirmar el formulario al cliente.
-    =================================================== */
+      showToast({
+        variant: "error",
+
+        title:
+          "No pudimos registrar tus datos",
+
+        message:
+          result?.message ||
+          result?.error ||
+          "La API no confirmó el registro.",
+      });
+
+      return;
+    }
+
+    /* =========================================
+       INFORMACIÓN LOCAL
+    ========================================= */
+
+    const localLeadId =
+      result?.data?.id ??
+      result?.data?.formulario_id ??
+      result?.id ??
+      "";
+
+    /*
+     * No bloqueamos el formulario únicamente
+     * porque guardado_local no venga en la
+     * respuesta.
+     *
+     * success:true + HTTP 2xx es suficiente
+     * para considerar que nuestra API procesó
+     * correctamente la solicitud.
+     */
+
+    const localSaved =
+      result?.data
+        ?.guardado_local === true ||
+      Boolean(localLeadId);
+
+    /* =========================================
+       CRM
+    ========================================= */
 
     const crmSuccess =
       result?.data
         ?.crm
-        ?.success ===
-      true;
+        ?.success === true;
 
     const crmStatus =
       result?.data
@@ -627,7 +725,11 @@ const handleSubmit = async (
       result?.data
         ?.crm
         ?.estado ??
-      "pendiente";
+      (
+        crmSuccess
+          ? "enviado"
+          : "pendiente"
+      );
 
     const crmLeadId =
       result?.data
@@ -647,15 +749,16 @@ const handleSubmit = async (
         ?.message ??
       "";
 
-    /* ===================================================
-       LOG INTERNO
-    =================================================== */
+    /* =========================================
+       LOG
+    ========================================= */
 
     console.log(
-      "POPUP VIAJE CUSCO PROCESADO:",
+      "POPUP CUSCO REGISTRADO:",
       {
-        idLocal:
-          result?.data?.id,
+        localLeadId,
+
+        localSaved,
 
         nombre:
           fullName,
@@ -666,14 +769,9 @@ const handleSubmit = async (
         proyecto:
           project,
 
-        guardadoLocal:
-          savedLocally,
+        crmSuccess,
 
-        estadoCRM:
-          crmStatus,
-
-        enviadoCRM:
-          crmSuccess,
+        crmStatus,
 
         crmLeadId,
 
@@ -683,12 +781,11 @@ const handleSubmit = async (
       }
     );
 
-    /* ===================================================
-       GOOGLE TAG MANAGER
+    /* =========================================
+       GTM
 
-       Solo ocurre DESPUÉS de guardar correctamente
-       el registro en PostgreSQL.
-    =================================================== */
+       SOLO DESPUÉS DEL POST EXITOSO
+    ========================================= */
 
     window.dataLayer =
       window.dataLayer || [];
@@ -715,20 +812,21 @@ const handleSubmit = async (
         project,
 
       campaign:
-        "Campaña viaje a Cusco 2026",
+        formularioData
+          .campania,
 
       source_id:
-        4,
+        formularioData
+          .fuente_id,
 
       page_path:
         window.location.pathname,
 
       local_lead_id:
-        result?.data?.id ??
-        "",
+        localLeadId,
 
       local_saved:
-        true,
+        localSaved,
 
       crm_sent:
         crmSuccess,
@@ -737,12 +835,10 @@ const handleSubmit = async (
         crmStatus,
 
       crm_lead_id:
-        crmLeadId ??
-        "",
+        crmLeadId ?? "",
 
       crm_http_status:
-        crmHttpStatus ??
-        "",
+        crmHttpStatus ?? "",
 
       utm_source:
         utmSource,
@@ -760,9 +856,9 @@ const handleSubmit = async (
         utmTerm,
     });
 
-    /* ===================================================
-       LIMPIAR FORMULARIO
-    =================================================== */
+    /* =========================================
+       LIMPIAR
+    ========================================= */
 
     setFormData(
       initialFormData
@@ -770,38 +866,31 @@ const handleSubmit = async (
 
     setErrors({});
 
-    /* ===================================================
-       CERRAR POPUP
-    =================================================== */
-
-    setIsVisible(
-      false
-    );
-
-    registerPopupAsClosed();
-
-    /* ===================================================
-       ÉXITO
-
-       Confirmamos porque YA está guardado
-       en nuestra base de datos.
-    =================================================== */
+    /* =========================================
+       MOSTRAR ÉXITO ANTES DE CERRAR
+    ========================================= */
 
     showToast({
       ...SUCCESS_TOAST,
 
       message:
+        result?.message ||
         "Tus datos fueron registrados correctamente. Nos pondremos en contacto contigo.",
     });
+
+    /* =========================================
+       CERRAR POPUP
+    ========================================= */
+
+    setIsVisible(false);
+
+    registerPopupAsClosed();
+
   } catch (error) {
     console.error(
-      "Error enviando Popup Viaje Cusco 2026:",
+      "ERROR POST /api/formularios:",
       error
     );
-
-    /* ===================================================
-       TIMEOUT
-    =================================================== */
 
     if (
       error instanceof Error &&
@@ -809,8 +898,7 @@ const handleSubmit = async (
         "AbortError"
     ) {
       showToast({
-        variant:
-          "error",
+        variant: "error",
 
         title:
           "El servidor tardó demasiado",
@@ -822,10 +910,6 @@ const handleSubmit = async (
       return;
     }
 
-    /* ===================================================
-       ERROR DE CONEXIÓN
-    =================================================== */
-
     showToast({
       ...ERROR_TOAST,
 
@@ -833,16 +917,17 @@ const handleSubmit = async (
         "No pudimos conectar con el servidor",
 
       message:
-        "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+        error instanceof Error
+          ? error.message
+          : "Comprueba tu conexión a Internet e inténtalo nuevamente.",
     });
+
   } finally {
     window.clearTimeout(
       timeoutId
     );
 
-    setIsSending(
-      false
-    );
+    setIsSending(false);
   }
 };
 
