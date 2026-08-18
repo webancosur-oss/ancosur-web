@@ -59,7 +59,7 @@ const campaigns: PopupCampaign[] = [
     eyebrow: "Campaña exclusiva",
     description:
       "Déjanos tus datos para recibir mayor información.",
-    image: "/assets/campanias/campania-showroom-vertical.webp",
+    image: "/assets/campanias/campania-camino-real.webp",
     imageAlt:
       "Campaña Ancosur - Elige un Beneficio (Plano o Notaria Gratis)",
     imageWidth: 1080,
