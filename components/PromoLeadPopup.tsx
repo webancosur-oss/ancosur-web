@@ -218,89 +218,158 @@ export default function PromoLeadPopup() {
   };
 
   const validateForm = () => {
-    const newErrors: FormErrors = {};
+  const newErrors:
+    FormErrors = {};
 
-    const nameRegex =
-      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]{3,60}$/;
+  const fullName =
+    formData.fullName
+      .replace(/\s+/g, " ")
+      .trim();
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phone =
+    formData.phone
+      .replace(/\D/g, "")
+      .slice(0, 9);
 
-    const phoneClean =
-      formData.phone.replace(/\D/g, "");
+  const email =
+    formData.email
+      .trim()
+      .toLowerCase();
 
-    if (!formData.fullName.trim()) {
-      newErrors.fullName =
-        "Ingresa tu nombre completo.";
-    } else if (
-      !nameRegex.test(
-        formData.fullName.trim()
-      )
-    ) {
-      newErrors.fullName =
-        "Ingresa un nombre válido.";
-    }
+  const dni =
+    formData.dni
+      .replace(/\D/g, "")
+      .slice(0, 8);
 
-    if (!formData.phone.trim()) {
-      newErrors.phone =
-        "Ingresa tu número de celular.";
-    } else if (
-      !/^9\d{8}$/.test(phoneClean)
-    ) {
-      newErrors.phone =
-        "El celular debe tener 9 dígitos y empezar con 9.";
-    }
+  const project =
+    formData.project.trim();
 
-    if (!formData.email.trim()) {
-      newErrors.email =
-        "Ingresa tu correo electrónico.";
-    } else if (
-      !emailRegex.test(
-        formData.email.trim()
-      )
-    ) {
-      newErrors.email =
-        "Ingresa un correo válido.";
-    }
+  const message =
+    formData.message.trim();
 
-    const dniClean =
-      formData.dni.replace(/\D/g, "");
+  const nameRegex =
+    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
 
-    if (!formData.dni.trim()) {
-      newErrors.dni =
-        "Ingresa tu DNI.";
-    } else if (!/^\d{8}$/.test(dniClean)) {
-      newErrors.dni =
-        "El DNI debe tener exactamente 8 dígitos.";
-    }
+  const phoneRegex =
+    /^9\d{8}$/;
 
-    if (!formData.project) {
-      newErrors.project =
-        "Selecciona una opción de interés.";
-    }
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    if (
-      formData.message.trim().length >
-      250
-    ) {
-      newErrors.message =
-        "El mensaje no debe superar los 250 caracteres.";
-    }
+  const dniRegex =
+    /^\d{8}$/;
 
-    if (!formData.consent) {
-      newErrors.consent =
-        "Debes aceptar ser contactado.";
-    }
+  /* =========================================
+     NOMBRE
+  ========================================= */
 
-    setErrors(newErrors);
+  if (!fullName) {
+    newErrors.fullName =
+      "Ingresa tu nombre completo.";
+  } else if (
+    !nameRegex.test(
+      fullName
+    )
+  ) {
+    newErrors.fullName =
+      "Ingresa un nombre válido.";
+  }
 
-    return (
-      Object.keys(newErrors).length === 0
-    );
-  };
+  /* =========================================
+     CELULAR
+  ========================================= */
+
+  if (!phone) {
+    newErrors.phone =
+      "Ingresa tu número de celular.";
+  } else if (
+    !phoneRegex.test(
+      phone
+    )
+  ) {
+    newErrors.phone =
+      "El celular debe tener 9 dígitos y empezar con 9.";
+  }
+
+  /* =========================================
+     EMAIL
+  ========================================= */
+
+  if (!email) {
+    newErrors.email =
+      "Ingresa tu correo electrónico.";
+  } else if (
+    !emailRegex.test(
+      email
+    )
+  ) {
+    newErrors.email =
+      "Ingresa un correo válido.";
+  }
+
+  /* =========================================
+     DNI OPCIONAL
+
+     El formulario actual NO muestra DNI.
+     Por eso solo se valida si existe.
+  ========================================= */
+
+  if (
+    dni &&
+    !dniRegex.test(
+      dni
+    )
+  ) {
+    newErrors.dni =
+      "El DNI debe tener exactamente 8 dígitos.";
+  }
+
+  /* =========================================
+     PROYECTO
+  ========================================= */
+
+  if (!project) {
+    newErrors.project =
+      "Selecciona una opción de interés.";
+  }
+
+  /* =========================================
+     MENSAJE
+  ========================================= */
+
+  if (
+    message.length >
+    250
+  ) {
+    newErrors.message =
+      "El mensaje no debe superar los 250 caracteres.";
+  }
+
+  /* =========================================
+     CONSENTIMIENTO
+  ========================================= */
+
+  if (
+    !formData.consent
+  ) {
+    newErrors.consent =
+      "Debes aceptar ser contactado.";
+  }
+
+  setErrors(
+    newErrors
+  );
+
+  return (
+    Object.keys(
+      newErrors
+    ).length === 0
+  );
+};
 
 const handleSubmit = async (
-  event: FormEvent<HTMLFormElement>
+  event:
+    FormEvent<HTMLFormElement>
 ) => {
   event.preventDefault();
 
@@ -309,18 +378,23 @@ const handleSubmit = async (
   }
 
   /* =========================================
-     VALIDAR FORMULARIO
+     VALIDAR
   ========================================= */
 
   const isValid =
     validateForm();
 
   if (!isValid) {
+    console.warn(
+      "Formulario detenido por validación:",
+      formData
+    );
+
     return;
   }
 
   /* =========================================
-     LIMPIAR DATOS
+     DATOS LIMPIOS
   ========================================= */
 
   const fullName =
@@ -340,56 +414,16 @@ const handleSubmit = async (
 
   const dni =
     formData.dni
-      ?.replace(/\D/g, "")
-      .slice(0, 8) || "";
+      .replace(/\D/g, "")
+      .slice(0, 8);
 
   const project =
-    formData.project.trim();
+    formData.project
+      .trim();
 
-  const cleanMessage =
-    formData.message.trim();
-
-  /* =========================================
-     VALIDACIONES EXTRA
-  ========================================= */
-
-  if (
-    !fullName ||
-    fullName.length < 3
-  ) {
-    showToast({
-      variant: "error",
-      title: "Nombre no válido",
-      message:
-        "Ingresa tu nombre completo.",
-    });
-
-    return;
-  }
-
-  if (
-    !/^9\d{8}$/.test(phone)
-  ) {
-    showToast({
-      variant: "error",
-      title: "Celular no válido",
-      message:
-        "Ingresa un celular peruano válido de 9 dígitos.",
-    });
-
-    return;
-  }
-
-  if (!project) {
-    showToast({
-      variant: "error",
-      title: "Selecciona un proyecto",
-      message:
-        "Selecciona el proyecto de tu interés.",
-    });
-
-    return;
-  }
+  const message =
+    formData.message
+      .trim();
 
   /* =========================================
      UTM
@@ -426,7 +460,7 @@ const handleSubmit = async (
     ) ?? "";
 
   /* =========================================
-     PAYLOAD ANCOSUR
+     PAYLOAD
   ========================================= */
 
   const formularioData = {
@@ -452,13 +486,14 @@ const handleSubmit = async (
       dni,
 
     mensaje:
-      cleanMessage,
+      message ||
+      "Cliente interesado en la campaña.",
 
     proyecto:
       project,
 
     tipo_inmueble:
-      "",
+      project,
 
     interes:
       project,
@@ -482,7 +517,8 @@ const handleSubmit = async (
       window.location.href,
 
     pagina_referencia:
-      document.referrer || "",
+      document.referrer ||
+      "",
 
     utm_source:
       utmSource,
@@ -501,11 +537,7 @@ const handleSubmit = async (
   };
 
   /* =========================================
-     API URL
-
-     En Railway:
-     NEXT_PUBLIC_API_URL=
-     https://ancosur-api-production.up.railway.app
+     API
   ========================================= */
 
   const API_URL =
@@ -513,14 +545,13 @@ const handleSubmit = async (
       process.env
         .NEXT_PUBLIC_API_URL ||
       "https://ancosur-api-production.up.railway.app"
-    ).replace(/\/+$/, "");
+    ).replace(
+      /\/+$/,
+      ""
+    );
 
   const endpoint =
     `${API_URL}/api/formularios`;
-
-  /* =========================================
-     TIMEOUT
-  ========================================= */
 
   const controller =
     new AbortController();
@@ -535,28 +566,27 @@ const handleSubmit = async (
 
   try {
     setIsSending(true);
+
     setErrors({});
+
     setToast(null);
 
     console.log(
-      "Enviando formulario:",
-      endpoint,
-      formularioData
+      "ENVIANDO A:",
+      endpoint
     );
 
-    /* =========================================
-       POST → API GO
-
-       La API Go se encarga de:
-       1. PostgreSQL
-       2. CRM
-    ========================================= */
+    console.log(
+      "PAYLOAD:",
+      formularioData
+    );
 
     const response =
       await fetch(
         endpoint,
         {
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
             "Content-Type":
@@ -579,41 +609,39 @@ const handleSubmit = async (
         }
       );
 
-    /* =========================================
-       LEER RESPUESTA
-    ========================================= */
+    const raw =
+      await response.text();
 
-    const contentType =
-      response.headers.get(
-        "content-type"
-      ) || "";
+    let result:
+      any = {};
 
-    let result: any = null;
+    if (raw) {
+      try {
+        result =
+          JSON.parse(raw);
+      } catch {
+        console.error(
+          "Respuesta no JSON:",
+          raw
+        );
 
-    if (
-      contentType.includes(
-        "application/json"
-      )
-    ) {
-      result =
-        await response.json();
-    } else {
-      const text =
-        await response.text();
+        showToast({
+          variant:
+            "error",
 
-      console.error(
-        "La API respondió texto:",
-        text
-      );
+          title:
+            "Respuesta inválida",
 
-      throw new Error(
-        text ||
-          `Respuesta HTTP ${response.status}`
-      );
+          message:
+            `La API respondió HTTP ${response.status}.`,
+        });
+
+        return;
+      }
     }
 
     console.log(
-      "Respuesta ANCOSUR API:",
+      "RESPUESTA API:",
       {
         status:
           response.status,
@@ -626,12 +654,16 @@ const handleSubmit = async (
     );
 
     /* =========================================
-       ERROR HTTP
+       ERROR
     ========================================= */
 
-    if (!response.ok) {
+    if (
+      !response.ok ||
+      result?.success !==
+        true
+    ) {
       console.error(
-        "HTTP ERROR:",
+        "API rechazó el formulario:",
         {
           status:
             response.status,
@@ -644,10 +676,11 @@ const handleSubmit = async (
       );
 
       showToast({
-        variant: "error",
+        variant:
+          "error",
 
         title:
-          "No pudimos registrar tus datos",
+          "No pudimos enviar tus datos",
 
         message:
           result?.message ||
@@ -659,71 +692,17 @@ const handleSubmit = async (
     }
 
     /* =========================================
-       ERROR LÓGICO DE API
-    ========================================= */
-
-    if (
-      result?.success !== true
-    ) {
-      console.error(
-        "API ERROR:",
-        result
-      );
-
-      showToast({
-        variant: "error",
-
-        title:
-          "No pudimos registrar tus datos",
-
-        message:
-          result?.message ||
-          result?.error ||
-          "La API no confirmó el registro.",
-      });
-
-      return;
-    }
-
-    /* =========================================
-       INFORMACIÓN LOCAL
-    ========================================= */
-
-    const localLeadId =
-      result?.data?.id ??
-      result?.data?.formulario_id ??
-      result?.id ??
-      "";
-
-    /*
-     * No bloqueamos el formulario únicamente
-     * porque guardado_local no venga en la
-     * respuesta.
-     *
-     * success:true + HTTP 2xx es suficiente
-     * para considerar que nuestra API procesó
-     * correctamente la solicitud.
-     */
-
-    const localSaved =
-      result?.data
-        ?.guardado_local === true ||
-      Boolean(localLeadId);
-
-    /* =========================================
        CRM
     ========================================= */
 
     const crmSuccess =
-      result?.data
-        ?.crm
+      result?.data?.crm
         ?.success === true;
 
     const crmStatus =
       result?.data
         ?.estado_crm ??
-      result?.data
-        ?.crm
+      result?.data?.crm
         ?.estado ??
       (
         crmSuccess
@@ -732,63 +711,22 @@ const handleSubmit = async (
       );
 
     const crmLeadId =
-      result?.data
-        ?.crm
+      result?.data?.crm
         ?.lead_id ??
       null;
 
     const crmHttpStatus =
-      result?.data
-        ?.crm
+      result?.data?.crm
         ?.http_status ??
       null;
 
-    const crmMessage =
-      result?.data
-        ?.crm
-        ?.message ??
-      "";
-
-    /* =========================================
-       LOG
-    ========================================= */
-
-    console.log(
-      "POPUP CUSCO REGISTRADO:",
-      {
-        localLeadId,
-
-        localSaved,
-
-        nombre:
-          fullName,
-
-        telefono:
-          phone,
-
-        proyecto:
-          project,
-
-        crmSuccess,
-
-        crmStatus,
-
-        crmLeadId,
-
-        crmHttpStatus,
-
-        crmMessage,
-      }
-    );
-
     /* =========================================
        GTM
-
-       SOLO DESPUÉS DEL POST EXITOSO
     ========================================= */
 
     window.dataLayer =
-      window.dataLayer || [];
+      window.dataLayer ||
+      [];
 
     window.dataLayer.push({
       event:
@@ -820,13 +758,17 @@ const handleSubmit = async (
           .fuente_id,
 
       page_path:
-        window.location.pathname,
+        window.location
+          .pathname,
 
       local_lead_id:
-        localLeadId,
+        result?.data?.id ??
+        "",
 
       local_saved:
-        localSaved,
+        result?.data
+          ?.guardado_local ??
+        true,
 
       crm_sent:
         crmSuccess,
@@ -835,10 +777,12 @@ const handleSubmit = async (
         crmStatus,
 
       crm_lead_id:
-        crmLeadId ?? "",
+        crmLeadId ??
+        "",
 
       crm_http_status:
-        crmHttpStatus ?? "",
+        crmHttpStatus ??
+        "",
 
       utm_source:
         utmSource,
@@ -866,45 +810,41 @@ const handleSubmit = async (
 
     setErrors({});
 
-    /* =========================================
-       MOSTRAR ÉXITO ANTES DE CERRAR
-    ========================================= */
-
     showToast({
       ...SUCCESS_TOAST,
 
       message:
         result?.message ||
-        "Tus datos fueron registrados correctamente. Nos pondremos en contacto contigo.",
+        "Tus datos fueron registrados correctamente.",
     });
 
-    /* =========================================
-       CERRAR POPUP
-    ========================================= */
-
-    setIsVisible(false);
+    setIsVisible(
+      false
+    );
 
     registerPopupAsClosed();
 
   } catch (error) {
     console.error(
-      "ERROR POST /api/formularios:",
+      "ERROR POST FORMULARIO:",
       error
     );
 
     if (
-      error instanceof Error &&
+      error instanceof
+        Error &&
       error.name ===
         "AbortError"
     ) {
       showToast({
-        variant: "error",
+        variant:
+          "error",
 
         title:
           "El servidor tardó demasiado",
 
         message:
-          "La solicitud superó los 20 segundos de espera. Inténtalo nuevamente.",
+          "La solicitud superó los 20 segundos.",
       });
 
       return;
@@ -917,9 +857,10 @@ const handleSubmit = async (
         "No pudimos conectar con el servidor",
 
       message:
-        error instanceof Error
+        error instanceof
+          Error
           ? error.message
-          : "Comprueba tu conexión a Internet e inténtalo nuevamente.",
+          : "Comprueba tu conexión.",
     });
 
   } finally {
@@ -927,7 +868,9 @@ const handleSubmit = async (
       timeoutId
     );
 
-    setIsSending(false);
+    setIsSending(
+      false
+    );
   }
 };
 
