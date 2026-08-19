@@ -29,7 +29,7 @@ import styles from "./NeoBaltoLocation.module.css";
 ========================================================= */
 
 const SOURCE_ID = 4 as const;
-const CAMPAIGN_CODE = "Moro 416";
+const CAMPAIGN_CODE = "Neo Balto";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME = "NeoBaltoLocation";
