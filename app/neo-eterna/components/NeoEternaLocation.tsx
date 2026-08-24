@@ -23,6 +23,7 @@ import {
 } from "../data";
 
 import styles from "./NeoEternaLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1168,11 +1169,17 @@ export default function NeoEternaLocation() {
               </span>
             </div>
 
-            <a
-              href={whatsappNeoEterna}
-              target="_blank"
-              rel="noopener noreferrer"
+            <WhatsAppLead
               className={styles.whatsappButton}
+              project="Neo Eterna"
+              source="Neo Eterna"
+              sourceId={4}
+              campaign="WEB Neo Eterna"
+              ad="Botón WhatsApp Neo Eterna"
+              formCode="neo_eterna_whatsapp"
+              formName="WhatsApp - Neo Eterna"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1180,8 +1187,10 @@ export default function NeoEternaLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.schedule}>
               <ClockIcon

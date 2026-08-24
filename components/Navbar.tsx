@@ -17,6 +17,7 @@ import {
 } from "react";
 
 import styles from "./Navbar.module.css";
+import WhatsAppLead from "./WhatsAppLead/WhatsAppLead";
 
 const LOGO_SRC =
   "/assets/images/ancosur-logo.svg";
@@ -475,25 +476,25 @@ export default function Navbar() {
             WHATSAPP DESKTOP
         ================================================= */}
 
-        <a
-          href={WHATSAPP_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={
-            styles.whatsappButton
-          }
-          aria-label="Contactar por WhatsApp"
-        >
-          <WhatsappLogoIcon
-            size={19}
-            weight="bold"
-          />
+       <div className={styles.whatsappButton}>
+  <WhatsAppLead
+    source="Navbar Desktop"
+    project="ANCOSUR"
+    campaign="WEB Ancosur"
+    ad="Navbar WhatsApp Desktop"
+  >
+    <span className={styles.whatsappButtonContent}>
+      <WhatsappLogoIcon
+        size={19}
+        weight="bold"
+      />
 
-          <span>
-            971 069 763
-          </span>
-        </a>
-
+      <span>
+        971 069 763
+      </span>
+    </span>
+  </WhatsAppLead>
+</div>
         {/* =================================================
             BOTÓN MOBILE
         ================================================= */}
@@ -703,26 +704,26 @@ export default function Navbar() {
               WHATSAPP MOBILE
           ================================================= */}
 
-          <a
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={
-              styles.mobileWhatsapp
-            }
-            onClick={
-              closeMobileMenu
-            }
-          >
-            <PhoneCallIcon
-              size={20}
-              weight="bold"
-            />
+          <div className={styles.mobileWhatsapp}>
+  <WhatsAppLead
+    source="Navbar Mobile"
+    project="ANCOSUR"
+    campaign="WEB Ancosur"
+    ad="Navbar WhatsApp Mobile"
+    onBeforeOpen={closeMobileMenu}
+  >
+    <span className={styles.mobileWhatsappContent}>
+      <PhoneCallIcon
+        size={20}
+        weight="bold"
+      />
 
-            <span>
-              971 069 763
-            </span>
-          </a>
+      <span>
+        971 069 763
+      </span>
+    </span>
+  </WhatsAppLead>
+</div>
         </div>
       </div>
     </header>

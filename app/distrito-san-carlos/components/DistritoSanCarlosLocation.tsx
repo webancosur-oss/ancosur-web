@@ -26,6 +26,7 @@ import {
 } from "../data";
 
 import styles from "./DistritoSanCarlosLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1348,24 +1349,28 @@ export default function DistritoSanCarlosLocation() {
               </span>
             </div>
 
-            <a
-              href={
-                whatsappDistritoSanCarlos
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
-            >
-              <WhatsappLogoIcon
-                size={20}
-                weight="fill"
-                aria-hidden={true}
-              />
+            <WhatsAppLead
+                className={styles.whatsappButton}
+                project="Distrito San Carlos"
+                source="Distrito San Carlos"
+                sourceId={4}
+                campaign="WEB Distrito San Carlos"
+                ad="Botón WhatsApp Distrito San Carlos"
+                formCode="distrito_san_carlos_whatsapp"
+                formName="WhatsApp - Distrito San Carlos"
+                formType="departamentos"
+                defaultInterest="Departamento"
+              >
+                <WhatsappLogoIcon
+                  size={20}
+                  weight="fill"
+                  aria-hidden={true}
+                />
 
-              Escribir por WhatsApp
-            </a>
+                <span>
+                  Escribir por WhatsApp
+                </span>
+              </WhatsAppLead>
 
             <div
               className={

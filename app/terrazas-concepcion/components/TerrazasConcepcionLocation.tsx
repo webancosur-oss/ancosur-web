@@ -22,6 +22,7 @@ import {
 } from "../data";
 
 import styles from "./TerrazasConcepcionLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 const PROJECT_NAME =
   projectFormData.projectName ||
@@ -874,11 +875,17 @@ const handleSubmit = async (
               </span>
             </div>
 
-            <a
-              href={whatsappTerrazasConcepcion}
-              target="_blank"
-              rel="noreferrer"
+           <WhatsAppLead
               className={styles.whatsappButton}
+              project="Las Terrazas de Concepción"
+              source="Las Terrazas de Concepción"
+              sourceId={4}
+              campaign="WEB Terrazas de Concepción"
+              ad="Botón WhatsApp Terrazas de Concepción"
+              formCode="terrazas_concepcion_whatsapp"
+              formName="WhatsApp - Las Terrazas de Concepción"
+              formType="lotes"
+              defaultInterest="Lote"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -886,8 +893,10 @@ const handleSubmit = async (
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.officeInformation}>
               <div className={styles.officeItem}>

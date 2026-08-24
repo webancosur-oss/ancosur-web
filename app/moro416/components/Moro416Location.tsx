@@ -23,6 +23,7 @@ import {
 } from "../data";
 
 import styles from "./Moro416Location.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1203,13 +1204,17 @@ export default function Moro416Location() {
               </span>
             </div>
 
-            <a
-              href={whatsappMoro416}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
+           <WhatsAppLead
+              className={styles.whatsappButton}
+              project="Moro 416"
+              source="Moro 416"
+              sourceId={4}
+              campaign="WEB Moro 416"
+              ad="Botón WhatsApp Moro 416"
+              formCode="moro416_whatsapp"
+              formName="WhatsApp - Moro 416"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1217,9 +1222,10 @@ export default function Moro416Location() {
                 aria-hidden={true}
               />
 
-              Consultar Moro 416 por
-              WhatsApp
-            </a>
+              <span>
+                Consultar Moro 416 por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div
               className={

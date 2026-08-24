@@ -22,6 +22,7 @@ import {
 } from "../data";
 
 import styles from "./CaminoRealLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 const SOURCE_ID = 4 as const;
 const CAMPAIGN_CODE = "CR";
@@ -1163,11 +1164,17 @@ const handleSubmit = async (
               </span>
             </div>
 
-            <a
-              href={whatsappCaminoReal}
-              target="_blank"
-              rel="noopener noreferrer"
+            <WhatsAppLead
               className={styles.whatsappButton}
+              project="Camino Real Residencial"
+              source="Camino Real"
+              sourceId={4}
+              campaign="WEB Camino Real"
+              ad="Botón WhatsApp Camino Real"
+              formCode="camino_real_whatsapp"
+              formName="WhatsApp - Camino Real"
+              formType="lotes"
+              defaultInterest="Lote"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1175,8 +1182,10 @@ const handleSubmit = async (
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.officeInformation}>
               <div className={styles.officeItem}>

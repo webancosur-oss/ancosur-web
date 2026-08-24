@@ -591,12 +591,32 @@
 
 /* =========================================================
    WHATSAPP DESKTOP
+   El wrapper contiene WhatsAppLead.
 ========================================================= */
 
 .whatsappButton {
   flex:
     0 0 auto;
 
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-width:
+    0;
+}
+
+/*
+  WhatsAppLead renderiza su propio <button>.
+  Lo adaptamos al diseño del navbar desde aquí.
+*/
+
+.whatsappButton > button {
   min-height:
     48px;
 
@@ -614,32 +634,29 @@
 
   gap: 8px;
 
+  border:
+    1px solid
+    rgba(0, 167, 79, 0.3);
+
   border-radius:
     999px;
 
   background:
     rgba(0, 167, 79, 0.15);
 
-  border:
-    1px solid
-    rgba(0, 167, 79, 0.3);
-
   color:
     #ffffff;
-
-  text-decoration:
-    none;
-
-  font-size:
-    0.8rem;
-
-  font-weight:
-    700;
 
   white-space:
     nowrap;
 
+  cursor:
+    pointer;
+
   backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
     blur(10px);
 
   transition:
@@ -651,7 +668,7 @@
     transparent;
 }
 
-.whatsappButton:hover {
+.whatsappButton > button:hover {
   background:
     rgba(0, 167, 79, 0.28);
 
@@ -660,6 +677,23 @@
 
   transform:
     translateY(-2px);
+}
+
+.whatsappButtonContent {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  white-space:
+    nowrap;
 }
 
 
@@ -1144,11 +1178,15 @@
 
 /* =========================================================
    WHATSAPP MOBILE
+   Solo vive dentro del panel hamburguesa.
 ========================================================= */
 
 .mobileWhatsapp {
-  min-height:
-    52px;
+  width:
+    100%;
+
+  min-width:
+    0;
 
   margin-top:
     18px;
@@ -1161,9 +1199,36 @@
 
   justify-content:
     center;
+}
 
-  gap:
-    8px;
+/*
+  WhatsAppLead renderiza el botón real.
+*/
+
+.mobileWhatsapp > button {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  min-height:
+    52px;
+
+  padding:
+    0 18px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    0;
 
   border-radius:
     999px;
@@ -1174,14 +1239,8 @@
   color:
     #ffffff;
 
-  text-decoration:
-    none;
-
-  font-size:
-    0.85rem;
-
-  font-weight:
-    700;
+  cursor:
+    pointer;
 
   box-shadow:
     0 10px 30px
@@ -1195,14 +1254,37 @@
     background 0.2s ease;
 }
 
-.mobileWhatsapp:hover {
+.mobileWhatsapp > button:hover {
   background:
     #009445;
 }
 
-.mobileWhatsapp:active {
+.mobileWhatsapp > button:active {
   transform:
     scale(0.98);
+}
+
+.mobileWhatsappContent {
+  width:
+    100%;
+
+  min-width:
+    0;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  white-space:
+    nowrap;
 }
 
 
@@ -1233,12 +1315,9 @@
       130px;
   }
 
-  .whatsappButton {
+  .whatsappButton > button {
     padding:
       0 15px;
-
-    font-size:
-      0.74rem;
   }
 
   .navbarScrolled .navbarShell {
@@ -1317,15 +1396,42 @@
       rgba(0, 0, 0, 0.3);
   }
 
-  .desktopNav,
-  .whatsappButton {
+  .desktopNav {
     display:
       none;
+  }
+
+  /*
+    Oculta SIEMPRE el WhatsApp del navbar superior
+    en tablet/mobile. El único WhatsApp visible será
+    el que está dentro del menú hamburguesa.
+  */
+
+  .whatsappButton {
+    display:
+      none !important;
+
+    visibility:
+      hidden !important;
+
+    pointer-events:
+      none !important;
   }
 
   .menuButton {
     display:
       flex;
+
+    margin-left:
+      auto;
+  }
+
+  .mobileWhatsapp {
+    display:
+      flex;
+
+    width:
+      100%;
   }
 
   .logoImage,
@@ -1415,6 +1521,24 @@
     min-height:
       50px;
   }
+
+  .mobileWhatsapp {
+    margin-top:
+      15px;
+  }
+
+  .mobileWhatsapp > button {
+    min-height:
+      49px;
+
+    padding:
+      0 15px;
+  }
+
+  .mobileWhatsappContent {
+    gap:
+      8px;
+  }
 }
 
 
@@ -1460,8 +1584,8 @@
 
   .mobileLink:hover,
   .mobileBenefit:hover,
-  .whatsappButton:hover,
-  .mobileWhatsapp:hover {
+  .whatsappButton > button:hover,
+  .mobileWhatsapp > button:hover {
     transform:
       none;
   }
@@ -1475,12 +1599,12 @@
 .navLink:focus-visible,
 .benefitsButton:focus-visible,
 .dropdownItem:focus-visible,
-.whatsappButton:focus-visible,
+.whatsappButton > button:focus-visible,
 .menuButton:focus-visible,
 .mobileLink:focus-visible,
 .mobileBenefitsButton:focus-visible,
 .mobileBenefit:focus-visible,
-.mobileWhatsapp:focus-visible {
+.mobileWhatsapp > button:focus-visible {
   outline:
     2px solid
     #00a74f;
@@ -1527,5 +1651,18 @@
   .menuButton {
     transition:
       none;
+  }
+}
+
+/* =========================================================
+   SEGURIDAD FINAL
+   El botón WhatsApp del navbar superior nunca debe aparecer
+   en tablet/mobile. Solo queda el del panel hamburguesa.
+========================================================= */
+
+@media screen and (max-width: 900px) {
+  .whatsappButton {
+    display:
+      none !important;
   }
 }

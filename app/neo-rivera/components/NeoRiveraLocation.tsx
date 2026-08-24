@@ -20,6 +20,7 @@ import FeedbackToast, {
 import { whatsappNeoRivera } from "../data";
 
 import styles from "./NeoRiveraLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1170,11 +1171,17 @@ export default function NeoRiveraLocation() {
               </span>
             </div>
 
-            <a
-              href={whatsappNeoRivera}
-              target="_blank"
-              rel="noreferrer"
+           <WhatsAppLead
               className={styles.whatsappButton}
+              project="Neo Rivera"
+              source="Neo Rivera"
+              sourceId={4}
+              campaign="WEB Neo Rivera"
+              ad="Botón WhatsApp Neo Rivera"
+              formCode="neo_rivera_whatsapp"
+              formName="WhatsApp - Neo Rivera"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1182,8 +1189,10 @@ export default function NeoRiveraLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.schedule}>
               <ClockIcon

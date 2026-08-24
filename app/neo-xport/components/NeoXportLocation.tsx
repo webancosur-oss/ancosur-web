@@ -20,6 +20,7 @@ import FeedbackToast, {
 import { whatsappNeoXport } from "../data";
 
 import styles from "./NeoXportLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1180,11 +1181,17 @@ export default function NeoXportLocation() {
               </span>
             </div>
 
-            <a
-              href={whatsappNeoXport}
-              target="_blank"
-              rel="noreferrer"
+           <WhatsAppLead
               className={styles.whatsappButton}
+              project="Neo Xport"
+              source="Neo Xport"
+              sourceId={4}
+              campaign="WEB Neo Xport"
+              ad="Botón WhatsApp Neo Xport"
+              formCode="neo_xport_whatsapp"
+              formName="WhatsApp - Neo Xport"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1192,8 +1199,10 @@ export default function NeoXportLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.schedule}>
               <ClockIcon

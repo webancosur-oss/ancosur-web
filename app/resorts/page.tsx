@@ -7,12 +7,12 @@ import {
 
 import Image from "next/image";
 
-import ActionButton from "@/components/buttons/ActionButton";
 import { createSeoMetadata } from "@/src/lib/seo";
 
 import ResortsLeadForm from "./components/ResortsLeadForm";
 
 import styles from "./ResortsPage.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    SEO
@@ -436,28 +436,28 @@ export default function ResortsPage() {
                       styles.buttonArea
                     }
                   >
-                    <ActionButton
-                      href={
-                        whatsappUrl
-                      }
-                      variant="primary"
-                      size="md"
-                      fullWidth
-                      iconPosition="right"
+                    <WhatsAppLead
+                      className={styles.whatsappButton}
+                      project="Moro 416"
+                      source="Moro 416"
+                      sourceId={4}
+                      campaign="WEB Moro 416"
+                      ad="Botón Solicitar información"
+                      formCode="moro416_whatsapp"
+                      formName="WhatsApp - Moro 416"
+                      formType="departamentos"
+                      defaultInterest="Departamento"
                     >
                       <span>
-                        Solicitar
-                        información
+                        Solicitar información
                       </span>
 
                       <WhatsappLogoIcon
-                        size={
-                          19
-                        }
+                        size={19}
                         weight="fill"
-                        aria-hidden="true"
+                        aria-hidden={true}
                       />
-                    </ActionButton>
+                    </WhatsAppLead>
                   </div>
                 </article>
               );

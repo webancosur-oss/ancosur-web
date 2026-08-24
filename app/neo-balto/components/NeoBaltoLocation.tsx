@@ -23,6 +23,7 @@ import {
 } from "../data";
 
 import styles from "./NeoBaltoLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1198,13 +1199,17 @@ export default function NeoBaltoLocation() {
               </span>
             </div>
 
-            <a
-              href={whatsappNeoBalto}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
+           <WhatsAppLead
+              className={styles.whatsappButton}
+              project="Neo Balto"
+              source="Neo Balto"
+              sourceId={4}
+              campaign="WEB Neo Balto"
+              ad="Botón WhatsApp Neo Balto"
+              formCode="neo_balto_whatsapp"
+              formName="WhatsApp - Neo Balto"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1212,8 +1217,10 @@ export default function NeoBaltoLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div
               className={

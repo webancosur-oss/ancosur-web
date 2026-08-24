@@ -23,6 +23,7 @@ import {
 } from "../data";
 
 import styles from "./NeoEmperatrizLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1172,11 +1173,17 @@ export default function NeoEmperatrizLocation() {
               </span>
             </div>
 
-            <a
-              href={whatsappNeoEmperatriz}
-              target="_blank"
-              rel="noopener noreferrer"
+          <WhatsAppLead
               className={styles.whatsappButton}
+              project="Neo Emperatriz"
+              source="Neo Emperatriz"
+              sourceId={4}
+              campaign="WEB Neo Emperatriz"
+              ad="Botón WhatsApp Neo Emperatriz"
+              formCode="neo_emperatriz_whatsapp"
+              formName="WhatsApp - Neo Emperatriz"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1184,8 +1191,10 @@ export default function NeoEmperatrizLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div className={styles.schedule}>
               <ClockIcon

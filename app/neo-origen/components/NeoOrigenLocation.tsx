@@ -23,6 +23,7 @@ import {
 } from "../data";
 
 import styles from "./NeoOrigenLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1267,15 +1268,17 @@ export default function NeoOrigenLocation() {
 
             {/* WHATSAPP */}
 
-            <a
-              href={
-                whatsappNeoOrigen
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
+           <WhatsAppLead
+              className={styles.whatsappButton}
+              project="Neo Origen"
+              source="Neo Origen"
+              sourceId={4}
+              campaign="WEB Neo Origen"
+              ad="Botón WhatsApp Neo Origen"
+              formCode="neo_origen_whatsapp"
+              formName="WhatsApp - Neo Origen"
+              formType="departamentos"
+              defaultInterest="Departamento"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1283,9 +1286,10 @@ export default function NeoOrigenLocation() {
                 aria-hidden={true}
               />
 
-              Consultar Neo Origen por
-              WhatsApp
-            </a>
+              <span>
+                Consultar Neo Origen por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             {/* OFICINA DE VENTAS */}
 

@@ -22,6 +22,7 @@ import {
 } from "../data";
 
 import styles from "./ColinasDeMoroLocation.module.css";
+import WhatsAppLead from "@/components/WhatsAppLead/WhatsAppLead";
 
 /* =========================================================
    CONFIGURACIÓN
@@ -1417,15 +1418,17 @@ export default function ColinasDeMoroLocation() {
               </span>
             </div>
 
-            <a
-              href={
-                whatsappColinasDeMoro
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-              className={
-                styles.whatsappButton
-              }
+            <WhatsAppLead
+              className={styles.whatsappButton}
+              project="Las Colinas de Moro"
+              source="Las Colinas de Moro"
+              sourceId={4}
+              campaign="WEB Colinas de Moro"
+              ad="Botón WhatsApp Colinas de Moro"
+              formCode="colinas_de_moro_whatsapp"
+              formName="WhatsApp - Las Colinas de Moro"
+              formType="lotes"
+              defaultInterest="Lote"
             >
               <WhatsappLogoIcon
                 size={20}
@@ -1433,8 +1436,10 @@ export default function ColinasDeMoroLocation() {
                 aria-hidden={true}
               />
 
-              Escribir por WhatsApp
-            </a>
+              <span>
+                Escribir por WhatsApp
+              </span>
+            </WhatsAppLead>
 
             <div
               className={
