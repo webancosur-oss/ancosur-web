@@ -12,6 +12,40 @@
   scroll-margin-top: 110px;
 }
 
+.cardContent {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  text-align: left;
+
+  overflow: hidden;
+}
+
+.cardContent strong {
+  display: block;
+  width: 100%;
+
+  text-align: left;
+
+  margin: 0;
+}
+
+.cardContent small {
+  display: block;
+  width: 100%;
+
+  text-align: left;
+
+  margin-top: 4px;
+
+  line-height: 1.4;
+}
+
 .contactSection::before {
   content: "";
   position: absolute;

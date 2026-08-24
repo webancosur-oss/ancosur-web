@@ -24,6 +24,7 @@ import FeedbackToast, {
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import styles from "./ContactForm.module.css";
+import WhatsAppLead from "./WhatsAppLead/WhatsAppLead";
 
 type LeadFormData = {
   fullName: string;
@@ -550,55 +551,42 @@ export default function ContactForm({
                 styles.infoCards
               }
             >
-              <a
-                className={
-                  styles.infoCard
-                }
-                href={
-                  WHATSAPP_URL
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Escribir a Ancosur por WhatsApp"
+             <WhatsAppLead
+                className={styles.infoCard}
+                project="ANCOSUR"
+                source="Contacto - Tarjeta WhatsApp"
+                sourceId={4}
+                campaign="WEB Ancosur"
+                ad="Tarjeta WhatsApp Contacto"
+                formCode="contacto_whatsapp"
+                formName="WhatsApp - Página de contacto"
+                formType="contacto"
               >
-                <span
-                  className={
-                    styles.iconBox
-                  }
-                >
+                <span className={styles.iconBox}>
                   <WhatsappLogoIcon
                     size={22}
                     weight="bold"
-                    aria-hidden={
-                      true
-                    }
+                    aria-hidden={true}
                   />
                 </span>
 
-                <div
-                  className={
-                    styles.cardContent
-                  }
-                >
+                <div className={styles.cardContent}>
                   <strong>
                     WhatsApp
                   </strong>
 
                   <small>
-                    Atención rápida al
                     971 069 763.
                   </small>
                 </div>
 
                 <ArrowSquareOutIcon
-                  className={
-                    styles.cardArrow
-                  }
+                  className={styles.cardArrow}
                   size={18}
                   weight="bold"
-                  aria-hidden="true"
+                  aria-hidden={true}
                 />
-              </a>
+              </WhatsAppLead>
 
               <a
                 className={
