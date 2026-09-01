@@ -369,7 +369,6 @@ export default function RootLayout({
 
         {children}
 
-
         <FloatingActions />
 
         <FloatingPodcast />
