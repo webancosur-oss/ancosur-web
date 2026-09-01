@@ -380,8 +380,6 @@ export default function RootLayout({
 
         <Footer />
 
-        <TawkChat />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

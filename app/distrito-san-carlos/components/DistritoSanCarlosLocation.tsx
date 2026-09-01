@@ -1368,7 +1368,7 @@ export default function DistritoSanCarlosLocation() {
                 />
 
                 <span>
-                  Escribir por WhatsApp
+                  Agendar visita
                 </span>
               </WhatsAppLead>
 

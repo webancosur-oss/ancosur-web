@@ -1190,7 +1190,7 @@ export default function NeoRiveraLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 
