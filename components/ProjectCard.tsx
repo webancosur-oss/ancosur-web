@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Bed,
   ArrowsOutSimple,
-  ArrowRight,
 } from "@phosphor-icons/react";
 
 import { Project } from "@/data/projects";
@@ -28,6 +27,9 @@ const statusLabel: Record<string, string> = {
 
 export default function ProjectCard({ project }: Props) {
   if (!project) return null;
+
+  const isSoldOut =
+    project.price?.trim().toLowerCase() === "todos vendidos";
 
   return (
     <article className={styles.card}>
@@ -53,29 +55,31 @@ export default function ProjectCard({ project }: Props) {
         =========================== */}
 
         <div className={styles.content}>
-          {/* Logo del proyecto */}
-       {project.logo && (
-          <div className={styles.logoContainer}>
-            <Image
-              src={project.logo}
-              alt={`Logo de ${project.name}`}
-              width={160}
-              height={50}
-              className={styles.logo}
-            />
-          </div>
-        )}
+          {/* LOGO */}
+          {project.logo && (
+            <div className={styles.logoContainer}>
+              <Image
+                src={project.logo}
+                alt={`Logo de ${project.name}`}
+                width={160}
+                height={50}
+                className={styles.logo}
+              />
+            </div>
+          )}
 
+          {/* UBICACIÓN */}
           <div className={styles.location}>
             <strong>{project.city}</strong>
             <span>{project.address}</span>
 
-            {/* Estado del proyecto */}
+            {/* ESTADO */}
             {/* <div className={styles.status}>
               {statusLabel[project.status]}
             </div> */}
           </div>
 
+          {/* CARACTERÍSTICAS */}
           <div className={styles.features}>
             <div className={styles.feature}>
               <Bed size={20} weight="regular" />
@@ -88,16 +92,21 @@ export default function ProjectCard({ project }: Props) {
             </div>
           </div>
 
-         {project.status === "ENTREGADO" ? (
+          {/* PRECIO */}
           <div className={styles.priceBox}>
-            <strong>Conoce nuestros proyectos disponibles</strong>
+            {isSoldOut ? (
+              <strong>{project.price}</strong>
+            ) : project.status === "ENTREGADO" ? (
+              <strong>
+                Conoce nuestros proyectos disponibles
+              </strong>
+            ) : (
+              <>
+                <small>Desde</small>
+                <strong>{project.price}</strong>
+              </>
+            )}
           </div>
-        ) : (
-          <div className={styles.priceBox}>
-            <small>Desde</small>
-            <strong>{project.price}</strong>
-          </div>
-        )}
         </div>
       </Link>
 

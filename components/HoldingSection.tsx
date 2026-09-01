@@ -23,6 +23,7 @@ import styles from "./HoldingSection.module.css";
 ==================================================*/
 
 type CompanyId =
+|"moro capital"
   | "ancosur"
   | "straton"
   | "zagari"
@@ -56,6 +57,17 @@ const companies: Company[] = [
     logo: "/assets/images/ancosur-logo.svg",
     background: "/assets/projects/tarjetas/balto.webp",
     tone: "#00a74f",
+  },
+  {
+    id: "moro capital",
+    name: "",
+    category: "Inversión",
+    description:
+      "",
+    href: "https://www.morocapital.pe",
+    logo: "/assets/images/moro-capital.svg",
+    background: "/assets/projects/tarjetas/moro416.webp",
+    tone: "#185d36",
   },
   {
     id: "straton",
