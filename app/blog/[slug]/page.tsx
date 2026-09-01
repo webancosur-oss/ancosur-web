@@ -1,42 +1,218 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { blogPosts } from "@/data/blog";
-import styles from "./BlogDetail.module.css";
 import BackButton from "@/components/BackButton";
 
-const siteUrl = "https://ancosur.com";
+import styles from "./BlogDetail.module.css";
 
-type BlogDetailProps = {
-  params: Promise<{
-    slug: string;
-  }>;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const API_URL =
+  process.env.API_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://ancosur-api-production.up.railway.app";
+
+/* =========================================================
+   TIPOS — CKEDITOR 5 / HTML
+========================================================= */
+
+type BlogContentItem = {
+  type?: string;
+  format?: string;
+  html?: string;
 };
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
+type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string;
+  cover_image_url: string | null;
+  content: BlogContentItem[] | string | null;
+  status: string;
+  author_name: string | null;
+  created_at: string;
+  updated_at: string;
+  published_at: string | null;
+};
+
+type BlogResponse = {
+  success?: boolean;
+  data?: BlogPost;
+  message?: string;
+};
+
+/* =========================================================
+   API
+========================================================= */
+
+async function getPost(
+  slug: string
+): Promise<BlogPost | null> {
+  try {
+    const base = API_URL.replace(/\/+$/, "");
+
+    const response = await fetch(
+      `${base}/api/blog/${encodeURIComponent(slug)}`,
+      {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error(
+        "Error API Blog:",
+        response.status,
+        response.statusText
+      );
+
+      return null;
+    }
+
+    const result =
+      (await response.json()) as BlogResponse;
+
+    if (!result.success || !result.data) {
+      console.error(
+        "Respuesta inválida del blog:",
+        result
+      );
+
+      return null;
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error(
+      "Error cargando artículo:",
+      error
+    );
+
+    return null;
+  }
 }
+
+/* =========================================================
+   URL DE MEDIA
+   Solo resuelve rutas relativas del backend.
+   No modifica el HTML almacenado.
+========================================================= */
+
+function getMediaUrl(
+  value: unknown
+): string {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  const url = value.trim();
+
+  if (!url) {
+    return "";
+  }
+
+  if (/^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  if (url.startsWith("/api/")) {
+    return `${API_URL.replace(/\/+$/, "")}${url}`;
+  }
+
+  if (url.startsWith("/")) {
+    return url;
+  }
+
+  return `/${url}`;
+}
+
+/* =========================================================
+   HTML DE CKEDITOR 5
+   El servidor guarda:
+   [
+     {
+       "type": "richtext",
+       "format": "html",
+       "html": "..."
+     }
+   ]
+
+   Se devuelve EXACTAMENTE ese HTML.
+   No se convierte a Tiptap.
+   No se reconstruyen nodos.
+   No se generan etiquetas nuevas.
+========================================================= */
+
+function getArticleHtml(
+  content: BlogPost["content"]
+): string {
+  if (!content) {
+    return "";
+  }
+
+  if (Array.isArray(content)) {
+    return content
+      .filter(
+        (item): item is BlogContentItem =>
+          Boolean(item) &&
+          typeof item === "object"
+      )
+      .map((item) =>
+        typeof item.html === "string"
+          ? item.html
+          : ""
+      )
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  if (typeof content === "string") {
+    return content.trim();
+  }
+
+  return "";
+}
+
+/* =========================================================
+   METADATA
+========================================================= */
 
 export async function generateMetadata({
   params,
-}: BlogDetailProps): Promise<Metadata> {
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
+
+  const post = await getPost(slug);
 
   if (!post) {
     return {
-      title: "Artículo no encontrado",
+      title: "Artículo no encontrado | ANCOSUR",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const cover = getMediaUrl(
+    post.cover_image_url
+  );
+
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: `${post.title} | ANCOSUR`,
+
+    description:
+      post.excerpt ||
+      `Conoce más sobre ${post.title}.`,
 
     alternates: {
       canonical: `/blog/${post.slug}`,
@@ -44,58 +220,72 @@ export async function generateMetadata({
 
     openGraph: {
       title: post.title,
-      description: post.excerpt,
-      url: `/blog/${post.slug}`,
-      siteName: "Ancosur Inmobiliaria",
+
+      description:
+        post.excerpt || "",
+
       type: "article",
+
       locale: "es_PE",
-      images: [
-        {
-          url: post.image,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+
+      publishedTime:
+        post.published_at ||
+        undefined,
+
+      modifiedTime:
+        post.updated_at ||
+        undefined,
+
+      images: cover
+        ? [
+            {
+              url: cover,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : undefined,
     },
 
     twitter: {
       card: "summary_large_image",
+
       title: post.title,
-      description: post.excerpt,
-      images: [post.image],
+
+      description:
+        post.excerpt || "",
+
+      images: cover
+        ? [cover]
+        : undefined,
     },
   };
 }
 
-export default async function BlogDetailPage({ params }: BlogDetailProps) {
+/* =========================================================
+   PAGE
+========================================================= */
+
+export default async function BlogDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
+
+  const post = await getPost(slug);
 
   if (!post) {
     notFound();
   }
 
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    image: `${siteUrl}${post.image}`,
-    url: `${siteUrl}/blog/${post.slug}`,
-    author: {
-      "@type": "Organization",
-      name: "Ancosur Inmobiliaria",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Ancosur Inmobiliaria",
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteUrl}/assets/images/logo-ancosur.png`,
-      },
-    },
-  };
+  const contentHtml =
+    getArticleHtml(post.content);
+
+  const cover = getMediaUrl(
+    post.cover_image_url
+  );
 
   return (
     <>
@@ -103,47 +293,95 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
 
       <main className={styles.page}>
         <article className={styles.article}>
-             <BackButton
-            href="/blog"
-            label="Volver al blog"
-            variant="light"
-            className={styles.backButton}
-          />
-
-          <div className={styles.meta}>
-            <span>{post.category}</span>
-            <small>{post.date}</small>
-          </div>
-
-          <h1>{post.title}</h1>
-          <p className={styles.excerpt}>{post.excerpt}</p>
-
-          <div className={styles.imageBox}>
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className={styles.image}
-              priority
+          <div className={styles.backWrapper}>
+            <BackButton
+              href="/blog"
+              label="Volver al blog"
+              variant="light"
             />
           </div>
 
-          <div className={styles.content}>
-            {post.content.map((paragraph, index) => (
-              <p key={`${post.slug}-${index}`}>{paragraph}</p>
-            ))}
-          </div>
+          <header className={styles.header}>
+            <div className={styles.meta}>
+              {post.category ? (
+                <span>
+                  {post.category}
+                </span>
+              ) : null}
 
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(articleJsonLd),
-            }}
-          />
+              {post.published_at ? (
+                <time
+                  dateTime={
+                    post.published_at
+                  }
+                >
+                  {new Date(
+                    post.published_at
+                  ).toLocaleDateString(
+                    "es-PE",
+                    {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    }
+                  )}
+                </time>
+              ) : null}
+            </div>
+
+            <h1>{post.title}</h1>
+
+            {post.excerpt ? (
+              <p
+                className={
+                  styles.excerpt
+                }
+              >
+                {post.excerpt}
+              </p>
+            ) : null}
+
+            {cover ? (
+              <figure
+                className={
+                  styles.coverImage
+                }
+              >
+                <img
+                  src={cover}
+                  alt={post.title}
+                  loading="eager"
+                  fetchPriority="high"
+                />
+              </figure>
+            ) : null}
+          </header>
+
+          <section
+            className={styles.content}
+          >
+            {contentHtml ? (
+              <div
+                className={
+                  styles.htmlContent
+                }
+                dangerouslySetInnerHTML={{
+                  __html: contentHtml,
+                }}
+              />
+            ) : (
+              <p
+                className={
+                  styles.emptyContent
+                }
+              >
+                Este artículo todavía
+                no tiene contenido.
+              </p>
+            )}
+          </section>
         </article>
       </main>
-
-      
     </>
   );
 }

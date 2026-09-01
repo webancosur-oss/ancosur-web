@@ -1,198 +1,979 @@
+/* =========================================================
+   ANCOSUR — BLOG DETAIL
+   Renderiza directamente el HTML generado por CKEditor 5.
+   No transforma el contenido almacenado.
+========================================================= */
+
 .page {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  margin: 0;
+  padding: 0;
+
   background: #ffffff;
-  color: #111111;
+  color: #202622;
+
+  overflow-x: hidden;
 }
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ARTÍCULO
+========================================================= */
 
 .article {
-  max-width: 920px;
+  width: min(1160px, calc(100% - 48px));
+  max-width: 1160px;
+  min-width: 0;
+
   margin: 0 auto;
-  padding: 150px 24px 80px;
+
+  padding: 108px 0 92px;
 }
 
-.back {
-  display: inline-flex;
-  margin-bottom: 34px;
-  color: #00a74f;
-  font-size: 14px;
- 
-  text-decoration: none;
+/* =========================================================
+   BOTÓN VOLVER
+========================================================= */
+
+.backWrapper {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 30px;
 }
 
-.back:hover {
-  color: #008f43;
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .meta {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 16px;
 }
 
 .meta span {
-  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 100%;
+
+  padding: 6px 10px;
+
+  border-radius: 999px;
+
   background: #00a74f;
   color: #ffffff;
-  border-radius: 999px;
-  font-size: 12px;
- 
+
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 800;
+
+  letter-spacing: .65px;
   text-transform: uppercase;
+
+  overflow-wrap: anywhere;
 }
 
-.meta small {
-  color: #777777;
-  font-size: 14px;
- 
+.meta time {
+  max-width: 100%;
+
+  color: #7b827e;
+
+  font-size: 12px;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
 }
 
-.article h1 {
+.article > h1,
+.header > h1 {
+  width: min(100%, 1040px);
+  max-width: 1040px;
+  min-width: 0;
+
   margin: 0 0 18px;
-  line-height: 1.05;
- 
-  letter-spacing: -1px;
+
+  color: #101311;
+
+  font-size: clamp(38px, 5vw, 66px);
+  line-height: 1.03;
+  font-weight: 750;
+
+  letter-spacing: -2.4px;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
 .excerpt {
-  margin: 0 0 38px;
-  color: #555555;
-  font-size: 20px;
-  line-height: 1.6;
+  width: min(100%, 780px);
+  max-width: 780px;
+  min-width: 0;
+
+  margin: 0 0 42px;
+
+  color: #69716c;
+
+  font-size: 17px;
+  line-height: 1.7;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
-.imageBox {
-  position: relative;
+/* =========================================================
+   PORTADA
+========================================================= */
+
+.coverImage {
   width: 100%;
-  height: 470px;
-  margin-bottom: 46px;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 54px;
+  padding: 0;
+
   overflow: hidden;
-  border-radius: 26px;
-  background: #dddddd;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.1);
+
+  border-radius: 20px;
+
+  background: #f1f3f2;
 }
 
-.image {
+.coverImage img {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
   object-fit: cover;
 }
 
+/* =========================================================
+   CONTENIDO
+========================================================= */
+
 .content {
-  max-width: 760px;
+  width: min(900px, 100%);
+  max-width: 900px;
+  min-width: 0;
+
   margin: 0 auto;
+  padding: 0;
 }
 
-.content p {
-  margin: 0 0 26px;
-  color: #333333;
-  font-size: 18px;
-  line-height: 1.85;
-}
+.htmlContent {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
-.related {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 20px 6% 90px;
-}
-
-.relatedHeader {
-  margin-bottom: 28px;
-}
-
-.relatedHeader span {
-  color: #00a74f;
-  font-size: 14px;
- 
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.relatedHeader h2 {
-  margin: 10px 0 0;
-  line-height: 1.1;
- 
-}
-
-.relatedGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.relatedCard {
-  padding: 26px;
-  background: #f7f7f7;
-  border: 1px solid #eeeeee;
-  border-radius: 18px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.relatedCard:hover {
-  transform: translateY(-4px);
-  border-color: #00a74f;
-  background: #ffffff;
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.08);
-}
-
-.relatedCard strong {
-  color: #00a74f;
-  font-size: 12px;
- 
-  text-transform: uppercase;
-}
-
-.relatedCard h3 {
-  margin: 10px 0;
-  color: #111111;
-  font-size: 22px;
-  line-height: 1.2;
- 
-}
-
-.relatedCard p {
   margin: 0;
-  color: #555555;
-  font-size: 14px;
-  line-height: 1.6;
+  padding: 0;
+
+  color: #202622;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
-@media (max-width: 900px) {
+/*
+ * El contenido interno es HTML real de CKEditor.
+ * No se fuerzan tamaños globales sobre todos los elementos;
+ * los estilos inline guardados por CKEditor permanecen.
+ */
+
+.htmlContent :global(p) {
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 24px;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+.htmlContent :global(h1),
+.htmlContent :global(h2),
+.htmlContent :global(h3),
+.htmlContent :global(h4),
+.htmlContent :global(h5),
+.htmlContent :global(h6) {
+  max-width: 100%;
+  min-width: 0;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+/* =========================================================
+   FORMATO INLINE
+========================================================= */
+
+.htmlContent :global(strong),
+.htmlContent :global(b) {
+  font-weight: 700;
+}
+
+.htmlContent :global(em),
+.htmlContent :global(i) {
+  font-style: italic;
+}
+
+.htmlContent :global(u) {
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.htmlContent :global(a) {
+  max-width: 100%;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.htmlContent :global(p a) {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+/* =========================================================
+   IMÁGENES DE CKEDITOR 5
+========================================================= */
+
+/*
+ * CKEditor puede generar:
+ *
+ * 1) <figure class="image ...">
+ * 2) <p><img class="image_resized ..."></p>
+ *
+ * Tu contenido actual usa principalmente la segunda forma.
+ *
+ * NO se establece width:100% en desktop:
+ * el width inline guardado por CKEditor, por ejemplo
+ * style="width:44.74%", se conserva.
+ */
+
+/* Imagen dentro de figure */
+
+.htmlContent :global(figure.image) {
+  position: relative;
+
+  max-width: 100%;
+  min-width: 0;
+
+  margin-top: 26px;
+  margin-bottom: 26px;
+
+  padding: 0;
+
+  line-height: 0;
+
+  overflow: visible;
+}
+
+.htmlContent :global(figure.image > img) {
+  display: block;
+
+  max-width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  object-fit: contain;
+}
+
+/* Imagen CKEditor directa dentro de un párrafo */
+
+.htmlContent :global(
+  img.image_resized
+) {
+  max-width: 100%;
+  height: auto;
+
+  vertical-align: middle;
+}
+
+/* =========================================================
+   WRAP TEXT — IMAGEN A LA IZQUIERDA
+========================================================= */
+
+/*
+ * Este es el caso real de tu HTML:
+ *
+ * <p>
+ *   <img
+ *     class="image_resized image-style-align-left"
+ *     style="width:44.74%;"
+ *   >
+ * </p>
+ */
+
+.htmlContent :global(
+  img.image-style-align-left
+) {
+  float: left;
+
+  margin-top: 8px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+  margin-left: 0;
+}
+
+/* También soporta el formato figure de CKEditor */
+
+.htmlContent :global(
+  figure.image-style-align-left
+) {
+  float: left;
+
+  margin-top: 8px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+  margin-left: 0;
+}
+
+/* =========================================================
+   WRAP TEXT — IMAGEN A LA DERECHA
+========================================================= */
+
+.htmlContent :global(
+  img.image-style-align-right
+) {
+  float: right;
+
+  margin-top: 8px;
+  margin-right: 0;
+  margin-bottom: 20px;
+  margin-left: 30px;
+}
+
+.htmlContent :global(
+  figure.image-style-align-right
+) {
+  float: right;
+
+  margin-top: 8px;
+  margin-right: 0;
+  margin-bottom: 20px;
+  margin-left: 30px;
+}
+
+/* =========================================================
+   CENTRADO
+========================================================= */
+
+.htmlContent :global(
+  img.image-style-align-center
+) {
+  display: block;
+
+  float: none;
+
+  margin-top: 26px;
+  margin-right: auto;
+  margin-bottom: 26px;
+  margin-left: auto;
+}
+
+.htmlContent :global(
+  figure.image-style-align-center
+) {
+  float: none;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   BLOCK LEFT / RIGHT
+========================================================= */
+
+.htmlContent :global(
+  img.image-style-align-block-left
+) {
+  display: block;
+
+  float: none;
+
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.htmlContent :global(
+  img.image-style-align-block-right
+) {
+  display: block;
+
+  float: none;
+
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.htmlContent :global(
+  figure.image-style-align-block-left
+) {
+  float: none;
+
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.htmlContent :global(
+  figure.image-style-align-block-right
+) {
+  float: none;
+
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* =========================================================
+   SIDE
+========================================================= */
+
+.htmlContent :global(
+  img.image-style-side
+) {
+  max-width: 50%;
+}
+
+.htmlContent :global(
+  figure.image-style-side
+) {
+  max-width: 50%;
+}
+
+/* =========================================================
+   CAPTION
+========================================================= */
+
+.htmlContent :global(
+  figure.image > figcaption
+) {
+  max-width: 100%;
+
+  margin-top: 8px;
+
+  color: #78817c;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  text-align: center;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TODAS LAS IMÁGENES
+========================================================= */
+
+.htmlContent :global(img) {
+  max-width: 100%;
+  height: auto;
+
+  vertical-align: middle;
+}
+
+/* =========================================================
+   LISTAS
+========================================================= */
+
+.htmlContent :global(ul),
+.htmlContent :global(ol) {
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 25px;
+
+  padding-left: 30px;
+}
+
+.htmlContent :global(li) {
+  max-width: 100%;
+
+  margin-bottom: 8px;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+/* =========================================================
+   BLOCKQUOTE
+========================================================= */
+
+.htmlContent :global(blockquote) {
+  max-width: 100%;
+  min-width: 0;
+
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+/* =========================================================
+   CODE
+========================================================= */
+
+.htmlContent :global(pre) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.htmlContent :global(code) {
+  max-width: 100%;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================================
+   TABLES
+========================================================= */
+
+.htmlContent :global(.blog-table) {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.htmlContent :global(table) {
+  max-width: 100%;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.htmlContent :global(th),
+.htmlContent :global(td) {
+  max-width: 100%;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================================
+   IFRAME / VIDEO
+========================================================= */
+
+.htmlContent :global(iframe) {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  border: 0;
+}
+
+.htmlContent :global(video) {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+/* =========================================================
+   CLEAR FLOAT
+========================================================= */
+
+.htmlContent::after {
+  display: table;
+
+  clear: both;
+
+  content: "";
+}
+
+/* =========================================================
+   VACÍO
+========================================================= */
+
+.emptyContent {
+  margin: 0;
+
+  color: #777777;
+
+  text-align: center;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
   .article {
-    padding: 130px 22px 70px;
+    width: calc(100% - 40px);
+
+    padding-top: 92px;
+    padding-bottom: 78px;
   }
 
-  .imageBox {
-    height: 380px;
+  .article > h1,
+  .header > h1 {
+    font-size: clamp(
+      36px,
+      5.7vw,
+      54px
+    );
+
+    letter-spacing: -1.8px;
   }
 
-  .relatedGrid {
-    grid-template-columns: 1fr;
+  .content {
+    width: min(820px, 100%);
+  }
+
+  .htmlContent :global(figure.image-style-side) {
+    max-width: 50%;
+  }
+
+  .htmlContent :global(img.image-style-align-left) {
+    margin-right: 24px;
+  }
+
+  .htmlContent :global(img.image-style-align-right) {
+    margin-left: 24px;
   }
 }
 
-@media (max-width: 640px) {
+/* =========================================================
+   TABLET PEQUEÑA
+========================================================= */
+
+@media (max-width: 768px) {
   .article {
-    padding: 115px 20px 60px;
+    width: calc(100% - 30px);
+
+    padding-top: 84px;
+    padding-bottom: 60px;
   }
 
-  .article h1 {
-    letter-spacing: 0;
+  .article > h1,
+  .header > h1 {
+    font-size: clamp(
+      31px,
+      8vw,
+      44px
+    );
+
+    line-height: 1.05;
+
+    letter-spacing: -1px;
   }
 
   .excerpt {
-    font-size: 17px;
-  }
-
-  .imageBox {
-    height: 300px;
-    border-radius: 18px;
-  }
-
-  .content p {
     font-size: 16px;
-    line-height: 1.75;
   }
 
-  .related {
-    padding: 10px 20px 70px;
+  .coverImage {
+    margin-bottom: 38px;
+
+    border-radius: 15px;
+  }
+
+  .content,
+  .htmlContent {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .htmlContent :global(p) {
+    font-size: 16px;
+    line-height: 1.76;
+  }
+
+  .htmlContent :global(
+    img.image-style-align-left
+  ) {
+    margin-right: 20px;
+  }
+
+  .htmlContent :global(
+    img.image-style-align-right
+  ) {
+    margin-left: 20px;
+  }
+
+  .htmlContent :global(a) {
+    max-width: 100%;
+
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .htmlContent :global(h1) {
+    font-size: 30px;
+  }
+
+  .htmlContent :global(h2) {
+    font-size: 27px;
+  }
+
+  .htmlContent :global(h3) {
+    font-size: 23px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .article {
+    width: calc(100% - 22px);
+
+    padding-top: 76px;
+    padding-bottom: 48px;
+  }
+
+  .backWrapper {
+    margin-bottom: 22px;
+  }
+
+  .meta {
+    gap: 6px;
+  }
+
+  .meta span {
+    font-size: 9px;
+  }
+
+  .meta time {
+    font-size: 11px;
+  }
+
+  .article > h1,
+  .header > h1 {
+    font-size: clamp(
+      28px,
+      9vw,
+      38px
+    );
+
+    line-height: 1.05;
+
+    letter-spacing: -.8px;
+  }
+
+  .excerpt {
+    margin-bottom: 28px;
+
+    font-size: 15px;
+    line-height: 1.67;
+  }
+
+  .coverImage {
+    margin-bottom: 32px;
+
+    border-radius: 12px;
+  }
+
+  .htmlContent :global(p) {
+    font-size: 15.5px;
+    line-height: 1.72;
+  }
+
+  /*
+   * En mobile sí anulamos el tamaño de escritorio de CKEditor.
+   * Esto es deliberado para que una imagen de 44.74% no deje
+   * un bloque de texto demasiado estrecho.
+   */
+
+  .htmlContent :global(img.image_resized) {
+    float: none;
+
+    display: block;
+
+    width: 100% !important;
+    max-width: 100%;
+
+    height: auto;
+
+    margin: 24px auto !important;
+  }
+
+  .htmlContent :global(
+    figure.image
+  ) {
+    float: none;
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin: 24px auto;
+  }
+
+  .htmlContent :global(
+    figure.image > img
+  ) {
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    height: auto;
+  }
+
+  .htmlContent :global(a) {
+    max-width: 100%;
+
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .htmlContent :global(h1) {
+    margin-top: 34px;
+    font-size: 27px;
+  }
+
+  .htmlContent :global(h2) {
+    margin-top: 32px;
+    font-size: 24px;
+  }
+
+  .htmlContent :global(h3) {
+    margin-top: 27px;
+    font-size: 21px;
+  }
+
+  .htmlContent :global(blockquote) {
+    margin-left: 0;
+    margin-right: 0;
+
+    padding: 15px 16px;
+
+    font-size: 15px;
+  }
+
+  .htmlContent :global(pre) {
+    margin-left: 0;
+    margin-right: 0;
+
+    padding: 13px;
+
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE PEQUEÑO
+========================================================= */
+
+@media (max-width: 420px) {
+  .article {
+    width: calc(100% - 16px);
+
+    padding-top: 70px;
+    padding-bottom: 42px;
+  }
+
+  .article > h1,
+  .header > h1 {
+    font-size: 27px;
+  }
+
+  .excerpt {
+    font-size: 14.5px;
+  }
+
+  .htmlContent :global(p) {
+    font-size: 15px;
+  }
+
+  .htmlContent :global(h1) {
+    font-size: 25px;
+  }
+
+  .htmlContent :global(h2) {
+    font-size: 22px;
+  }
+
+  .htmlContent :global(h3) {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   MOBILE MUY PEQUEÑO
+========================================================= */
+
+@media (max-width: 340px) {
+  .article {
+    width: calc(100% - 12px);
+  }
+
+  .article > h1,
+  .header > h1 {
+    font-size: 25px;
+  }
+
+  .htmlContent :global(p) {
+    font-size: 14px;
   }
 }
