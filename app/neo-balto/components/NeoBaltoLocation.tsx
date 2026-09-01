@@ -1218,7 +1218,7 @@ export default function NeoBaltoLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

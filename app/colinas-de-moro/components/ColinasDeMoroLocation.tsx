@@ -1437,7 +1437,7 @@ export default function ColinasDeMoroLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

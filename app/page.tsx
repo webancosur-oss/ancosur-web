@@ -295,7 +295,7 @@ export default function Home() {
 
   return (
     <>
-      <PromoLeadPopup />
+      {/* <PromoLeadPopup /> */}
 
       <main id="main-content">
         <HeroAncosur />
