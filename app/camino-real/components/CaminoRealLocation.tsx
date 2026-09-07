@@ -1183,7 +1183,7 @@ const handleSubmit = async (
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

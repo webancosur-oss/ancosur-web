@@ -1,0 +1,1361 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7f6;
+  color: #202923;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  background: #00a74f;
+  color: #ffffff;
+}
+
+.headerInner {
+  width: min(1180px, calc(100% - 40px));
+  min-height: 310px;
+
+  margin: 0 auto;
+  padding: 54px 0 48px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.headerMain {
+  max-width: 720px;
+}
+
+.headerBrand {
+  display: inline-block;
+  margin-bottom: 26px;
+
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.headerMain h1 {
+  margin: 0;
+
+  font-size: clamp(44px, 5vw, 68px);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.headerMain p {
+  max-width: 650px;
+  margin: 27px 0 0;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.headerMeta {
+  min-width: 270px;
+
+  display: grid;
+  gap: 1px;
+
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.headerMeta div {
+  padding: 17px 19px;
+
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.headerMeta span {
+  display: block;
+  margin-bottom: 6px;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.headerMeta strong {
+  display: block;
+
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+/* =========================================================
+   WRAPPER
+========================================================= */
+
+.formWrapper {
+  width: min(1080px, calc(100% - 32px));
+
+  margin: 0 auto;
+  padding: 34px 0 90px;
+}
+
+/* =========================================================
+   PROVIDER SUMMARY
+========================================================= */
+
+.providerSummary {
+  margin-bottom: 25px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 1fr)
+    180px
+    minmax(280px, 1.5fr);
+
+  border: 1px solid #dbe4de;
+  background: #ffffff;
+}
+
+.providerSummary div {
+  min-width: 0;
+  padding: 16px 18px;
+
+  border-right: 1px solid #dbe4de;
+}
+
+.providerSummary div:last-child {
+  border-right: 0;
+}
+
+.providerSummary span {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #7a857e;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.providerSummary strong {
+  display: block;
+
+  color: #26312b;
+
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.locationSection {
+  margin-bottom: 25px;
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+.sectionHeading > span {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #00a74f;
+
+  color: #00a74f;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sectionHeading h2 {
+  margin: 0;
+
+  color: #25302a;
+
+  font-size: 25px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.sectionHeading p {
+  max-width: 700px;
+  margin: 8px 0 0;
+
+  color: #6e7972;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.locationCard {
+  padding: 25px;
+
+  border: 1px solid #dbe4de;
+  background: #ffffff;
+}
+
+.officeProject {
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid #e1e8e3;
+}
+
+/* =========================================================
+   STAGE CARD
+========================================================= */
+
+.stageCard {
+  margin-top: 18px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 1fr)
+    minmax(220px, 1fr);
+
+  border: 1px solid #d6e5db;
+  background: #f6fbf8;
+}
+
+.stageMain,
+.stageProject {
+  padding: 15px 17px;
+}
+
+.stageMain {
+  border-right: 1px solid #d6e5db;
+}
+
+.stageCard span {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #7b867f;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.stageCard strong {
+  display: block;
+
+  color: #00a74f;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   DELIVERED NOTICE
+========================================================= */
+
+.deliveredNotice {
+  margin-top: 15px;
+  padding: 15px 17px;
+
+  display: grid;
+  grid-template-columns: 155px 1fr;
+  gap: 18px;
+
+  border-left: 3px solid #00a74f;
+
+  background: #f2faf5;
+}
+
+.deliveredNotice strong {
+  color: #26322b;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.deliveredNotice span {
+  color: #66726b;
+
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form {
+  display: grid;
+  gap: 23px;
+}
+
+.block,
+.providerBlock {
+  min-width: 0;
+  margin: 0;
+  padding: 25px;
+
+  border: 1px solid #dbe4de;
+  background: #ffffff;
+}
+
+.block legend,
+.providerBlock legend {
+  padding: 0 9px;
+
+  color: #39453f;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 18px 20px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.field {
+  min-width: 0;
+
+  display: grid;
+  gap: 8px;
+}
+
+.field > span {
+  color: #536059;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid #cfd9d3;
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  color: #222c26;
+
+  font: inherit;
+  font-size: 13px;
+
+  outline: none;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.field input,
+.field select {
+  height: 46px;
+  padding: 0 13px;
+}
+
+.field textarea {
+  min-height: 110px;
+  padding: 13px;
+
+  resize: vertical;
+
+  line-height: 1.55;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #00a74f;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(0, 167, 79, 0.1);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #9aa49e;
+}
+
+/* =========================================================
+   ERRORES
+========================================================= */
+
+.error {
+  display: block;
+
+  color: #b42318;
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.serverError {
+  padding: 15px 17px;
+
+  border: 1px solid #e5beb9;
+  background: #fff4f2;
+
+  color: #a12920;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkRow {
+  margin-top: 22px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  color: #5e6962;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.checkRow input {
+  width: 17px;
+  height: 17px;
+
+  margin: 1px 0 0;
+
+  flex: 0 0 auto;
+
+  accent-color: #00a74f;
+}
+
+/* =========================================================
+   TUTOR
+========================================================= */
+
+.tutorBox {
+  margin-top: 22px;
+  padding-top: 22px;
+
+  border-top: 1px solid #e1e8e3;
+}
+
+.innerTitle {
+  margin-bottom: 17px;
+
+  color: #748078;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+/* =========================================================
+   PRODUCTO / SERVICIO
+========================================================= */
+
+.optionGroup {
+  margin-bottom: 20px;
+
+  display: flex;
+  gap: 10px;
+}
+
+.option,
+.optionActive {
+  min-width: 155px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 11px 14px;
+
+  border: 1px solid #cfd9d3;
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+.optionActive {
+  border-color: #00a74f;
+  background: #eef9f2;
+}
+
+.option input,
+.optionActive input {
+  margin: 0;
+
+  accent-color: #00a74f;
+}
+
+.option span,
+.optionActive span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+}
+
+/* =========================================================
+   PROYECTO SELECCIONADO
+========================================================= */
+
+.selectedProjectPanel {
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 1.4fr)
+    160px
+    200px;
+
+  border: 1px solid #dbe6df;
+  background: #f7faf8;
+}
+
+.selectedProjectPanel > div {
+  min-width: 0;
+  padding: 15px;
+
+  border-right: 1px solid #dbe6df;
+}
+
+.selectedProjectPanel > div:last-child {
+  border-right: 0;
+}
+
+.selectedProjectPanel span {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #7a857f;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.selectedProjectPanel strong {
+  display: block;
+
+  color: #26322b;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   EXPLICACIÓN
+========================================================= */
+
+.explanation {
+  margin-bottom: 20px;
+
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.explanation > div {
+  padding: 14px 16px;
+
+  border: 1px solid #dce5df;
+  background: #f8faf9;
+}
+
+.explanation strong {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #00a74f;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.explanation span {
+  color: #68736d;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.textStack {
+  display: grid;
+  gap: 20px;
+}
+
+.counter {
+  color: #8a948e;
+
+  font-size: 9px;
+  text-align: right;
+}
+
+/* =========================================================
+   ADJUNTOS
+========================================================= */
+
+.uploadBox {
+  padding: 19px;
+
+  border: 1px dashed #bdc9c2;
+  background: #f8faf9;
+}
+
+.uploadButton {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 17px;
+
+  background: #00a74f;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+.uploadButton span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.uploadButton input {
+  display: none;
+}
+
+.uploadBox p {
+  margin: 10px 0 0;
+
+  color: #768079;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.attachments {
+  margin-top: 13px;
+
+  display: grid;
+  gap: 8px;
+}
+
+.attachment {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #dbe4de;
+  background: #ffffff;
+}
+
+.attachment span {
+  min-width: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #56625b;
+
+  font-size: 11px;
+}
+
+.attachment button {
+  width: 25px;
+  height: 25px;
+
+  flex: 0 0 auto;
+
+  border: 0;
+  background: transparent;
+
+  color: #808b84;
+
+  font-size: 19px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   PROVEEDOR
+========================================================= */
+
+.providerBlock {
+  background: #f5f8f6;
+}
+
+.providerNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+
+  padding: 18px;
+
+  border-left: 3px solid #00a74f;
+
+  background: #ffffff;
+}
+
+.providerNotice > span {
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: #e8f7ed;
+  color: #00a74f;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.providerNotice strong {
+  display: block;
+  margin-bottom: 5px;
+
+  color: #29342e;
+
+  font-size: 12px;
+}
+
+.providerNotice p {
+  margin: 0;
+
+  color: #6a756e;
+
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.providerNotice small {
+  display: block;
+  margin-top: 8px;
+
+  color: #7c867f;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   CORREO
+========================================================= */
+
+.emailAuthorization {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 20px;
+
+  border: 1px solid #d9e5dd;
+  background: #f7faf8;
+}
+
+.emailContent {
+  min-width: 0;
+}
+
+.emailLabel {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #7b867f;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.emailContent strong {
+  display: block;
+  margin-bottom: 12px;
+
+  color: #00a74f;
+
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 800;
+  word-break: break-word;
+}
+
+.emailContent p {
+  max-width: 680px;
+  margin: 0;
+
+  color: #68736c;
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.emailOptions {
+  display: flex;
+  gap: 8px;
+
+  flex: 0 0 auto;
+}
+
+.emailOption,
+.emailOptionActive {
+  min-width: 72px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 0 16px;
+
+  border: 1px solid #ccd7d0;
+
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+.emailOptionActive {
+  border-color: #00a74f;
+  background: #eaf8ef;
+}
+
+.emailOption input,
+.emailOptionActive input {
+  margin: 0;
+
+  accent-color: #00a74f;
+}
+
+.emailOption span,
+.emailOptionActive span {
+  color: #4f5b54;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.emailDecisionYes,
+.emailDecisionNo {
+  margin-top: 11px;
+  padding: 12px 15px;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.emailDecisionYes {
+  border-left: 3px solid #00a74f;
+  background: #eef9f2;
+  color: #4c6456;
+}
+
+.emailDecisionNo {
+  border-left: 3px solid #8a938d;
+  background: #f3f5f4;
+  color: #68716c;
+}
+
+/* =========================================================
+   PRIVACIDAD
+========================================================= */
+
+.privacyBox {
+  padding: 19px;
+
+  border: 1px solid #dbe4de;
+  background: #ffffff;
+}
+
+.privacyBox > p {
+  margin: 12px 0 0;
+  padding-left: 27px;
+
+  color: #7a847e;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.submitArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.submitArea p {
+  max-width: 600px;
+  margin: 0;
+
+  color: #758078;
+
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.submitButton {
+  min-width: 200px;
+  height: 48px;
+
+  padding: 0 22px;
+
+  border: 0;
+  border-radius: 3px;
+
+  background: #00a74f;
+  color: #ffffff;
+
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #008f43;
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   CONFIRMACIÓN
+========================================================= */
+
+.confirmationPage {
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 40px 20px;
+
+  background: #f5f7f6;
+}
+
+.confirmationCard {
+  width: min(620px, 100%);
+
+  padding: 46px;
+
+  border: 1px solid #dbe4de;
+
+  background: #ffffff;
+
+  text-align: center;
+}
+
+.confirmationIcon {
+  width: 55px;
+  height: 55px;
+
+  margin: 0 auto 19px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #e9f8ef;
+  color: #00a74f;
+
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.confirmationLabel {
+  display: block;
+  margin-bottom: 12px;
+
+  color: #00a74f;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.confirmationCard h1 {
+  margin: 0;
+
+  color: #26312b;
+
+  font-size: 33px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.confirmationIntro {
+  max-width: 460px;
+  margin: 15px auto 0;
+
+  color: #6c7770;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ticket {
+  margin: 27px 0;
+
+  padding: 19px;
+
+  border: 1px solid #d8e5dc;
+
+  background: #f5faf7;
+}
+
+.ticket span {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #77827b;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.ticket strong {
+  display: block;
+
+  color: #00a74f;
+
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  word-break: break-word;
+}
+
+.confirmationEmail {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 17px;
+
+  border: 1px solid #dce5df;
+
+  text-align: left;
+}
+
+.confirmationEmail > span {
+  width: 27px;
+  height: 27px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: #e9f8ef;
+  color: #00a74f;
+
+  font-weight: 800;
+}
+
+.confirmationEmailError {
+  border-color: #e2c4c0;
+  background: #fff6f4;
+}
+
+.confirmationEmailError > span {
+  background: #fae9e6;
+  color: #b42318;
+}
+
+.confirmationEmail strong {
+  display: block;
+  margin-bottom: 4px;
+
+  color: #303b34;
+
+  font-size: 11px;
+}
+
+.confirmationEmail p {
+  margin: 0;
+
+  color: #717c75;
+
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.confirmationButton {
+  margin-top: 20px;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #00a74f;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+}
+
+.newRecordButton {
+  display: block;
+
+  margin: 14px auto 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #68736d;
+
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 950px) {
+  .headerInner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .headerMeta {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .providerSummary {
+    grid-template-columns:
+      1fr 180px;
+  }
+
+  .providerSummary div:last-child {
+    grid-column: 1 / -1;
+
+    border-top: 1px solid #dbe4de;
+    border-right: 0;
+  }
+
+  .selectedProjectPanel {
+    grid-template-columns:
+      minmax(0, 1fr)
+      160px
+      190px;
+  }
+}
+
+@media (max-width: 720px) {
+  .headerInner {
+    width: calc(100% - 26px);
+
+    padding: 40px 0;
+  }
+
+  .headerMain h1 {
+    font-size: 47px;
+  }
+
+  .headerMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .formWrapper {
+    width: calc(100% - 18px);
+    padding-top: 24px;
+  }
+
+  .providerSummary {
+    grid-template-columns: 1fr;
+  }
+
+  .providerSummary div {
+    border-right: 0;
+    border-bottom: 1px solid #dbe4de;
+  }
+
+  .providerSummary div:last-child {
+    border-bottom: 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+
+  .block,
+  .providerBlock,
+  .locationCard {
+    padding: 19px;
+  }
+
+  .stageCard {
+    grid-template-columns: 1fr;
+  }
+
+  .stageMain {
+    border-right: 0;
+    border-bottom: 1px solid #d6e5db;
+  }
+
+  .selectedProjectPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .selectedProjectPanel > div {
+    border-right: 0;
+    border-bottom: 1px solid #dbe6df;
+  }
+
+  .selectedProjectPanel > div:last-child {
+    border-bottom: 0;
+  }
+
+  .deliveredNotice {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .explanation {
+    grid-template-columns: 1fr;
+  }
+
+  .emailAuthorization {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .emailOptions {
+    width: 100%;
+  }
+
+  .emailOption,
+  .emailOptionActive {
+    flex: 1;
+  }
+
+  .submitArea {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+
+  .confirmationCard {
+    padding: 31px 21px;
+  }
+}
+
+@media (max-width: 460px) {
+  .headerInner {
+    width: calc(100% - 20px);
+  }
+
+  .headerMain h1 {
+    font-size: 39px;
+  }
+
+  .headerMain p {
+    font-size: 12px;
+  }
+
+  .formWrapper {
+    width: calc(100% - 12px);
+  }
+
+  .sectionHeading {
+    grid-template-columns: 38px 1fr;
+    gap: 12px;
+  }
+
+  .sectionHeading > span {
+    width: 34px;
+    height: 34px;
+  }
+
+  .optionGroup {
+    flex-direction: column;
+  }
+
+  .option,
+  .optionActive {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ticket strong {
+    font-size: 20px;
+  }
+}

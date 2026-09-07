@@ -1192,7 +1192,7 @@ export default function NeoEmperatrizLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

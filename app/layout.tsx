@@ -238,7 +238,7 @@ export default function RootLayout({
       "+51 971 069 763",
 
     email:
-      "jefe.experiencia.cliente@ancosur.com",
+      "info@ancosur.com",
 
     priceRange:
       "$$",
@@ -369,7 +369,6 @@ export default function RootLayout({
 
         {children}
 
-
         <FloatingActions />
 
         <FloatingPodcast />
@@ -379,8 +378,6 @@ export default function RootLayout({
         />
 
         <Footer />
-
-        <TawkChat />
 
         <script
           type="application/ld+json"

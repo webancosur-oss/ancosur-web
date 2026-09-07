@@ -107,7 +107,7 @@ const socialLinks = [
 const legalItems: LegalItem[] = [
   {
     label: "Libro de Reclamaciones",
-    href: "https://wa.me/51971069763?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20Ancosur",
+    href: "/libro-de-reclamaciones",
     image: "/assets/certificados/libro-reclamaciones.svg",
     width: 240,
     height: 130,
@@ -242,7 +242,7 @@ export default function Footer() {
 
             <div className={styles.contactList}>
               <a
-                href="tel:+51968658098"
+                href="tel:+51971069763"
                 className={styles.contactItem}
               >
                 <span className={styles.contactIcon}>
@@ -256,7 +256,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:jefe.experiencia.cliente@ancosur.com"
+                href="mailto:info@ancosur.com"
                 className={styles.contactItem}
               >
                 <span className={styles.contactIcon}>
@@ -266,7 +266,7 @@ export default function Footer() {
                 <span className={styles.contactContent}>
                   <small>Correo</small>
                   <strong>
-                    jefe.experiencia.cliente@ancosur.com
+                    info@ancosur.com
                   </strong>
                 </span>
               </a>
