@@ -59,7 +59,7 @@ const campaigns: PopupCampaign[] = [
     eyebrow: "Campaña exclusiva",
     description:
       "Déjanos tus datos para recibir mayor información.",
-    image: "/assets/campanias/campania-camino-real.webp",
+    image: "/assets/campanias/campania_primavera.webp",
     imageAlt:
       "Campaña Ancosur - Elige un Beneficio (Plano o Notaria Gratis)",
     imageWidth: 1080,
@@ -465,10 +465,10 @@ const handleSubmit = async (
 
   const formularioData = {
     codigo_formulario:
-      "Popup Campaña Camino Real",
+      "Popup Campña Primavera",
 
     nombre_formulario:
-      "Popup Campaña Camino Real",
+      "Popup Campña Primavera",
 
     tipo_formulario:
       "promocion",
@@ -502,7 +502,7 @@ const handleSubmit = async (
       "",
 
     campania:
-      "Popup Campaña Camino Real",
+      "Popup Campña Primavera",
 
     anuncio:
       "Popup web Ancosur",
@@ -733,7 +733,7 @@ const handleSubmit = async (
         "lead_form_submit",
 
       form_name:
-        "Popup Campaña Camino Real",
+        "Popup Campña Primavera",
 
       form_code:
         formularioData
