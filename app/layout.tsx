@@ -238,7 +238,7 @@ export default function RootLayout({
       "+51 971 069 763",
 
     email:
-      "jefe.experiencia.cliente@ancosur.com",
+      "info@ancosur.com",
 
     priceRange:
       "$$",

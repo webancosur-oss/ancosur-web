@@ -256,7 +256,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:jefe.experiencia.cliente@ancosur.com"
+                href="mailto:info@ancosur.com"
                 className={styles.contactItem}
               >
                 <span className={styles.contactIcon}>
@@ -266,7 +266,7 @@ export default function Footer() {
                 <span className={styles.contactContent}>
                   <small>Correo</small>
                   <strong>
-                    jefe.experiencia.cliente@ancosur.com
+                    info@ancosur.com
                   </strong>
                 </span>
               </a>
