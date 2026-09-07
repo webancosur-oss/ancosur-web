@@ -242,7 +242,7 @@ export default function Footer() {
 
             <div className={styles.contactList}>
               <a
-                href="tel:+51968658098"
+                href="tel:+51971069763"
                 className={styles.contactItem}
               >
                 <span className={styles.contactIcon}>
