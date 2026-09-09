@@ -280,14 +280,14 @@ export const teamGroups: TeamGroup[] = [
     members: [
       {
         id: 32,
-        name: "Anani Aliaga",
+        name: "Capcha Ames Lizbeth",
         position: "Jefe de Experiencia al Cliente",
         phone: "968 658 098",
         image: "/assets/colaboradores/aaliaga.webp",
       },
       {
         id: 33,
-        name: "Samuel Aliaga",
+        name: "Mendoza Ramos Anita",
         position: "Servicio de Post Venta",
         phone: "947 903 606",
         image: "/assets/colaboradores/saliaga.webp",
