@@ -1,6 +1,6 @@
 import ProjectFilter from "@/components/ProjectFilter";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./DistritoSanCarlosPage.module.css";
 

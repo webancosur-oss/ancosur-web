@@ -1,6 +1,6 @@
 import Script from "next/script";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import CyberHero from "./components/CyberHero";
 import CyberHouseLeadForm from "./components/CyberHouseLeadForm";

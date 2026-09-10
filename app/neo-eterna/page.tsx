@@ -1,6 +1,6 @@
 import ProjectFilter from "@/components/ProjectFilter";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import NeoEternaAmenitiesSlider from "./components/NeoEternaAmenitiesSlider";
 import NeoEternaHero from "./components/NeoEternaHero";

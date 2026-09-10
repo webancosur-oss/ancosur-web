@@ -1,6 +1,6 @@
 import CompramosTerrenoPage from "./CompramosTerrenoPage";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 export const metadata = createSeoMetadata({
   title: "Compramos tu Terreno | Ancosur",

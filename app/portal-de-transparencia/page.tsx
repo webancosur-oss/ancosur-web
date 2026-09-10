@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import { transparencyProjects } from "./data";
 

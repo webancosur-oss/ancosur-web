@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import ActionButton from "@/components/buttons/ActionButton";
 import { projects } from "@/data/projects";
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./ProyectosEntregados.module.css";
 

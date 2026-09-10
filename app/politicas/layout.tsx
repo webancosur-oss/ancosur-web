@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 export const metadata = createSeoMetadata({
   title: "Políticas | Ancosur Inmobiliaria",

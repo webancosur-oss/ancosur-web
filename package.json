@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/third-parties": "^16.3.0",
+    "@opencoredev/email-sdk": "^1.2.0",
     "@opennextjs/cloudflare": "^1.20.2",
     "@phosphor-icons/react": "^2.1.10",
     "next": "16.2.10",
