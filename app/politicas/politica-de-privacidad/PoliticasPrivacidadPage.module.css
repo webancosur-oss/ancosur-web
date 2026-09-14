@@ -1,3 +1,25 @@
+.documentsBox {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.documentLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.documentLink:hover {
+  transform: translateY(-2px);
+}
+
 .page {
   width: 100%;
   background: #ffffff;

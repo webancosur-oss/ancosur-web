@@ -173,32 +173,50 @@ export default function PoliticasPrivacidadPage() {
             </section>
 
             <section className={styles.block}>
-              <h2>6. Ejercicio de derechos ARCO</h2>
+  <h2>6. Ejercicio de derechos ARCO</h2>
 
-              <p>
-                El usuario podrá ejercer sus derechos de acceso, rectificación,
-                cancelación y oposición, así como revocar el consentimiento
-                otorgado en cualquier momento enviando una solicitud simple al
-                correo electrónico:
-              </p>
+  <p>
+    El usuario podrá ejercer sus derechos de acceso, rectificación,
+    cancelación y oposición, así como revocar el consentimiento
+    otorgado en cualquier momento enviando una solicitud simple al
+    correo electrónico:
+  </p>
 
-              <div className={styles.contactBox}>
-                <span>Correo electrónico</span>
-                <a href="mailto:info@ancosur.com">info@ancosur.com</a>
-              </div>
+  <div className={styles.contactBox}>
+    <span>Correo electrónico</span>
+    <a href="mailto:info@ancosur.com">info@ancosur.com</a>
+  </div>
 
-              <p>
-                Indicando como asunto: <strong>DERECHOS ARCO</strong>.
-              </p>
+  <p>
+    Indicando como asunto: <strong>DERECHOS ARCO</strong>.
+  </p>
 
-              <p>
-                La solicitud deberá adjuntar copia de su Documento Nacional de
-                Identidad (DNI). La revocación del consentimiento para fines
-                comerciales no afectará el tratamiento necesario para el
-                cumplimiento de obligaciones legales ni las operaciones
-                previamente iniciadas.
-              </p>
-            </section>
+  <p>
+    La solicitud deberá adjuntar copia de su Documento Nacional de
+    Identidad (DNI). La revocación del consentimiento para fines
+    comerciales no afectará el tratamiento necesario para el
+    cumplimiento de obligaciones legales ni las operaciones
+    previamente iniciadas.
+  </p>
+
+  <div className={styles.documentsBox}>
+    <a
+      href="/assets/docs/manual-derechos-arco.pdf"
+      download
+      className={styles.documentLink}
+    >
+      Descargar Manual de Derechos ARCO
+    </a>
+
+    <a
+      href="/assets/docs/solicitud-derechos-arco.pdf"
+      download
+      className={styles.documentLink}
+    >
+      Descargar Solicitud de Derechos ARCO
+    </a>
+  </div>
+</section>
 
             <section className={styles.block}>
               <h2>7. Seguridad de la información</h2>
