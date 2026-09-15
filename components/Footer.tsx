@@ -235,43 +235,58 @@ export default function Footer() {
           </div>
 
           <div className={styles.column}>
-            <div className={styles.columnHeading}>
-              <span>03</span>
-              <h3>Atención al cliente</h3>
-            </div>
+  <div className={styles.columnHeading}>
+    <span>03</span>
+    <h3>Atención al cliente</h3>
+  </div>
 
-            <div className={styles.contactList}>
-              <a
-                href="tel:+51971069763"
-                className={styles.contactItem}
-              >
-                <span className={styles.contactIcon}>
-                  <PhoneIcon size={16} weight="bold" />
-                </span>
+  <div className={styles.contactList}>
+    {/* Teléfono */}
+    <a
+      href="tel:+51971069763"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <PhoneIcon size={16} weight="bold" />
+      </span>
 
-                <span className={styles.contactContent}>
-                  <small>Teléfono</small>
-                  <strong>(+51) 968 658 098</strong>
-                </span>
-              </a>
+      <span className={styles.contactContent}>
+        <small>Ventas</small>
+        <strong>(+51) 971 069 763</strong>
+      </span>
+    </a>
 
-              <a
-                href="mailto:info@ancosur.com"
-                className={styles.contactItem}
-              >
-                <span className={styles.contactIcon}>
-                  <EnvelopeSimpleIcon size={16} weight="bold" />
-                </span>
+    {/* Experiencia al cliente */}
+    <a
+      href="tel:+51947903606"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <PhoneIcon size={16} weight="bold" />
+      </span>
 
-                <span className={styles.contactContent}>
-                  <small>Correo</small>
-                  <strong>
-                    info@ancosur.com
-                  </strong>
-                </span>
-              </a>
-            </div>
-          </div>
+      <span className={styles.contactContent}>
+        <small>Experiencia al cliente</small>
+        <strong>(+51) 947 903 606</strong>
+      </span>
+    </a>
+
+    {/* Correo */}
+    <a
+      href="mailto:info@ancosur.com"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <EnvelopeSimpleIcon size={16} weight="bold" />
+      </span>
+
+      <span className={styles.contactContent}>
+        <small>Correo</small>
+        <strong>info@ancosur.com</strong>
+      </span>
+    </a>
+  </div>
+</div>
 
           <div className={styles.column}>
             <div className={styles.columnHeading}>
