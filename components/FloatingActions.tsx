@@ -2,293 +2,393 @@
 
 import {
   ArrowRightIcon,
-  ArrowUpIcon,
-  BroadcastIcon,
+  CheckCircleIcon,
   XIcon,
 } from "@phosphor-icons/react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import styles from "./FloatingActions.module.css";
 
+type Interest = "departamentos" | "lotes" | "visita";
 
-const whatsappChannelUrl =
-  "https://whatsapp.com/channel/0029Vb8cnCK1t90kncFeWh26";
+type ChatStep = "welcome" | "phone" | "success";
 
-/* =========================================================
-   COMPONENTE
-========================================================= */
+const WHATSAPP_NUMBER = "51971069763";
+const CHATBOT_ICON = "/assets/images/chatbot.svg";
+
+const optionLabels: Record<Interest, string> = {
+  departamentos: "Departamentos",
+  lotes: "Lotes",
+  visita: "Agendar visita",
+};
 
 export default function FloatingActions() {
-  const [
-    showTopButton,
-    setShowTopButton,
-  ] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState<ChatStep>("welcome");
+  const [interest, setInterest] = useState<Interest | null>(null);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [
-    isChannelOpen,
-    setIsChannelOpen,
-  ] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowTopButton(
-        window.scrollY > 520,
-      );
-    };
-
-    handleScroll();
-
-    window.addEventListener(
-      "scroll",
-      handleScroll,
-      {
-        passive: true,
-      },
-    );
-
-    return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll,
-      );
-    };
-  }, []);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const handleEscape = (
-      event: KeyboardEvent,
-    ) => {
-      if (
-        event.key === "Escape"
-      ) {
-        setIsChannelOpen(false);
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
       }
     };
 
-    window.addEventListener(
-      "keydown",
-      handleEscape,
-    );
+    window.addEventListener("keydown", handleEscape);
 
     return () => {
-      window.removeEventListener(
-        "keydown",
-        handleEscape,
-      );
+      window.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+  useEffect(() => {
+    if (isOpen && step === "phone") {
+      const timer = window.setTimeout(() => {
+        inputRef.current?.focus();
+      }, 120);
+
+      return () => window.clearTimeout(timer);
+    }
+  }, [isOpen, step]);
+
+  const handleInterest = (selectedInterest: Interest) => {
+    setInterest(selectedInterest);
+    setPhone("");
+    setPhoneError("");
+    setStep("phone");
   };
 
-  const toggleChannel = () => {
-    setIsChannelOpen(
-      (previous) => !previous,
-    );
+  const handlePhoneChange = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 9);
+
+    setPhone(digits);
+    setPhoneError("");
   };
 
-  const closeChannel = () => {
-    setIsChannelOpen(false);
+  const validatePhone = () => {
+    if (!/^\d{9}$/.test(phone)) {
+      setPhoneError(
+        "Ingresa un número celular válido de 9 dígitos.",
+      );
+
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!interest || !validatePhone()) {
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const message = [
+        "Hola, ANCOSUR.",
+        "",
+        `Estoy interesado(a) en: ${optionLabels[interest]}.`,
+        `Mi número celular es: ${phone}.`,
+        "",
+        "Quisiera recibir más información.",
+      ].join("\n");
+
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        message,
+      )}`;
+
+      window.open(
+        whatsappUrl,
+        "_blank",
+        "noopener,noreferrer",
+      );
+
+      setStep("success");
+    } catch (error) {
+      console.error("Error abriendo WhatsApp:", error);
+
+      setPhoneError(
+        "No pudimos abrir WhatsApp. Inténtalo nuevamente.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetChat = () => {
+    if (isSubmitting) return;
+
+    setStep("welcome");
+    setInterest(null);
+    setPhone("");
+    setPhoneError("");
   };
 
   return (
-    <aside
-      className={
-        styles.floatingActions
-      }
-      aria-label="Acciones rápidas"
-    >
-      {/* =====================================================
-          BOTÓN VOLVER ARRIBA
-      ====================================================== */}
-
-      <button
-        type="button"
-        className={`${styles.topButton} ${
-          showTopButton
-            ? styles.showTopButton
-            : ""
-        }`}
-        onClick={
-          scrollToTop
-        }
-        aria-label="Volver al inicio"
-      >
-        <ArrowUpIcon
-          size={20}
-          weight="bold"
-          aria-hidden="true"
-        />
-      </button>
-
-      {/* =====================================================
-          CANAL DE WHATSAPP
-      ====================================================== */}
-
-      <div
-        className={`${styles.channelWidget} ${
-          isChannelOpen
-            ? styles.channelWidgetOpen
-            : ""
-        }`}
-      >
-        <div
-          className={
-            styles.channelPanel
-          }
-          aria-hidden={
-            !isChannelOpen
-          }
+    <div className={styles.wrapper}>
+      {isOpen && (
+        <section
+          className={styles.chatWindow}
+          role="dialog"
+          aria-label="Asistente de ANCOSUR"
         >
-          <div
-            className={
-              styles.channelPanelTop
-            }
-          >
-            <div
-              className={
-                styles.channelBrand
-              }
-            >
-              <span
-                className={
-                  styles.channelBrandIcon
-                }
-              >
-                <BroadcastIcon
-                  size={22}
-                  weight="fill"
-                  aria-hidden="true"
+          <header className={styles.chatHeader}>
+            <div className={styles.chatIdentity}>
+              <div className={styles.chatAvatar}>
+                <img
+                  src={CHATBOT_ICON}
+                  alt="Asistente ANCOSUR"
                 />
-              </span>
+              </div>
 
-              <div>
-                <small>
-                  Canal oficial
-                </small>
-
-                <strong>
-                  Ancosur en WhatsApp
-                </strong>
+              <div className={styles.chatIdentityText}>
+                <strong>Asistente ANCOSUR</strong>
+                <span>Estamos para ayudarte</span>
               </div>
             </div>
 
             <button
               type="button"
-              className={
-                styles.channelClose
-              }
-              onClick={
-                closeChannel
-              }
-              aria-label="Cerrar canal de WhatsApp"
+              className={styles.closeButton}
+              onClick={() => setIsOpen(false)}
+              aria-label="Cerrar asistente"
             >
-              <XIcon
-                size={17}
-                weight="bold"
-                aria-hidden="true"
-              />
+              <XIcon size={18} weight="bold" />
             </button>
+          </header>
+
+          <div className={styles.chatBody}>
+            {step === "welcome" && (
+              <>
+                <div className={styles.messageGroup}>
+                  <span className={styles.messageBubble}>
+                    Hola. ¿En qué podemos ayudarte?
+                  </span>
+                </div>
+
+                <div className={styles.optionList}>
+                  <button
+                    type="button"
+                    className={styles.optionButton}
+                    onClick={() =>
+                      handleInterest("departamentos")
+                    }
+                  >
+                    <span>Departamentos</span>
+
+                    <ArrowRightIcon
+                      size={17}
+                      weight="bold"
+                    />
+                  </button>
+
+                  <button
+                    type="button"
+                    className={styles.optionButton}
+                    onClick={() =>
+                      handleInterest("lotes")
+                    }
+                  >
+                    <span>Lotes</span>
+
+                    <ArrowRightIcon
+                      size={17}
+                      weight="bold"
+                    />
+                  </button>
+
+                  <button
+                    type="button"
+                    className={styles.optionButton}
+                    onClick={() =>
+                      handleInterest("visita")
+                    }
+                  >
+                    <span>Agendar visita</span>
+
+                    <ArrowRightIcon
+                      size={17}
+                      weight="bold"
+                    />
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === "phone" && interest && (
+              <>
+                <div className={styles.messageGroup}>
+                  <span className={styles.messageBubble}>
+                    Perfecto. Has elegido{" "}
+                    <strong>
+                      {optionLabels[interest]}
+                    </strong>
+                    .
+                  </span>
+                </div>
+
+                <div className={styles.messageGroup}>
+                  <span className={styles.messageBubble}>
+                    Déjanos tu número celular de 9 dígitos y
+                    te conectaremos con un asesor por
+                    WhatsApp.
+                  </span>
+                </div>
+
+                <form
+                  className={styles.phoneForm}
+                  onSubmit={handleSubmit}
+                >
+                  <label
+                    htmlFor="ancosur-phone"
+                    className={styles.phoneLabel}
+                  >
+                    Número celular
+                  </label>
+
+                  <div
+                    className={`${styles.phoneInputWrap} ${
+                      phoneError
+                        ? styles.phoneInputError
+                        : ""
+                    }`}
+                  >
+                    <span className={styles.countryPrefix}>
+                      +51
+                    </span>
+
+                    <input
+                      ref={inputRef}
+                      id="ancosur-phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel"
+                      value={phone}
+                      onChange={(event) =>
+                        handlePhoneChange(
+                          event.target.value,
+                        )
+                      }
+                      placeholder="Ingresa tu número celular"
+                      maxLength={9}
+                      aria-invalid={Boolean(phoneError)}
+                    />
+                  </div>
+
+                  {phoneError && (
+                    <span className={styles.errorMessage}>
+                      {phoneError}
+                    </span>
+                  )}
+
+                  <button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={isSubmitting}
+                  >
+                    <span>
+                      {isSubmitting
+                        ? "Abriendo WhatsApp..."
+                        : "Continuar"}
+                    </span>
+
+                    {!isSubmitting && (
+                      <ArrowRightIcon
+                        size={17}
+                        weight="bold"
+                      />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    className={styles.backButton}
+                    onClick={resetChat}
+                    disabled={isSubmitting}
+                  >
+                    Cambiar opción
+                  </button>
+                </form>
+              </>
+            )}
+
+            {step === "success" && (
+              <div className={styles.successState}>
+                <div className={styles.successIcon}>
+                  <CheckCircleIcon
+                    size={28}
+                    weight="fill"
+                  />
+                </div>
+
+                <strong>¡Listo!</strong>
+
+                <p>
+                  Hemos preparado tu solicitud. Ahora puedes
+                  continuar la conversación con un asesor de
+                  ANCOSUR por WhatsApp.
+                </p>
+
+                <button
+                  type="button"
+                  className={styles.restartButton}
+                  onClick={resetChat}
+                >
+                  Hacer otra consulta
+                </button>
+              </div>
+            )}
           </div>
 
-          <p>
-            Recibe promociones, lanzamientos,
-            novedades, beneficios y contenido
-            exclusivo de nuestros proyectos.
-          </p>
+          <footer className={styles.chatFooter}>
+            ANCOSUR Inmobiliaria
+          </footer>
+        </section>
+      )}
 
-          <div
-            className={
-              styles.channelBenefits
-            }
-          >
-            <span>
-              Promociones
-            </span>
-
-            <span>
-              Lanzamientos
-            </span>
-
-            <span>
-              Beneficios
-            </span>
-          </div>
-
-          <a
-            href={
-              whatsappChannelUrl
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className={
-              styles.channelLink
-            }
-            onClick={
-              closeChannel
-            }
-          >
-            Seguir el canal
-
-            <ArrowRightIcon
-              size={17}
-              weight="bold"
-              aria-hidden="true"
+      <button
+        type="button"
+        className={`${styles.floatingButton} ${
+          isOpen ? styles.floatingButtonOpen : ""
+        }`}
+        onClick={() => setIsOpen((previous) => !previous)}
+        aria-label={
+          isOpen
+            ? "Cerrar asistente"
+            : "Abrir asistente"
+        }
+        aria-expanded={isOpen}
+      >
+        {isOpen ? (
+          <XIcon
+            className={styles.closeFloatingIcon}
+            size={26}
+            weight="bold"
+          />
+        ) : (
+          <>
+            <img
+              className={styles.floatingIcon}
+              src={CHATBOT_ICON}
+              alt="Abrir asistente"
             />
-          </a>
-        </div>
 
-        <button
-          type="button"
-          className={
-            styles.channelButton
-          }
-          onClick={
-            toggleChannel
-          }
-          aria-label={
-            isChannelOpen
-              ? "Cerrar canal de WhatsApp"
-              : "Abrir canal de WhatsApp"
-          }
-          aria-expanded={
-            isChannelOpen
-          }
-        >
-          <span
-            className={
-              styles.buttonIconBox
-            }
-          >
-            <BroadcastIcon
-              size={21}
-              weight="fill"
-              aria-hidden="true"
-            />
-          </span>
-
-          <span
-            className={
-              styles.buttonText
-            }
-          >
-            <small>
-              Novedades
-            </small>
-
-            <strong>
-              Canal Ancosur
-            </strong>
-          </span>
-        </button>
-      </div>
-    </aside>
+            <span className={styles.floatingText}>
+              <small>¿Necesitas ayuda?</small>
+              <strong>Hablemos</strong>
+            </span>
+          </>
+        )}
+      </button>
+    </div>
   );
 }

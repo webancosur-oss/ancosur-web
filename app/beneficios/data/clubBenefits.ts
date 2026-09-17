@@ -9,18 +9,52 @@ export type ClubBenefit = {
 };
 
 export const clubBenefits: ClubBenefit[] = [
+ // =========================================================
+  // NUEVOS CONVENIOS
+  // =========================================================
+
   {
-    category: "Restaurantes",
-    name: "Botánica",
-    discount: "20%",
-    image: "/assets/benefits/club/botanica.webp",
+    category: "Hogar",
+    name: "La Grande",
+    discount: "Beneficios exclusivos",
+    image:
+      "/assets/benefits/club/lagrande.webp",
     description:
-      "En toda la carta. Consumo presencial. Válido de lunes a domingo.",
+      "Beneficios exclusivos en productos para dormitorio y hogar. Delivery gratuito en Huancayo para compras superiores a S/ 1,000 y beneficios especiales para activaciones de ANCOSUR.",
     terms:
-      "Aplican términos y condiciones según la marca aliada.",
+      "Aplican términos y condiciones del convenio comercial entre La Grande y ANCOSUR.",
     termsHref:
-      "/assets/benefits/terms/botanica.pdf",
+      "/assets/benefits/terms/la-grande.pdf",
   },
+
+  {
+    category: "Tecnología / Hogar",
+    name: "La Curacao",
+    discount: "5%",
+    image:
+      "/assets/benefits/club/curacao.webp",
+    description:
+      "5% de descuento corporativo en electrodomésticos, tecnología, telefonía, línea blanca, muebles y equipamiento para el hogar.",
+    terms:
+      "Aplican los términos y condiciones del beneficio corporativo de La Curacao para clientes y colaboradores de ANCOSUR.",
+    termsHref:
+      "/assets/benefits/terms/la-curacao.pdf",
+  },
+
+  {
+    category: "Decoración / Domótica",
+    name: "DECORARQTE",
+    discount: "Hasta 30%",
+    image:
+      "/assets/benefits/club/decorarqte.webp",
+    description:
+      "Hasta 30% de descuento en decoración y acabados, además de 10% en soluciones de domótica con asesoría personalizada e instalación gratuita.",
+    terms:
+      "Aplican los términos y condiciones del convenio entre DECORARQTE y ANCOSUR.",
+    termsHref:
+      "/assets/benefits/terms/decorarqte.pdf",
+  },
+
   {
     category: "Restaurantes",
     name: "Mamá Panchita",
@@ -28,12 +62,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/mama-panchita.webp",
     description:
-      "En toda su carta de carnes.",
+      "10% de descuento en toda su carta de carnes.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/mama-panchita.pdf",
   },
+
   {
     category: "Salud",
     name: "Clínica Dermatológica Roald",
@@ -41,12 +76,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/roald.webp",
     description:
-      "En limpiezas faciales, terapia LED, depilación láser y consultas.",
+      "30% de descuento en limpiezas faciales, terapia LED, depilación láser y consultas.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/dermatologica-roald.pdf",
   },
+
   {
     category: "Salud",
     name: "Estudio Dental Essana",
@@ -60,6 +96,7 @@ export const clubBenefits: ClubBenefit[] = [
     termsHref:
       "/assets/benefits/terms/dental-essana.pdf",
   },
+
   {
     category: "Belleza / Bienestar",
     name: "Montalvo",
@@ -67,12 +104,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/montalvo.webp",
     description:
-      "En estética, spa y barbería: cortes, tintes, masajes y más.",
+      "20% de descuento en estética, spa y barbería: cortes, tintes, masajes y más.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/montalvo.pdf",
   },
+
   {
     category: "Belleza / Bienestar",
     name: "Daphne Makeup",
@@ -80,12 +118,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/daphne-makeup.webp",
     description:
-      "En maquillaje, peinado y manicure profesional.",
+      "50% de descuento en maquillaje, peinado y manicure profesional.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/daphne-makeup.pdf",
   },
+
   {
     category: "Belleza / Bienestar",
     name: "Idola Spa",
@@ -93,12 +132,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/idola-spa.webp",
     description:
-      "En cortes, tintes, alisados, masajes e hidratación capilar.",
+      "50% de descuento en cortes, tintes, alisados, masajes e hidratación capilar.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/idola-spa.pdf",
   },
+
   {
     category: "Alimentos y bebidas",
     name: "Sulpaa",
@@ -112,6 +152,7 @@ export const clubBenefits: ClubBenefit[] = [
     termsHref:
       "/assets/benefits/terms/sulpaa.pdf",
   },
+
   {
     category: "Regalos / Detalles",
     name: "Modo Detalle",
@@ -119,12 +160,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/modo-detalle.webp",
     description:
-      "En ramos personalizados y delicados detalles de caja.",
+      "20% de descuento en ramos personalizados y delicados detalles de caja.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/modo-detalle.pdf",
   },
+
   {
     category: "Equipamiento",
     name: "Soluz",
@@ -132,12 +174,13 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/soluz.webp",
     description:
-      "En cocinas empotradas y productos domésticos.",
+      "37% de descuento en cocinas empotradas y productos domésticos.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/sololuz.pdf",
   },
+
   {
     category: "Agua / Recargas",
     name: "Aquady",
@@ -151,6 +194,7 @@ export const clubBenefits: ClubBenefit[] = [
     termsHref:
       "/assets/benefits/terms/aquady.pdf",
   },
+
   {
     category: "Mascotas",
     name: "Jeldic",
@@ -158,10 +202,12 @@ export const clubBenefits: ClubBenefit[] = [
     image:
       "/assets/benefits/club/jeldic.webp",
     description:
-      "En alimento para perros y gatos.",
+      "10% de descuento en alimento para perros y gatos.",
     terms:
       "Aplican términos y condiciones según la marca aliada.",
     termsHref:
       "/assets/benefits/terms/jeldic.pdf",
   },
+
+  
 ];

@@ -1,6 +1,6 @@
 import SocioReferidoPage from "./SocioReferidoPage";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 export const metadata = createSeoMetadata({
   title: "Socio Referido | Ancosur",

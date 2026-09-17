@@ -69,8 +69,8 @@ export const facts: FactItem[] = [
     value: "Desde 90 m²",
   },
   {
-    label: "Inicial",
-    value: "Desde S/ 12,000",
+    label: "Al contado",
+    value: "Desde S/ 17,000",
   },
 ];
 

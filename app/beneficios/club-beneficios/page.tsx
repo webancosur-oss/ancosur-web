@@ -1,6 +1,6 @@
 import ClubBeneficiosPage from "./ClubBeneficiosPage";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 export const metadata = createSeoMetadata({
   title: "Club de Beneficios Ancosur",

@@ -1,4 +1,4 @@
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import InvestorsBenefits from "./components/InvestorsBenefits";
 import InvestorsContact from "./components/InvestorsContact";

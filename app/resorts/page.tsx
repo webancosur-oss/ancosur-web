@@ -7,7 +7,7 @@ import {
 
 import Image from "next/image";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import ResortsLeadForm from "./components/ResortsLeadForm";
 

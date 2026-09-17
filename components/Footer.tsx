@@ -107,7 +107,7 @@ const socialLinks = [
 const legalItems: LegalItem[] = [
   {
     label: "Libro de Reclamaciones",
-    href: "https://wa.me/51971069763?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Libro%20de%20Reclamaciones%20de%20Ancosur",
+    href: "/libro-de-reclamaciones",
     image: "/assets/certificados/libro-reclamaciones.svg",
     width: 240,
     height: 130,
@@ -235,43 +235,58 @@ export default function Footer() {
           </div>
 
           <div className={styles.column}>
-            <div className={styles.columnHeading}>
-              <span>03</span>
-              <h3>Atención al cliente</h3>
-            </div>
+  <div className={styles.columnHeading}>
+    <span>03</span>
+    <h3>Atención al cliente</h3>
+  </div>
 
-            <div className={styles.contactList}>
-              <a
-                href="tel:+51968658098"
-                className={styles.contactItem}
-              >
-                <span className={styles.contactIcon}>
-                  <PhoneIcon size={16} weight="bold" />
-                </span>
+  <div className={styles.contactList}>
+    {/* Teléfono */}
+    <a
+      href="tel:+51971069763"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <PhoneIcon size={16} weight="bold" />
+      </span>
 
-                <span className={styles.contactContent}>
-                  <small>Teléfono</small>
-                  <strong>(+51) 968 658 098</strong>
-                </span>
-              </a>
+      <span className={styles.contactContent}>
+        <small>Ventas</small>
+        <strong>(+51) 971 069 763</strong>
+      </span>
+    </a>
 
-              <a
-                href="mailto:jefe.experiencia.cliente@ancosur.com"
-                className={styles.contactItem}
-              >
-                <span className={styles.contactIcon}>
-                  <EnvelopeSimpleIcon size={16} weight="bold" />
-                </span>
+    {/* Experiencia al cliente */}
+    <a
+      href="tel:+51947903606"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <PhoneIcon size={16} weight="bold" />
+      </span>
 
-                <span className={styles.contactContent}>
-                  <small>Correo</small>
-                  <strong>
-                    jefe.experiencia.cliente@ancosur.com
-                  </strong>
-                </span>
-              </a>
-            </div>
-          </div>
+      <span className={styles.contactContent}>
+        <small>Experiencia al cliente</small>
+        <strong>(+51) 947 903 606</strong>
+      </span>
+    </a>
+
+    {/* Correo */}
+    <a
+      href="mailto:info@ancosur.com"
+      className={styles.contactItem}
+    >
+      <span className={styles.contactIcon}>
+        <EnvelopeSimpleIcon size={16} weight="bold" />
+      </span>
+
+      <span className={styles.contactContent}>
+        <small>Correo</small>
+        <strong>info@ancosur.com</strong>
+      </span>
+    </a>
+  </div>
+</div>
 
           <div className={styles.column}>
             <div className={styles.columnHeading}>

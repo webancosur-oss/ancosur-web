@@ -3,7 +3,7 @@ import {
   BuildingsIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import ConvocatoriaImageViewer from "./ConvocatoriaImageViewer";
 import JobApplicationModal from "./JobApplicationModal";

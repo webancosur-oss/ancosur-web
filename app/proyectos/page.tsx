@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 import ProjectFilter from "@/components/ProjectFilter";
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import ProyectosLeadForm from "./ProyectosLeadForm";
 
