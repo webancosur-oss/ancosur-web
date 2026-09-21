@@ -1,4 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
 
 import { createSeoMetadata } from "@/src/seo";
 
@@ -62,7 +61,6 @@ export default function ColinasDeMoroPage() {
 
       <ColinasDeMoroLocation />
 
-      <ProjectFilter />
 
       <p className={styles.disclaimer}>
         Todas las imágenes, planos, medidas, áreas y precios son

@@ -1,5 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoBaltoAmenitiesSlider from "./components/NeoBaltoAmenitiesSlider";
@@ -62,7 +60,6 @@ export default function NeoBaltoPage() {
         className={styles.relatedProjects}
         aria-label="Proyectos relacionados con Neo Balto"
       >
-        <ProjectFilter />
       </section>
 
       <p className={styles.disclaimer}>

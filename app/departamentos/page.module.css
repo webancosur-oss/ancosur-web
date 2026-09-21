@@ -1,0 +1,505 @@
+/* app/departamentos/page.module.css */
+
+.page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #111111;
+}
+
+.catalog {
+  width: 100%;
+  padding: 128px 24px 110px;
+  background: #ffffff;
+}
+
+.catalogContainer {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+.catalogHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.sectionEyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #00a94f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  max-width: 900px;
+  margin: 0;
+  color: #111b3a;
+  font-size: clamp(36px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-align: center;
+}
+
+.catalogDescription {
+  max-width: 780px;
+  margin: 22px auto 0;
+  color: #777777;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto 46px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e3e3e3;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.card:hover {
+  z-index: 2;
+  transform: translateY(-6px);
+  border-color: #cfcfcf;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.09);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.2 / 1;
+  overflow: hidden;
+  background: #eeeeee;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.045);
+}
+
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #888888;
+  background: #f3f3f3;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.03) 0%,
+    rgba(0, 0, 0, 0) 58%,
+    rgba(0, 0, 0, 0.22) 100%
+  );
+}
+
+.stage {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 8px 11px;
+  overflow: hidden;
+  border-radius: 4px;
+  color: #ffffff;
+  background: rgba(15, 15, 15, 0.78);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.stageDelivered {
+  background: #00a94f;
+}
+
+.cardContent {
+  padding: 24px 22px 22px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 12px;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  max-width: 150px;
+  height: auto;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.type {
+  display: block;
+  margin-bottom: 7px;
+  color: #666666;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.projectTitle {
+  margin: 0;
+  color: #111111;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 42px;
+  margin-top: 8px;
+  color: #333333;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.separator {
+  color: #a5a5a5;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 48px;
+  margin-top: 10px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  color: #3e3e3e;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.detail + .detail {
+  border-left: 1px solid #e5e5e5;
+}
+
+.detail svg {
+  flex: 0 0 auto;
+  color: #666666;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 54px;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+.price strong {
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.deliveredLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  color: #00a94f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    max-height 320ms ease,
+    margin-top 320ms ease,
+    opacity 220ms ease,
+    transform 320ms ease;
+}
+
+.card:hover .actions,
+.card:focus-within .actions {
+  max-height: 60px;
+  margin-top: 12px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.actionPrimary,
+.actionSecondary,
+.actionDisabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 42px;
+  padding: 10px 9px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.actionPrimary {
+  color: #ffffff;
+  background: #00a94f;
+}
+
+.actionPrimary:hover {
+  background: #008f43;
+}
+
+.actionSecondary {
+  color: #111111;
+  border: 1px solid #111111;
+  background: #ffffff;
+}
+
+.actionSecondary:hover {
+  color: #ffffff;
+  background: #111111;
+}
+
+.actionDisabled {
+  color: #999999;
+  border: 1px solid #e4e4e4;
+  background: #f7f7f7;
+}
+
+.actionPrimary svg,
+.actionSecondary svg {
+  flex: 0 0 auto;
+  transition: transform 180ms ease;
+}
+
+.actionPrimary:hover svg,
+.actionSecondary:hover svg {
+  transform: translateX(3px);
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 240px;
+  padding: 32px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  color: #666666;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.state strong {
+  color: #222222;
+}
+
+.loader {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #dddddd;
+  border-top-color: #00a94f;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 40px;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.emptyLine {
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin-bottom: 22px;
+  border-radius: 99px;
+  background: #00a94f;
+}
+
+.empty h3 {
+  margin: 0;
+  color: #151515;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.empty p {
+  max-width: 470px;
+  margin: 10px 0 0;
+  color: #777777;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1050px) {
+  .catalog {
+    padding: 120px 20px 90px;
+  }
+
+  .grid {
+    gap: 24px;
+  }
+
+  .cardContent {
+    padding: 21px 18px 19px;
+  }
+
+  .detail {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 850px) {
+  .catalog {
+    padding-top: 110px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .actions {
+    max-height: 60px;
+    margin-top: 12px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 620px) {
+  .catalog {
+    padding: 100px 16px 75px;
+  }
+
+  .sectionEyebrow {
+    font-size: 10px;
+  }
+
+  .sectionTitle {
+    max-width: 560px;
+    font-size: 36px;
+    line-height: 1.08;
+  }
+
+  .catalogDescription {
+    max-width: 520px;
+    margin-top: 18px;
+    font-size: 14px;
+  }
+
+  .filters {
+    margin-bottom: 32px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 1.18 / 1;
+  }
+}

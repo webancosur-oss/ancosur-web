@@ -1,5 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoEmperatrizAmenitiesSlider from "./components/NeoEmperatrizAmenitiesSlider";
@@ -64,7 +62,6 @@ export default function NeoEmperatrizPage() {
       <section
         aria-label="Proyectos relacionados"
       >
-        <ProjectFilter />
       </section>
 
       <p className={styles.disclaimer}>

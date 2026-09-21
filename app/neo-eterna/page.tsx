@@ -1,5 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoEternaAmenitiesSlider from "./components/NeoEternaAmenitiesSlider";
@@ -68,7 +66,6 @@ export default function NeoEternaPage() {
         className={styles.relatedProjects}
         aria-label="Proyectos relacionados con Neo Eterna"
       >
-        <ProjectFilter />
       </section>
 
       <p className={styles.disclaimer}>

@@ -1,4 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
 
 import { createSeoMetadata } from "@/src/seo";
 
@@ -51,7 +50,6 @@ export default function CaminoRealPage() {
 
       <CaminoRealLocation />
 
-      <ProjectFilter />
 
       <p className={styles.disclaimer}>
         {disclaimerCaminoReal}

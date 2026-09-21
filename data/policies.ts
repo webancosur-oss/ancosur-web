@@ -31,7 +31,7 @@ export const policies: PolicyItem[] = [
     title: "Alcance del SIG",
     description:
       "Consulta el alcance del Sistema Integrado de Gestión de Ancosur.",
-    pdf: "/assets/politicas/sig-alcance.pdf",
+    pdf: "/assets/politicas/sig-alcancev2.pdf",
     featured: true,
   },
   {

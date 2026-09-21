@@ -12,6 +12,19 @@ export const clubBenefits: ClubBenefit[] = [
  // =========================================================
   // NUEVOS CONVENIOS
   // =========================================================
+ {
+    category: "Equipamiento",
+    name: "Sole",
+    discount: "10% al 15%",
+    image:
+      "/assets/benefits/club/sole.webp",
+    description:
+      "10% al 15% de descuento en cocinas empotradas y productos domésticos.",
+    terms:
+      "Aplican términos y condiciones según la marca aliada.",
+    termsHref:
+      "/assets/benefits/terms/sole.pdf",
+  },
 
   {
     category: "Hogar",
@@ -172,7 +185,7 @@ export const clubBenefits: ClubBenefit[] = [
     name: "Soluz",
     discount: "37%",
     image:
-      "/assets/benefits/club/soluz.webp",
+      "/assets/benefits/club/soluz-ben.webp",
     description:
       "37% de descuento en cocinas empotradas y productos domésticos.",
     terms:

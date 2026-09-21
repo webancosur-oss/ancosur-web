@@ -5,9 +5,9 @@ import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
 import HeroAncosur from "@/components/hero/HeroAncosur";
 import HoldingSection from "@/components/HoldingSection";
-import ProjectFilter from "@/components/ProjectFilter";
 import PromoLeadPopup from "@/components/PromoLeadPopup";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
+import FeaturedProjects from "@/components/home/FeaturedProjects";
 
 /* =========================================================
    CONFIGURACIÓN SEO DE LA PORTADA
@@ -300,7 +300,7 @@ export default function Home() {
       <main id="main-content">
         <HeroAncosur />
 
-        <ProjectFilter />
+        <FeaturedProjects />
 
         <TrustStatsTestimonials />
 

@@ -1,5 +1,3 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
 import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./DistritoSanCarlosPage.module.css";
@@ -62,7 +60,6 @@ export default function DistritoSanCarlosPage() {
 
       <DistritoSanCarlosLocation />
 
-      <ProjectFilter />
 
       <p className={styles.disclaimer}>
         Todas las imágenes, planos, medidas y áreas son
