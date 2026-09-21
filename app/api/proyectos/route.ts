@@ -1,214 +1,153 @@
-import type {
-  ProyectoWeb,
-  ProyectosResponse,
-} from "@/src/types/proyectoWeb";
+import { NextRequest, NextResponse } from "next/server";
 
-const DEFAULT_BACKEND_URL =
-  "https://ancosur-api-production.up.railway.app";
+/* =========================================================
+   CONFIGURACIÓN DEL BACKEND GO
+========================================================= */
 
-export const BACKEND_URL = (
+const BACKEND_URL =
+  process.env.BACKEND_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
-  DEFAULT_BACKEND_URL
-).replace(/\/+$/, "");
+  "http://localhost:5000";
 
-export type ProyectoFilters = {
-  page?: number;
-  limit?: number;
-  buscar?: string;
-  tipo?: string;
-  etapa?: string;
-  estado?: string;
-  ciudad?: string;
-  activo?: boolean;
-  codigo?: string;
-  slug?: string;
-};
+/* =========================================================
+   GET /api/proyectos
+========================================================= */
 
-function buildQuery(
-  filters: ProyectoFilters = {}
-): string {
-  const params = new URLSearchParams();
-
-  for (const [key, value] of Object.entries(filters)) {
-    if (
-      value !== undefined &&
-      value !== null &&
-      String(value).trim() !== ""
-    ) {
-      params.set(key, String(value));
-    }
-  }
-
-  return params.toString();
-}
-
-async function parseResponse<T>(
-  response: Response
-): Promise<T> {
-  const text = await response.text();
-
-  if (!text.trim()) {
-    throw new Error(
-      "El backend devolvió una respuesta vacía."
-    );
-  }
-
+export async function GET(
+  request: NextRequest
+) {
   try {
-    return JSON.parse(text) as T;
-  } catch {
-    throw new Error(
-      "La API de proyectos no devolvió JSON válido."
-    );
-  }
-}
+    /*
+    ---------------------------------------------------------
+    OBTENER QUERY PARAMS
+    ---------------------------------------------------------
+    */
 
-export class ProyectosWebAPI {
-  static async listar(
-    filters: ProyectoFilters = {},
-    options?: RequestInit
-  ): Promise<ProyectosResponse> {
-    const query = buildQuery(filters);
+    const searchParams =
+      request.nextUrl.searchParams;
 
     /*
-     * En navegador usamos el proxy de Next.js.
-     * Esto evita que el móvil dependa del CORS del backend
-     * de Railway.
-     *
-     * En servidor se consulta Railway directamente.
-     */
-    const isBrowser =
-      typeof window !== "undefined";
+    ---------------------------------------------------------
+    CONSTRUIR URL DEL BACKEND GO
+    ---------------------------------------------------------
+    */
 
-    const baseUrl = isBrowser
-      ? "/api/proyectos-web"
-      : `${BACKEND_URL}/api/web/proyectos`;
+    const backendUrl =
+      new URL(
+        `${BACKEND_URL}/api/web/proyectos`
+      );
 
-    const url = `${baseUrl}${
-      query ? `?${query}` : ""
-    }`;
+    /*
+    ---------------------------------------------------------
+    COPIAR TODOS LOS PARÁMETROS
+    ---------------------------------------------------------
+    */
 
-    let response: Response;
+    searchParams.forEach(
+      (value, key) => {
+        backendUrl.searchParams.set(
+          key,
+          value
+        );
+      }
+    );
+
+    /*
+    ---------------------------------------------------------
+    LLAMAR AL BACKEND GO
+    ---------------------------------------------------------
+    */
+
+    const response =
+      await fetch(
+        backendUrl.toString(),
+        {
+          method: "GET",
+
+          headers: {
+            Accept:
+              "application/json",
+          },
+
+          cache: "no-store",
+        }
+      );
+
+    /*
+    ---------------------------------------------------------
+    OBTENER RESPUESTA COMO TEXTO
+    ---------------------------------------------------------
+
+    No hacemos response.json() directamente.
+    Primero obtenemos texto para evitar que un error HTML
+    del backend rompa el JSON del frontend.
+    ---------------------------------------------------------
+    */
+
+    const responseText =
+      await response.text();
+
+    /*
+    ---------------------------------------------------------
+    INTENTAR CONVERTIR A JSON
+    ---------------------------------------------------------
+    */
+
+    let data: unknown;
 
     try {
-      response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          ...(options?.headers || {}),
-        },
-        ...options,
-        cache: options?.cache ?? "no-store",
-      });
+      data = JSON.parse(
+        responseText
+      );
     } catch {
-      throw new Error(
-        "No se pudo conectar con el servicio de proyectos."
+      console.error(
+        "Backend Go devolvió una respuesta que no es JSON:",
+        responseText
+      );
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "El servidor de proyectos devolvió una respuesta inválida.",
+        },
+        {
+          status:
+            response.status >= 400
+              ? response.status
+              : 502,
+        }
       );
     }
 
-    const data =
-      await parseResponse<ProyectosResponse>(
-        response
-      );
+    /*
+    ---------------------------------------------------------
+    DEVOLVER RESPUESTA
+    ---------------------------------------------------------
+    */
 
-    if (
-      !response.ok ||
-      data.success === false
-    ) {
-      throw new Error(
-        data.message ||
-          `Error HTTP ${response.status} al consultar proyectos.`
-      );
-    }
+    return NextResponse.json(
+      data,
+      {
+        status:
+          response.status,
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Error en /api/proyectos:",
+      error
+    );
 
-    return data;
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          "No se pudo conectar con el servidor de proyectos.",
+      },
+      {
+        status: 500,
+      }
+    );
   }
-
-  static listarActivos(
-    filters: Omit<
-      ProyectoFilters,
-      "activo"
-    > = {}
-  ) {
-    return this.listar({
-      ...filters,
-      activo: true,
-    });
-  }
-
-  static listarDepartamentos(
-    filters: Omit<
-      ProyectoFilters,
-      "tipo"
-    > = {}
-  ) {
-    return this.listar({
-      ...filters,
-      tipo: "Departamento",
-    });
-  }
-
-  static listarLotes(
-    filters: Omit<
-      ProyectoFilters,
-      "tipo"
-    > = {}
-  ) {
-    return this.listar({
-      ...filters,
-      tipo: "Lote",
-    });
-  }
-
-  static listarResorts(
-    filters: Omit<
-      ProyectoFilters,
-      "tipo"
-    > = {}
-  ) {
-    return this.listar({
-      ...filters,
-      tipo: "Resort",
-    });
-  }
-
-  static listarEntregados(
-    limit = 100
-  ) {
-    return this.listar({
-      etapa: "ENTREGADO",
-      limit,
-    });
-  }
-}
-
-export function getProjectAssetUrl(
-  value?: string | null
-): string {
-  if (!value?.trim()) {
-    return "";
-  }
-
-  const url = value.trim();
-
-  if (
-    /^(https?:|data:|blob:)/i.test(url)
-  ) {
-    return url;
-  }
-
-  return `${BACKEND_URL}${
-    url.startsWith("/") ? url : `/${url}`
-  }`;
-}
-
-export function getProjectHref(
-  project: ProyectoWeb
-): string {
-  if (!project.ruta?.trim()) {
-    return "";
-  }
-
-  return project.ruta.startsWith("/")
-    ? project.ruta
-    : `/${project.ruta}`;
 }
