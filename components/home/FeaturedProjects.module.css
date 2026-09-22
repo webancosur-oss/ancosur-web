@@ -1,0 +1,720 @@
+/* src/components/home/FeaturedProjects.module.css */
+
+.section {
+  width: 100%;
+  padding: 92px 24px 110px;
+  background: #ffffff;
+}
+
+.container {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================================================
+   CABECERA
+   ========================================================= */
+
+.header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #00a94f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 820px;
+  margin: 0;
+  color: #111111;
+  font-size: clamp(38px, 4.5vw, 54px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+.description {
+  max-width: 680px;
+  margin: 18px auto 0;
+  color: #666666;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  width: 100%;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e1e1e1;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.card:hover {
+  z-index: 2;
+  transform: translateY(-6px);
+  border-color: #c7c7c7;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.09);
+}
+
+/* =========================================================
+   IMAGEN — ELEMENTO PRINCIPAL
+   ========================================================= */
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.22 / 1;
+  overflow: hidden;
+  background: #eeeeee;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition:
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.045);
+}
+
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #8c8c8c;
+  background: #f2f2f2;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.04) 0%,
+    rgba(0, 0, 0, 0) 58%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+}
+
+.stage {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 8px 11px;
+  overflow: hidden;
+  border-radius: 4px;
+  color: #ffffff;
+  background: rgba(15, 15, 15, 0.78);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.cardContent {
+  padding: 24px 22px 22px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-bottom: 13px;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  max-width: 145px;
+  height: auto;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.type {
+  display: block;
+  margin-bottom: 7px;
+  color: #666666;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.projectTitle {
+  margin: 0;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.location {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 42px;
+  margin-top: 8px;
+  color: #333333;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.separator {
+  color: #a5a5a5;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 48px;
+  margin-top: 9px;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  color: #3e3e3e;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.detail + .detail {
+  border-left: 1px solid #e5e5e5;
+}
+
+.detailIcon {
+  flex: 0 0 auto;
+  color: #666666;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 52px;
+  color: #6b6b6b;
+  font-size: 14px;
+}
+
+.price strong {
+  color: #111111;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   BOTONES — APARECEN AL HACER HOVER
+   ========================================================= */
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(10px);
+
+  transition:
+    max-height 320ms ease,
+    margin-top 320ms ease,
+    opacity 220ms ease,
+    transform 320ms ease;
+}
+
+.card:hover .actions,
+.card:focus-within .actions {
+  max-height: 60px;
+  margin-top: 12px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.actionPrimary,
+.actionSecondary,
+.actionDisabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-width: 0;
+  min-height: 42px;
+  padding: 10px 9px;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.actionPrimary {
+  color: #ffffff;
+  background: #00a94f;
+}
+
+.actionPrimary:hover {
+  background: #008f43;
+}
+
+.actionSecondary {
+  color: #111111;
+  border: 1px solid #111111;
+  background: #ffffff;
+}
+
+.actionSecondary:hover {
+  color: #ffffff;
+  background: #111111;
+}
+
+.actionDisabled {
+  color: #999999;
+  border: 1px solid #e4e4e4;
+  background: #f7f7f7;
+}
+
+.actionArrow {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  transition: transform 180ms ease;
+}
+
+.actionPrimary:hover .actionArrow,
+.actionSecondary:hover .actionArrow,
+.viewAll:hover .actionArrow {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 46px;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 48px;
+  padding: 13px 22px;
+
+  border: 1px solid #111111;
+  border-radius: 5px;
+
+  color: #111111;
+  background: #ffffff;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.viewAll:hover {
+  color: #ffffff;
+  background: #111111;
+}
+
+/* =========================================================
+   ESTADOS
+   ========================================================= */
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 240px;
+  padding: 32px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+
+  color: #666666;
+
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.state strong {
+  color: #222222;
+}
+
+.loader {
+  width: 22px;
+  height: 22px;
+
+  border: 2px solid #dddddd;
+  border-top-color: #00a94f;
+  border-radius: 50%;
+
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .section {
+    padding: 78px 20px 90px;
+  }
+
+  .grid {
+    gap: 24px;
+  }
+
+  .cardContent {
+    padding: 21px 18px 19px;
+  }
+
+  .detail {
+    font-size: 12px;
+  }
+
+  .actionPrimary,
+  .actionSecondary,
+  .actionDisabled {
+    font-size: 9px;
+  }
+}
+
+/* =========================================================
+   TABLET PEQUEÑA
+   ========================================================= */
+
+@media (max-width: 820px) {
+  .header {
+    margin-bottom: 36px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /*
+   * En tablet los botones quedan visibles porque no existe
+   * hover confiable en dispositivos táctiles.
+   */
+  .actions {
+    max-height: 60px;
+    margin-top: 12px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+  .section {
+    padding: 62px 16px 76px;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .header {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .headerContent {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    font-size: 10px;
+    letter-spacing: 0.13em;
+  }
+
+  .title {
+    width: 100%;
+    max-width: 420px;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+
+  .description {
+    width: 100%;
+    max-width: 390px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  /*
+   * La imagen pasa a ser el elemento visual principal
+   * de cada tarjeta en móvil.
+   */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .imageWrapper {
+    width: 100%;
+    aspect-ratio: 1.08 / 1;
+  }
+
+  .image {
+    object-position: center;
+  }
+
+  .stage {
+    top: 13px;
+    left: 13px;
+    padding: 7px 9px;
+    font-size: 8px;
+  }
+
+  .cardContent {
+    padding: 20px 18px 18px;
+  }
+
+  .logoWrapper {
+    min-height: 44px;
+    margin-bottom: 10px;
+  }
+
+  .logo {
+    max-width: 135px;
+    max-height: 44px;
+  }
+
+  .type {
+    margin-bottom: 6px;
+    font-size: 9px;
+  }
+
+  .projectTitle {
+    font-size: 15px;
+  }
+
+  .location {
+    min-height: auto;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .details {
+    min-height: 46px;
+    margin-top: 12px;
+  }
+
+  .detail {
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .price {
+    min-height: 50px;
+    font-size: 13px;
+  }
+
+  .price strong {
+    font-size: 15px;
+  }
+
+  /*
+   * En móvil no dependemos del hover.
+   * Los botones permanecen visibles y táctiles.
+   */
+  .actions {
+    grid-template-columns: 1fr 1fr;
+
+    max-height: 60px;
+    margin-top: 12px;
+
+    opacity: 1;
+    transform: none;
+  }
+
+  .actionPrimary,
+  .actionSecondary,
+  .actionDisabled {
+    min-height: 42px;
+    padding: 10px 8px;
+    font-size: 9px;
+  }
+
+  .footer {
+    margin-top: 34px;
+  }
+
+  .viewAll {
+    min-height: 45px;
+    padding: 12px 19px;
+    font-size: 10px;
+  }
+
+  .state {
+    min-height: 200px;
+    padding: 25px 18px;
+  }
+}
+
+/* =========================================================
+   MOBILE MUY PEQUEÑO
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .section {
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+
+  .title {
+    font-size: 31px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 1 / 0.96;
+  }
+
+  .cardContent {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .actions {
+    gap: 6px;
+  }
+
+  .actionPrimary,
+  .actionSecondary,
+  .actionDisabled {
+    font-size: 8px;
+  }
+}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 import { teamGroups } from "@/data/team";
 
 import styles from "./EquipoPage.module.css";

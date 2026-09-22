@@ -1,6 +1,4 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import Moro416AmenitiesSlider from "./components/Moro416AmenitiesSlider";
 import Moro416Hero from "./components/Moro416Hero";
@@ -66,7 +64,6 @@ export default function Moro416Page() {
         className={styles.relatedProjects}
         aria-label="Proyectos relacionados con Moro 416"
       >
-        <ProjectFilter />
       </section>
 
       <p className={styles.disclaimer}>

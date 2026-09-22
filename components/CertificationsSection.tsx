@@ -109,10 +109,7 @@ export default function CertificationsSection() {
 
             <p>
               Aplicamos estándares de calidad,
-              responsabilidad ambiental y
-              formación técnica en el
-              desarrollo de nuestros
-              proyectos.
+              responsabilidad ambiental en diseño, venta y post-venta de nuestros proyectos.
             </p>
           </div>
 

@@ -1,6 +1,4 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import TerrazasConcepcionBenefits from "./components/TerrazasConcepcionBenefits";
 import TerrazasConcepcionHero from "./components/TerrazasConcepcionHero";
@@ -51,12 +49,7 @@ export default function TerrazasConcepcionPage() {
 
       <TerrazasConcepcionLocation />
 
-      <section
-        aria-label="Proyectos relacionados con Las Terrazas de Concepción"
-      >
-        <ProjectFilter />
-      </section>
-
+      
       <p className={styles.disclaimer}>
         {disclaimerTerrazasConcepcion}
       </p>

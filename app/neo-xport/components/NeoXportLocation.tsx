@@ -1200,7 +1200,7 @@ export default function NeoXportLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

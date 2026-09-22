@@ -1188,7 +1188,7 @@ export default function NeoEternaLocation() {
               />
 
               <span>
-                Escribir por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

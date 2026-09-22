@@ -473,7 +473,7 @@ export default function JobApplicationForm({
           <input
             type="text"
             name="fullName"
-            placeholder="Ej. Brayan Basurto"
+            placeholder="Ej. Jhon Doe"
             autoComplete="name"
             minLength={3}
             maxLength={120}

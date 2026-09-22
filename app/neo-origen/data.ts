@@ -607,7 +607,7 @@ export const relatedProjects = [
       "/assets/projects/cards/moro-416.webp",
 
     href:
-      "/proyectos/moro-416",
+      "/proyectos/neo-origen",
   },
 ];
 

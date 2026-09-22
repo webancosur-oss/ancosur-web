@@ -1287,7 +1287,7 @@ export default function NeoOrigenLocation() {
               />
 
               <span>
-                Consultar Neo Origen por WhatsApp
+                Agendar visita
               </span>
             </WhatsAppLead>
 

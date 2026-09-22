@@ -1,0 +1,63 @@
+.page {
+  min-height: 100vh;
+  background: #f6f7f9;
+}
+
+.container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 70px 0 55px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #eef6f2;
+  color: #16704a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hero h1 {
+  margin: 18px 0 10px;
+  color: #111827;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.05;
+}
+
+.hero p {
+  max-width: 720px;
+  margin: 0;
+  color: #6b7280;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.formSection {
+  padding: 45px 0 80px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .hero {
+    padding: 45px 0 35px;
+  }
+
+  .formSection {
+    padding: 25px 0 50px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+}

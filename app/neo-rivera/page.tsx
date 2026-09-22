@@ -1,6 +1,5 @@
-import ProjectFilter from "@/components/ProjectFilter";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import NeoRiveraAmenitiesSlider from "./components/NeoRiveraAmenitiesSlider";
 import NeoRiveraHero from "./components/NeoRiveraHero";
@@ -62,12 +61,7 @@ export default function NeoRiveraPage() {
 
       <NeoRiveraLocation />
 
-      <section
-        aria-label="Proyectos relacionados con Neo Rivera"
-      >
-        <ProjectFilter />
-      </section>
-
+     
       <p className={styles.disclaimer}>
         Todas las imágenes, planos, medidas y áreas son
         referenciales y pueden presentar modificaciones durante

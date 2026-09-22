@@ -1,6 +1,4 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import NeoXportAmenitiesSlider from "./components/NeoXportAmenities";
 import NeoXportHero from "./components/NeoXportHero";
@@ -51,11 +49,7 @@ export default function NeoXportPage() {
 
       <NeoXportLocation />
 
-      <section
-        aria-label="Proyectos relacionados con Neo Xport"
-      >
-        <ProjectFilter />
-      </section>
+    
 
       <p className={styles.disclaimer}>
         {disclaimerNeoXport}

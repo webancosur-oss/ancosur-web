@@ -23,6 +23,7 @@ import styles from "./HoldingSection.module.css";
 ==================================================*/
 
 type CompanyId =
+|"moro capital"
   | "ancosur"
   | "straton"
   | "zagari"
@@ -58,12 +59,23 @@ const companies: Company[] = [
     tone: "#00a74f",
   },
   {
+    id: "moro capital",
+    name: "",
+    category: "Inversión",
+    description:
+      "",
+    href: "https://www.morocapital.pe",
+    logo: "/assets/images/moro-capital.svg",
+    background: "/assets/projects/tarjetas/moro416.webp",
+    tone: "#185d36",
+  },
+  {
     id: "straton",
     name: "",
     category: "Construcción",
     description:
       "",
-    href: "#",
+    href: "https://www.straton.pe/",
     logo: "/assets/images/straton.svg",
     background: "/assets/projects/tarjetas/rivera.webp",
     tone: "#185d36",
@@ -85,7 +97,7 @@ const companies: Company[] = [
     category: "Diseño y arquitectura",
     description:
       "",
-    href: "#",
+    href: "https://darkham.pe",
     logo: "/assets/images/darkham.svg",
     background: "/assets/projects/tarjetas/distrito.webp",
     tone: "#073d25",
@@ -108,8 +120,8 @@ const companies: Company[] = [
     description:
       "",
     href:
-      "https://open.spotify.com/show/4MlsSTgEjZAUKhd9SsQ5tp",
-    logo: "/assets/images/tercer-espacio.svg",
+      "https://podcast.ancosur.com/",
+    logo: "/assets/images/3er-espacio.svg",
     background: "/assets/projects/tarjetas/emperatriz.webp",
     tone: "#9dbb4d",
   },

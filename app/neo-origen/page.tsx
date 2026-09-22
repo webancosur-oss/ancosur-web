@@ -1,6 +1,4 @@
-import ProjectFilter from "@/components/ProjectFilter";
-
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import NeoOrigenAmenitiesSlider from "./components/NeoOrigenAmenitiesSlider";
 import NeoOrigenHero from "./components/NeoOrigenHero";
@@ -62,13 +60,7 @@ export default function NeoOrigenPage() {
 
       <NeoOrigenLocation />
 
-      <section
-        className={styles.relatedProjects}
-        aria-label="Proyectos relacionados con Neo Origen"
-      >
-        <ProjectFilter />
-      </section>
-
+      
       <p className={styles.disclaimer}>
         Todas las imágenes, renders, planos, medidas, áreas,
         precios, acabados, equipamiento y áreas comunes son

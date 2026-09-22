@@ -1,6 +1,5 @@
-import ProjectFilter from "@/components/ProjectFilter";
 
-import { createSeoMetadata } from "@/src/lib/seo";
+import { createSeoMetadata } from "@/src/seo";
 
 import CaminoRealBenefits from "./components/CaminoRealBenefits";
 import CaminoRealHero from "./components/CaminoRealHero";
@@ -51,7 +50,6 @@ export default function CaminoRealPage() {
 
       <CaminoRealLocation />
 
-      <ProjectFilter />
 
       <p className={styles.disclaimer}>
         {disclaimerCaminoReal}
