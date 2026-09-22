@@ -456,11 +456,22 @@ export default async function BlogPage() {
                               Leer artículo
                             </span>
 
-                            <span
+                            <svg
+                              className={styles.arrowIcon}
+                              width="16"
+                              height="16"
+                              viewBox="0 0 256 256"
+                              fill="none"
                               aria-hidden="true"
                             >
-                              →
-                            </span>
+                              <path
+                                d="M40 128h176M144 56l72 72-72 72"
+                                stroke="currentColor"
+                                strokeWidth="20"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
 
                           </Link>
 
@@ -480,6 +491,8 @@ export default async function BlogPage() {
         </section>
 
       </main>
+
+      <Footer />
     </>
   );
 }

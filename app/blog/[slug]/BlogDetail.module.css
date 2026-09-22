@@ -134,6 +134,7 @@
   width: min(100%, 780px);
   max-width: 780px;
   min-width: 0;
+  font-style: italic;
 
   margin: 0 0 42px;
 

@@ -331,17 +331,7 @@ export default async function BlogDetailPage({
 
             <h1>{post.title}</h1>
 
-            {post.excerpt ? (
-              <p
-                className={
-                  styles.excerpt
-                }
-              >
-                {post.excerpt}
-              </p>
-            ) : null}
-
-            {cover ? (
+               {cover ? (
               <figure
                 className={
                   styles.coverImage
@@ -355,6 +345,18 @@ export default async function BlogDetailPage({
                 />
               </figure>
             ) : null}
+
+            {post.excerpt ? (
+              <p
+                className={
+                  styles.excerpt
+                }
+              >
+                {post.excerpt}
+              </p>
+            ) : null}
+
+         
           </header>
 
           <section
