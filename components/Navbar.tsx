@@ -46,6 +46,10 @@ const navLinks = [
     label: "Nosotros",
     href: "/nosotros",
   },
+   {
+    label: "Blog",
+    href: "/blog",
+  },
 ];
 
 /* =========================================================
