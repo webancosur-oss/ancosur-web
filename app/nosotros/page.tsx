@@ -40,7 +40,7 @@ export const metadata = createSeoMetadata({
 
 const images = {
   hero: "/assets/heros/10anios.png",
-  team: "/assets/nosotros/equipo.webp",
+  team: "/assets/nosotros/team.webp",
   formula: "/assets/nosotros/piramide.svg",
 };
 
@@ -196,15 +196,7 @@ export default function NosotrosPage() {
             aria-hidden="true"
           />
 
-          <div className={styles.imageBadge}>
-            <strong>
-              5
-            </strong>
-
-            <span>
-              Valores que nos representan
-            </span>
-          </div>
+         
         </div>
 
         <div className={styles.valuesContent}>
