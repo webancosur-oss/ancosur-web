@@ -57,10 +57,10 @@ const investorLinks: FooterLink[] = [
     label: "Inversionistas",
     href: "/inversionistas",
   },
-  {
-    label: "Compra de terrenos",
-    href: "/beneficios",
-  },
+  // {
+  //   label: "Compra de terrenos",
+  //   href: "",
+  // },
   {
     label: "Portal de Transparencia",
     href: "/portal-de-transparencia",

@@ -196,7 +196,7 @@ export default function NosotrosPage() {
             aria-hidden="true"
           />
 
-         
+        
         </div>
 
         <div className={styles.valuesContent}>
