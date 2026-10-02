@@ -8,6 +8,7 @@ import HoldingSection from "@/components/HoldingSection";
 import PromoLeadPopup from "@/components/PromoLeadPopup";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
+import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 
 /* =========================================================
    CONFIGURACIÓN SEO DE LA PORTADA
@@ -296,6 +297,10 @@ export default function Home() {
   return (
     <>
       <PromoLeadPopup />
+
+      <FloatingPromo
+                href="/promociones"
+              />
 
       <main id="main-content">
         <HeroAncosur />

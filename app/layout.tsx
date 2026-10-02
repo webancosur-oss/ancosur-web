@@ -373,10 +373,6 @@ export default function RootLayout({
 
         <FloatingPodcast />
 
-        <FloatingPromo
-          href="/promociones"
-        />
-
         <Footer />
 
         <script
