@@ -46,26 +46,48 @@ type ToastState = FeedbackToastData & {
   id: number;
 };
 
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
 const popupConfig = {
   enabled: true,
   showDelay: 1200,
   showOncePerSession: false,
 };
 
+/* =========================================================
+   CAMPAÑA
+========================================================= */
+
 const campaigns: PopupCampaign[] = [
   {
-    id: "Compra tu lote y ahorra",
-    title: "Quiero participar",
-    eyebrow: "Campaña exclusiva",
+    id: "formulario-aterrador",
+
+    title:
+      "Que el alquiler no te siga dando miedo",
+
+    eyebrow:
+      "",
+
     description:
-      "Déjanos tus datos para recibir mayor información.",
-    image: "/assets/campanias/campania_primavera.webp",
+      "Déjanos tus datos y descubre los departamentos que pueden convertirse en tu próximo hogar.",
+
+    image:
+      "/assets/campanias/depaween.webp",
+
     imageAlt:
-      "Campaña Ancosur - Elige un Beneficio (Plano o Notaria Gratis)",
+      "Campaña Depaween Ancosur - Que el alquiler no te siga dando miedo",
+
     imageWidth: 1080,
+
     imageHeight: 1080,
   },
 ];
+
+/* =========================================================
+   FORMULARIO INICIAL
+========================================================= */
 
 const initialFormData: FormData = {
   fullName: "",
@@ -77,19 +99,33 @@ const initialFormData: FormData = {
   consent: true,
 };
 
+/* =========================================================
+   TOASTS
+========================================================= */
+
 const SUCCESS_TOAST: FeedbackToastData = {
   variant: "success",
-  title: "¡Datos enviados correctamente!",
+
+  title:
+    "¡Datos enviados correctamente!",
+
   message:
     "Un asesor de Ancosur se comunicará contigo pronto.",
 };
 
 const ERROR_TOAST: FeedbackToastData = {
   variant: "error",
-  title: "No pudimos enviar tus datos",
+
+  title:
+    "No pudimos enviar tus datos",
+
   message:
     "Verifica tu conexión e inténtalo nuevamente.",
 };
+
+/* =========================================================
+   COMPONENTE
+========================================================= */
 
 export default function PromoLeadPopup() {
   const [isVisible, setIsVisible] =
@@ -101,7 +137,9 @@ export default function PromoLeadPopup() {
   ] = useState(campaigns[0].id);
 
   const [formData, setFormData] =
-    useState<FormData>(initialFormData);
+    useState<FormData>(
+      initialFormData
+    );
 
   const [errors, setErrors] =
     useState<FormErrors>({});
@@ -112,14 +150,23 @@ export default function PromoLeadPopup() {
   const [toast, setToast] =
     useState<ToastState | null>(null);
 
+  /* =======================================================
+     CAMPAÑA ACTIVA
+  ======================================================= */
+
   const activeCampaign = useMemo(() => {
     return (
       campaigns.find(
         (campaign) =>
-          campaign.id === activeCampaignId
+          campaign.id ===
+          activeCampaignId
       ) ?? campaigns[0]
     );
   }, [activeCampaignId]);
+
+  /* =======================================================
+     TOAST
+  ======================================================= */
 
   const closeToast = useCallback(() => {
     setToast(null);
@@ -134,16 +181,24 @@ export default function PromoLeadPopup() {
     });
   };
 
+  /* =======================================================
+     SESSION STORAGE
+  ======================================================= */
+
   const registerPopupAsClosed = () => {
     if (
       popupConfig.showOncePerSession
     ) {
       sessionStorage.setItem(
-        "popup-ancosur-campaigns",
+        "popup-ancosur-formulario-aterrador",
         "closed"
       );
     }
   };
+
+  /* =======================================================
+     CERRAR POPUP
+  ======================================================= */
 
   const closePopup = () => {
     setIsVisible(false);
@@ -151,11 +206,17 @@ export default function PromoLeadPopup() {
     registerPopupAsClosed();
   };
 
+  /* =======================================================
+     MOSTRAR POPUP
+  ======================================================= */
+
   useEffect(() => {
-    if (!popupConfig.enabled) return;
+    if (!popupConfig.enabled) {
+      return;
+    }
 
     const storageKey =
-      "popup-ancosur-campaigns";
+      "popup-ancosur-formulario-aterrador";
 
     if (
       popupConfig.showOncePerSession
@@ -165,20 +226,29 @@ export default function PromoLeadPopup() {
           storageKey
         );
 
-      if (alreadyClosed) return;
+      if (alreadyClosed) {
+        return;
+      }
     }
 
-    const timer = window.setTimeout(() => {
-      setIsVisible(true);
-    }, popupConfig.showDelay);
+    const timer =
+      window.setTimeout(() => {
+        setIsVisible(true);
+      }, popupConfig.showDelay);
 
     return () => {
       window.clearTimeout(timer);
     };
   }, []);
 
+  /* =======================================================
+     BLOQUEAR SCROLL + ESC
+  ======================================================= */
+
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible) {
+      return;
+    }
 
     const previousOverflow =
       document.body.style.overflow;
@@ -210,6 +280,10 @@ export default function PromoLeadPopup() {
     };
   }, [isVisible]);
 
+  /* =======================================================
+     CAMBIAR CAMPAÑA
+  ======================================================= */
+
   const changeCampaign = (
     campaignId: string
   ) => {
@@ -217,572 +291,266 @@ export default function PromoLeadPopup() {
     setErrors({});
   };
 
+  /* =======================================================
+     VALIDACIÓN
+  ======================================================= */
+
   const validateForm = () => {
-  const newErrors:
-    FormErrors = {};
-
-  const fullName =
-    formData.fullName
-      .replace(/\s+/g, " ")
-      .trim();
-
-  const phone =
-    formData.phone
-      .replace(/\D/g, "")
-      .slice(0, 9);
-
-  const email =
-    formData.email
-      .trim()
-      .toLowerCase();
-
-  const dni =
-    formData.dni
-      .replace(/\D/g, "")
-      .slice(0, 8);
-
-  const project =
-    formData.project.trim();
-
-  const message =
-    formData.message.trim();
-
-  const nameRegex =
-    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
-
-  const phoneRegex =
-    /^9\d{8}$/;
-
-  const emailRegex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  const dniRegex =
-    /^\d{8}$/;
-
-  /* =========================================
-     NOMBRE
-  ========================================= */
-
-  if (!fullName) {
-    newErrors.fullName =
-      "Ingresa tu nombre completo.";
-  } else if (
-    !nameRegex.test(
-      fullName
-    )
-  ) {
-    newErrors.fullName =
-      "Ingresa un nombre válido.";
-  }
-
-  /* =========================================
-     CELULAR
-  ========================================= */
-
-  if (!phone) {
-    newErrors.phone =
-      "Ingresa tu número de celular.";
-  } else if (
-    !phoneRegex.test(
-      phone
-    )
-  ) {
-    newErrors.phone =
-      "El celular debe tener 9 dígitos y empezar con 9.";
-  }
-
-  /* =========================================
-     EMAIL
-  ========================================= */
-
-  if (!email) {
-    newErrors.email =
-      "Ingresa tu correo electrónico.";
-  } else if (
-    !emailRegex.test(
-      email
-    )
-  ) {
-    newErrors.email =
-      "Ingresa un correo válido.";
-  }
-
-  /* =========================================
-     DNI OPCIONAL
-
-     El formulario actual NO muestra DNI.
-     Por eso solo se valida si existe.
-  ========================================= */
-
-  if (
-    dni &&
-    !dniRegex.test(
-      dni
-    )
-  ) {
-    newErrors.dni =
-      "El DNI debe tener exactamente 8 dígitos.";
-  }
-
-  /* =========================================
-     PROYECTO
-  ========================================= */
-
-  if (!project) {
-    newErrors.project =
-      "Selecciona una opción de interés.";
-  }
-
-  /* =========================================
-     MENSAJE
-  ========================================= */
-
-  if (
-    message.length >
-    250
-  ) {
-    newErrors.message =
-      "El mensaje no debe superar los 250 caracteres.";
-  }
-
-  /* =========================================
-     CONSENTIMIENTO
-  ========================================= */
-
-  if (
-    !formData.consent
-  ) {
-    newErrors.consent =
-      "Debes aceptar ser contactado.";
-  }
-
-  setErrors(
-    newErrors
-  );
-
-  return (
-    Object.keys(
-      newErrors
-    ).length === 0
-  );
-};
-
-const handleSubmit = async (
-  event:
-    FormEvent<HTMLFormElement>
-) => {
-  event.preventDefault();
-
-  if (isSending) {
-    return;
-  }
-
-  /* =========================================
-     VALIDAR
-  ========================================= */
-
-  const isValid =
-    validateForm();
-
-  if (!isValid) {
-    console.warn(
-      "Formulario detenido por validación:",
-      formData
-    );
-
-    return;
-  }
-
-  /* =========================================
-     DATOS LIMPIOS
-  ========================================= */
-
-  const fullName =
-    formData.fullName
-      .replace(/\s+/g, " ")
-      .trim();
-
-  const phone =
-    formData.phone
-      .replace(/\D/g, "")
-      .slice(0, 9);
-
-  const email =
-    formData.email
-      .trim()
-      .toLowerCase();
-
-  const dni =
-    formData.dni
-      .replace(/\D/g, "")
-      .slice(0, 8);
-
-  const project =
-    formData.project
-      .trim();
-
-  const message =
-    formData.message
-      .trim();
-
-  /* =========================================
-     UTM
-  ========================================= */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const utmSource =
-    params.get(
-      "utm_source"
-    ) ?? "";
-
-  const utmMedium =
-    params.get(
-      "utm_medium"
-    ) ?? "";
-
-  const utmCampaign =
-    params.get(
-      "utm_campaign"
-    ) ?? "";
-
-  const utmContent =
-    params.get(
-      "utm_content"
-    ) ?? "";
-
-  const utmTerm =
-    params.get(
-      "utm_term"
-    ) ?? "";
-
-  /* =========================================
-     PAYLOAD
-  ========================================= */
-
-  const formularioData = {
-    codigo_formulario:
-      "Popup Campña Primavera",
-
-    nombre_formulario:
-      "Popup Campña Primavera",
-
-    tipo_formulario:
-      "promocion",
-
-    nombre:
-      fullName,
-
-    telefono:
-      phone,
-
-    email:
-      email,
-
-    dni:
-      dni,
-
-    mensaje:
-      message ||
-      "Cliente interesado en la campaña.",
-
-    proyecto:
-      project,
-
-    tipo_inmueble:
-      project,
-
-    interes:
-      project,
-
-    horario_visita:
-      "",
-
-    campania:
-      "Popup Campña Primavera",
-
-    anuncio:
-      "Popup web Ancosur",
-
-    fuente_id:
-      4,
-
-    ruta_pagina:
-      window.location.pathname,
-
-    url_pagina:
-      window.location.href,
-
-    pagina_referencia:
-      document.referrer ||
-      "",
-
-    utm_source:
-      utmSource,
-
-    utm_medium:
-      utmMedium,
-
-    utm_campaign:
-      utmCampaign,
-
-    utm_content:
-      utmContent,
-
-    utm_term:
-      utmTerm,
-  };
-
-  /* =========================================
-     API
-  ========================================= */
-
-  const API_URL =
-    (
-      process.env
-        .NEXT_PUBLIC_API_URL ||
-      "https://ancosur-api-production.up.railway.app"
-    ).replace(
-      /\/+$/,
-      ""
-    );
-
-  const endpoint =
-    `${API_URL}/api/formularios`;
-
-  const controller =
-    new AbortController();
-
-  const timeoutId =
-    window.setTimeout(
-      () => {
-        controller.abort();
-      },
-      20_000
-    );
-
-  try {
-    setIsSending(true);
-
-    setErrors({});
-
-    setToast(null);
-
-    console.log(
-      "ENVIANDO A:",
-      endpoint
-    );
-
-    console.log(
-      "PAYLOAD:",
-      formularioData
-    );
-
-    const response =
-      await fetch(
-        endpoint,
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            Accept:
-              "application/json",
-          },
-
-          body:
-            JSON.stringify(
-              formularioData
-            ),
-
-          cache:
-            "no-store",
-
-          signal:
-            controller.signal,
-        }
-      );
-
-    const raw =
-      await response.text();
-
-    let result:
-      any = {};
-
-    if (raw) {
-      try {
-        result =
-          JSON.parse(raw);
-      } catch {
-        console.error(
-          "Respuesta no JSON:",
-          raw
-        );
-
-        showToast({
-          variant:
-            "error",
-
-          title:
-            "Respuesta inválida",
-
-          message:
-            `La API respondió HTTP ${response.status}.`,
-        });
-
-        return;
-      }
+    const newErrors: FormErrors = {};
+
+    const fullName =
+      formData.fullName
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const phone =
+      formData.phone
+        .replace(/\D/g, "")
+        .slice(0, 9);
+
+    const email =
+      formData.email
+        .trim()
+        .toLowerCase();
+
+    const dni =
+      formData.dni
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    const project =
+      formData.project.trim();
+
+    const message =
+      formData.message.trim();
+
+    const nameRegex =
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
+
+    const phoneRegex =
+      /^9\d{8}$/;
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    const dniRegex =
+      /^\d{8}$/;
+
+    /* NOMBRE */
+
+    if (!fullName) {
+      newErrors.fullName =
+        "Ingresa tu nombre completo.";
+    } else if (
+      !nameRegex.test(fullName)
+    ) {
+      newErrors.fullName =
+        "Ingresa un nombre válido.";
     }
 
-    console.log(
-      "RESPUESTA API:",
-      {
-        status:
-          response.status,
+    /* CELULAR */
 
-        ok:
-          response.ok,
+    if (!phone) {
+      newErrors.phone =
+        "Ingresa tu número de celular.";
+    } else if (
+      !phoneRegex.test(phone)
+    ) {
+      newErrors.phone =
+        "El celular debe tener 9 dígitos y empezar con 9.";
+    }
 
-        result,
-      }
-    );
+    /* EMAIL */
 
-    /* =========================================
-       ERROR
-    ========================================= */
+    if (!email) {
+      newErrors.email =
+        "Ingresa tu correo electrónico.";
+    } else if (
+      !emailRegex.test(email)
+    ) {
+      newErrors.email =
+        "Ingresa un correo válido.";
+    }
+
+    /* DNI OPCIONAL */
 
     if (
-      !response.ok ||
-      result?.success !==
-        true
+      dni &&
+      !dniRegex.test(dni)
     ) {
-      console.error(
-        "API rechazó el formulario:",
-        {
-          status:
-            response.status,
+      newErrors.dni =
+        "El DNI debe tener exactamente 8 dígitos.";
+    }
 
-          result,
+    /* PROYECTO */
 
-          payload:
-            formularioData,
-        }
+    if (!project) {
+      newErrors.project =
+        "Selecciona una opción de interés.";
+    }
+
+    /* MENSAJE */
+
+    if (message.length > 250) {
+      newErrors.message =
+        "El mensaje no debe superar los 250 caracteres.";
+    }
+
+    /* CONSENTIMIENTO */
+
+    if (!formData.consent) {
+      newErrors.consent =
+        "Debes aceptar ser contactado.";
+    }
+
+    setErrors(newErrors);
+
+    return (
+      Object.keys(newErrors).length ===
+      0
+    );
+  };
+
+  /* =======================================================
+     ENVIAR FORMULARIO
+  ======================================================= */
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (isSending) {
+      return;
+    }
+
+    /* VALIDAR */
+
+    const isValid =
+      validateForm();
+
+    if (!isValid) {
+      console.warn(
+        "Formulario detenido por validación:",
+        formData
       );
-
-      showToast({
-        variant:
-          "error",
-
-        title:
-          "No pudimos enviar tus datos",
-
-        message:
-          result?.message ||
-          result?.error ||
-          `Error HTTP ${response.status}`,
-      });
 
       return;
     }
 
-    /* =========================================
-       CRM
-    ========================================= */
+    /* =====================================================
+       DATOS LIMPIOS
+    ===================================================== */
 
-    const crmSuccess =
-      result?.data?.crm
-        ?.success === true;
+    const fullName =
+      formData.fullName
+        .replace(/\s+/g, " ")
+        .trim();
 
-    const crmStatus =
-      result?.data
-        ?.estado_crm ??
-      result?.data?.crm
-        ?.estado ??
-      (
-        crmSuccess
-          ? "enviado"
-          : "pendiente"
+    const phone =
+      formData.phone
+        .replace(/\D/g, "")
+        .slice(0, 9);
+
+    const email =
+      formData.email
+        .trim()
+        .toLowerCase();
+
+    const dni =
+      formData.dni
+        .replace(/\D/g, "")
+        .slice(0, 8);
+
+    const project =
+      formData.project.trim();
+
+    const message =
+      formData.message.trim();
+
+    /* =====================================================
+       UTM
+    ===================================================== */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
       );
 
-    const crmLeadId =
-      result?.data?.crm
-        ?.lead_id ??
-      null;
+    const utmSource =
+      params.get("utm_source") ?? "";
 
-    const crmHttpStatus =
-      result?.data?.crm
-        ?.http_status ??
-      null;
+    const utmMedium =
+      params.get("utm_medium") ?? "";
 
-    /* =========================================
-       GTM
-    ========================================= */
+    const utmCampaign =
+      params.get("utm_campaign") ?? "";
 
-    window.dataLayer =
-      window.dataLayer ||
-      [];
+    const utmContent =
+      params.get("utm_content") ?? "";
 
-    window.dataLayer.push({
-      event:
-        "lead_form_submit",
+    const utmTerm =
+      params.get("utm_term") ?? "";
 
-      form_name:
-        "Popup Campña Primavera",
+    /* =====================================================
+       PAYLOAD
+    ===================================================== */
 
-      form_code:
-        formularioData
-          .codigo_formulario,
+    const formularioData = {
+      codigo_formulario:
+        "Formulario Aterrador",
 
-      form_type:
-        formularioData
-          .tipo_formulario,
+      nombre_formulario:
+        "Formulario Aterrador",
 
-      lead_type:
-        "Promoción",
+      tipo_formulario:
+        "promocion",
 
-      project:
+      nombre:
+        fullName,
+
+      telefono:
+        phone,
+
+      email:
+        email,
+
+      dni:
+        dni,
+
+      mensaje:
+        message ||
+        "Cliente interesado en la campaña.",
+
+      proyecto:
         project,
 
-      campaign:
-        formularioData
-          .campania,
+      tipo_inmueble:
+        project,
 
-      source_id:
-        formularioData
-          .fuente_id,
+      interes:
+        project,
 
-      page_path:
-        window.location
-          .pathname,
-
-      local_lead_id:
-        result?.data?.id ??
+      horario_visita:
         "",
 
-      local_saved:
-        result?.data
-          ?.guardado_local ??
-        true,
+      campania:
+        "Formulario Aterrador",
 
-      crm_sent:
-        crmSuccess,
+      anuncio:
+        "Formulario Aterrador - Popup web Ancosur",
 
-      crm_status:
-        crmStatus,
+      fuente_id:
+        4,
 
-      crm_lead_id:
-        crmLeadId ??
-        "",
+      ruta_pagina:
+        window.location.pathname,
 
-      crm_http_status:
-        crmHttpStatus ??
-        "",
+      url_pagina:
+        window.location.href,
+
+      pagina_referencia:
+        document.referrer || "",
 
       utm_source:
         utmSource,
@@ -798,81 +566,321 @@ const handleSubmit = async (
 
       utm_term:
         utmTerm,
-    });
+    };
 
-    /* =========================================
-       LIMPIAR
-    ========================================= */
+    /* =====================================================
+       API
+    ===================================================== */
 
-    setFormData(
-      initialFormData
-    );
+    const API_URL = (
+      process.env
+        .NEXT_PUBLIC_API_URL ||
+      "https://ancosur-api-production.up.railway.app"
+    ).replace(/\/+$/, "");
 
-    setErrors({});
+    const endpoint =
+      `${API_URL}/api/formularios`;
 
-    showToast({
-      ...SUCCESS_TOAST,
+    const controller =
+      new AbortController();
 
-      message:
-        result?.message ||
-        "Tus datos fueron registrados correctamente.",
-    });
+    const timeoutId =
+      window.setTimeout(() => {
+        controller.abort();
+      }, 20_000);
 
-    setIsVisible(
-      false
-    );
+    try {
+      setIsSending(true);
+      setErrors({});
+      setToast(null);
 
-    registerPopupAsClosed();
+      console.log(
+        "ENVIANDO A:",
+        endpoint
+      );
 
-  } catch (error) {
-    console.error(
-      "ERROR POST FORMULARIO:",
-      error
-    );
+      console.log(
+        "PAYLOAD:",
+        formularioData
+      );
 
-    if (
-      error instanceof
-        Error &&
-      error.name ===
-        "AbortError"
-    ) {
-      showToast({
-        variant:
-          "error",
+      const response =
+        await fetch(endpoint, {
+          method: "POST",
 
-        title:
-          "El servidor tardó demasiado",
+          headers: {
+            "Content-Type":
+              "application/json",
 
-        message:
-          "La solicitud superó los 20 segundos.",
+            Accept:
+              "application/json",
+          },
+
+          body: JSON.stringify(
+            formularioData
+          ),
+
+          cache: "no-store",
+
+          signal:
+            controller.signal,
+        });
+
+      const raw =
+        await response.text();
+
+      let result: any = {};
+
+      if (raw) {
+        try {
+          result =
+            JSON.parse(raw);
+        } catch {
+          console.error(
+            "Respuesta no JSON:",
+            raw
+          );
+
+          showToast({
+            variant: "error",
+
+            title:
+              "Respuesta inválida",
+
+            message:
+              `La API respondió HTTP ${response.status}.`,
+          });
+
+          return;
+        }
+      }
+
+      console.log(
+        "RESPUESTA API:",
+        {
+          status:
+            response.status,
+
+          ok:
+            response.ok,
+
+          result,
+        }
+      );
+
+      /* ===================================================
+         ERROR API
+      =================================================== */
+
+      if (
+        !response.ok ||
+        result?.success !== true
+      ) {
+        console.error(
+          "API rechazó el formulario:",
+          {
+            status:
+              response.status,
+
+            result,
+
+            payload:
+              formularioData,
+          }
+        );
+
+        showToast({
+          variant: "error",
+
+          title:
+            "No pudimos enviar tus datos",
+
+          message:
+            result?.message ||
+            result?.error ||
+            `Error HTTP ${response.status}`,
+        });
+
+        return;
+      }
+
+      /* ===================================================
+         CRM
+      =================================================== */
+
+      const crmSuccess =
+        result?.data?.crm
+          ?.success === true;
+
+      const crmStatus =
+        result?.data
+          ?.estado_crm ??
+        result?.data?.crm
+          ?.estado ??
+        (
+          crmSuccess
+            ? "enviado"
+            : "pendiente"
+        );
+
+      const crmLeadId =
+        result?.data?.crm
+          ?.lead_id ?? null;
+
+      const crmHttpStatus =
+        result?.data?.crm
+          ?.http_status ?? null;
+
+      /* ===================================================
+         GTM
+      =================================================== */
+
+      window.dataLayer =
+        window.dataLayer || [];
+
+      window.dataLayer.push({
+        event:
+          "lead_form_submit",
+
+        form_name:
+          "Formulario Aterrador",
+
+        form_code:
+          formularioData
+            .codigo_formulario,
+
+        form_type:
+          formularioData
+            .tipo_formulario,
+
+        lead_type:
+          "Promoción",
+
+        project:
+          project,
+
+        campaign:
+          formularioData
+            .campania,
+
+        source_id:
+          formularioData
+            .fuente_id,
+
+        page_path:
+          window.location.pathname,
+
+        local_lead_id:
+          result?.data?.id ??
+          "",
+
+        local_saved:
+          result?.data
+            ?.guardado_local ??
+          true,
+
+        crm_sent:
+          crmSuccess,
+
+        crm_status:
+          crmStatus,
+
+        crm_lead_id:
+          crmLeadId ?? "",
+
+        crm_http_status:
+          crmHttpStatus ?? "",
+
+        utm_source:
+          utmSource,
+
+        utm_medium:
+          utmMedium,
+
+        utm_campaign:
+          utmCampaign,
+
+        utm_content:
+          utmContent,
+
+        utm_term:
+          utmTerm,
       });
 
-      return;
+      /* ===================================================
+         LIMPIAR
+      =================================================== */
+
+      setFormData(
+        initialFormData
+      );
+
+      setErrors({});
+
+      showToast({
+        ...SUCCESS_TOAST,
+
+        message:
+          result?.message ||
+          "Tus datos fueron registrados correctamente.",
+      });
+
+      setIsVisible(false);
+
+      registerPopupAsClosed();
+
+    } catch (error) {
+      console.error(
+        "ERROR POST FORMULARIO:",
+        error
+      );
+
+      /* TIMEOUT */
+
+      if (
+        error instanceof Error &&
+        error.name ===
+          "AbortError"
+      ) {
+        showToast({
+          variant: "error",
+
+          title:
+            "El servidor tardó demasiado",
+
+          message:
+            "La solicitud superó los 20 segundos.",
+        });
+
+        return;
+      }
+
+      /* ERROR GENERAL */
+
+      showToast({
+        ...ERROR_TOAST,
+
+        title:
+          "No pudimos conectar con el servidor",
+
+        message:
+          error instanceof Error
+            ? error.message
+            : "Comprueba tu conexión.",
+      });
+
+    } finally {
+      window.clearTimeout(
+        timeoutId
+      );
+
+      setIsSending(false);
     }
+  };
 
-    showToast({
-      ...ERROR_TOAST,
-
-      title:
-        "No pudimos conectar con el servidor",
-
-      message:
-        error instanceof
-          Error
-          ? error.message
-          : "Comprueba tu conexión.",
-    });
-
-  } finally {
-    window.clearTimeout(
-      timeoutId
-    );
-
-    setIsSending(
-      false
-    );
-  }
-};
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <>
@@ -883,6 +891,8 @@ const handleSubmit = async (
           aria-modal="true"
           aria-labelledby="promo-popup-title"
         >
+          {/* BACKDROP */}
+
           <button
             type="button"
             className={styles.backdrop}
@@ -890,7 +900,12 @@ const handleSubmit = async (
             aria-label="Cerrar campaña"
           />
 
+          {/* POPUP */}
+
           <div className={styles.popup}>
+
+            {/* CERRAR */}
+
             <button
               type="button"
               className={
@@ -905,6 +920,10 @@ const handleSubmit = async (
                 aria-hidden={true}
               />
             </button>
+
+            {/* =================================================
+                IMAGEN
+            ================================================= */}
 
             <div
               className={styles.imageSide}
@@ -942,29 +961,54 @@ const handleSubmit = async (
               )}
 
               <Image
-                key={activeCampaign.id}
-                src={activeCampaign.image}
-                alt={activeCampaign.imageAlt}
-                width={activeCampaign.imageWidth}
-                height={activeCampaign.imageHeight}
+                key={
+                  activeCampaign.id
+                }
+                src={
+                  activeCampaign.image
+                }
+                alt={
+                  activeCampaign.imageAlt
+                }
+                width={
+                  activeCampaign.imageWidth
+                }
+                height={
+                  activeCampaign.imageHeight
+                }
                 priority
                 quality={100}
-                className={styles.popupImage}
-                sizes="(max-width:900px)100vw,52vw"
+                className={
+                  styles.popupImage
+                }
+                sizes="(max-width:900px) 100vw,52vw"
               />
             </div>
+
+            {/* =================================================
+                FORMULARIO
+            ================================================= */}
 
             <div
               className={styles.formSide}
             >
+
               <span
-                className={styles.eyebrow}
+                className={
+                  styles.eyebrow
+                }
               >
-                {activeCampaign.eyebrow}
+                {
+                  activeCampaign.eyebrow
+                }
               </span>
 
-              <h2 id="promo-popup-title">
-                {activeCampaign.title}
+              <h2
+                id="promo-popup-title"
+              >
+                {
+                  activeCampaign.title
+                }
               </h2>
 
               <p
@@ -978,12 +1022,21 @@ const handleSubmit = async (
               </p>
 
               <form
-                className={styles.form}
-                onSubmit={handleSubmit}
+                className={
+                  styles.form
+                }
+                onSubmit={
+                  handleSubmit
+                }
                 noValidate
               >
+
+                {/* NOMBRE */}
+
                 <div
-                  className={styles.field}
+                  className={
+                    styles.field
+                  }
                 >
                   <label htmlFor="popup-full-name">
                     Nombre completo
@@ -998,11 +1051,18 @@ const handleSubmit = async (
                     value={
                       formData.fullName
                     }
-                    disabled={isSending}
-                    onChange={(event) =>
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
                       setFormData(
-                        (previous) => ({
+                        (
+                          previous
+                        ) => ({
                           ...previous,
+
                           fullName:
                             event.target
                               .value,
@@ -1017,13 +1077,19 @@ const handleSubmit = async (
                         styles.error
                       }
                     >
-                      {errors.fullName}
+                      {
+                        errors.fullName
+                      }
                     </small>
                   )}
                 </div>
 
+                {/* CELULAR */}
+
                 <div
-                  className={styles.field}
+                  className={
+                    styles.field
+                  }
                 >
                   <label htmlFor="popup-phone">
                     Celular
@@ -1037,19 +1103,32 @@ const handleSubmit = async (
                     autoComplete="tel"
                     maxLength={9}
                     placeholder="Ej. 987654321"
-                    value={formData.phone}
-                    disabled={isSending}
-                    onChange={(event) =>
+                    value={
+                      formData.phone
+                    }
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
                       setFormData(
-                        (previous) => ({
+                        (
+                          previous
+                        ) => ({
                           ...previous,
+
                           phone:
-                            event.target.value
+                            event.target
+                              .value
                               .replace(
                                 /\D/g,
                                 ""
                               )
-                              .slice(0, 9),
+                              .slice(
+                                0,
+                                9
+                              ),
                         })
                       )
                     }
@@ -1061,13 +1140,19 @@ const handleSubmit = async (
                         styles.error
                       }
                     >
-                      {errors.phone}
+                      {
+                        errors.phone
+                      }
                     </small>
                   )}
                 </div>
 
+                {/* EMAIL */}
+
                 <div
-                  className={styles.field}
+                  className={
+                    styles.field
+                  }
                 >
                   <label htmlFor="popup-email">
                     Correo electrónico
@@ -1079,12 +1164,21 @@ const handleSubmit = async (
                     type="email"
                     autoComplete="email"
                     placeholder="Ej. correo@gmail.com"
-                    value={formData.email}
-                    disabled={isSending}
-                    onChange={(event) =>
+                    value={
+                      formData.email
+                    }
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
                       setFormData(
-                        (previous) => ({
+                        (
+                          previous
+                        ) => ({
                           ...previous,
+
                           email:
                             event.target
                               .value,
@@ -1099,12 +1193,20 @@ const handleSubmit = async (
                         styles.error
                       }
                     >
-                      {errors.email}
+                      {
+                        errors.email
+                      }
                     </small>
                   )}
                 </div>
 
-                {/* <div
+                {/* =================================================
+                    DNI
+                    Actualmente oculto
+                ================================================= */}
+
+                {/*
+                <div
                   className={styles.field}
                 >
                   <label htmlFor="popup-dni">
@@ -1131,7 +1233,10 @@ const handleSubmit = async (
                                 /\D/g,
                                 ""
                               )
-                              .slice(0, 8),
+                              .slice(
+                                0,
+                                8
+                              ),
                         })
                       )
                     }
@@ -1146,10 +1251,15 @@ const handleSubmit = async (
                       {errors.dni}
                     </small>
                   )}
-                </div> */}
+                </div>
+                */}
+
+                {/* PROYECTO */}
 
                 <div
-                  className={styles.field}
+                  className={
+                    styles.field
+                  }
                 >
                   <label htmlFor="popup-project">
                     Estoy interesado en
@@ -1158,12 +1268,21 @@ const handleSubmit = async (
                   <select
                     id="popup-project"
                     name="project"
-                    value={formData.project}
-                    disabled={isSending}
-                    onChange={(event) =>
+                    value={
+                      formData.project
+                    }
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
                       setFormData(
-                        (previous) => ({
+                        (
+                          previous
+                        ) => ({
                           ...previous,
+
                           project:
                             event.target
                               .value,
@@ -1182,7 +1301,6 @@ const handleSubmit = async (
                     <option value="Lotes">
                       Lotes
                     </option>
-                    
                   </select>
 
                   {errors.project && (
@@ -1191,13 +1309,19 @@ const handleSubmit = async (
                         styles.error
                       }
                     >
-                      {errors.project}
+                      {
+                        errors.project
+                      }
                     </small>
                   )}
                 </div>
 
+                {/* MENSAJE */}
+
                 <div
-                  className={styles.field}
+                  className={
+                    styles.field
+                  }
                 >
                   <label htmlFor="popup-message">
                     Mensaje opcional
@@ -1212,11 +1336,18 @@ const handleSubmit = async (
                     value={
                       formData.message
                     }
-                    disabled={isSending}
-                    onChange={(event) =>
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
                       setFormData(
-                        (previous) => ({
+                        (
+                          previous
+                        ) => ({
                           ...previous,
+
                           message:
                             event.target
                               .value,
@@ -1243,34 +1374,67 @@ const handleSubmit = async (
                         styles.error
                       }
                     >
-                      {errors.message}
+                      {
+                        errors.message
+                      }
                     </small>
                   )}
                 </div>
 
-                <label className={styles.checkbox}>
+                {/* CONSENTIMIENTO */}
+
+                <label
+                  className={
+                    styles.checkbox
+                  }
+                >
                   <input
                     type="checkbox"
-                    checked={formData.consent}
-                    disabled={isSending}
-                    onChange={(event) =>
-                      setFormData((previous) => ({
-                        ...previous,
-                        consent: event.target.checked,
-                      }))
+                    checked={
+                      formData.consent
+                    }
+                    disabled={
+                      isSending
+                    }
+                    onChange={(
+                      event
+                    ) =>
+                      setFormData(
+                        (
+                          previous
+                        ) => ({
+                          ...previous,
+
+                          consent:
+                            event.target
+                              .checked,
+                        })
+                      )
                     }
                   />
-                  <span className={styles.termsText}>
+
+                  <span
+                    className={
+                      styles.termsText
+                    }
+                  >
                     Acepto los{" "}
                     <Link
                       href="/politicas/politica-de-privacidad"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.termsLink}
+                      className={
+                        styles.termsLink
+                      }
                     >
-                      términos y la política de privacidad
+                      términos y la
+                      política de
+                      privacidad
                     </Link>{" "}
-                    y autorizo ser contactado por Ancosur para recibir información comercial.
+                    y autorizo ser
+                    contactado por
+                    Ancosur para recibir
+                    información comercial.
                   </span>
                 </label>
 
@@ -1280,37 +1444,59 @@ const handleSubmit = async (
                       styles.error
                     }
                   >
-                    {errors.consent}
+                    {
+                      errors.consent
+                    }
                   </small>
                 )}
+
+                {/* BOTÓN */}
 
                 <button
                   type="submit"
                   className={
                     styles.submitButton
                   }
-                  disabled={isSending}
-                  aria-busy={isSending}
+                  disabled={
+                    isSending
+                  }
+                  aria-busy={
+                    isSending
+                  }
                 >
                   {isSending
                     ? "Enviando..."
                     : "Participar"}
                 </button>
+
               </form>
             </div>
           </div>
         </div>
       )}
 
+      {/* =====================================================
+          TOAST
+      ===================================================== */}
+
       <FeedbackToast
         key={toast?.id}
-        open={toast !== null}
-        variant={
-          toast?.variant ?? "info"
+        open={
+          toast !== null
         }
-        title={toast?.title ?? ""}
-        message={toast?.message ?? ""}
-        onClose={closeToast}
+        variant={
+          toast?.variant ??
+          "info"
+        }
+        title={
+          toast?.title ?? ""
+        }
+        message={
+          toast?.message ?? ""
+        }
+        onClose={
+          closeToast
+        }
       />
     </>
   );

@@ -298,9 +298,7 @@ export default function Home() {
     <>
       <PromoLeadPopup />
 
-      <FloatingPromo
-                href="/promociones"
-              />
+      <FloatingPromo href="/promociones" />   
 
       <main id="main-content">
         <HeroAncosur />
