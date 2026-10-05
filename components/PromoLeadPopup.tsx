@@ -75,7 +75,7 @@ const campaigns: PopupCampaign[] = [
       "",
 
     description:
-      "Déjanos tus datos y descubre los departamentos que pueden convertirse en tu próximo hogar.",
+      "Déjanos tus datos y descubre los departamentos y lotes que pueden convertirse en tu próximo hogar.",
 
     image:
       "/assets/campanias/depaween.webp",
@@ -989,6 +989,8 @@ export default function PromoLeadPopup() {
               <span className={styles.bat1}>🦇</span>
               <span className={styles.bat2}>🦇</span>
               <span className={styles.bat3}>🦇</span>
+              <span className={styles.ghost1}>👻</span>
+              <span className={styles.ghost2}>👻</span>
               <span className={styles.web} />
             </div>
 

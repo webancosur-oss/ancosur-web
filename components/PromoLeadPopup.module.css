@@ -622,33 +622,34 @@
 ========================================================= */
 
 .popup {
-  --hw-bg: #140a1f;
-  --hw-surface: #1f1030;
+  --hw-bg: #06140d;
+  --hw-surface: #0c2117;
   --hw-border: rgba(255, 140, 26, 0.28);
   --hw-orange: #ff7a1a;
   --hw-orange-dark: #e2600a;
-  --hw-purple: #8b5cf6;
-  --hw-text: #fbf3ff;
-  --hw-muted: rgba(251, 243, 255, 0.7);
+  --hw-ghost: #00a74f;
+  --hw-text: #effff6;
+  --hw-muted: rgba(239, 255, 246, 0.7);
 
   background: var(--hw-bg);
   border: 1px solid var(--hw-border);
   box-shadow:
     0 34px 100px rgba(0, 0, 0, 0.55),
-    0 0 60px rgba(255, 122, 26, 0.18);
+    0 0 70px rgba(0, 167, 79, 0.28),
+    0 0 140px rgba(0, 167, 79, 0.12);
 }
 
 .backdrop {
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(139, 92, 246, 0.35),
-      rgba(5, 2, 10, 0.85) 60%
+      rgba(0, 167, 79, 0.35),
+      rgba(2, 8, 5, 0.88) 60%
     );
 }
 
 .imageSide {
-  background: #0b0512;
+  background: #030b07;
 }
 
 .formSide {
@@ -662,7 +663,7 @@
     ),
     radial-gradient(
       circle at 0% 100%,
-      rgba(139, 92, 246, 0.2),
+      rgba(0, 167, 79, 0.2),
       transparent 50%
     ),
     var(--hw-bg);
@@ -675,7 +676,9 @@
 
 .formSide h2 {
   color: var(--hw-text);
-  text-shadow: 0 0 22px rgba(255, 122, 26, 0.35);
+  text-shadow:
+    0 0 18px rgba(0, 167, 79, 0.55),
+    0 0 42px rgba(0, 167, 79, 0.25);
 }
 
 .description {
@@ -699,7 +702,7 @@
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(251, 243, 255, 0.4);
+  color: rgba(239, 255, 246, 0.4);
 }
 
 .field input:focus,
@@ -711,7 +714,7 @@
 
 .field input:disabled,
 .field textarea:disabled {
-  background: #1a0f26;
+  background: #0a1a12;
 }
 
 .checkbox {
@@ -731,7 +734,7 @@
 }
 
 .counter {
-  color: rgba(251, 243, 255, 0.45);
+  color: rgba(239, 255, 246, 0.45);
 }
 
 .submitButton {
@@ -758,7 +761,7 @@
 }
 
 .closeButton:hover {
-  background: var(--hw-purple);
+  background: var(--hw-ghost);
   color: #ffffff;
 }
 
@@ -818,7 +821,7 @@
   padding: 8px 10px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
-  background: rgba(31, 16, 48, 0.75);
+  background: rgba(12, 33, 23, 0.75);
   color: var(--hw-text);
   font-family: inherit;
   text-align: left;
@@ -844,7 +847,7 @@
 }
 
 .projectChip:hover:not(:disabled) {
-  border-color: var(--hw-purple);
+  border-color: var(--hw-ghost);
 }
 
 .projectChipActive {
@@ -879,7 +882,7 @@
   position: absolute;
   font-size: 1.4rem;
   opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
+  filter: drop-shadow(0 0 6px rgba(0, 167, 79, 0.6));
   animation: batFly 6s ease-in-out infinite;
 }
 
@@ -900,6 +903,41 @@
   left: 54%;
   font-size: 1.1rem;
   animation-delay: -4s;
+}
+
+.ghost1,
+.ghost2 {
+  position: absolute;
+  font-size: 1.6rem;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgba(0, 167, 79, 0.9));
+  animation: ghostFloat 7s ease-in-out infinite;
+}
+
+.ghost1 {
+  top: 38%;
+  left: 8px;
+}
+
+.ghost2 {
+  bottom: 28%;
+  right: 22px;
+  font-size: 1.25rem;
+  animation-delay: -3.5s;
+}
+
+@keyframes ghostFloat {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+
+  35%,
+  65% {
+    opacity: 0.55;
+    transform: translateY(-10px) scale(1);
+  }
 }
 
 .web {
@@ -951,7 +989,8 @@
 
 @media (max-width: 900px) {
   .bat2,
-  .bat3 {
+  .bat3,
+  .ghost2 {
     display: none;
   }
 }
@@ -990,8 +1029,15 @@
   .bat1,
   .bat2,
   .bat3,
+  .ghost1,
+  .ghost2,
   .projectList {
     animation: none;
+  }
+
+  .ghost1,
+  .ghost2 {
+    opacity: 0.4;
   }
 
   .typeTab,
