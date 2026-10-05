@@ -284,9 +284,7 @@ function ProjectCard({
           {project.tipo}
         </span>
 
-        <h2 className={styles.projectTitle}>
-          {project.titulo}
-        </h2>
+        
 
         {(project.ciudad ||
           project.direccion) && (

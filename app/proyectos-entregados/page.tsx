@@ -79,9 +79,7 @@ function FinalizedCard({
       </div>
 
       <div className={styles.cardContent}>
-        <h2 className={styles.projectTitle}>
-          {project.titulo}
-        </h2>
+        
 
         <p className={styles.projectMessage}>
           Conoce la experiencia de ANCOSUR y descubre
