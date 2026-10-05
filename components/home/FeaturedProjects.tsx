@@ -404,22 +404,6 @@ export default function FeaturedProjects({
                             </div>
                           )}
 
-                        {project.tipo && (
-                          <span
-                            className={styles.type}
-                          >
-                            {project.tipo}
-                          </span>
-                        )}
-
-                        <h3
-                          className={
-                            styles.projectTitle
-                          }
-                        >
-                          {project.titulo}
-                        </h3>
-
                         {(project.ciudad ||
                           project.direccion) && (
                           <div

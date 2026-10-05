@@ -280,12 +280,6 @@ function ProjectCard({
             </div>
           )}
 
-        <span className={styles.type}>
-          {project.tipo}
-        </span>
-
-        
-
         {(project.ciudad ||
           project.direccion) && (
           <div className={styles.location}>

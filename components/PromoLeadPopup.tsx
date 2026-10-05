@@ -14,6 +14,8 @@ import type { FormEvent } from "react";
 import FeedbackToast, {
   type FeedbackToastData,
 } from "@/components/ui/FeedbackToast/FeedbackToast";
+import { ProyectosWebAPI } from "@/data/proyectosWeb";
+import type { ProyectoWeb } from "@/src/types/proyectoWeb";
 
 import styles from "./PromoLeadPopup.module.css";
 
@@ -28,11 +30,13 @@ type PopupCampaign = {
   imageHeight: number;
 };
 
+type InterestType = "Departamento" | "Lote";
+
 type FormData = {
   fullName: string;
   phone: string;
-  email: string;
   dni: string;
+  interestType: InterestType | "";
   project: string;
   message: string;
   consent: boolean;
@@ -86,14 +90,35 @@ const campaigns: PopupCampaign[] = [
 ];
 
 /* =========================================================
+   TIPOS DE INTERÉS
+========================================================= */
+
+const interestOptions: {
+  value: InterestType;
+  label: string;
+  icon: string;
+}[] = [
+  { value: "Departamento", label: "Departamentos", icon: "🏢" },
+  { value: "Lote", label: "Lotes", icon: "🌳" },
+];
+
+/* Solo proyectos activos con unidades en venta */
+const isProjectAvailable = (project: ProyectoWeb) =>
+  project.activo &&
+  project.estado !== "vendido" &&
+  !/FINALIZADO|ENTREGADO|VENDIDOS/i.test(
+    project.etapa ?? ""
+  );
+
+/* =========================================================
    FORMULARIO INICIAL
 ========================================================= */
 
 const initialFormData: FormData = {
   fullName: "",
   phone: "",
-  email: "",
   dni: "",
+  interestType: "",
   project: "",
   message: "",
   consent: true,
@@ -149,6 +174,76 @@ export default function PromoLeadPopup() {
 
   const [toast, setToast] =
     useState<ToastState | null>(null);
+
+  const [projects, setProjects] =
+    useState<ProyectoWeb[]>([]);
+
+  const [loadingProjects, setLoadingProjects] =
+    useState(true);
+
+  /* =======================================================
+     PROYECTOS ACTIVOS
+  ======================================================= */
+
+  useEffect(() => {
+    let cancelled = false;
+
+    ProyectosWebAPI.listarActivos({ limit: 100, page: 1 })
+      .then((response) => {
+        if (cancelled) return;
+
+        setProjects(
+          response.data
+            .filter(isProjectAvailable)
+            .sort(
+              (a, b) =>
+                Number(a.orden ?? 0) -
+                Number(b.orden ?? 0)
+            )
+        );
+      })
+      .catch((error) => {
+        console.error(
+          "No se pudieron cargar los proyectos del popup:",
+          error
+        );
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingProjects(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const projectsByType = useMemo(() => {
+    if (!formData.interestType) return [];
+
+    return projects.filter(
+      (project) =>
+        project.tipo === formData.interestType
+    );
+  }, [projects, formData.interestType]);
+
+  const selectInterestType = (
+    interestType: InterestType
+  ) => {
+    setFormData((previous) => ({
+      ...previous,
+      interestType,
+      project:
+        previous.interestType === interestType
+          ? previous.project
+          : "",
+    }));
+
+    setErrors((previous) => ({
+      ...previous,
+      interestType: undefined,
+      project: undefined,
+    }));
+  };
 
   /* =======================================================
      CAMPAÑA ACTIVA
@@ -308,11 +403,6 @@ export default function PromoLeadPopup() {
         .replace(/\D/g, "")
         .slice(0, 9);
 
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
-
     const dni =
       formData.dni
         .replace(/\D/g, "")
@@ -329,9 +419,6 @@ export default function PromoLeadPopup() {
 
     const phoneRegex =
       /^9\d{8}$/;
-
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
     const dniRegex =
       /^\d{8}$/;
@@ -360,18 +447,6 @@ export default function PromoLeadPopup() {
         "El celular debe tener 9 dígitos y empezar con 9.";
     }
 
-    /* EMAIL */
-
-    if (!email) {
-      newErrors.email =
-        "Ingresa tu correo electrónico.";
-    } else if (
-      !emailRegex.test(email)
-    ) {
-      newErrors.email =
-        "Ingresa un correo válido.";
-    }
-
     /* DNI OPCIONAL */
 
     if (
@@ -384,9 +459,12 @@ export default function PromoLeadPopup() {
 
     /* PROYECTO */
 
-    if (!project) {
+    if (!formData.interestType) {
+      newErrors.interestType =
+        "Elige si te interesan departamentos o lotes.";
+    } else if (!project) {
       newErrors.project =
-        "Selecciona una opción de interés.";
+        "Selecciona el proyecto de tu interés.";
     }
 
     /* MENSAJE */
@@ -452,11 +530,6 @@ export default function PromoLeadPopup() {
         .replace(/\D/g, "")
         .slice(0, 9);
 
-    const email =
-      formData.email
-        .trim()
-        .toLowerCase();
-
     const dni =
       formData.dni
         .replace(/\D/g, "")
@@ -464,6 +537,9 @@ export default function PromoLeadPopup() {
 
     const project =
       formData.project.trim();
+
+    const interestType =
+      formData.interestType;
 
     const message =
       formData.message.trim();
@@ -513,7 +589,7 @@ export default function PromoLeadPopup() {
         phone,
 
       email:
-        email,
+        "",
 
       dni:
         dni,
@@ -526,10 +602,10 @@ export default function PromoLeadPopup() {
         project,
 
       tipo_inmueble:
-        project,
+        interestType,
 
       interes:
-        project,
+        `${interestType} - ${project}`,
 
       horario_visita:
         "",
@@ -904,6 +980,18 @@ export default function PromoLeadPopup() {
 
           <div className={styles.popup}>
 
+            {/* DECORACIÓN HALLOWEEN */}
+
+            <div
+              className={styles.spooky}
+              aria-hidden="true"
+            >
+              <span className={styles.bat1}>🦇</span>
+              <span className={styles.bat2}>🦇</span>
+              <span className={styles.bat3}>🦇</span>
+              <span className={styles.web} />
+            </div>
+
             {/* CERRAR */}
 
             <button
@@ -998,9 +1086,9 @@ export default function PromoLeadPopup() {
                   styles.eyebrow
                 }
               >
-                {
-                  activeCampaign.eyebrow
-                }
+                🎃{" "}
+                {activeCampaign.eyebrow ||
+                  "Especial Halloween"}
               </span>
 
               <h2
@@ -1147,59 +1235,6 @@ export default function PromoLeadPopup() {
                   )}
                 </div>
 
-                {/* EMAIL */}
-
-                <div
-                  className={
-                    styles.field
-                  }
-                >
-                  <label htmlFor="popup-email">
-                    Correo electrónico
-                  </label>
-
-                  <input
-                    id="popup-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="Ej. correo@gmail.com"
-                    value={
-                      formData.email
-                    }
-                    disabled={
-                      isSending
-                    }
-                    onChange={(
-                      event
-                    ) =>
-                      setFormData(
-                        (
-                          previous
-                        ) => ({
-                          ...previous,
-
-                          email:
-                            event.target
-                              .value,
-                        })
-                      )
-                    }
-                  />
-
-                  {errors.email && (
-                    <small
-                      className={
-                        styles.error
-                      }
-                    >
-                      {
-                        errors.email
-                      }
-                    </small>
-                  )}
-                </div>
-
                 {/* =================================================
                     DNI
                     Actualmente oculto
@@ -1254,54 +1289,161 @@ export default function PromoLeadPopup() {
                 </div>
                 */}
 
-                {/* PROYECTO */}
+                {/* PROYECTO DE INTERÉS */}
 
                 <div
                   className={
                     styles.field
                   }
+                  role="group"
+                  aria-labelledby="popup-interest-label"
                 >
-                  <label htmlFor="popup-project">
-                    Estoy interesado en
-                  </label>
-
-                  <select
-                    id="popup-project"
-                    name="project"
-                    value={
-                      formData.project
-                    }
-                    disabled={
-                      isSending
-                    }
-                    onChange={(
-                      event
-                    ) =>
-                      setFormData(
-                        (
-                          previous
-                        ) => ({
-                          ...previous,
-
-                          project:
-                            event.target
-                              .value,
-                        })
-                      )
+                  <span
+                    id="popup-interest-label"
+                    className={
+                      styles.fieldLabel
                     }
                   >
-                    <option value="">
-                      Selecciona una opción
-                    </option>
+                    Proyecto de interés
+                  </span>
 
-                    <option value="Departamentos">
-                      Departamentos
-                    </option>
+                  <div
+                    className={
+                      styles.typeTabs
+                    }
+                  >
+                    {interestOptions.map(
+                      (option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          className={`${
+                            styles.typeTab
+                          } ${
+                            formData.interestType ===
+                            option.value
+                              ? styles.typeTabActive
+                              : ""
+                          }`}
+                          aria-pressed={
+                            formData.interestType ===
+                            option.value
+                          }
+                          disabled={
+                            isSending
+                          }
+                          onClick={() =>
+                            selectInterestType(
+                              option.value
+                            )
+                          }
+                        >
+                          <span aria-hidden="true">
+                            {option.icon}
+                          </span>
+                          {option.label}
+                        </button>
+                      )
+                    )}
+                  </div>
 
-                    <option value="Lotes">
-                      Lotes
-                    </option>
-                  </select>
+                  {errors.interestType && (
+                    <small
+                      className={
+                        styles.error
+                      }
+                    >
+                      {
+                        errors.interestType
+                      }
+                    </small>
+                  )}
+
+                  {formData.interestType && (
+                    <div
+                      className={
+                        styles.projectList
+                      }
+                      role="radiogroup"
+                      aria-label="Proyectos disponibles"
+                    >
+                      {loadingProjects ? (
+                        <span
+                          className={
+                            styles.projectHint
+                          }
+                        >
+                          Invocando proyectos… 🦇
+                        </span>
+                      ) : projectsByType.length ===
+                        0 ? (
+                        <span
+                          className={
+                            styles.projectHint
+                          }
+                        >
+                          No hay proyectos disponibles
+                          en este momento.
+                        </span>
+                      ) : (
+                        projectsByType.map(
+                          (project) => (
+                            <button
+                              key={project.id}
+                              type="button"
+                              role="radio"
+                              aria-checked={
+                                formData.project ===
+                                project.titulo
+                              }
+                              className={`${
+                                styles.projectChip
+                              } ${
+                                formData.project ===
+                                project.titulo
+                                  ? styles.projectChipActive
+                                  : ""
+                              }`}
+                              disabled={
+                                isSending
+                              }
+                              onClick={() => {
+                                setFormData(
+                                  (
+                                    previous
+                                  ) => ({
+                                    ...previous,
+                                    project:
+                                      project.titulo,
+                                  })
+                                );
+
+                                setErrors(
+                                  (
+                                    previous
+                                  ) => ({
+                                    ...previous,
+                                    project:
+                                      undefined,
+                                  })
+                                );
+                              }}
+                            >
+                              <strong>
+                                {project.titulo}
+                              </strong>
+                              <small>
+                                {project.ciudad}
+                                {project.etapa
+                                  ? ` · ${project.etapa}`
+                                  : ""}
+                              </small>
+                            </button>
+                          )
+                        )
+                      )}
+                    </div>
+                  )}
 
                   {errors.project && (
                     <small
@@ -1332,7 +1474,7 @@ export default function PromoLeadPopup() {
                     name="message"
                     rows={3}
                     maxLength={250}
-                    placeholder="Cuéntanos qué proyecto te interesa"
+                    placeholder="¿Alguna duda o comentario?"
                     value={
                       formData.message
                     }

@@ -616,3 +616,386 @@
     transform: none;
   }
 }
+/* =========================================================
+   TEMA HALLOWEEN
+   Solo colores y decoración; el layout está arriba.
+========================================================= */
+
+.popup {
+  --hw-bg: #140a1f;
+  --hw-surface: #1f1030;
+  --hw-border: rgba(255, 140, 26, 0.28);
+  --hw-orange: #ff7a1a;
+  --hw-orange-dark: #e2600a;
+  --hw-purple: #8b5cf6;
+  --hw-text: #fbf3ff;
+  --hw-muted: rgba(251, 243, 255, 0.7);
+
+  background: var(--hw-bg);
+  border: 1px solid var(--hw-border);
+  box-shadow:
+    0 34px 100px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(255, 122, 26, 0.18);
+}
+
+.backdrop {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(139, 92, 246, 0.35),
+      rgba(5, 2, 10, 0.85) 60%
+    );
+}
+
+.imageSide {
+  background: #0b0512;
+}
+
+.formSide {
+  position: relative;
+  z-index: 1;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(255, 122, 26, 0.16),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(139, 92, 246, 0.2),
+      transparent 50%
+    ),
+    var(--hw-bg);
+  color: var(--hw-text);
+}
+
+.eyebrow {
+  color: var(--hw-orange);
+}
+
+.formSide h2 {
+  color: var(--hw-text);
+  text-shadow: 0 0 22px rgba(255, 122, 26, 0.35);
+}
+
+.description {
+  color: var(--hw-muted);
+}
+
+.field label,
+.fieldLabel {
+  color: var(--hw-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.field input,
+.field select,
+.field textarea {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: var(--hw-surface);
+  color: var(--hw-text);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(251, 243, 255, 0.4);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--hw-orange);
+  box-shadow: 0 0 0 4px rgba(255, 122, 26, 0.18);
+}
+
+.field input:disabled,
+.field textarea:disabled {
+  background: #1a0f26;
+}
+
+.checkbox {
+  color: var(--hw-muted);
+}
+
+.checkbox input {
+  accent-color: var(--hw-orange);
+}
+
+.termsLink:hover {
+  color: var(--hw-orange);
+}
+
+.error {
+  color: #ff6b7a;
+}
+
+.counter {
+  color: rgba(251, 243, 255, 0.45);
+}
+
+.submitButton {
+  background: linear-gradient(
+    135deg,
+    var(--hw-orange),
+    var(--hw-orange-dark)
+  );
+  color: #1a0b00;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: linear-gradient(
+    135deg,
+    #ff8c38,
+    var(--hw-orange)
+  );
+  box-shadow: 0 16px 34px rgba(255, 122, 26, 0.35);
+}
+
+.closeButton {
+  background: var(--hw-orange);
+  color: #1a0b00;
+}
+
+.closeButton:hover {
+  background: var(--hw-purple);
+  color: #ffffff;
+}
+
+/* ---------- Tipo de inmueble ---------- */
+
+.typeTabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.typeTab {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: var(--hw-surface);
+  color: var(--hw-text);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.typeTab:hover:not(:disabled) {
+  border-color: var(--hw-orange);
+  transform: translateY(-1px);
+}
+
+.typeTabActive {
+  border-color: var(--hw-orange);
+  background: rgba(255, 122, 26, 0.16);
+  color: var(--hw-orange);
+  box-shadow: inset 0 0 0 1px var(--hw-orange);
+}
+
+/* ---------- Proyectos ---------- */
+
+.projectList {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  animation: projectsShow 0.25s ease;
+}
+
+.projectChip {
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(31, 16, 48, 0.75);
+  color: var(--hw-text);
+  font-family: inherit;
+  text-align: left;
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.projectChip strong {
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.projectChip small {
+  color: var(--hw-muted);
+  font-size: 0.66rem;
+  line-height: 1.25;
+  text-transform: capitalize;
+}
+
+.projectChip:hover:not(:disabled) {
+  border-color: var(--hw-purple);
+}
+
+.projectChipActive {
+  border-color: var(--hw-orange);
+  background: rgba(255, 122, 26, 0.14);
+}
+
+.projectChipActive strong::before {
+  content: "🎃 ";
+}
+
+.projectHint {
+  grid-column: 1 / -1;
+  padding: 10px 0;
+  color: var(--hw-muted);
+  font-size: 0.78rem;
+}
+
+/* ---------- Decoración ---------- */
+
+.spooky {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bat1,
+.bat2,
+.bat3 {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
+  animation: batFly 6s ease-in-out infinite;
+}
+
+.bat1 {
+  top: 18px;
+  right: 70px;
+}
+
+.bat2 {
+  top: 54%;
+  right: 18px;
+  font-size: 1rem;
+  animation-delay: -2s;
+}
+
+.bat3 {
+  bottom: 22px;
+  left: 54%;
+  font-size: 1.1rem;
+  animation-delay: -4s;
+}
+
+.web {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  opacity: 0.18;
+  background:
+    repeating-radial-gradient(
+      circle at 100% 0%,
+      transparent 0 14px,
+      #ffffff 14px 15px
+    ),
+    repeating-conic-gradient(
+      from 180deg at 100% 0%,
+      transparent 0 14deg,
+      #ffffff 14deg 15deg
+    );
+  -webkit-mask: radial-gradient(circle at 100% 0%, #000 0 60%, transparent 70%);
+  mask: radial-gradient(circle at 100% 0%, #000 0 60%, transparent 70%);
+}
+
+@keyframes batFly {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-6deg);
+  }
+
+  50% {
+    transform: translate(-14px, -10px) rotate(6deg);
+  }
+}
+
+@keyframes projectsShow {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .bat2,
+  .bat3 {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .popup {
+    background: var(--hw-bg);
+  }
+
+  .typeTab {
+    min-height: 46px;
+    font-size: 0.82rem;
+  }
+
+  .projectList {
+    grid-template-columns: 1fr;
+  }
+
+  .projectChip {
+    min-height: 46px;
+  }
+
+  .bat1 {
+    right: 56px;
+    top: 12px;
+    font-size: 1.15rem;
+  }
+
+  .web {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bat1,
+  .bat2,
+  .bat3,
+  .projectList {
+    animation: none;
+  }
+
+  .typeTab,
+  .projectChip {
+    transition: none;
+  }
+}
