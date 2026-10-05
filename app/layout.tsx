@@ -13,9 +13,8 @@ import FloatingPodcast from "@/components/FloatingPodcast";
 import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import TawkChat from "@/components/ui/tawk/TawkChat";
 import { GoogleTagManager } from "@next/third-parties/google";
-
+import { Analytics } from "@vercel/analytics/next"
 
 /* =========================================================
    FUENTE GLOBAL
