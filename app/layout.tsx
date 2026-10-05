@@ -15,6 +15,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TawkChat from "@/components/ui/tawk/TawkChat";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 
 
 /* =========================================================
@@ -374,6 +375,8 @@ export default function RootLayout({
         <FloatingPodcast />
 
         <Footer />
+
+        <Analytics />
 
         <script
           type="application/ld+json"
