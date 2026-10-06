@@ -327,12 +327,18 @@ function ProjectCard({
           </div>
         )}
 
-        {price && !delivered && (
-          <div className={styles.price}>
-            <span>Desde</span>
-            <strong>{price}</strong>
-          </div>
-        )}
+        {!delivered &&
+          (price ? (
+            <div className={styles.price}>
+              <span>Desde</span>
+              <strong>{price}</strong>
+            </div>
+          ) : (
+            <div
+              className={styles.price}
+              aria-hidden="true"
+            />
+          ))}
 
         {delivered ? (
           <div className={styles.deliveredLabel}>

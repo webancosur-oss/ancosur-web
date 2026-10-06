@@ -55,7 +55,7 @@ const companies: Company[] = [
       "",
     href: "/nosotros",
     logo: "/assets/images/ancosur-logo.svg",
-    background: "/assets/projects/tarjetas/balto.webp",
+    background: "/assets/projects/balto.webp",
     tone: "#00a74f",
   },
   {
@@ -66,7 +66,7 @@ const companies: Company[] = [
       "",
     href: "https://www.morocapital.pe",
     logo: "/assets/images/moro-capital.svg",
-    background: "/assets/projects/tarjetas/moro416.webp",
+    background: "/assets/projects/moro.webp",
     tone: "#185d36",
   },
   {
@@ -77,7 +77,7 @@ const companies: Company[] = [
       "",
     href: "https://www.straton.pe/",
     logo: "/assets/images/straton.svg",
-    background: "/assets/projects/tarjetas/rivera.webp",
+    background: "/assets/projects/rivera.webp",
     tone: "#185d36",
   },
   {
@@ -88,7 +88,7 @@ const companies: Company[] = [
       "",
     href: "https://zagari.pe/",
     logo: "/assets/images/zagari.svg",
-    background: "/assets/projects/tarjetas/xport.webp",
+    background: "/assets/projects/xport.webp",
     tone: "#4aaa72",
   },
   {
@@ -99,7 +99,7 @@ const companies: Company[] = [
       "",
     href: "https://darkham.pe",
     logo: "/assets/images/darkham.svg",
-    background: "/assets/projects/tarjetas/distrito.webp",
+    background: "/assets/projects/distrito.webp",
     tone: "#073d25",
   },
   {
@@ -110,7 +110,7 @@ const companies: Company[] = [
       "",
     href: "https://sulpaa.com/",
     logo: "/assets/images/sulpaa.svg",
-    background: "/assets/projects/tarjetas/origen.webp",
+    background: "/assets/projects/origen.webp",
     tone: "#718f43",
   },
   {
@@ -122,7 +122,7 @@ const companies: Company[] = [
     href:
       "https://podcast.ancosur.com/",
     logo: "/assets/images/3er-espacio.svg",
-    background: "/assets/projects/tarjetas/emperatriz.webp",
+    background: "/assets/projects/emperatriz.webp",
     tone: "#9dbb4d",
   },
 ];

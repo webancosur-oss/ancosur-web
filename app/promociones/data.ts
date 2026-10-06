@@ -34,7 +34,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "Departamentos modernos en zona universitaria, ideales para vivir o invertir.",
     image:
-      "/assets/projects/tarjetas/eterna.webp",
+      "/assets/projects/eterna.webp",
     href: "/neo-eterna",
     tags: [
       "1 a 3 dormitorios",
@@ -51,7 +51,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "Un proyecto diseñado para personas que buscan una vida activa y saludable.",
     image:
-      "/assets/projects/tarjetas/xport.webp",
+      "/assets/projects/xport.webp",
     href: "/neo-xport",
     tags: [
       "Estilo fitness",
@@ -68,7 +68,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "El proyecto pet-centric que considera a tu mascota parte de la familia.",
     image:
-      "/assets/projects/tarjetas/balto.webp",
+      "/assets/projects/balto.webp",
     href: "/neo-balto",
     tags: [
       "Pet-friendly",
@@ -85,7 +85,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "Vive conectado con servicios, comercio y espacios comunes dentro de tu distrito.",
     image:
-      "/assets/projects/tarjetas/distrito.webp",
+      "/assets/projects/distrito.webp",
     href:
       "/distrito-san-carlos",
     tags: [
@@ -103,7 +103,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "Lotes con acceso, servicios y espacios pensados para construir tu futuro.",
     image:
-      "/assets/projects/tarjetas/caminoreal.webp",
+      "/assets/projects/caminoreal.webp",
     href: "/camino-real",
     tags: [
       "Lotes urbanos",
@@ -119,7 +119,7 @@ export const cyberProjects: CyberProject[] = [
     description:
       "Invierte en un resort club rodeado de naturaleza y más de 20 amenidades.",
     image:
-      "/assets/projects/tarjetas/zagari.webp",
+      "/assets/projects/zagari.webp",
     href:
       "/zagari-resort-club",
     tags: [

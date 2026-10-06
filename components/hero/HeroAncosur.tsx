@@ -250,7 +250,7 @@ export default function HeroAncosur() {
                 fill
                 priority={index === 0}
                 className={`${styles.backgroundImage} ${styles.desktopImage}`}
-                sizes="100vw"
+                sizes="(max-width: 760px) 1px, 100vw"
                 draggable={false}
               />
 
@@ -260,7 +260,7 @@ export default function HeroAncosur() {
                 fill
                 priority={index === 0}
                 className={`${styles.backgroundImage} ${styles.mobileImage}`}
-                sizes="100vw"
+                sizes="(max-width: 760px) 100vw, 1px"
                 draggable={false}
               />
             </div>
