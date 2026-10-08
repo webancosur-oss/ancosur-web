@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
 
 import { clubBenefits } from "../data/clubBenefits";
 import styles from "./ClubBeneficiosPage.module.css";
@@ -9,7 +8,6 @@ import styles from "./ClubBeneficiosPage.module.css";
 export default function ClubBeneficiosPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section className={styles.benefitsSection}>

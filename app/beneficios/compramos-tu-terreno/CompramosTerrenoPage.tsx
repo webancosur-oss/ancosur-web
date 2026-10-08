@@ -7,7 +7,6 @@ import {
 
 import Link from "next/link";
 
-import Navbar from "@/components/Navbar";
 
 import styles from "./CompramosTerrenoPage.module.css";
 
@@ -356,7 +355,6 @@ export default function CompramosTerrenoPage() {
 
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section

@@ -1,21 +1,21 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./PoliticaSigPage.module.css";
 
-export const metadata = {
+export const metadata = createSeoMetadata({
   title:
     "Política del Sistema Integrado de Gestión | Ancosur",
 
   description:
     "Consulta la Política del Sistema Integrado de Gestión de Ancosur.",
-};
+
+  pathname: "/politicas/sig",
+});
 
 export default function PoliticaSIGPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <BackButton
@@ -31,7 +31,6 @@ export default function PoliticaSIGPage() {
         />
       </main>
 
-      <Footer />
     </>
   );
 }

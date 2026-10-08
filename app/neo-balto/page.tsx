@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoBaltoAmenitiesSlider from "./components/NeoBaltoAmenitiesSlider";
@@ -33,7 +34,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image: "/assets/projects/sliders/neo-balto.webp",
+  image: "/og/neo-balto.jpg",
 });
 
 /* =========================================================
@@ -46,6 +47,12 @@ export default function NeoBaltoPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Neo Balto"
+        path="/neo-balto"
+        image="/og/neo-balto.jpg"
+      />
+
       <NeoBaltoHero />
 
       <NeoBaltoOverviewSection />

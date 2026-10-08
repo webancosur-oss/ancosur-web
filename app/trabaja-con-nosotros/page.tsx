@@ -102,9 +102,6 @@ export const metadata =
       "Ancosur",
       "Ancosur Inmobiliaria",
     ],
-
-    image:
-      "/opengraph-image.png",
   });
 
 /* =========================================================

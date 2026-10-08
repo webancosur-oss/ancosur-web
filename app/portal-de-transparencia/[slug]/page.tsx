@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { createSeoMetadata } from "@/src/seo";
+
 import ProjectLegalInformation from "../components/ProjectLegalInformation";
 import ProjectSelector from "../components/ProjectSelector";
 import TransparencyHero from "../components/TransparencyHero";
@@ -36,12 +38,14 @@ export async function generateMetadata({
     };
   }
 
-  return {
+  return createSeoMetadata({
     title: `${project.name} | Portal de Transparencia Ancosur`,
 
     description:
-      `Información legal, técnica y documentos del proyecto ${project.name}.`,
-  };
+      `Información legal, técnica y documentos del proyecto ${project.name}: licencias, partidas registrales, vigencia de poder y más.`,
+
+    pathname: `/portal-de-transparencia/${slug}`,
+  });
 }
 
 export default async function TransparencyProjectPage({

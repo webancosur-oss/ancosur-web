@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./BlogPage.module.css";
 
@@ -9,8 +8,26 @@ import styles from "./BlogPage.module.css";
    CONFIGURACIÓN NEXT
 ========================================================= */
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+/* Se regenera cada 5 minutos: evita esperar a la API en
+   cada visita y un artículo nuevo aparece en ≤5 min. */
+export const revalidate = 300;
+
+export const metadata = createSeoMetadata({
+  title: "Blog inmobiliario: consejos para comprar e invertir en Huancayo",
+
+  description:
+    "Guías, noticias y consejos de ANCOSUR para comprar departamentos y lotes, invertir en inmuebles y conocer el mercado inmobiliario en Huancayo.",
+
+  pathname: "/blog",
+
+  keywords: [
+    "blog inmobiliario Huancayo",
+    "consejos comprar departamento",
+    "invertir en lotes Huancayo",
+    "mercado inmobiliario Huancayo",
+    "noticias Ancosur",
+  ],
+});
 
 /* =========================================================
    API
@@ -72,7 +89,9 @@ async function getPosts(): Promise<BlogPost[]> {
         {
           method: "GET",
 
-          cache: "no-store",
+          next: {
+            revalidate: 300,
+          },
 
           headers: {
             Accept:
@@ -230,8 +249,6 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Navbar />
-
       <main
         className={
           styles.page
@@ -491,8 +508,6 @@ export default async function BlogPage() {
         </section>
 
       </main>
-
-      <Footer />
     </>
   );
 }

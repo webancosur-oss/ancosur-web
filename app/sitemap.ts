@@ -1,214 +1,142 @@
 import type { MetadataRoute } from "next";
 
-import { blogPosts } from "@/data/blog";
-import { projects } from "@/data/projects";
+import { transparencyProjects } from "@/app/portal-de-transparencia/data";
+import { absoluteUrl } from "@/src/seo";
 
-const SITE_URL = "https://ancosur.com";
+/* El sitemap se regenera cada hora para incluir artículos
+   nuevos del blog sin necesidad de un nuevo deploy. */
+export const revalidate = 3600;
+
+const API_URL =
+  process.env.API_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://ancosur-api-production.up.railway.app";
+
+type Entry = MetadataRoute.Sitemap[number];
+
+const page = (
+  pathname: string,
+  changeFrequency: Entry["changeFrequency"],
+  priority: number,
+  image?: string,
+): Entry => ({
+  url: absoluteUrl(pathname),
+  changeFrequency,
+  priority,
+  ...(image ? { images: [absoluteUrl(image)] } : {}),
+});
 
 /* =========================================================
-   CONVERTIR RUTAS EN URL ABSOLUTA
+   RUTAS REALES (cada una tiene su page.tsx)
+   Si agregas o renombras una página, actualízala aquí.
 ========================================================= */
 
-function toAbsoluteUrl(pathname: string): string {
-  if (
-    pathname.startsWith("http://") ||
-    pathname.startsWith("https://")
-  ) {
-    return pathname;
-  }
-
-  const cleanPath = pathname
-    .split("?")[0]
-    .split("#")[0]
-    .replace(/^\/+|\/+$/g, "");
-
-  return cleanPath
-    ? `${SITE_URL}/${cleanPath}`
-    : `${SITE_URL}/`;
-}
-
-/* =========================================================
-   PÁGINAS ESTÁTICAS
-
-   Agrega únicamente rutas que tengan un page.tsx real.
-   No agregar:
-   - /404
-   - /not-found
-   - archivos inexistentes
-========================================================= */
-
-const staticPages: MetadataRoute.Sitemap = [
-  {
-    url: `${SITE_URL}/`,
-    changeFrequency: "weekly",
-    priority: 1,
-  },
-  {
-    url: `${SITE_URL}/proyectos`,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/departamentos`,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/lotes`,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/resorts`,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/promociones`,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/proyectos-entregados`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/nosotros`,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  },
-  {
-    url: `${SITE_URL}/equipo`,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
-  {
-    url: `${SITE_URL}/inversionistas`,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  },
-  {
-    url: `${SITE_URL}/blog`,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_URL}/trabaja-con-nosotros`,
-    changeFrequency: "weekly",
-    priority: 0.6,
-  },
-  {
-    url: `${SITE_URL}/politicas`,
-    changeFrequency: "yearly",
-    priority: 0.4,
-  },
-  {
-    url: `${SITE_URL}/portal-de-transparencia`,
-    changeFrequency: "monthly",
-    priority: 0.5,
-  },
-  {
-    url: `${SITE_URL}/libro-de-reclamaciones`,
-    changeFrequency: "yearly",
-    priority: 0.4,
-  },
-  {
-    url: `${SITE_URL}/club-beneficios`,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
-  {
-    url: `${SITE_URL}/compramos-terreno`,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
-  {
-    url: `${SITE_URL}/socio-referido`,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  },
+const corePages: Entry[] = [
+  page("/", "weekly", 1, "/og/ancosur.jpg"),
+  page("/proyectos", "weekly", 0.9),
+  page("/departamentos", "weekly", 0.9),
+  page("/lotes", "weekly", 0.9),
+  page("/resorts", "weekly", 0.8),
+  page("/promociones", "weekly", 0.8),
+  page("/proyectos-entregados", "monthly", 0.7),
+  page("/nosotros", "monthly", 0.7, "/og/nosotros.jpg"),
+  page("/equipo", "monthly", 0.6),
+  page("/inversionistas", "monthly", 0.7),
+  page("/blog", "weekly", 0.8),
+  page("/trabaja-con-nosotros", "weekly", 0.6),
+  page("/beneficios/club-beneficios", "monthly", 0.6),
+  page("/beneficios/compramos-tu-terreno", "monthly", 0.6),
+  page("/beneficios/socio-referido", "monthly", 0.6),
+  page("/portal-de-transparencia", "monthly", 0.5),
+  page("/libro-de-reclamaciones", "yearly", 0.3),
+  page("/politicas", "yearly", 0.3),
+  page("/politicas/politica-de-privacidad", "yearly", 0.3),
+  page("/politicas/terminos-y-condiciones", "yearly", 0.3),
+  page("/politicas/cookies", "yearly", 0.3),
+  page("/politicas/sig", "yearly", 0.3),
+  page("/politicas/sig-alcance", "yearly", 0.3),
 ];
 
-/* =========================================================
-   PÁGINAS DE PROYECTOS
+const projectPages: Entry[] = [
+  "neo-balto",
+  "neo-xport",
+  "neo-eterna",
+  "neo-origen",
+  "neo-rivera",
+  "neo-emperatriz",
+  "distrito-san-carlos",
+  "moro416",
+  "camino-real",
+  "colinas-de-moro",
+  "terrazas-concepcion",
+].map((slug) =>
+  page(`/${slug}`, "weekly", 0.9, `/og/${slug}.jpg`),
+);
 
-   Se generan desde @/data/projects.
+const transparencyPages: Entry[] =
+  transparencyProjects.map((project) =>
+    page(
+      `/portal-de-transparencia/${project.slug}`,
+      "monthly",
+      0.4,
+    ),
+  );
+
+/* =========================================================
+   ARTÍCULOS DEL BLOG (desde la API, igual que /blog)
 ========================================================= */
 
-const projectPages: MetadataRoute.Sitemap = projects
-  .filter((project) => {
-    return (
-      typeof project.href === "string" &&
-      project.href.startsWith("/") &&
-      project.href !== "/" &&
-      !project.href.startsWith("/#") &&
-      !project.href.includes("?") &&
-      !project.href.includes("#")
+type ApiPost = {
+  slug: string;
+  updated_at?: string | null;
+  published_at?: string | null;
+  cover_image_url?: string | null;
+};
+
+async function getBlogPages(): Promise<Entry[]> {
+  try {
+    const response = await fetch(
+      `${API_URL}/api/blog?status=publicado`,
+      {
+        headers: { Accept: "application/json" },
+        next: { revalidate: 3600 },
+      },
     );
-  })
-  .map((project) => ({
-    url: toAbsoluteUrl(project.href),
 
-    changeFrequency:
-      project.status === "ENTREGADO"
-        ? "monthly"
-        : "weekly",
+    if (!response.ok) return [];
 
-    priority:
-      project.status === "ENTREGADO"
-        ? 0.6
-        : 0.8,
+    const result: { data?: ApiPost[] } =
+      await response.json();
 
-    images: project.image
-      ? [toAbsoluteUrl(project.image)]
-      : undefined,
-  }));
+    return (result.data ?? [])
+      .filter((post) => post.slug?.trim())
+      .map((post) => ({
+        ...page(
+          `/blog/${encodeURIComponent(post.slug.trim())}`,
+          "monthly",
+          0.7,
+        ),
+        lastModified:
+          post.updated_at ||
+          post.published_at ||
+          undefined,
+      }));
+  } catch {
+    return [];
+  }
+}
 
-/* =========================================================
-   ARTÍCULOS DEL BLOG
-========================================================= */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const unique = new Map<string, Entry>();
 
-const blogPages: MetadataRoute.Sitemap = blogPosts
-  .filter((post) => {
-    return (
-      typeof post.slug === "string" &&
-      post.slug.trim().length > 0
-    );
-  })
-  .map((post) => ({
-    url: `${SITE_URL}/blog/${encodeURIComponent(
-      post.slug.trim(),
-    )}`,
-
-    changeFrequency: "monthly",
-
-    priority: 0.7,
-
-    images: post.image
-      ? [toAbsoluteUrl(post.image)]
-      : undefined,
-  }));
-
-/* =========================================================
-   GENERAR SITEMAP SIN DUPLICADOS
-========================================================= */
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  const allPages = [
-    ...staticPages,
+  for (const entry of [
+    ...corePages,
     ...projectPages,
-    ...blogPages,
-  ];
-
-  const uniquePages = new Map<
-    string,
-    MetadataRoute.Sitemap[number]
-  >();
-
-  for (const page of allPages) {
-    uniquePages.set(page.url, page);
+    ...transparencyPages,
+    ...(await getBlogPages()),
+  ]) {
+    unique.set(entry.url, entry);
   }
 
-  return Array.from(uniquePages.values());
+  return Array.from(unique.values());
 }

@@ -1,13 +1,14 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { createSeoMetadata } from "@/src/seo";
 import styles from "./CookiesPage.module.css";
 
-export const metadata = {
+export const metadata = createSeoMetadata({
   title: "Política de Cookies | Ancosur Inmobiliaria",
   description:
     "Conoce la Política de Cookies de Ancosur S.A.C. y cómo usamos cookies técnicas, de análisis y publicitarias.",
-};
+
+  pathname: "/politicas/cookies",
+});
 
 const cookieTypes = [
   {
@@ -35,7 +36,6 @@ const browsers = ["Chrome", "Explorer / Edge", "Firefox", "Safari"];
 export default function CookiesPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section className={styles.hero}>

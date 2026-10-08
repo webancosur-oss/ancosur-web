@@ -1,4 +1,5 @@
 
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import ColinasDeMoroBenefits from "./components/ColinasDeMoroBenefits";
@@ -21,7 +22,7 @@ export const metadata = createSeoMetadata({
     "Las Colinas de Moro ofrece lotes desde 90 m² con entrega inmediata en La Huaycha, Concepción. Cuotas desde S/ 800, título de propiedad y acceso desde la Carretera Central.",
 
   pathname:
-    "/las-colinas-de-moro",
+    "/colinas-de-moro",
 
   keywords: [
     "Las Colinas de Moro",
@@ -37,8 +38,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image:
-    "/assets/projects/sliders/colinas-de-moro.webp",
+  image: "/og/colinas-de-moro.jpg",
 });
 
 /* =========================================================
@@ -51,6 +51,12 @@ export default function ColinasDeMoroPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Las Colinas de Moro"
+        path="/colinas-de-moro"
+        image="/og/colinas-de-moro.jpg"
+      />
+
       <ColinasDeMoroHero />
 
       <ColinasDeMoroOverviewSection />

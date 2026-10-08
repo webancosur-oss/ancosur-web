@@ -1067,7 +1067,7 @@ export default function PromoLeadPopup() {
                   activeCampaign.imageHeight
                 }
                 priority
-                quality={100}
+                quality={85}
                 className={
                   styles.popupImage
                 }

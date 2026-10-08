@@ -1,6 +1,17 @@
 import ReclamoForm from "./components/ReclamoForm";
 import styles from "./page.module.css";
 
+import { createSeoMetadata } from "@/src/seo";
+
+export const metadata = createSeoMetadata({
+  title: "Libro de Reclamaciones | Ancosur Inmobiliaria",
+
+  description:
+    "Libro de Reclamaciones virtual de Ancosur Inmobiliaria conforme al Código de Protección y Defensa del Consumidor (Indecopi). Registra tu reclamo o queja.",
+
+  pathname: "/libro-de-reclamaciones",
+});
+
 export default function LibroReclamacionesPage() {
   return (
     <main className={styles.page}>

@@ -671,7 +671,7 @@ export const seoTerrazasConcepcion = {
   ],
 
   openGraphImage:
-    "/assets/projects/sliders/las-terrazas-de-concepcion.webp",
+    "/og/terrazas-concepcion.jpg",
 };
 
 /* =========================================================

@@ -14,7 +14,7 @@ type Interest = "departamentos" | "lotes" | "visita";
 type ChatStep = "welcome" | "phone" | "success";
 
 const WHATSAPP_NUMBER = "51971069763";
-const CHATBOT_ICON = "/assets/images/chatbot.svg";
+const CHATBOT_ICON = "/assets/images/chatbot.webp";
 
 const optionLabels: Record<Interest, string> = {
   departamentos: "Departamentos",
@@ -146,6 +146,9 @@ export default function FloatingActions() {
                 <img
                   src={CHATBOT_ICON}
                   alt="Asistente ANCOSUR"
+                  width={384}
+                  height={384}
+                  decoding="async"
                 />
               </div>
 
@@ -380,6 +383,9 @@ export default function FloatingActions() {
               className={styles.floatingIcon}
               src={CHATBOT_ICON}
               alt="Abrir asistente"
+              width={384}
+              height={384}
+              decoding="async"
             />
 
             <span className={styles.floatingText}>

@@ -607,7 +607,7 @@ export const relatedProjects = [
       "/assets/projects/cards/moro-416.webp",
 
     href:
-      "/proyectos/neo-origen",
+      "/neo-origen",
   },
 ];
 
@@ -680,10 +680,10 @@ export const seoNeoOrigen = {
     "Departamentos desde 40 m², cinco áreas comunes y una propuesta arquitectónica inspirada en el universo.",
 
   openGraphImage:
-    "/assets/projects/sliders/neo-origen.webp",
+    "/og/neo-origen.jpg",
 
   canonicalPath:
-    "/proyectos/neo-origen",
+    "/neo-origen",
 };
 
 /* =========================================================

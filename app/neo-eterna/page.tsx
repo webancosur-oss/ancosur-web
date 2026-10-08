@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoEternaAmenitiesSlider from "./components/NeoEternaAmenitiesSlider";
@@ -38,8 +39,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image:
-    "/assets/projects/sliders/neo-eterna.webp",
+  image: "/og/neo-eterna.jpg",
 });
 
 /* =========================================================
@@ -52,6 +52,12 @@ export default function NeoEternaPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Neo Eterna"
+        path="/neo-eterna"
+        image="/og/neo-eterna.jpg"
+      />
+
       <NeoEternaHero />
 
       <NeoEternaOverviewSection />

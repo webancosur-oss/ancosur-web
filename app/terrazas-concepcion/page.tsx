@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import TerrazasConcepcionBenefits from "./components/TerrazasConcepcionBenefits";
@@ -22,7 +23,7 @@ export const metadata = createSeoMetadata({
 
   description: seoTerrazasConcepcion.description,
 
-  pathname: "/las-terrazas-de-concepcion",
+  pathname: "/terrazas-concepcion",
 
   keywords: seoTerrazasConcepcion.keywords,
 
@@ -39,6 +40,12 @@ export default function TerrazasConcepcionPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Las Terrazas de Concepción"
+        path="/terrazas-concepcion"
+        image="/og/terrazas-concepcion.jpg"
+      />
+
       <TerrazasConcepcionHero />
 
       <TerrazasConcepcionOverviewSection />

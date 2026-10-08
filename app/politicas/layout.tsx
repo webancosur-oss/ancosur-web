@@ -20,7 +20,6 @@ export const metadata = createSeoMetadata({
     "documentación oficial Ancosur",
   ],
 
-  image: "/opengraph-image.png",
 });
 
 type PoliticasLayoutProps = {

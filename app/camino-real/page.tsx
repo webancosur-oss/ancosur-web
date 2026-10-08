@@ -1,4 +1,5 @@
 
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import CaminoRealBenefits from "./components/CaminoRealBenefits";
@@ -40,6 +41,12 @@ export default function CaminoRealPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Camino Real"
+        path="/camino-real"
+        image="/og/camino-real.jpg"
+      />
+
       <CaminoRealHero />
 
       <CaminoRealOverviewSection />

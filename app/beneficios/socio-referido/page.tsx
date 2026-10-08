@@ -7,7 +7,7 @@ export const metadata = createSeoMetadata({
   description:
     "Únete al programa Socio Referido de Ancosur y gana beneficios recomendando nuevos clientes para nuestros proyectos inmobiliarios en Huancayo.",
 
-  pathname: "/socio-referido",
+  pathname: "/beneficios/socio-referido",
 
   keywords: [
     "Socio Referido",

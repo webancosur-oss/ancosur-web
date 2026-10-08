@@ -1,13 +1,14 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { createSeoMetadata } from "@/src/seo";
 import styles from "./TerminosPage.module.css";
 
-export const metadata = {
+export const metadata = createSeoMetadata({
   title: "Términos y Condiciones | Ancosur Inmobiliaria",
   description:
     "Consulta los términos y condiciones de uso del sitio web de Ancosur S.A.C.",
-};
+
+  pathname: "/politicas/terminos-y-condiciones",
+});
 
 const intellectualProperty = [
   "Logotipos de Ancosur, Zagari Resort Club y Línea Neo.",
@@ -30,7 +31,6 @@ const dataConsentPurposes = [
 export default function TerminosPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section className={styles.hero}>

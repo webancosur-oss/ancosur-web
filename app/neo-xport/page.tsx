@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoXportAmenitiesSlider from "./components/NeoXportAmenities";
@@ -39,6 +40,12 @@ export default function NeoXportPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Neo Xport"
+        path="/neo-xport"
+        image="/og/neo-xport.jpg"
+      />
+
       <NeoXportHero />
 
       <NeoXportOverviewSection />

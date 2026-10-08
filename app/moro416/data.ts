@@ -789,10 +789,10 @@ export const seoMoro416 = {
     "Departamentos para Airbnb, rentas cortas y oficinas corporativas frente a Real Plaza Huancayo.",
 
   openGraphImage:
-    "/assets/projects/sliders/moro-416.webp",
+    "/og/moro416.jpg",
 
   canonicalPath:
-    "/proyectos/moro-416",
+    "/moro416",
 };
 
 /* =========================================================

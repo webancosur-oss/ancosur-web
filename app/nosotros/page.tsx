@@ -31,7 +31,7 @@ export const metadata = createSeoMetadata({
     "equipo Ancosur",
   ],
 
-  image: "/assets/heros/10anios.png",
+  image: "/og/nosotros.jpg",
 });
 
 /* =========================================================

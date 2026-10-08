@@ -1,21 +1,21 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./AlcanceSigPage.module.css";
 
-export const metadata = {
+export const metadata = createSeoMetadata({
   title:
     "Alcance del Sistema Integrado de Gestión | Ancosur",
 
   description:
     "Consulta el Alcance del Sistema Integrado de Gestión de Ancosur.",
-};
+
+  pathname: "/politicas/sig-alcance",
+});
 
 export default function AlcanceSIGPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <BackButton
@@ -31,7 +31,6 @@ export default function AlcanceSIGPage() {
         />
       </main>
 
-      <Footer />
     </>
   );
 }

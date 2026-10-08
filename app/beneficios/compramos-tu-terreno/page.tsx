@@ -7,7 +7,7 @@ export const metadata = createSeoMetadata({
   description:
     "Vende tu terreno de forma rápida, segura y transparente con Ancosur. Evaluamos terrenos para nuevos proyectos inmobiliarios en Huancayo y otras ciudades.",
 
-  pathname: "/compramos-tu-terreno",
+  pathname: "/beneficios/compramos-tu-terreno",
 
   keywords: [
     "compramos terrenos",

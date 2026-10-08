@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoOrigenAmenitiesSlider from "./components/NeoOrigenAmenitiesSlider";
@@ -36,8 +37,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image:
-    "/assets/projects/sliders/neo-origen.webp",
+  image: "/og/neo-origen.jpg",
 });
 
 /* =========================================================
@@ -50,6 +50,12 @@ export default function NeoOrigenPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Neo Origen"
+        path="/neo-origen"
+        image="/og/neo-origen.jpg"
+      />
+
       <NeoOrigenHero />
 
       <NeoOrigenOverviewSection />

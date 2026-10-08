@@ -1,3 +1,13 @@
+import {
+  BRAND_NAME,
+  DEFAULT_OG_IMAGE,
+  SITE_URL,
+  X_HANDLE,
+} from "@/src/seo";
+import {
+  ORGANIZATION_ID,
+  WEBSITE_ID,
+} from "@/src/organization";
 import type { Metadata } from "next";
 
 import CertificationsSection from "@/components/CertificationsSection";
@@ -14,14 +24,6 @@ import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
    CONFIGURACIÓN SEO DE LA PORTADA
 ========================================================= */
 
-const SITE_URL =
-  "https://ancosur.com";
-
-const BRAND_NAME =
-  "ANCOSUR";
-
-const COMPANY_NAME =
-  "ANCOSUR Inmobiliaria";
 
 const HOME_TITLE =
   "ANCOSUR | Departamentos y lotes en Huancayo";
@@ -30,7 +32,7 @@ const HOME_DESCRIPTION =
   "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
 
 const HOME_IMAGE =
-  "/opengraph-image.png";
+  DEFAULT_OG_IMAGE;
 
 /* =========================================================
    METADATA DE LA PORTADA
@@ -133,7 +135,7 @@ export const metadata: Metadata = {
           "ANCOSUR: departamentos, lotes y proyectos inmobiliarios en Huancayo",
 
         type:
-          "image/png",
+          "image/jpeg",
       },
     ],
   },
@@ -141,6 +143,9 @@ export const metadata: Metadata = {
   twitter: {
     card:
       "summary_large_image",
+
+    site:
+      X_HANDLE,
 
     title:
       HOME_TITLE,
@@ -211,12 +216,12 @@ export default function Home() {
 
     isPartOf: {
       "@id":
-        `${SITE_URL}/#website`,
+        WEBSITE_ID,
     },
 
     about: {
       "@id":
-        `${SITE_URL}/#organization`,
+        ORGANIZATION_ID,
     },
 
     primaryImageOfPage: {
@@ -266,32 +271,9 @@ export default function Home() {
     ],
   };
 
-  const organizationReferenceJsonLd = {
-    "@context":
-      "https://schema.org",
-
-    "@type":
-      "Organization",
-
-    "@id":
-      `${SITE_URL}/#organization`,
-
-    name:
-      BRAND_NAME,
-
-    alternateName: [
-      COMPANY_NAME,
-      "Inmobiliaria ANCOSUR",
-    ],
-
-    url:
-      `${SITE_URL}/`,
-  };
-
   const jsonLd = [
     homePageJsonLd,
     breadcrumbJsonLd,
-    organizationReferenceJsonLd,
   ];
 
   return (

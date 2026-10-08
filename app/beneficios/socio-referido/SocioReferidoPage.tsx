@@ -10,7 +10,6 @@ import {
   useState,
 } from "react";
 
-import Navbar from "@/components/Navbar";
 import styles from "./SocioReferidoPage.module.css";
 
 const referralProjects = [
@@ -316,7 +315,6 @@ export default function SocioReferidoPage() {
 
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section className={styles.hero}>

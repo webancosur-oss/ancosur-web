@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import NeoEmperatrizAmenitiesSlider from "./components/NeoEmperatrizAmenitiesSlider";
@@ -35,8 +36,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image:
-    "/assets/projects/sliders/neo-emperatriz.webp",
+  image: "/og/neo-emperatriz.jpg",
 });
 
 /* =========================================================
@@ -49,6 +49,12 @@ export default function NeoEmperatrizPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Neo Emperatriz"
+        path="/neo-emperatriz"
+        image="/og/neo-emperatriz.jpg"
+      />
+
       <NeoEmperatrizHero />
 
       <NeoEmperatrizOverviewSection />

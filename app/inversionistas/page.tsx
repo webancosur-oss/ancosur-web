@@ -34,7 +34,6 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image: "/opengraph-image.png",
 });
 
 /* =========================================================

@@ -1,15 +1,15 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://ancosur-web-production.up.railway.app";
+import { SITE_URL } from "@/src/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/api/"],
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

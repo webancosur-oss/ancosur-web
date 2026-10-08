@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import Moro416AmenitiesSlider from "./components/Moro416AmenitiesSlider";
@@ -19,7 +20,7 @@ export const metadata = createSeoMetadata({
   description:
     "Moro 416 es un proyecto mixto frente a Real Plaza Huancayo con departamentos para rentas cortas, oficinas corporativas y áreas desde 36 m².",
 
-  pathname: "/moro-416",
+  pathname: "/moro416",
 
   keywords: [
     "Moro 416",
@@ -36,8 +37,7 @@ export const metadata = createSeoMetadata({
     "Ancosur Inmobiliaria",
   ],
 
-  image:
-    "/assets/projects/sliders/moro-416.webp",
+  image: "/og/moro416.jpg",
 });
 
 /* =========================================================
@@ -50,6 +50,12 @@ export default function Moro416Page() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Moro 416"
+        path="/moro416"
+        image="/og/moro416.jpg"
+      />
+
       <Moro416Hero />
 
       <Moro416OverviewSection />

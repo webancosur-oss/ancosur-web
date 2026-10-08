@@ -28,7 +28,6 @@ export const metadata = createSeoMetadata({
     "Ancosur Huancayo",
   ],
 
-  image: "/opengraph-image.png",
 });
 
 /* =========================================================

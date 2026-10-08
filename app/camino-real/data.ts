@@ -374,7 +374,7 @@ export const seoCaminoReal = {
   ],
 
   openGraphImage:
-    "/assets/projects/camino-real/hero/hero-camino-real.webp",
+    "/og/camino-real.jpg",
 };
 
 export const disclaimerCaminoReal =

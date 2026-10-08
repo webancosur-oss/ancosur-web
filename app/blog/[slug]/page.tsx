@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import Navbar from "@/components/Navbar";
+import { ORGANIZATION_ID } from "@/src/organization";
+import {
+  absoluteUrl,
+  createSeoMetadata,
+} from "@/src/seo";
 import BackButton from "@/components/BackButton";
 
 import styles from "./BlogDetail.module.css";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 const API_URL =
   process.env.API_URL ||
@@ -59,7 +62,9 @@ async function getPost(
       `${base}/api/blog/${encodeURIComponent(slug)}`,
       {
         method: "GET",
-        cache: "no-store",
+        next: {
+          revalidate: 300,
+        },
         headers: {
           Accept: "application/json",
         },
@@ -195,7 +200,7 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Artículo no encontrado | ANCOSUR",
+      title: "Artículo no encontrado",
       robots: {
         index: false,
         follow: false,
@@ -207,26 +212,29 @@ export async function generateMetadata({
     post.cover_image_url
   );
 
-  return {
-    title: `${post.title} | ANCOSUR`,
+  const seo = createSeoMetadata({
+    title: post.title,
 
     description:
       post.excerpt ||
       `Conoce más sobre ${post.title}.`,
 
-    alternates: {
-      canonical: `/blog/${post.slug}`,
-    },
+    pathname: `/blog/${post.slug}`,
+
+    image: cover || undefined,
+
+    imageAlt: post.title,
+
+    type: "article",
+  });
+
+  return {
+    ...seo,
 
     openGraph: {
-      title: post.title,
-
-      description:
-        post.excerpt || "",
+      ...seo.openGraph,
 
       type: "article",
-
-      locale: "es_PE",
 
       publishedTime:
         post.published_at ||
@@ -236,28 +244,8 @@ export async function generateMetadata({
         post.updated_at ||
         undefined,
 
-      images: cover
-        ? [
-            {
-              url: cover,
-              width: 1200,
-              height: 630,
-              alt: post.title,
-            },
-          ]
-        : undefined,
-    },
-
-    twitter: {
-      card: "summary_large_image",
-
-      title: post.title,
-
-      description:
-        post.excerpt || "",
-
-      images: cover
-        ? [cover]
+      authors: post.author_name
+        ? [post.author_name]
         : undefined,
     },
   };
@@ -287,9 +275,52 @@ export default async function BlogDetailPage({
     post.cover_image_url
   );
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+
+    "@type": "BlogPosting",
+
+    headline: post.title,
+
+    description: post.excerpt || undefined,
+
+    image: cover ? [absoluteUrl(cover)] : undefined,
+
+    datePublished:
+      post.published_at || post.created_at,
+
+    dateModified:
+      post.updated_at || undefined,
+
+    author: post.author_name
+      ? {
+          "@type": "Person",
+          name: post.author_name,
+        }
+      : {
+          "@id": ORGANIZATION_ID,
+        },
+
+    publisher: {
+      "@id": ORGANIZATION_ID,
+    },
+
+    mainEntityOfPage:
+      absoluteUrl(`/blog/${post.slug}`),
+
+    inLanguage: "es-PE",
+  };
+
   return (
     <>
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            articleJsonLd,
+          ).replace(/</g, "\\u003c"),
+        }}
+      />
 
       <main className={styles.page}>
         <article className={styles.article}>

@@ -1,13 +1,14 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import BackButton from "@/components/BackButton";
+import { createSeoMetadata } from "@/src/seo";
 import styles from "./PoliticasPrivacidadPage.module.css";
 
-export const metadata = {
+export const metadata = createSeoMetadata({
   title: "Política de Privacidad | Ancosur Inmobiliaria",
   description:
     "Conoce la Política de Privacidad y Tratamiento de Datos Personales de Ancosur S.A.C.",
-};
+
+  pathname: "/politicas/politica-de-privacidad",
+});
 
 const commercialPurposes = [
   "Gestionar clientes y prospectos interesados en proyectos inmobiliarios como lotes, departamentos y casas de campo.",
@@ -33,7 +34,6 @@ const dataTransfers = [
 export default function PoliticasPrivacidadPage() {
   return (
     <>
-      <Navbar />
 
       <main className={styles.page}>
         <section className={styles.hero}>

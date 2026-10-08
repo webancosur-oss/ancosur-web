@@ -15,6 +15,23 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next"
+import {
+  BRAND_NAME,
+  DEFAULT_OG_ALT,
+  DEFAULT_OG_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+  X_HANDLE,
+} from "@/src/seo";
+import {
+  ADDRESS,
+  EMAIL,
+  GEO,
+  ORGANIZATION_ID,
+  PHONE,
+  SOCIAL_PROFILES,
+  WEBSITE_ID,
+} from "@/src/organization";
 
 /* =========================================================
    FUENTE GLOBAL
@@ -48,9 +65,9 @@ export const viewport: Viewport = {
 ========================================================= */
 
 export const metadata: Metadata = {
- metadataBase: new URL("https://ancosur.com"),
+  metadataBase: new URL(SITE_URL),
 
-  applicationName: "ANCOSUR",
+  applicationName: BRAND_NAME,
 
   title: {
     default:
@@ -80,32 +97,25 @@ export const metadata: Metadata = {
 
   authors: [
     {
-      name: "Ancosur Inmobiliaria",
-      url: "https://ancosur.com",
+      name: SITE_NAME,
+      url: `${SITE_URL}/`,
     },
   ],
 
   creator:
-    "Ancosur Inmobiliaria",
+    SITE_NAME,
 
   publisher:
-    "Ancosur Inmobiliaria",
+    SITE_NAME,
 
   category:
     "Bienes raíces",
 
+  /* Sin "url": cada página define su propio og:url.
+     Si no, todas heredarían el de la portada. */
   openGraph: {
-    title:
-      "Departamentos y lotes en Huancayo | ANCOSUR",
-
-    description:
-      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce opciones para vivir e invertir.",
-
-    url:
-      "https://ancosur.com/",
-
     siteName:
-      "ANCOSUR",
+      SITE_NAME,
 
     locale:
       "es_PE",
@@ -116,7 +126,7 @@ export const metadata: Metadata = {
     images: [
       {
         url:
-          "/opengraph-image.png",
+          DEFAULT_OG_IMAGE,
 
         width:
           1200,
@@ -124,8 +134,11 @@ export const metadata: Metadata = {
         height:
           630,
 
+        type:
+          "image/jpeg",
+
         alt:
-          "ANCOSUR: departamentos, lotes y proyectos inmobiliarios en Huancayo",
+          DEFAULT_OG_ALT,
       },
     ],
   },
@@ -134,14 +147,17 @@ export const metadata: Metadata = {
     card:
       "summary_large_image",
 
-    title:
-      "Departamentos y lotes en Huancayo | ANCOSUR",
+    site:
+      X_HANDLE,
 
-    description:
-      "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR.",
+    creator:
+      X_HANDLE,
 
     images: [
-      "/opengraph-image.png",
+      {
+        url: DEFAULT_OG_IMAGE,
+        alt: DEFAULT_OG_ALT,
+      },
     ],
   },
 
@@ -170,12 +186,20 @@ export const metadata: Metadata = {
     },
   },
 
-  icons: {
-    icon:
-      "/favicon.ico",
+  /* Los iconos salen de app/icon.png y app/apple-icon.png
+     (convenciones de Next). Definir "icons" aquí los anula
+     y deja sin apple-touch-icon a iPhone / iMessage. */
 
-    shortcut:
-      "/favicon.ico",
+  appleWebApp: {
+    capable: true,
+
+    title: BRAND_NAME,
+
+    statusBarStyle: "default",
+  },
+
+  formatDetection: {
+    telephone: false,
   },
 
   other: {
@@ -184,6 +208,12 @@ export const metadata: Metadata = {
 
     "geo.placename":
       "Huancayo",
+
+    "geo.position":
+      `${GEO.latitude};${GEO.longitude}`,
+
+    ICBM:
+      `${GEO.latitude}, ${GEO.longitude}`,
 
     "content-language":
       "es-PE",
@@ -213,31 +243,43 @@ export default function RootLayout({
       "RealEstateAgent",
 
     "@id":
-      "https://ancosur.com/#organization",
+      ORGANIZATION_ID,
 
     name:
-      "ANCOSUR",
+      BRAND_NAME,
 
     alternateName:
-      "ANCOSUR Inmobiliaria",
+      SITE_NAME,
 
     url:
-      "https://ancosur.com/",
+      `${SITE_URL}/`,
 
-    logo:
-      "https://ancosur.com/assets/images/ancosur-logo-black.svg",
+    /* Google exige logo raster (no SVG) de al menos 112 px */
+    logo: {
+      "@type":
+        "ImageObject",
+
+      url:
+        `${SITE_URL}/icon-512.png`,
+
+      width:
+        512,
+
+      height:
+        512,
+    },
 
     image:
-      "https://ancosur.com/opengraph-image.png",
+      `${SITE_URL}${DEFAULT_OG_IMAGE}`,
 
     description:
       "Empresa inmobiliaria dedicada al desarrollo y comercialización de departamentos, lotes y proyectos inmobiliarios en Huancayo y otras zonas del Perú.",
 
     telephone:
-      "+51 971 069 763",
+      PHONE,
 
     email:
-      "info@ancosur.com",
+      EMAIL,
 
     priceRange:
       "$$",
@@ -246,32 +288,18 @@ export default function RootLayout({
       "@type":
         "PostalAddress",
 
-      streetAddress:
-        "Av. San Carlos 1481",
-
-      addressLocality:
-        "Huancayo",
-
-      addressRegion:
-        "Junín",
-
-      postalCode:
-        "12002",
-
-      addressCountry:
-        "PE",
+      ...ADDRESS,
     },
 
     geo: {
       "@type":
         "GeoCoordinates",
 
-      latitude:
-        -12.0651,
-
-      longitude:
-        -75.2049,
+      ...GEO,
     },
+
+    hasMap:
+      `https://www.google.com/maps/search/?api=1&query=${GEO.latitude},${GEO.longitude}`,
 
     areaServed: [
       {
@@ -302,7 +330,7 @@ export default function RootLayout({
         "ContactPoint",
 
       telephone:
-        "+51 971 069 763",
+        PHONE,
 
       contactType:
         "sales",
@@ -314,11 +342,8 @@ export default function RootLayout({
         "Spanish",
     },
 
-    sameAs: [
-      "https://www.facebook.com/ancosur",
-      "https://www.instagram.com/ancosur",
-      "https://www.youtube.com/@ancosur",
-    ],
+    sameAs:
+      SOCIAL_PROFILES,
   };
 
   const websiteSchema = {
@@ -329,16 +354,16 @@ export default function RootLayout({
       "WebSite",
 
     "@id":
-      "https://ancosur.com/#website",
+      WEBSITE_ID,
 
     url:
-      "https://ancosur.com/",
+      `${SITE_URL}/`,
 
     name:
-      "ANCOSUR",
+      BRAND_NAME,
 
     alternateName:
-      "ANCOSUR Inmobiliaria",
+      SITE_NAME,
 
     description:
       "Departamentos, lotes y proyectos inmobiliarios en Huancayo.",
@@ -348,7 +373,7 @@ export default function RootLayout({
 
     publisher: {
       "@id":
-        "https://ancosur.com/#organization",
+        ORGANIZATION_ID,
     },
   };
 

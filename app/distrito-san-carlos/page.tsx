@@ -1,3 +1,4 @@
+import ProjectJsonLd from "@/components/seo/ProjectJsonLd";
 import { createSeoMetadata } from "@/src/seo";
 
 import styles from "./DistritoSanCarlosPage.module.css";
@@ -36,8 +37,7 @@ export const metadata = createSeoMetadata({
     "departamentos Junín",
   ],
 
-  image:
-    "/assets/projects/sliders/distrito-san-carlos.webp",
+  image: "/og/distrito-san-carlos.jpg",
 });
 
 /* =========================================================
@@ -50,6 +50,12 @@ export default function DistritoSanCarlosPage() {
       id="main-content"
       className={styles.page}
     >
+      <ProjectJsonLd
+        name="Distrito San Carlos"
+        path="/distrito-san-carlos"
+        image="/og/distrito-san-carlos.jpg"
+      />
+
       <DistritoSanCarlosHero />
 
       <DistritoSanCarlosOverviewSection />

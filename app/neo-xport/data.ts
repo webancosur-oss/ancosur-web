@@ -436,7 +436,7 @@ export const seoNeoXport = {
   ],
 
   openGraphImage:
-    "/assets/projects/sliders/neo-xport.webp",
+    "/og/neo-xport.jpg",
 };
 
 /* =========================================================
