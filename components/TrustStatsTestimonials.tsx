@@ -187,6 +187,11 @@ export default function TrustStatsTestimonials() {
   const activeTestimonial =
     testimonials[activeIndex];
 
+  /* El reproductor de Facebook descarga ~3 MB de video al
+     montarse: solo se carga cuando el usuario pulsa play. */
+  const [playingId, setPlayingId] =
+    useState<number | null>(null);
+
   /* =========================================================
      ACTIVAR CONTADORES
   ========================================================= */
@@ -428,23 +433,52 @@ export default function TrustStatsTestimonials() {
                   Video
                 </div>
 
-                <iframe
-                  key={
-                    activeTestimonial.id
-                  }
-                  className={
-                    styles.facebookVideo
-                  }
-                  src={
-                    activeTestimonial.iframeSrc
-                  }
-                  title={`Testimonio de ${activeTestimonial.name}`}
-                  scrolling="no"
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
+                {playingId ===
+                activeTestimonial.id ? (
+                  <iframe
+                    key={
+                      activeTestimonial.id
+                    }
+                    className={
+                      styles.facebookVideo
+                    }
+                    src={`${activeTestimonial.iframeSrc}&autoplay=true`}
+                    title={`Testimonio de ${activeTestimonial.name}`}
+                    scrolling="no"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    allowFullScreen
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    className={
+                      styles.videoFacade
+                    }
+                    onClick={() =>
+                      setPlayingId(
+                        activeTestimonial.id
+                      )
+                    }
+                    aria-label={`Reproducir testimonio de ${activeTestimonial.project}`}
+                  >
+                    <PlayCircleIcon
+                      size={64}
+                      weight="fill"
+                      aria-hidden="true"
+                    />
+
+                    <span>
+                      Ver testimonio
+                    </span>
+
+                    <small>
+                      {
+                        activeTestimonial.project
+                      }
+                    </small>
+                  </button>
+                )}
               </div>
 
               {/* ===============================================

@@ -200,3 +200,16 @@ export function createSeoMetadata({
     },
   };
 }
+
+/* next/image solo optimiza hosts declarados en next.config
+   (images.remotePatterns); otras URLs se muestran tal cual. */
+export function isOptimizableImage(
+  url: string,
+): boolean {
+  return (
+    url.startsWith("/") ||
+    url.startsWith(
+      "https://ancosur-api-production.up.railway.app/api/",
+    )
+  );
+}

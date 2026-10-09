@@ -326,12 +326,45 @@ export default function PromoLeadPopup() {
       }
     }
 
-    const timer =
-      window.setTimeout(() => {
+    /* Se abre tras la primera interacción (scroll, toque,
+       tecla): un popup a pantalla completa al cargar se
+       convierte en el LCP de Google y penaliza en móvil. */
+    let timer = 0;
+
+    const events = [
+      "scroll",
+      "pointerdown",
+      "keydown",
+      "touchstart",
+    ] as const;
+
+    const removeListeners = () => {
+      events.forEach((name) =>
+        window.removeEventListener(
+          name,
+          handleInteraction
+        )
+      );
+    };
+
+    function handleInteraction() {
+      removeListeners();
+
+      timer = window.setTimeout(() => {
         setIsVisible(true);
       }, popupConfig.showDelay);
+    }
+
+    events.forEach((name) =>
+      window.addEventListener(
+        name,
+        handleInteraction,
+        { passive: true }
+      )
+    );
 
     return () => {
+      removeListeners();
       window.clearTimeout(timer);
     };
   }, []);

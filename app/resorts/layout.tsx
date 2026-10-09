@@ -11,6 +11,8 @@ export const metadata = createSeoMetadata({
 
   pathname: "/resorts",
 
+  image: "/og/resorts.jpg",
+
   keywords: [
     "resort San Ramón",
     "Zagari Resort Club",

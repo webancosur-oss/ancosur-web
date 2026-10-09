@@ -1,3 +1,6 @@
+import Image from "next/image";
+
+import { isOptimizableImage } from "@/src/seo";
 import Link from "next/link";
 
 import { createSeoMetadata } from "@/src/seo";
@@ -385,12 +388,14 @@ export default async function BlogPage() {
 
                             {imageUrl ? (
 
-                              <img
+                              <Image
                                 src={imageUrl}
                                 alt={post.title}
                                 className={styles.image}
-                                loading="lazy"
-                                decoding="async"
+                                unoptimized={!isOptimizableImage(imageUrl)}
+                                width={800}
+                                height={900}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 400px"
                               />
 
                             ) : (

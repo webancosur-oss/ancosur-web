@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
       90,
     ],
 
+    /* Fotos de proyectos y blog servidas por la API */
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ancosur-api-production.up.railway.app",
+        pathname: "/api/**",
+      },
+    ],
+
     /* Las imágenes optimizadas se cachean 30 días en la CDN */
     minimumCacheTTL: 2592000,
   },

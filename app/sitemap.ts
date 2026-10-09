@@ -36,7 +36,7 @@ const corePages: Entry[] = [
   page("/proyectos", "weekly", 0.9),
   page("/departamentos", "weekly", 0.9),
   page("/lotes", "weekly", 0.9),
-  page("/resorts", "weekly", 0.8),
+  page("/resorts", "weekly", 0.8, "/og/resorts.jpg"),
   page("/promociones", "weekly", 0.8),
   page("/proyectos-entregados", "monthly", 0.7),
   page("/nosotros", "monthly", 0.7, "/og/nosotros.jpg"),

@@ -106,6 +106,7 @@ export default function FloatingPromo({
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
+          priority
           className={`${styles.image} ${styles.desktopImage}`}
           sizes="
             (max-width: 640px) 0px,
@@ -119,6 +120,7 @@ export default function FloatingPromo({
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
+          priority
           className={`${styles.image} ${styles.mobileImage}`}
           sizes="
             (max-width: 640px) 195px,

@@ -1,6 +1,9 @@
 // app/resort/page.tsx
 "use client";
 
+import Image from "next/image";
+
+import { isOptimizableImage } from "@/src/seo";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -232,15 +235,17 @@ function ProjectCard({
     <article className={styles.card}>
       <div className={styles.imageWrapper}>
         {imageUrl ? (
-          <img
+          <Image
             src={imageUrl}
             alt={
               project.titulo ||
               "Proyecto ANCOSUR"
             }
             className={styles.image}
-            loading="lazy"
-            decoding="async"
+            unoptimized={!isOptimizableImage(imageUrl)}
+            width={800}
+            height={900}
+            sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 400px"
           />
         ) : (
           <div className={styles.imagePlaceholder}>

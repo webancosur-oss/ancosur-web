@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+
+import { isOptimizableImage } from "@/src/seo";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -342,15 +345,17 @@ export default function FeaturedProjects({
                         }
                       >
                         {imageUrl ? (
-                          <img
+                          <Image
                             src={imageUrl}
                             alt={
                               project.titulo ||
                               "Proyecto ANCOSUR"
                             }
                             className={styles.image}
-                            loading="lazy"
-                            decoding="async"
+                            unoptimized={!isOptimizableImage(imageUrl)}
+                            width={800}
+                            height={900}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 400px"
                           />
                         ) : (
                           <div
