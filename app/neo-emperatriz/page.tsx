@@ -15,10 +15,10 @@ import styles from "./NeoEmperatrizPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Neo Emperatriz | Departamentos con entrega inmediata en Huancayo",
+    "Neo Emperatriz | Departamentos con entrega inmediata",
 
   description:
-    "Neo Emperatriz ofrece departamentos de 2 y 3 dormitorios con entrega inmediata en San Carlos, Huancayo. Áreas desde 67 m² hasta 109 m², cerca de la Universidad Continental y con modernas áreas comunes.",
+    "Departamentos de 2 y 3 dormitorios de 67 a 109 m² con entrega inmediata en San Carlos, Huancayo, cerca de la Universidad Continental.",
 
   pathname: "/neo-emperatriz",
 

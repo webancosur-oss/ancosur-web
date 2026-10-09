@@ -6,7 +6,7 @@ export const metadata = createSeoMetadata({
   title: "Políticas | Ancosur Inmobiliaria",
 
   description:
-    "Consulta las políticas corporativas, documentos del Sistema Integrado de Gestión, política de privacidad, términos y condiciones y política de cookies de Ancosur.",
+    "Políticas corporativas de Ancosur: Sistema Integrado de Gestión, política de privacidad, términos y condiciones y política de cookies.",
 
   pathname: "/politicas",
 

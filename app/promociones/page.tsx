@@ -33,7 +33,7 @@ const PAGE_TITLE =
   "Promociones inmobiliarias en Huancayo | ANCOSUR";
 
 const PAGE_DESCRIPTION =
-  "Conoce las promociones vigentes de ANCOSUR en departamentos y lotes en Huancayo: descuentos, beneficios especiales y asesoría personalizada en nuestro showroom.";
+  "Promociones vigentes de ANCOSUR en departamentos y lotes en Huancayo: descuentos, beneficios especiales y asesoría personalizada en el showroom.";
 
 const EVENT_DESCRIPTION =
   "Participa en el Cyber House Ancosur, conoce nuestros proyectos inmobiliarios, recibe asesoría personalizada y accede a beneficios especiales durante el evento.";

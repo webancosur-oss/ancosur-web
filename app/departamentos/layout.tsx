@@ -7,7 +7,7 @@ export const metadata = createSeoMetadata({
   title: "Departamentos en venta en Huancayo",
 
   description:
-    "Departamentos en venta en Huancayo con ANCOSUR: proyectos Neo en preventa, en construcción y con entrega inmediata, con áreas comunes, financiamiento y asesoría personalizada.",
+    "Departamentos en venta en Huancayo con ANCOSUR: proyectos Neo en preventa y con entrega inmediata, con áreas comunes, financiamiento y asesoría.",
 
   pathname: "/departamentos",
 

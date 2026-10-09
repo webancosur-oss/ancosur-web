@@ -27,6 +27,23 @@ export const DEFAULT_OG_ALT =
 export const X_HANDLE =
   "@Ancosur_";
 
+/* Debe coincidir con title.template del layout raíz */
+export const TITLE_SUFFIX =
+  " | ANCOSUR";
+
+/* Corta en una palabra completa y añade "…" */
+export function truncate(
+  text: string,
+  max: number,
+): string {
+  if (text.length <= max) return text;
+
+  const cut = text.slice(0, max - 1);
+  const space = cut.lastIndexOf(" ");
+
+  return `${(space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:.–-]+$/, "")}…`;
+}
+
 type CreateSeoMetadataParams = {
   title: string;
   description: string;
@@ -108,14 +125,21 @@ export function createSeoMetadata({
   const isOgSized =
     image.startsWith("/og/");
 
-  return {
-    /* Evita "… | Ancosur Inmobiliaria | ANCOSUR" con la
-       plantilla del layout raíz. */
-    title: /ancosur/i.test(title)
-      ? { absolute: title }
-      : title,
+  /* Google muestra ~60 caracteres de título: sin sufijo de
+     marca si ya la incluye o si con él se pasaría. */
+  const useTemplate =
+    !/ancosur/i.test(title) &&
+    `${title}${TITLE_SUFFIX}`.length <= 60;
 
-    description,
+  const metaDescription =
+    truncate(description, 155);
+
+  return {
+    title: useTemplate
+      ? title
+      : { absolute: title },
+
+    description: metaDescription,
 
     keywords,
 
@@ -139,7 +163,7 @@ export function createSeoMetadata({
 
       title,
 
-      description,
+      description: metaDescription,
 
       images: [
         {
@@ -168,7 +192,7 @@ export function createSeoMetadata({
 
       title,
 
-      description,
+      description: metaDescription,
 
       images: [
         {

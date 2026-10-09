@@ -19,7 +19,7 @@ export const metadata = createSeoMetadata({
     "Neo Rivera | Departamentos Wellness en Huancayo",
 
   description:
-    "Neo Rivera es un edificio Wellness ubicado en La Ribera, Huancayo. Departamentos de 2 habitaciones, áreas desde 57 m², amenidades para el bienestar y una excelente ubicación para vivir o invertir.",
+    "Edificio Wellness en La Ribera, Huancayo: departamentos de 2 habitaciones desde 57 m² con amenidades para el bienestar, para vivir o invertir.",
 
   pathname: "/neo-rivera",
 

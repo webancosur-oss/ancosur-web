@@ -19,7 +19,7 @@ export const metadata = createSeoMetadata({
     "Las Colinas de Moro | Lotes en Concepción",
 
   description:
-    "Las Colinas de Moro ofrece lotes desde 90 m² con entrega inmediata en La Huaycha, Concepción. Cuotas desde S/ 800, título de propiedad y acceso desde la Carretera Central.",
+    "Lotes desde 90 m² con entrega inmediata en La Huaycha, Concepción: cuotas desde S/ 800, título de propiedad y acceso por la Carretera Central.",
 
   pathname:
     "/colinas-de-moro",

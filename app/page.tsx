@@ -29,7 +29,7 @@ const HOME_TITLE =
   "ANCOSUR | Departamentos y lotes en Huancayo";
 
 const HOME_DESCRIPTION =
-  "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce oportunidades para vivir, invertir y adquirir una propiedad segura.";
+  "Departamentos y lotes en Huancayo con ANCOSUR: proyectos en preventa y con entrega inmediata, con asesoría para vivir o invertir con seguridad.";
 
 const HOME_IMAGE =
   DEFAULT_OG_IMAGE;

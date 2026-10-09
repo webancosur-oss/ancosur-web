@@ -8,7 +8,7 @@ export const metadata = createSeoMetadata({
     "Política del Sistema Integrado de Gestión | Ancosur",
 
   description:
-    "Consulta la Política del Sistema Integrado de Gestión de Ancosur.",
+    "Consulta y descarga la Política del Sistema Integrado de Gestión (SIG) de Ancosur Inmobiliaria, empresa de proyectos inmobiliarios en Huancayo.",
 
   pathname: "/politicas/sig",
 });
@@ -25,7 +25,7 @@ export default function PoliticaSIGPage() {
         />
 
         <iframe
-          src="/politicas/sig-politica.pdf#toolbar=0&navpanes=0&scrollbar=1"
+          src="/assets/politicas/sig-politica.pdf#toolbar=0&navpanes=0&scrollbar=1"
           title="Política SIG Ancosur"
           className={styles.viewer}
         />

@@ -8,7 +8,7 @@ export const metadata = createSeoMetadata({
     "Alcance del Sistema Integrado de Gestión | Ancosur",
 
   description:
-    "Consulta el Alcance del Sistema Integrado de Gestión de Ancosur.",
+    "Consulta y descarga el documento de Alcance del Sistema Integrado de Gestión (SIG) de Ancosur Inmobiliaria, empresa inmobiliaria en Huancayo.",
 
   pathname: "/politicas/sig-alcance",
 });
@@ -25,7 +25,7 @@ export default function AlcanceSIGPage() {
         />
 
         <iframe
-          src="/politicas/sig-alcance.pdfv2#toolbar=0&navpanes=0&scrollbar=1"
+          src="/assets/politicas/sig-alcancev2.pdf#toolbar=0&navpanes=0&scrollbar=1"
           title="Alcance SIG Ancosur"
           className={styles.viewer}
         />

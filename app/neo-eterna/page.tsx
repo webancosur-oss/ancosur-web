@@ -15,10 +15,10 @@ import styles from "./NeoEternaPage.module.css";
 
 export const metadata = createSeoMetadata({
   title:
-    "Neo Eterna | Departamentos en la zona universitaria de Huancayo",
+    "Neo Eterna | Departamentos cerca a universidades en Huancayo",
 
   description:
-    "Neo Eterna es un proyecto de departamentos ubicado en la zona universitaria de San Carlos, Huancayo. Cuenta con tipologías de 1, 2 y 3 ambientes, áreas desde 41 m² y amenidades para estudiantes, profesionales e inversionistas.",
+    "Departamentos de 1, 2 y 3 ambientes desde 41 m² en la zona universitaria de San Carlos, Huancayo, con amenidades para estudiantes e inversionistas.",
 
   pathname: "/neo-eterna",
 

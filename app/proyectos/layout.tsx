@@ -7,7 +7,7 @@ export const metadata = createSeoMetadata({
   title: "Proyectos inmobiliarios en Huancayo",
 
   description:
-    "Conoce todos los proyectos inmobiliarios de ANCOSUR en Huancayo y Junín: departamentos, lotes y resorts en preventa, en construcción y con entrega inmediata.",
+    "Todos los proyectos de ANCOSUR en Huancayo y Junín: departamentos, lotes y resorts en preventa, en construcción y con entrega inmediata.",
 
   pathname: "/proyectos",
 

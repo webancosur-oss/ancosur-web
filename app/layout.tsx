@@ -78,7 +78,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Encuentra departamentos, lotes y proyectos inmobiliarios en Huancayo con ANCOSUR. Conoce opciones para vivir, invertir y adquirir una propiedad segura.",
+    "Departamentos y lotes en Huancayo con ANCOSUR: proyectos en preventa y con entrega inmediata, con asesoría para vivir o invertir con seguridad.",
 
   keywords: [
     "ANCOSUR",

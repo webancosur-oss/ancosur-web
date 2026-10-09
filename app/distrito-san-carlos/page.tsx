@@ -18,7 +18,7 @@ export const metadata = createSeoMetadata({
     "Distrito San Carlos | Departamentos en Huancayo",
 
   description:
-    "Distrito San Carlos es un proyecto inmobiliario de uso mixto en Huancayo con departamentos modernos, áreas comunes, zonas comerciales y una ubicación estratégica para vivir e invertir.",
+    "Proyecto de uso mixto en Huancayo con departamentos modernos, áreas comunes y zonas comerciales en una ubicación estratégica para vivir e invertir.",
 
   pathname: "/distrito-san-carlos",
 

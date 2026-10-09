@@ -420,7 +420,7 @@ export const seoNeoXport = {
     "Neo Xport | Departamentos frente al Polideportivo Wanka",
 
   description:
-    "Conoce Neo Xport, el primer edificio con ADN deportivo de Huancayo. Departamentos de 60 m² a 77 m² Desde S/ 228.750, cinco áreas comunes y ubicación frente al Polideportivo Wanka.",
+    "Neo Xport, el primer edificio con ADN deportivo de Huancayo: departamentos de 60 m² a 77 m², cinco áreas comunes y frente al Polideportivo Wanka.",
 
   keywords: [
     "Neo Xport",

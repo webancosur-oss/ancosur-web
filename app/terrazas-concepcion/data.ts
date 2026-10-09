@@ -655,7 +655,7 @@ export const seoTerrazasConcepcion = {
     "Las Terrazas de Concepción | Lotes desde 90 m²",
 
   description:
-    "Encuentra lotes de 90 m² a 174 m² desde S/ 33,900 en Las Terrazas de Concepción. Proyecto entregado con financiamiento directo, agua, electricidad y vistas al Valle del Mantaro.",
+    "Lotes de 90 a 174 m² desde S/ 33,900 en Concepción, ya entregados, con financiamiento directo, agua, electricidad y vistas al Valle del Mantaro.",
 
   keywords: [
     "Las Terrazas de Concepción",

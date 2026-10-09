@@ -18,7 +18,7 @@ export const metadata = createSeoMetadata({
     "Neo Origen | Departamentos en El Tambo, Huancayo",
 
   description:
-    "Neo Origen es un proyecto inmobiliario ubicado en Jr. Libertad 1187, El Tambo, Huancayo. Cuenta con departamentos de 1, 2 y 3 ambientes, áreas desde 40 m² y modernas áreas comunes.",
+    "Departamentos de 1, 2 y 3 ambientes desde 40 m² en Jr. Libertad 1187, El Tambo, Huancayo, con modernas áreas comunes para vivir o invertir.",
 
   pathname: "/neo-origen",
 

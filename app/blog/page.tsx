@@ -16,7 +16,7 @@ import styles from "./BlogPage.module.css";
 export const revalidate = 300;
 
 export const metadata = createSeoMetadata({
-  title: "Blog inmobiliario: consejos para comprar e invertir en Huancayo",
+  title: "Blog inmobiliario: comprar e invertir en Huancayo",
 
   description:
     "Guías, noticias y consejos de ANCOSUR para comprar departamentos y lotes, invertir en inmuebles y conocer el mercado inmobiliario en Huancayo.",
