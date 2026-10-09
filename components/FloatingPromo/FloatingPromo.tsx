@@ -105,7 +105,7 @@ export default function FloatingPromo({
         aria-label="Conocer las promociones de Ancosur"
       >
         <Image
-          src="/assets/floating/leonito-showroom.webp"
+          src="/assets/floating/leonito-eso.webp"
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
@@ -120,7 +120,7 @@ export default function FloatingPromo({
         />
 
         <Image
-          src="/assets/floating/leonito-showroom.webp"
+          src="/assets/floating/leonito-eso.webp"
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
