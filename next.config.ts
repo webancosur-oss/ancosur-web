@@ -8,11 +8,6 @@ const nextConfig: NextConfig = {
 
   poweredByHeader: false,
 
-  experimental: {
-    /* CSS incrustado en el HTML: elimina las peticiones que
-       bloqueaban el primer pintado (mejora FCP/LCP). */
-    inlineCss: true,
-  },
 
   images: {
     formats: [
