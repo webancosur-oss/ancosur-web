@@ -13,7 +13,7 @@ import FloatingPodcast from "@/components/FloatingPodcast";
 import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { GoogleTagManager } from "@next/third-parties/google";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next"
 import {
   BRAND_NAME,
@@ -48,6 +48,8 @@ const manrope = Manrope({
   ],
   display: "swap",
 });
+
+const GTM_ID = "GTM-WG5V57RC";
 
 /* =========================================================
    VIEWPORT
@@ -388,7 +390,16 @@ export default function RootLayout({
       className={manrope.variable}
     >
       <body>
-        <GoogleTagManager gtmId="GTM-WG5V57RC" />
+        {/* GTM se carga cuando el navegador queda libre tras el
+            load: no compite con el primer pintado. Los eventos
+            que se envíen antes quedan en dataLayer y GTM los
+            procesa al cargar. */}
+        <Script
+          id="gtm"
+          strategy="lazyOnload"
+        >
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
         <Navbar />
 
         {children}
