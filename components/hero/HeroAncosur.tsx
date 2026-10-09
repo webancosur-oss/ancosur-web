@@ -1,7 +1,7 @@
 "use client";
 
 import { PhoneIcon } from "@phosphor-icons/react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import {
   useCallback,
   useEffect,
@@ -71,6 +71,59 @@ const slides = [
     mobileImage: "/assets/projects/sliders/mobile/neo-balto-mobile.webp",
   },
 ];
+
+type Slide = (typeof slides)[number];
+
+/* Un solo <picture>: el navegador descarga únicamente la
+   versión de móvil o la de escritorio (antes bajaba ambas).
+   La primera diapositiva es el LCP: prioridad alta y sin
+   lazy-load. */
+function SlideImage({
+  slide,
+  isFirst,
+}: {
+  slide: Slide;
+  isFirst: boolean;
+}) {
+  const common = {
+    alt: slide.title,
+    fill: true,
+    sizes: "100vw",
+  };
+
+  const {
+    props: { srcSet: desktopSrcSet },
+  } = getImageProps({
+    ...common,
+    src: slide.desktopImage,
+  });
+
+  const {
+    props: { srcSet: mobileSrcSet, ...imageProps },
+  } = getImageProps({
+    ...common,
+    src: slide.mobileImage,
+  });
+
+  return (
+    <picture>
+      <source
+        media="(min-width: 761px)"
+        srcSet={desktopSrcSet}
+      />
+      <img
+        {...imageProps}
+        srcSet={mobileSrcSet}
+        alt={slide.title}
+        className={styles.backgroundImage}
+        loading={isFirst ? "eager" : "lazy"}
+        fetchPriority={isFirst ? "high" : "auto"}
+        decoding={isFirst ? "sync" : "async"}
+        draggable={false}
+      />
+    </picture>
+  );
+}
 
 type SlideDirection = "next" | "prev";
 
@@ -244,24 +297,9 @@ export default function HeroAncosur() {
         >
           {slides.map((slide, index) => (
             <div key={slide.id} className={styles.slidePanel}>
-              <Image
-                src={slide.desktopImage}
-                alt={slide.title}
-                fill
-                priority={index === 0}
-                className={`${styles.backgroundImage} ${styles.desktopImage}`}
-                sizes="(max-width: 760px) 1px, 100vw"
-                draggable={false}
-              />
-
-              <Image
-                src={slide.mobileImage}
-                alt={slide.title}
-                fill
-                priority={index === 0}
-                className={`${styles.backgroundImage} ${styles.mobileImage}`}
-                sizes="(max-width: 760px) 100vw, 1px"
-                draggable={false}
+              <SlideImage
+                slide={slide}
+                isFirst={index === 0}
               />
             </div>
           ))}

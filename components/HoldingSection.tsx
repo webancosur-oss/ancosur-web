@@ -691,7 +691,6 @@ export default function HoldingSection() {
                         }
                         alt=""
                         fill
-                        priority={index === 0}
                         sizes="
                           (max-width: 640px) 84vw,
                           (max-width: 1024px) 48vw,

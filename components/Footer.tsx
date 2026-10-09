@@ -143,7 +143,6 @@ export default function Footer() {
                   alt="Ancosur Inmobiliaria"
                   width={280}
                   height={100}
-                  priority
                   className={styles.logoImage}
                   onError={() => setLogoError(true)}
                 />

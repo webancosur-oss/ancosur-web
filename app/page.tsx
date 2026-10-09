@@ -15,7 +15,7 @@ import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
 import HeroAncosur from "@/components/hero/HeroAncosur";
 import HoldingSection from "@/components/HoldingSection";
-import PromoLeadPopup from "@/components/PromoLeadPopup";
+import PromoLeadPopup from "@/components/PromoLeadPopupLazy";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";

@@ -95,6 +95,9 @@ export default function FloatingPromo({
         />
       </button>
 
+      {/* En móvil esta imagen es el LCP (Chrome ignora el hero
+          por ocupar todo el viewport): carga inmediata y prioridad
+          alta, sin <link rel="preload"> para no bajar ambas variantes. */}
       <Link
         href={href}
         className={styles.floatingPromo}
@@ -106,7 +109,8 @@ export default function FloatingPromo({
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
-          priority
+          loading="eager"
+          fetchPriority="high"
           className={`${styles.image} ${styles.desktopImage}`}
           sizes="
             (max-width: 640px) 0px,
@@ -120,7 +124,8 @@ export default function FloatingPromo({
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
-          priority
+          loading="eager"
+          fetchPriority="high"
           className={`${styles.image} ${styles.mobileImage}`}
           sizes="
             (max-width: 640px) 195px,

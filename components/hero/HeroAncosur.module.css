@@ -75,14 +75,6 @@
   filter: brightness()
 }
 
-.desktopImage {
-  display: block;
-}
-
-.mobileImage {
-  display: none;
-}
-
 .content {
   position: relative;
   z-index: 4;
@@ -376,14 +368,6 @@
         rgba(8, 8, 18, 0.5) 38%,
         rgba(8, 8, 18, 0.92) 100%
       );
-  }
-
-  .desktopImage {
-    display: none;
-  }
-
-  .mobileImage {
-    display: block;
   }
 
   .content {
