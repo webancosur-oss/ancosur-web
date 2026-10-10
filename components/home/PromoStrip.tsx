@@ -61,14 +61,15 @@ export default function PromoStrip({
                     : ""
                 }`}
               >
-                <Image
-                  src={promotion.image}
-                  alt=""
-                  width={64}
-                  height={64}
-                  sizes="64px"
-                  className={styles.thumb}
-                />
+                <span className={styles.thumb}>
+                  <Image
+                    src={promotion.image}
+                    alt=""
+                    fill
+                    sizes="120px"
+                    className={styles.thumbImage}
+                  />
+                </span>
 
                 <span className={styles.texts}>
                   <strong>{promotion.name}</strong>
