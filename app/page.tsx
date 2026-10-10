@@ -15,7 +15,9 @@ import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
 import HeroAncosur from "@/components/hero/HeroAncosur";
 import HoldingSection from "@/components/HoldingSection";
-import PromoLeadPopup from "@/components/PromoLeadPopupLazy";
+import ShowroomBar from "@/components/home/ShowroomBar";
+import PromotionsGrid from "@/app/promociones/components/PromotionsGrid";
+import { getActivePromotions } from "@/app/promociones/data";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
@@ -188,7 +190,17 @@ export const metadata: Metadata = {
    PÁGINA PRINCIPAL
 ========================================================= */
 
+/* Se regenera cada hora para mostrar solo las
+   promociones vigentes (ver app/promociones/data.ts). */
+export const revalidate = 3600;
+
 export default function Home() {
+  const promotions = getActivePromotions();
+
+  const showroomActive = promotions.some(
+    (promotion) => promotion.id === "showroom",
+  );
+
   const homePageJsonLd = {
     "@context":
       "https://schema.org",
@@ -278,12 +290,27 @@ export default function Home() {
 
   return (
     <>
-      <PromoLeadPopup />
-
-      <FloatingPromo href="/promociones" />   
+      <FloatingPromo href="/promociones" />
 
       <main id="main-content">
+        {showroomActive && <ShowroomBar />}
+
         <HeroAncosur />
+
+        {promotions.length > 0 && (
+          <PromotionsGrid
+            promotions={promotions}
+            kicker="Aprovecha este mes"
+            title="Promociones vigentes"
+            description={
+              showroomActive
+                ? "Showroom de Halloween, campañas del mes y beneficios exclusivos por ser parte de la familia Ancosur."
+                : "Campañas del mes y beneficios exclusivos por ser parte de la familia Ancosur."
+            }
+            linkBase="/promociones"
+            showAllLink
+          />
+        )}
 
         <FeaturedProjects />
 

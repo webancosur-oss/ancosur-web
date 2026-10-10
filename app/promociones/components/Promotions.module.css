@@ -408,6 +408,35 @@
   color: #ffffff;
 }
 
+.showAll {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.showAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background: #101a14;
+  color: #ffffff;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.showAllLink:hover {
+  background: #00a74f;
+}
+
+.showAllLink:focus-visible {
+  outline: 3px solid #55e69a;
+  outline-offset: 3px;
+}
+
 /* ---------------------------------------------------------
    DETALLE DE PROMOCIÓN
 --------------------------------------------------------- */

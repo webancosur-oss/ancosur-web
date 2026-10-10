@@ -5,6 +5,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   whatsappHref,
@@ -15,10 +16,22 @@ import styles from "./Promotions.module.css";
 
 type PromotionsGridProps = {
   promotions: Promotion[];
+  kicker?: string;
+  title?: string;
+  description?: string;
+  /* "" en /promociones; "/promociones" desde otras páginas */
+  linkBase?: string;
+  /* Muestra el enlace "Ver todas las promociones" */
+  showAllLink?: boolean;
 };
 
 export default function PromotionsGrid({
   promotions,
+  kicker = "Vigentes este mes",
+  title = "Elige tu promoción",
+  description = "Cada promoción tiene su vigencia y condiciones. Toca una para ver el detalle o escríbenos por WhatsApp.",
+  linkBase = "",
+  showAllLink = false,
 }: PromotionsGridProps) {
   return (
     <section
@@ -28,18 +41,12 @@ export default function PromotionsGrid({
       <div className={styles.container}>
         <header className={styles.sectionHeader}>
           <span className={styles.sectionKicker}>
-            Vigentes este mes
+            {kicker}
           </span>
 
-          <h2 id="promociones-vigentes">
-            Elige tu promoción
-          </h2>
+          <h2 id="promociones-vigentes">{title}</h2>
 
-          <p>
-            Cada promoción tiene su vigencia y condiciones.
-            Toca una para ver el detalle o escríbenos por
-            WhatsApp.
-          </p>
+          <p>{description}</p>
         </header>
 
         <div className={styles.cards}>
@@ -49,7 +56,7 @@ export default function PromotionsGrid({
               className={styles.card}
             >
               <a
-                href={`#${promotion.id}`}
+                href={`${linkBase}#${promotion.id}`}
                 className={styles.cardMedia}
                 aria-label={`Ver detalle de ${promotion.name}`}
               >
@@ -85,7 +92,7 @@ export default function PromotionsGrid({
 
                 <div className={styles.cardActions}>
                   <a
-                    href={`#${promotion.id}`}
+                    href={`${linkBase}#${promotion.id}`}
                     className={styles.cardLink}
                   >
                     Ver detalle
@@ -116,6 +123,22 @@ export default function PromotionsGrid({
             </article>
           ))}
         </div>
+
+        {showAllLink && (
+          <div className={styles.showAll}>
+            <Link
+              href="/promociones"
+              className={styles.showAllLink}
+            >
+              Ver todas las promociones
+              <ArrowRightIcon
+                size={18}
+                weight="bold"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
