@@ -199,7 +199,7 @@ export default function Home() {
   const promotions = getActivePromotions();
 
   /* Popup: la campaña vigente más importante */
-  const popupSource = ["showroom", "depaween", "familia-ancosur"]
+  const popupSource = ["depaween", "showroom", "familia-ancosur"]
     .map((id) => promotions.find((promotion) => promotion.id === id))
     .find(Boolean);
 

@@ -139,7 +139,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 2;
+  z-index: 4;
 
   display: grid;
   place-items: center;
@@ -173,6 +173,11 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 18px 18px 22px;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .eyebrow {
@@ -401,28 +406,346 @@
 
   .dialog {
     flex-direction: row;
-    width: min(760px, 100%);
-    max-height: min(560px, 92vh);
+    width: auto;
+    max-width: min(980px, 100%);
+    height: min(640px, 92vh);
+    max-height: none;
     border-radius: 22px;
     animation-name: popIn;
   }
 
+  /* Como el popup original: el afiche se ve completo, sin
+     recortes; su ancho sale de la proporción de la imagen. */
   .media {
-    flex: 0 0 44%;
-    height: auto;
+    flex: 0 0 auto;
+    height: 100%;
+    aspect-ratio: 1081 / 1351;
   }
 
   .mediaImage {
+    object-fit: cover;
     object-position: center;
   }
 
   .content {
-    flex: 1;
-    padding: 28px 26px 26px;
+    display: flex;
+    flex: 0 1 440px;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 28px 30px 24px;
   }
 
   .title {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
+  }
+
+  .summary {
+    margin-top: 6px;
+    font-size: 0.9rem;
+  }
+
+  .form {
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .field input,
+  .field select {
+    min-height: 44px;
+  }
+
+  .choice {
+    min-height: 42px;
+  }
+}
+
+/* Tablet: el afiche vertical necesita más ancho para no
+   recortarse por los lados. */
+@media (min-width: 641px) and (max-width: 900px) {
+  .dialog {
+    width: 100%;
+    height: min(640px, 92vh);
+  }
+
+  .media {
+    flex: 0 0 48%;
+    aspect-ratio: auto;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  .mediaImage {
+    object-position: left top;
+  }
+
+  .content {
+    padding: 26px 22px 22px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   TEMA HALLOWEEN (diseño del popup original)
+--------------------------------------------------------- */
+
+.halloween {
+  --hw-bg: #06140d;
+  --hw-surface: #0c2117;
+  --hw-orange: #ff7a1a;
+  --hw-orange-dark: #e2600a;
+  --hw-text: #effff6;
+  --hw-muted: rgba(239, 255, 246, 0.7);
+}
+
+.dialog.halloween {
+  border: 1px solid rgba(255, 140, 26, 0.28);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 122, 26, 0.16), transparent 45%),
+    radial-gradient(circle at 60% 100%, rgba(0, 167, 79, 0.2), transparent 50%),
+    var(--hw-bg);
+  box-shadow:
+    0 34px 100px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(0, 167, 79, 0.28),
+    0 0 140px rgba(0, 167, 79, 0.12);
+  color: var(--hw-text);
+}
+
+.halloween .media {
+  background: #030b07;
+}
+
+.halloween .eyebrow {
+  color: var(--hw-orange);
+}
+
+.halloween .title {
+  color: var(--hw-text);
+  text-shadow:
+    0 0 18px rgba(0, 167, 79, 0.55),
+    0 0 42px rgba(0, 167, 79, 0.25);
+}
+
+.halloween .title span {
+  color: #7dffb4;
+}
+
+.halloween .summary,
+.halloween .consent,
+.halloween .success p {
+  color: var(--hw-muted);
+}
+
+.halloween .field > span,
+.halloween .choices legend {
+  color: var(--hw-text);
+}
+
+.halloween .field input,
+.halloween .field select,
+.halloween .choice {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: var(--hw-surface);
+  color: var(--hw-text);
+}
+
+.halloween .field input::placeholder {
+  color: rgba(239, 255, 246, 0.4);
+}
+
+.halloween .field input:focus,
+.halloween .field select:focus {
+  border-color: var(--hw-orange);
+  outline: 3px solid rgba(255, 122, 26, 0.2);
+  background: var(--hw-surface);
+}
+
+.halloween .choiceActive {
+  border-color: var(--hw-orange);
+  background: rgba(255, 122, 26, 0.16);
+  color: var(--hw-orange);
+}
+
+.halloween .choice:focus-within {
+  outline-color: rgba(255, 122, 26, 0.35);
+}
+
+.halloween .consent input {
+  accent-color: var(--hw-orange);
+}
+
+.halloween .field small,
+.halloween .choices small,
+.halloween .formError {
+  color: #ff8a96;
+}
+
+.halloween .submit {
+  background: linear-gradient(135deg, var(--hw-orange), var(--hw-orange-dark));
+  color: #1a0b00;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.halloween .submit:hover {
+  background: linear-gradient(135deg, #ff8c38, var(--hw-orange));
+  box-shadow: 0 16px 34px rgba(255, 122, 26, 0.35);
+}
+
+.halloween .close {
+  background: var(--hw-orange);
+  color: #1a0b00;
+}
+
+.halloween .success h2 {
+  color: var(--hw-text);
+}
+
+.halloween .success svg {
+  color: var(--hw-orange);
+}
+
+/* Tarjeta compacta (móvil) con el mismo tema */
+.teaser.halloween {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 122, 26, 0.18), transparent 55%),
+    var(--hw-bg);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(0, 167, 79, 0.25);
+}
+
+.teaserEyebrow {
+  color: #ff7a1a;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.teaser.halloween .teaserButton {
+  background: linear-gradient(135deg, #ff7a1a, #e2600a);
+  color: #1a0b00;
+}
+
+/* Decoración: murciélagos, fantasmas y telaraña */
+.spooky {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bat1,
+.bat2,
+.bat3 {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(0, 167, 79, 0.6));
+  animation: batFly 6s ease-in-out infinite;
+}
+
+.bat1 {
+  top: 18px;
+  right: 70px;
+}
+
+.bat2 {
+  top: 54%;
+  right: 18px;
+  font-size: 1rem;
+  animation-delay: -2s;
+}
+
+.bat3 {
+  bottom: 22px;
+  left: 54%;
+  font-size: 1.1rem;
+  animation-delay: -4s;
+}
+
+.ghost1,
+.ghost2 {
+  position: absolute;
+  font-size: 1.6rem;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgba(0, 167, 79, 0.9));
+  animation: ghostFloat 7s ease-in-out infinite;
+}
+
+.ghost1 {
+  top: 38%;
+  left: 8px;
+}
+
+.ghost2 {
+  bottom: 28%;
+  right: 22px;
+  font-size: 1.25rem;
+  animation-delay: -3.5s;
+}
+
+.web {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  opacity: 0.18;
+  background:
+    repeating-radial-gradient(circle at 100% 0%, transparent 0 14px, #ffffff 14px 15px),
+    repeating-conic-gradient(from 180deg at 100% 0%, transparent 0 14deg, #ffffff 14deg 15deg);
+  -webkit-mask: radial-gradient(circle at 100% 0%, #000 0 60%, transparent 70%);
+  mask: radial-gradient(circle at 100% 0%, #000 0 60%, transparent 70%);
+}
+
+@keyframes batFly {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-6deg);
+  }
+
+  50% {
+    transform: translate(-14px, -10px) rotate(6deg);
+  }
+}
+
+@keyframes ghostFloat {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+  }
+
+  35%,
+  65% {
+    opacity: 0.55;
+    transform: translateY(-10px) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .bat2,
+  .bat3,
+  .ghost2 {
+    display: none;
+  }
+
+  .web {
+    width: 84px;
+    height: 84px;
+  }
+
+  /* En la hoja móvil el afiche de Depaween se ve más */
+  .halloween .media {
+    height: 170px;
   }
 }
 
@@ -453,7 +776,17 @@
 @media (prefers-reduced-motion: reduce) {
   .teaser,
   .overlay,
-  .dialog {
+  .dialog,
+  .bat1,
+  .bat2,
+  .bat3,
+  .ghost1,
+  .ghost2 {
     animation: none;
+  }
+
+  .ghost1,
+  .ghost2 {
+    opacity: 0.4;
   }
 }

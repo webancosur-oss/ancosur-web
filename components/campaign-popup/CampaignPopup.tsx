@@ -58,6 +58,8 @@ const INITIAL_FORM: FormState = {
   consent: true,
 };
 
+const HALLOWEEN_IDS = ["depaween", "showroom"];
+
 const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
 const PHONE_REGEX = /^9\d{8}$/;
 
@@ -101,6 +103,10 @@ export default function CampaignPopup({
   onClose,
 }: CampaignPopupProps) {
   const titleId = useId();
+
+  /* Campañas de octubre: tema Halloween (diseño del popup
+     original); el resto usa el diseño verde de marca. */
+  const isHalloween = HALLOWEEN_IDS.includes(promotion.id);
   const firstFieldRef = useRef<HTMLInputElement>(null);
 
   /* En pantallas grandes se abre directamente el formulario */
@@ -312,7 +318,9 @@ export default function CampaignPopup({
   if (!expanded) {
     return (
       <aside
-        className={styles.teaser}
+        className={`${styles.teaser} ${
+          isHalloween ? styles.halloween : ""
+        }`}
         aria-label={promotion.name}
       >
         <Image
@@ -325,6 +333,11 @@ export default function CampaignPopup({
         />
 
         <div className={styles.teaserBody}>
+          {isHalloween && (
+            <span className={styles.teaserEyebrow}>
+              🎃 Especial Halloween
+            </span>
+          )}
           <strong>{promotion.name}</strong>
           <span>
             {promotion.id === "showroom" ? (
@@ -368,11 +381,23 @@ export default function CampaignPopup({
       }}
     >
       <div
-        className={styles.dialog}
+        className={`${styles.dialog} ${
+          isHalloween ? styles.halloween : ""
+        }`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
       >
+        {isHalloween && (
+          <div className={styles.spooky} aria-hidden="true">
+            <span className={styles.bat1}>🦇</span>
+            <span className={styles.bat2}>🦇</span>
+            <span className={styles.bat3}>🦇</span>
+            <span className={styles.ghost1}>👻</span>
+            <span className={styles.ghost2}>👻</span>
+            <span className={styles.web} />
+          </div>
+        )}
         <button
           type="button"
           className={styles.close}
@@ -388,7 +413,8 @@ export default function CampaignPopup({
             alt={promotion.imageAlt}
             width={promotion.imageWidth}
             height={promotion.imageHeight}
-            sizes="(max-width: 640px) 120px, 340px"
+            sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 520px"
+            quality={90}
             className={styles.mediaImage}
           />
         </div>
@@ -413,6 +439,7 @@ export default function CampaignPopup({
           ) : (
             <>
               <span className={styles.eyebrow}>
+                {isHalloween && "🎃 "}
                 {promotion.eyebrow}
                 {promotion.id === "showroom" && (
                   <ShowroomDaysLeft className={styles.badge} />
@@ -547,7 +574,11 @@ export default function CampaignPopup({
                   className={styles.submit}
                   disabled={isSending}
                 >
-                  {isSending ? "Enviando..." : "Quiero esta promoción"}
+                  {isSending
+                    ? "Enviando..."
+                    : isHalloween
+                      ? "Participar"
+                      : "Quiero esta promoción"}
                   {!isSending && (
                     <PaperPlaneTiltIcon
                       size={18}
