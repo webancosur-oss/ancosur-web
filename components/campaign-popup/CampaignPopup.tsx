@@ -3,7 +3,6 @@
 import {
   ArrowRightIcon,
   CheckCircleIcon,
-  PaperPlaneTiltIcon,
   XIcon,
 } from "@phosphor-icons/react";
 import Image from "next/image";
@@ -40,6 +39,7 @@ type FormState = {
   phone: string;
   interestType: InterestType | "";
   project: string;
+  message: string;
   consent: boolean;
 };
 
@@ -55,6 +55,7 @@ const INITIAL_FORM: FormState = {
   phone: "",
   interestType: "",
   project: "",
+  message: "",
   consent: true,
 };
 
@@ -84,6 +85,10 @@ const validate = (form: FormState): FormErrors => {
     errors.interestType = "Elige departamentos o lotes.";
   } else if (!form.project) {
     errors.project = "Selecciona el proyecto de tu interés.";
+  }
+
+  if (form.message.trim().length > 250) {
+    errors.message = "El mensaje no debe superar los 250 caracteres.";
   }
 
   if (!form.consent) {
@@ -121,6 +126,7 @@ export default function CampaignPopup({
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [projects, setProjects] = useState<ProyectoWeb[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
 
   const remember = () => {
     try {
@@ -144,11 +150,20 @@ export default function CampaignPopup({
     ProyectosWebAPI.listarActivos({ limit: 100, page: 1 })
       .then((response) => {
         if (!cancelled) {
-          setProjects(response.data.filter(isProjectAvailable));
+          setProjects(
+            response.data
+              .filter(isProjectAvailable)
+              .sort(
+                (a, b) => Number(a.orden ?? 0) - Number(b.orden ?? 0),
+              ),
+          );
         }
       })
       .catch(() => {
-        /* el formulario sigue funcionando con "Aún no lo sé" */
+        /* sin proyectos: se muestra el aviso en el formulario */
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingProjects(false);
       });
 
     return () => {
@@ -195,10 +210,9 @@ export default function CampaignPopup({
     setErrors((current) => ({ ...current, [key]: undefined, form: undefined }));
   };
 
-  const projectOptions = projects
-    .filter((project) => project.tipo === form.interestType)
-    .map((project) => project.titulo)
-    .filter(Boolean);
+  const projectsByType = projects.filter(
+    (project) => project.tipo === form.interestType,
+  );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -227,7 +241,8 @@ export default function CampaignPopup({
       telefono: phone,
       email: "",
       dni: "",
-      mensaje: `Interesado en ${promotion.name}.`,
+      mensaje:
+        form.message.trim() || `Interesado en ${promotion.name}.`,
       proyecto: form.project,
       tipo_inmueble: form.interestType,
       interes: `${form.interestType} - ${form.project}`,
@@ -326,9 +341,10 @@ export default function CampaignPopup({
         <Image
           src={promotion.image}
           alt=""
-          width={76}
-          height={76}
-          sizes="76px"
+          width={promotion.imageWidth}
+          height={promotion.imageHeight}
+          sizes="72px"
+          quality={90}
           className={styles.teaserImage}
         />
 
@@ -438,18 +454,33 @@ export default function CampaignPopup({
             </div>
           ) : (
             <>
-              <span className={styles.eyebrow}>
-                {isHalloween && "🎃 "}
-                {promotion.eyebrow}
-                {promotion.id === "showroom" && (
-                  <ShowroomDaysLeft className={styles.badge} />
-                )}
-              </span>
+              <div className={styles.heading}>
+                {/* Móvil: afiche completo en miniatura (sin recortes) */}
+                <Image
+                  src={promotion.image}
+                  alt=""
+                  width={promotion.imageWidth}
+                  height={promotion.imageHeight}
+                  sizes="112px"
+                  quality={90}
+                  className={styles.headingThumb}
+                />
 
-              <h2 id={titleId} className={styles.title}>
-                {promotion.title}
-                <span> {promotion.highlight}</span>
-              </h2>
+                <div>
+                  <span className={styles.eyebrow}>
+                    {isHalloween && "🎃 "}
+                    {promotion.eyebrow}
+                    {promotion.id === "showroom" && (
+                      <ShowroomDaysLeft className={styles.badge} />
+                    )}
+                  </span>
+
+                  <h2 id={titleId} className={styles.title}>
+                    {promotion.title}
+                    <span> {promotion.highlight}</span>
+                  </h2>
+                </div>
+              </div>
 
               <p className={styles.summary}>{promotion.summary}</p>
 
@@ -464,6 +495,7 @@ export default function CampaignPopup({
                     ref={firstFieldRef}
                     type="text"
                     autoComplete="name"
+                    placeholder="Ej. Miguel Asto"
                     value={form.fullName}
                     onChange={(event) =>
                       update("fullName", event.target.value)
@@ -481,7 +513,7 @@ export default function CampaignPopup({
                     inputMode="numeric"
                     autoComplete="tel-national"
                     maxLength={9}
-                    placeholder="9XXXXXXXX"
+                    placeholder="Ej. 987654321"
                     value={form.phone}
                     onChange={(event) =>
                       update(
@@ -495,53 +527,95 @@ export default function CampaignPopup({
                   {errors.phone && <small>{errors.phone}</small>}
                 </label>
 
-                <fieldset className={styles.choices}>
-                  <legend>Me interesa</legend>
-                  {(["Departamento", "Lote"] as const).map((type) => (
-                    <label
-                      key={type}
-                      className={`${styles.choice} ${
-                        form.interestType === type ? styles.choiceActive : ""
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="interestType"
-                        value={type}
-                        checked={form.interestType === type}
-                        onChange={() => update("interestType", type)}
-                        disabled={isSending}
-                      />
-                      {type === "Departamento" ? "Departamentos" : "Lotes"}
-                    </label>
-                  ))}
-                  {errors.interestType && (
-                    <small>{errors.interestType}</small>
-                  )}
-                </fieldset>
+                <div className={styles.field}>
+                  <span id={`${titleId}-interes`}>Proyecto de interés</span>
 
-                {form.interestType && (
-                  <label className={styles.field}>
-                    <span>Proyecto</span>
-                    <select
-                      value={form.project}
-                      onChange={(event) =>
-                        update("project", event.target.value)
-                      }
-                      aria-invalid={Boolean(errors.project)}
-                      disabled={isSending}
+                  <div
+                    className={styles.typeTabs}
+                    role="radiogroup"
+                    aria-labelledby={`${titleId}-interes`}
+                  >
+                    {(["Departamento", "Lote"] as const).map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        role="radio"
+                        aria-checked={form.interestType === type}
+                        className={`${styles.typeTab} ${
+                          form.interestType === type ? styles.typeTabActive : ""
+                        }`}
+                        onClick={() => update("interestType", type)}
+                        disabled={isSending}
+                      >
+                        <span aria-hidden="true">
+                          {type === "Departamento" ? "🏢" : "🌳"}
+                        </span>
+                        {type === "Departamento" ? "Departamentos" : "Lotes"}
+                      </button>
+                    ))}
+                  </div>
+                  {errors.interestType && <small>{errors.interestType}</small>}
+
+                  {form.interestType && (
+                    <div
+                      className={styles.projectList}
+                      role="radiogroup"
+                      aria-label="Proyectos disponibles"
                     >
-                      <option value="">Selecciona un proyecto</option>
-                      {projectOptions.map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))}
-                      <option value="Aún no lo sé">Aún no lo sé</option>
-                    </select>
-                    {errors.project && <small>{errors.project}</small>}
-                  </label>
-                )}
+                      {loadingProjects ? (
+                        <span className={styles.projectHint}>
+                          {isHalloween
+                            ? "Invocando proyectos… 🦇"
+                            : "Cargando proyectos…"}
+                        </span>
+                      ) : projectsByType.length === 0 ? (
+                        <span className={styles.projectHint}>
+                          No hay proyectos disponibles en este momento.
+                        </span>
+                      ) : (
+                        projectsByType.map((project) => (
+                          <button
+                            key={project.id}
+                            type="button"
+                            role="radio"
+                            aria-checked={form.project === project.titulo}
+                            className={`${styles.projectChip} ${
+                              form.project === project.titulo
+                                ? styles.projectChipActive
+                                : ""
+                            }`}
+                            onClick={() => update("project", project.titulo)}
+                            disabled={isSending}
+                          >
+                            <strong>{project.titulo}</strong>
+                            <small>
+                              {project.ciudad}
+                              {project.etapa ? ` · ${project.etapa}` : ""}
+                            </small>
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  )}
+                  {errors.project && <small>{errors.project}</small>}
+                </div>
+
+                <label className={styles.field}>
+                  <span>Mensaje opcional</span>
+                  <textarea
+                    rows={3}
+                    maxLength={250}
+                    placeholder="¿Alguna duda o comentario?"
+                    value={form.message}
+                    onChange={(event) =>
+                      update("message", event.target.value)
+                    }
+                    disabled={isSending}
+                  />
+                  <span className={styles.counter}>
+                    {form.message.length}/250 caracteres
+                  </span>
+                </label>
 
                 <label className={styles.consent}>
                   <input
@@ -553,8 +627,17 @@ export default function CampaignPopup({
                     disabled={isSending}
                   />
                   <span>
-                    Acepto ser contactado por Ancosur sobre promociones y
-                    proyectos.
+                    Acepto los{" "}
+                    <a
+                      href="/politicas/politica-de-privacidad"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.termsLink}
+                    >
+                      términos y la política de privacidad
+                    </a>{" "}
+                    y autorizo ser contactado por Ancosur para recibir
+                    información comercial.
                   </span>
                 </label>
                 {errors.consent && (
@@ -579,13 +662,6 @@ export default function CampaignPopup({
                     : isHalloween
                       ? "Participar"
                       : "Quiero esta promoción"}
-                  {!isSending && (
-                    <PaperPlaneTiltIcon
-                      size={18}
-                      weight="bold"
-                      aria-hidden="true"
-                    />
-                  )}
                 </button>
               </form>
             </>

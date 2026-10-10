@@ -138,7 +138,7 @@ export const promotions: Promotion[] = [
     title: "Que el alquiler",
     highlight: "no te siga dando miedo",
     summary:
-      "Deja de pagar alquiler: descubre departamentos y lotes para tu próximo hogar.",
+      "Déjanos tus datos y descubre los departamentos y lotes que pueden convertirse en tu próximo hogar.",
     description:
       "Este octubre te ayudamos a dar el paso a tu casa propia. Déjanos tus datos y descubre los departamentos y lotes en las mejores ubicaciones de Huancayo.",
     image: "/assets/campanias/depaween.webp",
