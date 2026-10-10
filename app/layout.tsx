@@ -14,7 +14,7 @@ import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import {
   BRAND_NAME,
   DEFAULT_OG_ALT,
@@ -422,6 +422,9 @@ export default function RootLayout({
               ),
           }}
         />
+
+        {/* Vercel Web Analytics: visitas y páginas vistas */}
+        <Analytics />
       </body>
     </html>
   );
