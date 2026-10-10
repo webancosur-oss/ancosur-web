@@ -698,45 +698,6 @@
 
 
 /* =========================================================
-   PODCAST DESKTOP (botón redondo junto a WhatsApp)
-========================================================= */
-
-.podcastButton {
-  flex: 0 0 auto;
-  display: inline-grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  margin-left: auto;
-  margin-right: -14px;
-  border: 1px solid rgba(30, 215, 96, 0.35);
-  border-radius: 50%;
-  background: rgba(30, 215, 96, 0.12);
-  color: #1ed760;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.podcastButton:hover {
-  border-color: rgba(30, 215, 96, 0.6);
-  background: rgba(30, 215, 96, 0.22);
-  transform: translateY(-2px);
-}
-
-.podcastButton:focus-visible {
-  outline: 3px solid #55e69a;
-  outline-offset: 3px;
-}
-
-@media (max-width: 1024px) {
-  .podcastButton {
-    display: none;
-  }
-}
-
-/* =========================================================
    BOTÓN MOBILE
 ========================================================= */
 
@@ -1688,31 +1649,8 @@
    - La barra (logo y X) queda por encima del oscurecido.
    - Panel en columna: lista desplazable + pie fijo con
      WhatsApp siempre visible.
-   - Enlaces compactos; Promociones destacada.
+   - Enlaces compactos.
 ========================================================= */
-
-.mobileLinkPromo {
-  justify-content: space-between;
-  border-color: rgba(255, 122, 0, 0.45);
-  background: rgba(255, 122, 0, 0.1);
-}
-
-.mobileLinkPromo::after {
-  content: "Vigentes";
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: #ff7a00;
-  color: #1a0b00;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.mobileLinkPromo:hover,
-.mobileLinkPromo.mobileLinkActive {
-  border-color: #ff7a00;
-  background: rgba(255, 122, 0, 0.18);
-}
 
 .mobileFooter {
   display: none;

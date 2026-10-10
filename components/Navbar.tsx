@@ -45,13 +45,6 @@ const navLinks = [
     href: "/resorts",
   },
   {
-    label: "Promociones",
-    href: "/promociones",
-    highlight: true,
-    /* En escritorio y tablet no: barra más limpia */
-    mobileOnly: true,
-  },
-  {
     label: "Nosotros",
     href: "/nosotros",
   },
@@ -397,9 +390,7 @@ export default function Navbar() {
           className={styles.desktopNav}
           aria-label="Navegación principal"
         >
-          {navLinks
-            .filter((item) => !item.mobileOnly)
-            .map((item) => (
+          {navLinks.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -531,25 +522,6 @@ export default function Navbar() {
         </nav>
 
         {/* =================================================
-            PODCAST DESKTOP
-        ================================================= */}
-
-        <a
-          href={podcastEpisode.spotifyUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.podcastButton}
-          aria-label="Escuchar Ancosur Podcast en Spotify"
-          title="Ancosur Podcast"
-        >
-          <SpotifyLogoIcon
-            size={22}
-            weight="fill"
-            aria-hidden="true"
-          />
-        </a>
-
-        {/* =================================================
             WHATSAPP DESKTOP
         ================================================= */}
 
@@ -663,10 +635,6 @@ export default function Navbar() {
                 className={`${styles.mobileLink} ${
                   isActivePath(item.href)
                     ? styles.mobileLinkActive
-                    : ""
-                } ${
-                  item.highlight
-                    ? styles.mobileLinkPromo
                     : ""
                 }`}
                 onClick={
