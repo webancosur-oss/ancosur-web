@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import {
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -22,13 +23,17 @@ import FeedbackToast, {
 } from "@/components/ui/FeedbackToast/FeedbackToast";
 
 import {
-  cyberProjects,
+  formProjects,
+  type Promotion,
 } from "../data";
 
-import styles from "./CyberHouseLeadForm.module.css";
+import { PROMO_SELECT_EVENT } from "./PromoCta";
+
+import styles from "./PromotionsLeadForm.module.css";
 
 const SOURCE_ID = 4 as const;
-const CAMPAIGN_CODE = "Promociones Cyber House";
+/* Campaña base; se le añade la promoción elegida */
+const CAMPAIGN_CODE = "Promociones web";
 const AD_NAME = "Web";
 const LEAD_TYPE = "WEB Ancosur";
 const COMPONENT_NAME =
@@ -42,6 +47,7 @@ type FormDataState = {
   dni: string;
   project: string;
   visitTime: string;
+  promotion: string;
   message: string;
   consent: boolean;
   website: string;
@@ -83,6 +89,7 @@ const INITIAL_FORM:
     dni: "",
     project: "",
     visitTime: "",
+    promotion: "",
     message: "",
     consent: true,
     website: "",
@@ -93,10 +100,10 @@ const SUCCESS_TOAST:
     variant: "success",
 
     title:
-      "¡Visita solicitada correctamente!",
+      "¡Solicitud enviada correctamente!",
 
     message:
-      "Gracias por tu interés en nuestras promociones. Un asesor de Ancosur se comunicará contigo para confirmar el horario de tu visita.",
+      "Gracias por tu interés en nuestras promociones. Un asesor de Ancosur se comunicará contigo para confirmar tu atención.",
   };
 
 const ERROR_TOAST:
@@ -290,7 +297,7 @@ const validateForm = (
 
   if (!formData.visitTime.trim()) {
     errors.visitTime =
-      "Selecciona el horario para tu visita.";
+      "Selecciona el horario en que prefieres que te atendamos.";
   }
 
   if (message.length > 250) {
@@ -306,7 +313,13 @@ const validateForm = (
   return errors;
 };
 
-export default function CyberHouseLeadForm() {
+type PromotionsLeadFormProps = {
+  promotions: Pick<Promotion, "id" | "name">[];
+};
+
+export default function PromotionsLeadForm({
+  promotions,
+}: PromotionsLeadFormProps) {
   const [
     formData,
     setFormData,
@@ -326,6 +339,33 @@ export default function CyberHouseLeadForm() {
 
   const submitLockRef =
     useRef(false);
+
+  useEffect(() => {
+    const handleSelect = (event: Event) => {
+      const id = (event as CustomEvent<string>).detail;
+      const selected = promotions.find(
+        (promotion) => promotion.id === id,
+      );
+
+      if (selected) {
+        setFormData((current) => ({
+          ...current,
+          promotion: selected.name,
+        }));
+      }
+    };
+
+    window.addEventListener(
+      PROMO_SELECT_EVENT,
+      handleSelect,
+    );
+
+    return () =>
+      window.removeEventListener(
+        PROMO_SELECT_EVENT,
+        handleSelect,
+      );
+  }, [promotions]);
 
   const [
     toast,
@@ -465,6 +505,10 @@ export default function CyberHouseLeadForm() {
   const visitTime =
     formData.visitTime.trim();
 
+  const campaign = formData.promotion
+    ? `${CAMPAIGN_CODE} - ${formData.promotion}`
+    : CAMPAIGN_CODE;
+
   const message =
     formData.message.trim();
 
@@ -534,7 +578,7 @@ export default function CyberHouseLeadForm() {
       visitTime,
 
     campania:
-      CAMPAIGN_CODE,
+      campaign,
 
     anuncio:
       AD_NAME,
@@ -769,8 +813,7 @@ export default function CyberHouseLeadForm() {
       visit_time:
         visitTime,
 
-      campaign:
-        CAMPAIGN_CODE,
+      campaign,
 
       source_id:
         SOURCE_ID,
@@ -880,19 +923,19 @@ export default function CyberHouseLeadForm() {
         <div className={styles.inner}>
           <div className={styles.copy}>
             <span>
-              Promociones especiales
+              Promociones de octubre
             </span>
 
             <h2>
-              Separa tu visita y conoce
-              nuestras promociones
+              Solicita tu promoción o
+              separa tu visita
             </h2>
 
             <p>
-              Completa tus datos, elige el
-              proyecto y selecciona el
-              horario en el que deseas
-              recibir atención personalizada.
+              Completa tus datos, elige la
+              promoción y el proyecto que te
+              interesan, y un asesor te contactará
+              para darte atención personalizada.
             </p>
 
             <div
@@ -908,8 +951,8 @@ export default function CyberHouseLeadForm() {
                 />
 
                 <span>
-                  Atención durante el
-                  evento
+                  Atención personalizada
+                  en sala de ventas
                 </span>
               </div>
 
@@ -962,7 +1005,7 @@ export default function CyberHouseLeadForm() {
               </span>
 
               <strong>
-                Quiero separar mi visita
+                Quiero esta promoción
               </strong>
             </div>
 
@@ -1241,6 +1284,48 @@ export default function CyberHouseLeadForm() {
                 className={styles.field}
               >
                 <label
+                  htmlFor="cyber-promotion"
+                >
+                  Promoción de interés
+                </label>
+
+                <select
+                  id="cyber-promotion"
+                  name="promotion"
+                  value={
+                    formData.promotion
+                  }
+                  onChange={(event) =>
+                    updateField(
+                      "promotion",
+                      event.target.value
+                    )
+                  }
+                  disabled={
+                    isSending
+                  }
+                >
+                  <option value="">
+                    Solo quiero información
+                  </option>
+
+                  {promotions.map(
+                    (promotion) => (
+                      <option
+                        key={promotion.id}
+                        value={promotion.name}
+                      >
+                        {promotion.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+
+              <div
+                className={styles.field}
+              >
+                <label
                   htmlFor="cyber-project"
                 >
                   Proyecto de interés
@@ -1273,17 +1358,13 @@ export default function CyberHouseLeadForm() {
                     proyecto
                   </option>
 
-                  {cyberProjects.map(
+                  {formProjects.map(
                     (project) => (
                       <option
-                        key={
-                          project.id
-                        }
-                        value={
-                          project.name
-                        }
+                        key={project}
+                        value={project}
                       >
-                        {project.name}
+                        {project}
                       </option>
                     )
                   )}
@@ -1310,7 +1391,7 @@ export default function CyberHouseLeadForm() {
                 <label
                   htmlFor="cyber-visitTime"
                 >
-                  Horario para tu visita
+                  Horario preferido de atención
                 </label>
 
                 <select
@@ -1461,7 +1542,7 @@ export default function CyberHouseLeadForm() {
             >
               {isSending
                 ? "Enviando..."
-                : "Separar mi visita"}
+                : "Enviar solicitud"}
 
               <PaperPlaneTiltIcon
                 size={20}

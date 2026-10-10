@@ -20,7 +20,7 @@ export default function ProjectLegalInformation({
         Información del proyecto
       </span>
 
-      <h1>{project.name}</h1>
+      <h2>{project.name}</h2>
 
       <dl className={styles.projectData}>
         <div>

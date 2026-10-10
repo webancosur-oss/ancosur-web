@@ -21,7 +21,7 @@
   text-transform: uppercase;
 }
 
-.information h1 {
+.information > h2 {
   margin: 0;
   color: var(--color-text, #17172f);
   font-size: 2rem;
@@ -179,7 +179,7 @@
     border-radius: 18px;
   }
 
-  .information h1 {
+  .information > h2 {
     font-size: 1.8rem;
   }
 
@@ -203,7 +203,7 @@
     padding: 20px;
   }
 
-  .information h1 {
+  .information > h2 {
     font-size: 1.6rem;
   }
 

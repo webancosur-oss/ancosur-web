@@ -74,7 +74,7 @@ const formatUnit = (
 export default function EventCountdown({
   startAt,
   endAt,
-  eventName = "Cyber House",
+  eventName = "evento",
 }: EventCountdownProps) {
   const startTimestamp = useMemo(
     () => new Date(startAt).getTime(),
@@ -157,7 +157,7 @@ export default function EventCountdown({
         </span>
 
         <strong>
-          El {eventName} ha terminado
+          El {eventName} ya terminó
         </strong>
 
         <p>
@@ -176,8 +176,8 @@ export default function EventCountdown({
 
   const heading =
     status === "live"
-      ? "El Cyber House está en vivo"
-      : "Falta para el Cyber House";
+      ? `El ${eventName} está en curso`
+      : `Faltan para el ${eventName}`;
 
   return (
     <div
@@ -193,7 +193,7 @@ export default function EventCountdown({
           }
         >
           {status === "live"
-            ? "EN VIVO"
+            ? "HOY"
             : "PRÓXIMAMENTE"}
         </span>
 

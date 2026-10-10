@@ -24,6 +24,19 @@ export default function AlcanceSIGPage() {
           variant="dark"
         />
 
+        <header className={styles.header}>
+          <h1>Alcance del Sistema Integrado de Gestión</h1>
+
+          <a
+            href="/assets/politicas/sig-alcancev2.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.download}
+          >
+            Descargar PDF
+          </a>
+        </header>
+
         <iframe
           src="/assets/politicas/sig-alcancev2.pdf#toolbar=0&navpanes=0&scrollbar=1"
           title="Alcance SIG Ancosur"

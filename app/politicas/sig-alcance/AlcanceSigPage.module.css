@@ -80,3 +80,38 @@
     border-radius: 12px;
   }
 }
+
+/* Título y descarga (el visor de PDF integrado no funciona
+   en muchos móviles) */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin: 16px 0 20px;
+}
+
+.header h1 {
+  margin: 0;
+  color: #17172f;
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.download {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: #00a74f;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.download:hover {
+  background: #008a41;
+}

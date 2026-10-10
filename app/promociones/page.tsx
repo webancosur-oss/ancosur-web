@@ -1,202 +1,161 @@
-import {
-  ORGANIZATION_ID,
-} from "@/src/organization";
+import { ORGANIZATION_ID } from "@/src/organization";
 import {
   createSeoMetadata,
-  DEFAULT_OG_IMAGE,
   SITE_NAME,
   SITE_URL,
 } from "@/src/seo";
 
-import CyberHero from "./components/CyberHero";
-import CyberHouseLeadForm from "./components/CyberHouseLeadForm";
-import CuscoPromoHero from "./components/CuscoPromoHero";
+import PromoFeature from "./components/PromoFeature";
+import PromotionsGrid from "./components/PromotionsGrid";
+import PromotionsHero from "./components/PromotionsHero";
+import PromotionsLeadForm from "./components/PromotionsLeadForm";
 
 import {
-  CYBER_HOUSE_END,
-  CYBER_HOUSE_LOCATION,
-  CYBER_HOUSE_START,
+  getActivePromotions,
+  SHOWROOM_ADDRESS,
+  SHOWROOM_END,
+  SHOWROOM_LOCATION,
+  SHOWROOM_START,
 } from "./data";
 
-import styles from "./CyberHousePage.module.css";
-import CaminoRealPromoHero from "./components/CaminoRealPromoHero";
-import ShowRoomPromo from "./components/ShowroomPromoHero";
+import styles from "./PromocionesPage.module.css";
 
-/* =========================================================
-   CONFIGURACIÓN
-========================================================= */
+/* Se regenera cada hora: las promociones vencidas
+   desaparecen sin necesidad de un nuevo deploy. */
+export const revalidate = 3600;
 
 const PAGE_PATH = "/promociones";
-const EVENT_URL = `${SITE_URL}${PAGE_PATH}`;
-
-const PAGE_TITLE =
-  "Promociones inmobiliarias en Huancayo | ANCOSUR";
-
-const PAGE_DESCRIPTION =
-  "Promociones vigentes de ANCOSUR en departamentos y lotes en Huancayo: descuentos, beneficios especiales y asesoría personalizada en el showroom.";
-
-const EVENT_DESCRIPTION =
-  "Participa en el Cyber House Ancosur, conoce nuestros proyectos inmobiliarios, recibe asesoría personalizada y accede a beneficios especiales durante el evento.";
-
-const PAGE_IMAGE = DEFAULT_OG_IMAGE;
-
-/* El esquema Event solo se publica mientras el evento no
-   haya terminado: un evento pasado marcado como
-   "EventScheduled" es información falsa para Google. */
-const IS_EVENT_ACTIVE =
-  new Date(CYBER_HOUSE_END).getTime() > Date.now();
+const PAGE_URL = `${SITE_URL}${PAGE_PATH}`;
 
 /* =========================================================
    SEO
 ========================================================= */
 
 export const metadata = createSeoMetadata({
-  title: PAGE_TITLE,
+  title: "Promociones inmobiliarias en Huancayo | ANCOSUR",
 
-  description: PAGE_DESCRIPTION,
+  description:
+    "Promociones de ANCOSUR en departamentos y lotes en Huancayo: beneficios de octubre, Showroom inmobiliario y asesoría personalizada en sala de ventas.",
 
   pathname: PAGE_PATH,
 
   keywords: [
     "promociones Ancosur",
-    "Cyber House Ancosur",
-    "evento inmobiliario Huancayo",
-    "feria inmobiliaria Huancayo",
     "promociones inmobiliarias Huancayo",
+    "showroom inmobiliario Huancayo",
+    "lotes Camino Real promoción",
     "departamentos en Huancayo",
     "lotes en Huancayo",
-    "proyectos inmobiliarios Huancayo",
-    "asesoría inmobiliaria Huancayo",
     "Ancosur",
-    "Ancosur Inmobiliaria",
   ],
-
-  image: PAGE_IMAGE,
 });
-
-/* =========================================================
-   DATOS ESTRUCTURADOS
-========================================================= */
-
-const eventSchema = {
-  "@context": "https://schema.org",
-
-  "@type": "Event",
-
-  "@id": `${EVENT_URL}#event`,
-
-  name: "Cyber House Ancosur",
-
-  description: EVENT_DESCRIPTION,
-
-  url: EVENT_URL,
-
-  image: [
-    `${SITE_URL}${PAGE_IMAGE}`,
-  ],
-
-  startDate: CYBER_HOUSE_START,
-
-  endDate: CYBER_HOUSE_END,
-
-  eventStatus:
-    "https://schema.org/EventScheduled",
-
-  eventAttendanceMode:
-    "https://schema.org/OfflineEventAttendanceMode",
-
-  location: {
-    "@type": "Place",
-
-    name: "Sala de ventas Ancosur",
-
-    address: {
-      "@type": "PostalAddress",
-
-      streetAddress:
-        CYBER_HOUSE_LOCATION,
-
-      addressLocality:
-        "Huancayo",
-
-      addressRegion:
-        "Junín",
-
-      addressCountry:
-        "PE",
-    },
-  },
-
-  organizer: {
-    "@type": "Organization",
-
-    "@id":
-      ORGANIZATION_ID,
-
-    name:
-      SITE_NAME,
-
-    url:
-      `${SITE_URL}/`,
-  },
-
-  performer: {
-    "@type": "Organization",
-
-    name:
-      "Ancosur Inmobiliaria",
-  },
-
-  offers: {
-    "@type": "Offer",
-
-    url: EVENT_URL,
-
-    price: "0",
-
-    priceCurrency: "PEN",
-
-    availability:
-      "https://schema.org/InStock",
-
-    validFrom:
-      CYBER_HOUSE_START,
-  },
-
-  inLanguage:
-    "es-PE",
-};
 
 /* =========================================================
    PÁGINA
 ========================================================= */
 
-export default function CyberHousePage() {
+export default function PromocionesPage() {
+  const promotions = getActivePromotions();
+
+  const showroomActive = promotions.some(
+    (promotion) => promotion.id === "showroom",
+  );
+
+  /* Evento real del Showroom; solo mientras esté vigente */
+  const showroomSchema = {
+    "@context": "https://schema.org",
+
+    "@type": "Event",
+
+    "@id": `${PAGE_URL}#showroom`,
+
+    name: "Showroom inmobiliario Ancosur",
+
+    description:
+      "Conoce todos los proyectos de Ancosur en un solo lugar, con asesoría personalizada y las promociones de octubre.",
+
+    url: `${PAGE_URL}#showroom`,
+
+    image: [`${SITE_URL}/assets/campanias/showroom-17-octubre.webp`],
+
+    startDate: SHOWROOM_START,
+
+    endDate: SHOWROOM_END,
+
+    eventStatus: "https://schema.org/EventScheduled",
+
+    eventAttendanceMode:
+      "https://schema.org/OfflineEventAttendanceMode",
+
+    isAccessibleForFree: true,
+
+    location: {
+      "@type": "Place",
+
+      name: SHOWROOM_LOCATION,
+
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SHOWROOM_ADDRESS.split(",")[0],
+        addressLocality: "Huancayo",
+        addressRegion: "Junín",
+        addressCountry: "PE",
+      },
+    },
+
+    organizer: {
+      "@type": "Organization",
+      "@id": ORGANIZATION_ID,
+      name: SITE_NAME,
+      url: `${SITE_URL}/`,
+    },
+
+    inLanguage: "es-PE",
+  };
+
   return (
     <>
       <main
         id="main-content"
         className={styles.page}
       >
+        <PromotionsHero promotions={promotions} />
 
-        <ShowRoomPromo />
-        
-        <CaminoRealPromoHero />
-        
-        <CuscoPromoHero />
+        {promotions.length > 0 ? (
+          <>
+            <PromotionsGrid promotions={promotions} />
 
-        <CyberHero />
+            {promotions.map((promotion, index) => (
+              <PromoFeature
+                key={promotion.id}
+                promotion={promotion}
+                reverse={index % 2 === 1}
+              />
+            ))}
+          </>
+        ) : (
+          <section className={styles.empty}>
+            <h2>Pronto tendremos nuevas promociones</h2>
+            <p>
+              Déjanos tus datos y te avisaremos de las
+              próximas campañas y eventos de Ancosur.
+            </p>
+          </section>
+        )}
 
-        <CyberHouseLeadForm />
+        <PromotionsLeadForm
+          promotions={promotions.map(({ id, name }) => ({
+            id,
+            name,
+          }))}
+        />
       </main>
 
-      {IS_EVENT_ACTIVE && (
+      {showroomActive && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              eventSchema,
-            ).replace(
+            __html: JSON.stringify(showroomSchema).replace(
               /</g,
               "\\u003c",
             ),
