@@ -207,82 +207,7 @@
   box-shadow: 0 16px 34px rgba(0, 167, 79, 0.28);
 }
 
-.counter {
-  position: absolute;
-  left: 50%;
-  bottom: 24px;
-  z-index: 8;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 8px 11px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  background: rgba(23, 23, 47, 0.56);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
-}
-
-.counterTrack {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.counterItem,
-.counterArrow {
-  border: 0;
-  cursor: pointer;
-  transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.counterItem {
-  width: 36px;
-  height: 30px;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: var(--fs-small);
-  font-weight: var(--weight-medium);
-}
-
-.counterItem:hover {
-  color: #ffffff;
-  background: rgba(0, 167, 79, 0.18);
-  transform: translateY(-2px);
-}
-
-.activeCounter {
-  background: var(--color-primary);
-  color: #ffffff;
-  box-shadow: 0 12px 28px rgba(0, 167, 79, 0.32);
-}
-
-.counterArrow {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.counterArrow:hover {
-  background: var(--color-primary);
-  transform: translateY(-2px);
-}
-
-.searchButton:focus-visible,
-.counterItem:focus-visible,
-.counterArrow:focus-visible {
+.searchButton:focus-visible {
   outline: 3px solid rgba(0, 167, 79, 0.38);
   outline-offset: 4px;
 }
@@ -408,36 +333,6 @@
     border-radius: 9px;
   }
 
-  /* Alineado a la izquierda: deja libre la esquina
-     inferior derecha para el botón del asistente. */
-  .counter {
-    bottom: 18px;
-    left: 16px;
-    transform: none;
-    max-width: calc(100vw - 104px);
-    padding: 8px 10px;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .counter::-webkit-scrollbar {
-    display: none;
-  }
-
-  .counterTrack {
-    gap: 6px;
-  }
-
-  .counterItem {
-    width: 32px;
-    height: 28px;
-  }
-
-  .counterArrow {
-    width: 28px;
-    height: 28px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -474,9 +369,7 @@
   .sliderTrack,
   .content,
   .backgroundImage,
-  .searchButton,
-  .counterItem,
-  .counterArrow {
+  .searchButton {
     transition: none;
     animation: none;
   }
@@ -486,10 +379,7 @@
     animation: none;
   }
 
-  .searchButton:hover,
-  .counterItem:hover,
-  .counterArrow:hover,
-  .activeCounter {
+  .searchButton:hover {
     transform: none;
   }
 }

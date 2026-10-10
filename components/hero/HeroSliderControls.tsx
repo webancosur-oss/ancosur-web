@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react";
-import styles from "./HeroAncosur.module.css";
+import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
+
+import styles from "./HeroSliderControls.module.css";
 
 type SlideItem = {
   id: number;
@@ -16,6 +17,8 @@ type HeroSliderControlsProps = {
   goToSlide: (index: number) => void;
 };
 
+/* Flechas + puntos (el activo se alarga en verde Ancosur),
+   centrado en todas las pantallas. */
 export default function HeroSliderControls({
   slides,
   activeIndex,
@@ -24,39 +27,42 @@ export default function HeroSliderControls({
   goToSlide,
 }: HeroSliderControlsProps) {
   return (
-    <div className={styles.counter} aria-label="Controles del slider">
+    <div
+      className={styles.controls}
+      role="group"
+      aria-label="Controles del slider"
+    >
       <button
         type="button"
-        className={styles.counterArrow}
+        className={styles.arrow}
         onClick={goPrev}
-        aria-label="Slide anterior"
+        aria-label="Proyecto anterior"
       >
-        <ArrowLeftIcon size={18} weight="bold" aria-hidden={true} />
+        <CaretLeftIcon size={18} weight="bold" aria-hidden="true" />
       </button>
 
-      <div className={styles.counterTrack}>
+      <div className={styles.dots}>
         {slides.map((slide, index) => (
           <button
             key={slide.id}
-            onClick={() => goToSlide(index)}
-            className={`${styles.counterItem} ${
-              activeIndex === index ? styles.activeCounter : ""
-            }`}
             type="button"
-            aria-label={`Ir al slide ${slide.id}`}
-          >
-            {String(slide.id).padStart(2, "0")}
-          </button>
+            onClick={() => goToSlide(index)}
+            className={`${styles.dot} ${
+              activeIndex === index ? styles.dotActive : ""
+            }`}
+            aria-label={`Ver ${slide.title} (${index + 1} de ${slides.length})`}
+            aria-current={activeIndex === index ? "true" : undefined}
+          />
         ))}
       </div>
 
       <button
         type="button"
-        className={styles.counterArrow}
+        className={styles.arrow}
         onClick={goNext}
-        aria-label="Siguiente slide"
+        aria-label="Proyecto siguiente"
       >
-        <ArrowRightIcon size={18} weight="bold" aria-hidden={true} />
+        <CaretRightIcon size={18} weight="bold" aria-hidden="true" />
       </button>
     </div>
   );

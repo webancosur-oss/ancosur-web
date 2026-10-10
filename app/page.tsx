@@ -15,6 +15,7 @@ import ContactForm from "@/components/ContactForm";
 import FAQSection from "@/components/FAQSection";
 import HeroAncosur from "@/components/hero/HeroAncosur";
 import HoldingSection from "@/components/HoldingSection";
+import HeroFold from "@/components/home/HeroFold";
 import PromoStrip from "@/components/home/PromoStrip";
 import { getActivePromotions } from "@/app/promociones/data";
 import TrustStatsTestimonials from "@/components/TrustStatsTestimonials";
@@ -288,9 +289,11 @@ export default function Home() {
       <FloatingPromo href="/promociones" />
 
       <main id="main-content">
-        <HeroAncosur />
+        <HeroFold>
+          <HeroAncosur />
 
-        <PromoStrip promotions={promotions} />
+          <PromoStrip promotions={promotions} />
+        </HeroFold>
 
         <FeaturedProjects />
 
