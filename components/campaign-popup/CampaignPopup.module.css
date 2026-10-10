@@ -1,0 +1,459 @@
+/* =========================================================
+   POPUP DE CAMPAÑA
+   Móvil: tarjeta compacta abajo → hoja con formulario.
+   Desde 641 px: ventana centrada (afiche + formulario).
+========================================================= */
+
+/* ---------------------------------------------------------
+   TARJETA COMPACTA (móvil)
+--------------------------------------------------------- */
+
+.teaser {
+  position: fixed;
+  left: 12px;
+  right: 82px; /* deja libre el botón del asistente */
+  bottom: 12px;
+  z-index: 1100;
+
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 122, 0, 0.45);
+  border-radius: 18px;
+  background: #07110c;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+
+  animation: slideUp 0.35s ease both;
+}
+
+.teaserImage {
+  flex: 0 0 76px;
+  width: 76px;
+  height: auto;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.teaserBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 30px 10px 11px;
+}
+
+.teaserBody strong {
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.teaserBody > span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.76rem;
+}
+
+.teaserButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 4px;
+  padding: 7px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: #00a74f;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.teaserClose {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ff7a00;
+  color: #1a0b00;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------
+   VENTANA / HOJA
+--------------------------------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  background: rgba(3, 8, 5, 0.62);
+  animation: fadeIn 0.25s ease both;
+}
+
+.dialog {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  width: 100%;
+  max-height: 92svh;
+  border-radius: 22px 22px 0 0;
+  background: #ffffff;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+  color: #101a14;
+
+  animation: slideUp 0.3s ease both;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(7, 17, 12, 0.72);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* En móvil el afiche es una franja corta arriba */
+.media {
+  flex: 0 0 auto;
+  height: 120px;
+  overflow: hidden;
+  background: #07110c;
+}
+
+.mediaImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.content {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 18px 18px 22px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: #00873f;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.eyebrow .badge {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.title span {
+  color: #00a74f;
+}
+
+.summary {
+  margin: 8px 0 0;
+  color: #4a5a50;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+}
+
+.field > span,
+.choices legend {
+  color: #26352c;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d5e2da;
+  border-radius: 12px;
+  background: #f7faf8;
+  color: #101a14;
+  font: inherit;
+  font-size: 1rem; /* evita el zoom automático en iPhone */
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #00a74f;
+  outline: 3px solid rgba(0, 167, 79, 0.18);
+  background: #ffffff;
+}
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"] {
+  border-color: #d93025;
+}
+
+.field small,
+.choices small,
+.formError {
+  color: #c5221f;
+  font-size: 0.76rem;
+}
+
+.formError {
+  margin: 0;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choices legend {
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.choices small {
+  flex-basis: 100%;
+}
+
+.choice {
+  position: relative;
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: 1px solid #d5e2da;
+  border-radius: 12px;
+  background: #f7faf8;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice:focus-within {
+  outline: 3px solid rgba(0, 167, 79, 0.25);
+}
+
+.choiceActive {
+  border-color: #00a74f;
+  background: #e7f6ee;
+  color: #00703a;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #4a5a50;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.consent input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: #00a74f;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: #00a74f;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit:hover {
+  background: #00b756;
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.success {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 18px 0 6px;
+  text-align: center;
+}
+
+.success svg {
+  color: #00a74f;
+}
+
+.success h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.success p {
+  margin: 0 0 6px;
+  color: #4a5a50;
+  line-height: 1.55;
+}
+
+.teaserButton:focus-visible,
+.teaserClose:focus-visible,
+.close:focus-visible,
+.submit:focus-visible {
+  outline: 3px solid #55e69a;
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------
+   TABLET / ESCRITORIO: ventana centrada
+--------------------------------------------------------- */
+
+@media (min-width: 641px) {
+  .overlay {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .dialog {
+    flex-direction: row;
+    width: min(760px, 100%);
+    max-height: min(560px, 92vh);
+    border-radius: 22px;
+    animation-name: popIn;
+  }
+
+  .media {
+    flex: 0 0 44%;
+    height: auto;
+  }
+
+  .mediaImage {
+    object-position: center;
+  }
+
+  .content {
+    flex: 1;
+    padding: 28px 26px 26px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   ANIMACIONES
+--------------------------------------------------------- */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teaser,
+  .overlay,
+  .dialog {
+    animation: none;
+  }
+}
