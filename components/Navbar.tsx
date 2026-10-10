@@ -18,6 +18,7 @@ import {
 
 import styles from "./Navbar.module.css";
 import WhatsAppLead from "./WhatsAppLead/WhatsAppLead";
+import { podcastEpisode } from "./FloatingPodcast";
 
 const LOGO_SRC =
   "/assets/images/ancosur-logo.svg";
@@ -604,6 +605,16 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
+
+            <a
+              href={podcastEpisode.spotifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mobileLink}
+              onClick={handleMobileNavigation}
+            >
+              Podcast
+            </a>
 
             {/* =================================================
                 BENEFICIOS MOBILE

@@ -408,9 +408,13 @@
     border-radius: 9px;
   }
 
+  /* Alineado a la izquierda: deja libre la esquina
+     inferior derecha para el botón del asistente. */
   .counter {
     bottom: 18px;
-    max-width: calc(100vw - 32px);
+    left: 16px;
+    transform: none;
+    max-width: calc(100vw - 104px);
     padding: 8px 10px;
     gap: 8px;
     overflow-x: auto;

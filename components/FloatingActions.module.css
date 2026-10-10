@@ -488,15 +488,24 @@
     max-width: 94%;
   }
 
+  /* Móvil: solo el círculo con el asistente (sin texto) */
   .floatingButton {
     align-self: flex-end;
-    min-height: 54px;
-    padding: 6px 14px 6px 8px;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    min-height: 58px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .floatingText {
+    display: none;
   }
 
   .floatingIcon {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
 
   .floatingButtonOpen {
@@ -532,13 +541,14 @@
   }
 
   .floatingButton {
-    min-height: 51px;
-    padding-right: 12px;
+    width: 54px;
+    height: 54px;
+    min-height: 54px;
   }
 
   .floatingIcon {
-    width: 38px;
-    height: 38px;
+    width: 46px;
+    height: 46px;
   }
 
   .floatingButtonOpen {

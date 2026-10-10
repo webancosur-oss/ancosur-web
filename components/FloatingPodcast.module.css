@@ -473,8 +473,12 @@
    MOBILE
 ========================================================= */
 
+/* Móvil: la pestaña se oculta; el podcast queda en el
+   menú (☰) para no sobrecargar la pantalla. */
 @media (max-width: 640px) {
   .podcastWidget {
+    display: none;
+
     bottom:
       clamp(
         225px,

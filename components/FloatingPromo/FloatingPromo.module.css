@@ -56,13 +56,7 @@
   pointer-events:none;
 }
 
-.desktopImage{
-  display:block;
-}
 
-.mobileImage{
-  display:none;
-}
 
 /*==================================================
   BOTÓN CERRAR
@@ -170,81 +164,14 @@
 
 /*==================================================
   MÓVIL
+  Se oculta: la franja de promociones bajo el hero ya
+  lleva a /promociones y así solo queda un botón flotante.
 ==================================================*/
 
 @media (max-width:640px){
 
   .floatingWrapper{
-    left:0;
-
-    /*
-      Queda pegado al fondo, respetando
-      únicamente el área segura del dispositivo.
-    */
-    bottom:env(safe-area-inset-bottom);
-
-    width:clamp(
-      155px,
-      45vw,
-      195px
-    );
-  }
-
-  .desktopImage{
     display:none;
-  }
-
-  .mobileImage{
-    display:block;
-  }
-
-  .closeButton{
-    top:3px;
-    right:3px;
-
-    width:32px;
-    height:32px;
-  }
-
-  .floatingPromo:hover{
-    transform:none;
-  }
-}
-
-/*==================================================
-  CELULARES PEQUEÑOS
-==================================================*/
-
-@media (max-width:380px){
-
-  .floatingWrapper{
-    left:0;
-    bottom:env(safe-area-inset-bottom);
-
-    width:clamp(
-      140px,
-      43vw,
-      165px
-    );
-  }
-
-  .closeButton{
-    width:30px;
-    height:30px;
-  }
-}
-
-/*==================================================
-  CELULARES MUY PEQUEÑOS
-==================================================*/
-
-@media (max-width:320px){
-
-  .floatingWrapper{
-    left:0;
-    bottom:env(safe-area-inset-bottom);
-
-    width:135px;
   }
 }
 

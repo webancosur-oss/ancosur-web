@@ -4,7 +4,9 @@ import { SpotifyLogoIcon, XIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import styles from "./FloatingPodcast.module.css";
 
-const episode = {
+/* También lo usa el menú móvil (en móvil no se muestra
+   la pestaña flotante). */
+export const podcastEpisode = {
   title: "Ancosur Podcast",
   description: "Episodio destacado de Ancosur Podcast.",
   embedUrl:
@@ -15,6 +17,7 @@ const episode = {
 
 export default function FloatingPodcast() {
   const [isOpen, setIsOpen] = useState(false);
+  const episode = podcastEpisode;
 
   return (
     <aside className={`${styles.podcastWidget} ${isOpen ? styles.open : ""}`}>

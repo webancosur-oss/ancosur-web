@@ -95,9 +95,9 @@ export default function FloatingPromo({
         />
       </button>
 
-      {/* En móvil esta imagen es el LCP (Chrome ignora el hero
-          por ocupar todo el viewport): carga inmediata y prioridad
-          alta, sin <link rel="preload"> para no bajar ambas variantes. */}
+      {/* Solo en tablet y escritorio: en móvil se oculta (la
+          franja de promociones cumple esa función). Carga
+          diferida para que en móvil no se descargue. */}
       <Link
         href={href}
         className={styles.floatingPromo}
@@ -109,28 +109,8 @@ export default function FloatingPromo({
           alt="Leonito invitando a conocer las promociones de Ancosur"
           width={600}
           height={789}
-          loading="eager"
-          fetchPriority="high"
-          className={`${styles.image} ${styles.desktopImage}`}
-          sizes="
-            (max-width: 640px) 0px,
-            (max-width: 1024px) 185px,
-            210px
-          "
-        />
-
-        <Image
-          src="/assets/floating/leonito-eso.webp"
-          alt="Leonito invitando a conocer las promociones de Ancosur"
-          width={600}
-          height={789}
-          loading="eager"
-          fetchPriority="high"
-          className={`${styles.image} ${styles.mobileImage}`}
-          sizes="
-            (max-width: 640px) 195px,
-            0px
-          "
+          className={styles.image}
+          sizes="(max-width: 1024px) 185px, 210px"
         />
       </Link>
     </div>
