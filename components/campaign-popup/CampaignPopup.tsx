@@ -209,11 +209,13 @@ export default function CampaignPopup({
     const fullName = form.fullName.replace(/\s+/g, " ").trim();
     const phone = form.phone.replace(/\D/g, "").slice(0, 9);
     const params = new URLSearchParams(window.location.search);
-    const campaign = `Promociones web - ${promotion.name}`;
+    /* Mismo nombre que el popup anterior para no romper los
+       filtros y reportes del CRM. La promoción va en el mensaje. */
+    const campaign = "Formulario Aterrador";
 
     const payload = {
-      codigo_formulario: "popup_promociones",
-      nombre_formulario: `Popup web - ${promotion.name}`,
+      codigo_formulario: "Formulario Aterrador",
+      nombre_formulario: "Formulario Aterrador",
       tipo_formulario: "promocion",
       nombre: fullName,
       telefono: phone,
@@ -225,7 +227,7 @@ export default function CampaignPopup({
       interes: `${form.interestType} - ${form.project}`,
       horario_visita: "",
       campania: campaign,
-      anuncio: "Popup web Ancosur",
+      anuncio: "Formulario Aterrador - Popup web Ancosur",
       fuente_id: 4,
       ruta_pagina: window.location.pathname,
       url_pagina: window.location.href,
