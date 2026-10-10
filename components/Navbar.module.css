@@ -897,28 +897,6 @@
 
 
 /* =========================================================
-   HEADER MOBILE
-========================================================= */
-
-.mobileHeader {
-  margin-bottom:
-    18px;
-
-  color:
-    #00a74f;
-
-  font-size:
-    0.68rem;
-
-  font-weight:
-    800;
-
-  letter-spacing:
-    0.12em;
-}
-
-
-/* =========================================================
    LINKS MOBILE
 ========================================================= */
 
@@ -1331,7 +1309,7 @@
    TABLET / MOBILE
 ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
 
   /*
     Navbar sigue por debajo
@@ -1660,9 +1638,146 @@
    en tablet/mobile. Solo queda el del panel hamburguesa.
 ========================================================= */
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .whatsappButton {
     display:
       none !important;
+  }
+}
+/* =========================================================
+   MENÚ MÓVIL · AJUSTES
+   - La barra (logo y X) queda por encima del oscurecido.
+   - Panel en columna: lista desplazable + pie fijo con
+     WhatsApp siempre visible.
+   - Enlaces compactos; Promociones destacada.
+========================================================= */
+
+.mobileLinkPromo {
+  justify-content: space-between;
+  border-color: rgba(255, 122, 0, 0.45);
+  background: rgba(255, 122, 0, 0.1);
+}
+
+.mobileLinkPromo::after {
+  content: "Vigentes";
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #ff7a00;
+  color: #1a0b00;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.mobileLinkPromo:hover,
+.mobileLinkPromo.mobileLinkActive {
+  border-color: #ff7a00;
+  background: rgba(255, 122, 0, 0.18);
+}
+
+.mobileFooter {
+  display: none;
+}
+
+/* Visible al instante al abrir (para poder enfocar el
+   primer enlace); al cerrar, se oculta tras el fundido. */
+.mobileOverlay {
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0.25s;
+}
+
+.mobileOverlayOpen {
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0s;
+}
+
+@media (max-width: 1024px) {
+  /* El logo y la X no quedan bajo el oscurecido */
+  .navbarShell {
+    z-index: 10002;
+  }
+
+  .mobileOverlay {
+    overflow: hidden;
+    background: rgba(3, 8, 5, 0.72);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .mobilePanel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px;
+  }
+
+  .mobileLinks {
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 6px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 2px;
+  }
+
+  .mobileLink,
+  .mobileBenefitsButton {
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+
+  .mobileFooter {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .mobileSecondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .mobileSecondary svg {
+    color: #1ed760;
+  }
+
+  .mobileSecondary:hover {
+    color: #ffffff;
+  }
+
+  .mobileSecondary:focus-visible {
+    outline: 3px solid #55e69a;
+    outline-offset: 2px;
+    border-radius: 10px;
+  }
+
+  .mobileWhatsapp {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobilePanel {
+    padding: 10px;
+    border-radius: 22px;
+  }
+
+  .mobileWhatsapp {
+    margin-top: 0;
   }
 }

@@ -4,6 +4,7 @@ import {
   CaretDownIcon,
   ListIcon,
   PhoneCallIcon,
+  SpotifyLogoIcon,
   WhatsappLogoIcon,
   XIcon,
 } from "@phosphor-icons/react";
@@ -42,6 +43,11 @@ const navLinks = [
   {
     label: "Resorts",
     href: "/resorts",
+  },
+  {
+    label: "Promociones",
+    href: "/promociones",
+    highlight: true,
   },
   {
     label: "Nosotros",
@@ -111,6 +117,12 @@ export default function Navbar() {
   ] = useState(false);
 
   const benefitsRef =
+    useRef<HTMLDivElement>(null);
+
+  const menuButtonRef =
+    useRef<HTMLButtonElement>(null);
+
+  const mobilePanelRef =
     useRef<HTMLDivElement>(null);
 
   /* =========================================================
@@ -189,21 +201,56 @@ export default function Navbar() {
 
   /* =========================================================
      BLOQUEAR SCROLL MOBILE
+     overflow:hidden no basta en iPhone: se fija el body en
+     su posición actual y se restaura al cerrar.
   ========================================================= */
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow =
-        "hidden";
-    } else {
-      document.body.style.overflow =
-        "";
-    }
+    if (!isMobileMenuOpen) return;
+
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.left = "0";
+    style.right = "0";
+    style.width = "100%";
 
     return () => {
-      document.body.style.overflow =
-        "";
+      style.position = "";
+      style.top = "";
+      style.left = "";
+      style.right = "";
+      style.width = "";
+      window.scrollTo(0, scrollY);
     };
+  }, [isMobileMenuOpen]);
+
+  /* =========================================================
+     FOCO: al abrir va al primer enlace; al cerrar vuelve al
+     botón del menú (teclado y lectores de pantalla).
+  ========================================================= */
+
+  useEffect(() => {
+    const panel = mobilePanelRef.current;
+
+    if (isMobileMenuOpen) {
+      /* Espera a que el panel sea visible para poder enfocarlo */
+      const frame = window.requestAnimationFrame(() => {
+        panel
+          ?.querySelector<HTMLElement>("a, button")
+          ?.focus({ preventScroll: true });
+      });
+
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    if (panel?.contains(document.activeElement)) {
+      menuButtonRef.current?.focus({
+        preventScroll: true,
+      });
+    }
   }, [isMobileMenuOpen]);
 
   /* =========================================================
@@ -284,8 +331,10 @@ export default function Navbar() {
      Dejamos que Next.js ejecute el Link.
   ========================================================= */
 
+  /* Cierra siempre: si el enlace es la página actual, la
+     ruta no cambia y el menú quedaría abierto. */
   const handleMobileNavigation = () => {
-    setIsMobileBenefitsOpen(false);
+    closeMobileMenu();
   };
 
   return (
@@ -505,6 +554,7 @@ export default function Navbar() {
         ================================================= */}
 
         <button
+          ref={menuButtonRef}
           type="button"
           className={
             styles.menuButton
@@ -564,6 +614,7 @@ export default function Navbar() {
         ================================================= */}
 
         <div
+          ref={mobilePanelRef}
           className={
             styles.mobilePanel
           }
@@ -571,13 +622,6 @@ export default function Navbar() {
             event.stopPropagation()
           }
         >
-          <div
-            className={
-              styles.mobileHeader
-            }
-          >
-            MENÚ Ancosur
-          </div>
 
           <nav
             className={
@@ -597,6 +641,10 @@ export default function Navbar() {
                   isActivePath(item.href)
                     ? styles.mobileLinkActive
                     : ""
+                } ${
+                  item.highlight
+                    ? styles.mobileLinkPromo
+                    : ""
                 }`}
                 onClick={
                   handleMobileNavigation
@@ -605,16 +653,6 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-
-            <a
-              href={podcastEpisode.spotifyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.mobileLink}
-              onClick={handleMobileNavigation}
-            >
-              Podcast
-            </a>
 
             {/* =================================================
                 BENEFICIOS MOBILE
@@ -716,29 +754,45 @@ export default function Navbar() {
           </nav>
 
           {/* =================================================
-              WHATSAPP MOBILE
+              PIE FIJO: podcast + WhatsApp siempre visibles
           ================================================= */}
 
-          <div className={styles.mobileWhatsapp}>
-  <WhatsAppLead
-    source="Navbar Mobile"
-    project="ANCOSUR"
-    campaign="WEB Ancosur"
-    ad="Navbar WhatsApp Mobile"
-    onBeforeOpen={closeMobileMenu}
-  >
-    <span className={styles.mobileWhatsappContent}>
-      <PhoneCallIcon
-        size={20}
-        weight="bold"
-      />
+          <div className={styles.mobileFooter}>
+            <a
+              href={podcastEpisode.spotifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.mobileSecondary}
+              onClick={handleMobileNavigation}
+            >
+              <SpotifyLogoIcon
+                size={18}
+                weight="fill"
+                aria-hidden="true"
+              />
+              Escucha Ancosur Podcast
+            </a>
 
-      <span>
-        971 069 763
-      </span>
-    </span>
-  </WhatsAppLead>
-</div>
+            <div className={styles.mobileWhatsapp}>
+              <WhatsAppLead
+                source="Navbar Mobile"
+                project="ANCOSUR"
+                campaign="WEB Ancosur"
+                ad="Navbar WhatsApp Mobile"
+                onBeforeOpen={closeMobileMenu}
+              >
+                <span className={styles.mobileWhatsappContent}>
+                  <PhoneCallIcon
+                    size={20}
+                    weight="bold"
+                  />
+                  <span>
+                    971 069 763
+                  </span>
+                </span>
+              </WhatsAppLead>
+            </div>
+          </div>
         </div>
       </div>
     </header>
