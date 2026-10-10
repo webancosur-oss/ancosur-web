@@ -23,6 +23,8 @@ export type Promotion = {
   id: string;
   /* Texto corto para tarjetas, selector y CRM */
   name: string;
+  /* Frase breve para la franja de la portada */
+  teaser: string;
   kind: "evento" | "promocion";
   eyebrow: string;
   title: string;
@@ -83,6 +85,7 @@ export const promotions: Promotion[] = [
   {
     id: "showroom",
     name: "Showroom de Halloween",
+    teaser: "Sáb. 17 de octubre · 11 a. m. a 5 p. m.",
     kind: "evento",
     eyebrow: "Edición Halloween",
     title: "Showroom",
@@ -129,6 +132,7 @@ export const promotions: Promotion[] = [
   {
     id: "depaween",
     name: "Depaween",
+    teaser: "Que el alquiler no te siga dando miedo",
     kind: "promocion",
     eyebrow: "Especial Halloween",
     title: "Que el alquiler",
@@ -175,6 +179,7 @@ export const promotions: Promotion[] = [
   {
     id: "familia-ancosur",
     name: "Beneficios Familia Ancosur",
+    teaser: "Beneficios exclusivos al comprar tu lote o depa",
     kind: "promocion",
     eyebrow: "Familia Ancosur",
     title: "Compra tu lote o depa",
@@ -226,6 +231,7 @@ export const promotions: Promotion[] = [
   {
     id: "viaje-cusco",
     name: "Viaje a Cusco",
+    teaser: "Tu depa viene con un viaje a Cusco",
     kind: "promocion",
     eyebrow: "Sorteo",
     title: "Tu depa viene",
@@ -252,6 +258,7 @@ export const promotions: Promotion[] = [
   {
     id: "cyber-house",
     name: "Cyber House",
+    teaser: "Atrapa tu hogar ideal",
     kind: "evento",
     eyebrow: "Evento inmobiliario",
     title: "Cyber House",

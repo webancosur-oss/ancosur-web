@@ -89,6 +89,8 @@ function SlideImage({
     alt: slide.title,
     fill: true,
     sizes: "100vw",
+    loading: isFirst ? ("eager" as const) : ("lazy" as const),
+    fetchPriority: isFirst ? ("high" as const) : ("auto" as const),
   };
 
   const {
@@ -116,8 +118,6 @@ function SlideImage({
         srcSet={mobileSrcSet}
         alt={slide.title}
         className={styles.backgroundImage}
-        loading={isFirst ? "eager" : "lazy"}
-        fetchPriority={isFirst ? "high" : "auto"}
         decoding={isFirst ? "sync" : "async"}
         draggable={false}
       />

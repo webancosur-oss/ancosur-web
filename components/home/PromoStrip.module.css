@@ -1,0 +1,216 @@
+/* =========================================================
+   FRANJA DE PROMOCIONES
+   Móvil: lista apilada. Tablet: 3 columnas bajo el título.
+   Escritorio: título a la izquierda y promociones en fila.
+========================================================= */
+
+.strip {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 122, 0, 0.14),
+      rgba(0, 167, 79, 0.1) 45%,
+      rgba(0, 167, 79, 0.04)
+    ),
+    #07110c;
+  color: #ffffff;
+}
+
+/* Borde superior Halloween → marca */
+.strip::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7a00, #00a74f);
+}
+
+.inner {
+  display: grid;
+  gap: 14px;
+  width: min(1240px, 100% - 32px);
+  margin: 0 auto;
+  padding: 20px 0 18px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  color: #ffb066;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.all:hover {
+  color: #55e69a;
+}
+
+.items {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.item:hover {
+  border-color: rgba(85, 230, 154, 0.55);
+  background: rgba(0, 167, 79, 0.1);
+  transform: translateY(-2px);
+}
+
+.itemEvent {
+  border-color: rgba(255, 122, 0, 0.45);
+  background: rgba(255, 122, 0, 0.08);
+}
+
+.itemEvent:hover {
+  border-color: #ff7a00;
+  background: rgba(255, 122, 0, 0.14);
+}
+
+.thumb {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: top center;
+  background: #0c1510;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 699px) {
+  .thumb {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.texts strong {
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.teaser {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.badge {
+  width: fit-content;
+  margin-top: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #ff7a00;
+  color: #1a0b00;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.arrow {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.item:hover .arrow {
+  color: #55e69a;
+}
+
+.item:focus-visible,
+.all:focus-visible {
+  outline: 3px solid #55e69a;
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------
+   TABLET
+--------------------------------------------------------- */
+
+@media (min-width: 700px) {
+  .items {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* ---------------------------------------------------------
+   ESCRITORIO: título | promociones | ver todas
+--------------------------------------------------------- */
+
+@media (min-width: 1100px) {
+  .inner {
+    grid-template-columns: 150px minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+    padding: 22px 0;
+  }
+
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+
+  .item:hover {
+    transform: none;
+  }
+}
