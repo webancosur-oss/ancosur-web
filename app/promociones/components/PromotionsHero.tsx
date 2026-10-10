@@ -52,7 +52,6 @@ export default function PromotionsHero({
 
           <h1 id="promociones-title">
             Promociones inmobiliarias
-            <span> en Huancayo</span>
           </h1>
 
           <p className={styles.heroLead}>
