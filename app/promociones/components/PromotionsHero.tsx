@@ -56,13 +56,9 @@ export default function PromotionsHero({
           </h1>
 
           <p className={styles.heroLead}>
-            Beneficios en departamentos y lotes del 1 al 31
-            de octubre
             {showroom
-              ? `, y un Showroom inmobiliario el ${SHOWROOM_DATE_LABEL.toLowerCase()}`
-              : ""}
-            . Elige tu promoción y un asesor te ayudará a
-            aprovecharla.
+              ? `Este octubre vive nuestro Showroom de Halloween el ${SHOWROOM_DATE_LABEL.toLowerCase()}, aprovecha las campañas del mes y accede a beneficios exclusivos por ser parte de la familia Ancosur.`
+              : "Aprovecha las campañas vigentes y accede a beneficios exclusivos por ser parte de la familia Ancosur."}
           </p>
 
           {promotions.length > 0 && (
@@ -116,14 +112,14 @@ export default function PromotionsHero({
         {showroom && (
           <aside
             className={styles.eventCard}
-            aria-label="Showroom inmobiliario"
+            aria-label="Showroom de Halloween"
           >
             <span className={styles.eventKicker}>
-              Evento presencial
+              Evento presencial · Edición Halloween
             </span>
 
             <p className={styles.eventTitle}>
-              Showroom inmobiliario
+              Showroom de Halloween
             </p>
 
             <ul className={styles.eventFacts}>

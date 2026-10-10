@@ -35,7 +35,7 @@ export const metadata = createSeoMetadata({
   title: "Promociones inmobiliarias en Huancayo | ANCOSUR",
 
   description:
-    "Promociones de ANCOSUR en departamentos y lotes en Huancayo: beneficios de octubre, Showroom inmobiliario y asesoría personalizada en sala de ventas.",
+    "Promociones de ANCOSUR en Huancayo: Showroom de Halloween, campañas de octubre y beneficios exclusivos para la familia Ancosur al comprar tu lote o depa.",
 
   pathname: PAGE_PATH,
 
@@ -69,14 +69,14 @@ export default function PromocionesPage() {
 
     "@id": `${PAGE_URL}#showroom`,
 
-    name: "Showroom inmobiliario Ancosur",
+    name: "Showroom de Halloween Ancosur",
 
     description:
-      "Conoce todos los proyectos de Ancosur en un solo lugar, con asesoría personalizada y las promociones de octubre.",
+      "Showroom inmobiliario edición Halloween: conoce todos los proyectos de Ancosur en un solo lugar, con asesoría personalizada y las promociones de octubre.",
 
     url: `${PAGE_URL}#showroom`,
 
-    image: [`${SITE_URL}/assets/campanias/showroom-17-octubre.webp`],
+    image: [`${SITE_URL}/assets/campanias/showroom-halloween.webp`],
 
     startDate: SHOWROOM_START,
 

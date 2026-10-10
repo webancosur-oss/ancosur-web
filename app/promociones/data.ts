@@ -82,19 +82,19 @@ export const SHOWROOM_ADDRESS =
 export const promotions: Promotion[] = [
   {
     id: "showroom",
-    name: "Showroom inmobiliario",
+    name: "Showroom de Halloween",
     kind: "evento",
-    eyebrow: "Evento presencial",
+    eyebrow: "Edición Halloween",
     title: "Showroom",
-    highlight: "inmobiliario",
+    highlight: "de miedo",
     summary:
-      "Conoce todos nuestros proyectos en un solo lugar y recibe asesoría personalizada.",
+      "Un showroom de terror: todos nuestros proyectos, asesoría y promociones en un solo lugar.",
     description:
-      "Recorre las maquetas de nuestros proyectos, resuelve tus dudas con nuestros asesores y accede a las promociones de octubre en un solo día.",
-    image: "/assets/campanias/showroom-17-octubre.webp",
+      "Este 17 de octubre nuestra sala de ventas se viste de Halloween. Recorre las maquetas de todos nuestros proyectos, resuelve tus dudas con nuestros asesores y que lo único que te asuste sea seguir pagando alquiler.",
+    image: "/assets/campanias/showroom-halloween.webp",
     imageAlt:
-      "Showroom inmobiliario Ancosur el sábado 17 de octubre en la sala de ventas",
-    imageWidth: 1081,
+      "Showroom inmobiliario Ancosur edición Halloween, sábado 17 de octubre en la sala de ventas",
+    imageWidth: 1080,
     imageHeight: 1080,
     startsAt: "2026-10-01T00:00:00-05:00",
     endsAt: SHOWROOM_END,
@@ -122,55 +122,9 @@ export const promotions: Promotion[] = [
       href: "/proyectos",
     },
     whatsappMessage:
-      "Hola, quiero asistir al Showroom inmobiliario de Ancosur del sábado 17 de octubre.",
+      "Hola, quiero asistir al Showroom de Halloween de Ancosur del sábado 17 de octubre.",
     legal:
       "Ingreso libre. Te recomendamos separar tu visita para recibir atención personalizada.",
-  },
-  {
-    id: "compra-tu-lote",
-    name: "Compra tu lote y ahorra",
-    kind: "promocion",
-    eyebrow: "Camino Real Residencial",
-    title: "Compra tu lote",
-    highlight: "y ahorra",
-    summary:
-      "Compra tu lote en Camino Real y elige planos gratis o notaría gratis.",
-    description:
-      "Adquiere tu lote en Camino Real Residencial, en El Tambo, y elige uno de dos beneficios exclusivos para empezar a construir tu futuro.",
-    image: "/assets/campanias/campania-camino-real.webp",
-    imageAlt:
-      "Promoción Compra tu lote y ahorra en Camino Real Residencial: planos gratis o notaría gratis",
-    imageWidth: 1081,
-    imageHeight: 1081,
-    startsAt: "2026-10-01T00:00:00-05:00",
-    endsAt: "2026-10-31T23:59:59-05:00",
-    validityLabel: "Válido hasta el 31 de octubre",
-    benefits: [
-      {
-        title: "Planos gratis",
-        description:
-          "Planos de tu casa diseñados por Darkham Studio.",
-      },
-      {
-        title: "Notaría gratis",
-        description:
-          "Cubrimos tus gastos notariales y registrales.",
-      },
-    ],
-    details: [
-      { label: "Proyecto", value: "Camino Real Residencial" },
-      { label: "Ubicación", value: "El Tambo, Huancayo" },
-      { label: "Vigencia", value: "1 al 31 de octubre" },
-    ],
-    primaryCta: "Quiero esta promoción",
-    secondaryCta: {
-      label: "Conocer Camino Real",
-      href: "/camino-real",
-    },
-    whatsappMessage:
-      "Hola, quiero la promoción Compra tu lote y ahorra de Camino Real.",
-    legal:
-      "El cliente elige uno de los beneficios disponibles. Válido del 1 al 31 de octubre de 2026. Sujeto a términos, condiciones, disponibilidad y evaluación comercial.",
   },
   {
     id: "depaween",
@@ -217,6 +171,57 @@ export const promotions: Promotion[] = [
       "Hola, vi la campaña Depaween y quiero dejar de pagar alquiler. ¿Qué departamentos o lotes tienen?",
     legal:
       "Válido del 1 al 31 de octubre de 2026. Sujeto a disponibilidad y evaluación comercial de cada proyecto.",
+  },
+  {
+    id: "familia-ancosur",
+    name: "Beneficios Familia Ancosur",
+    kind: "promocion",
+    eyebrow: "Familia Ancosur",
+    title: "Compra tu lote o depa",
+    highlight: "y accede a beneficios exclusivos",
+    summary:
+      "Al comprar con nosotros entras al Club de Beneficios: descuentos en 15 marcas aliadas.",
+    description:
+      "Por ser parte de la familia Ancosur, al comprar tu lote o departamento accedes al Club de Beneficios: descuentos exclusivos en hogar, decoración, salud y bienestar con nuestras marcas aliadas.",
+    image: "/assets/campanias/familia-ancosur.webp",
+    imageAlt:
+      "Compra tu lote o depa con Ancosur y accede a beneficios exclusivos del Club de Beneficios",
+    imageWidth: 1080,
+    imageHeight: 1080,
+    /* Promoción permanente */
+    startsAt: "2026-01-01T00:00:00-05:00",
+    endsAt: "2099-12-31T23:59:59-05:00",
+    validityLabel: "Siempre disponible",
+    benefits: [
+      {
+        title: "Hasta 50% en estética y spa",
+        description: "Daphne Makeup e Idola Spa.",
+      },
+      {
+        title: "Hasta 30% en decoración y acabados",
+        description:
+          "DECORARQTE, además de 10% en domótica.",
+      },
+      {
+        title: "Hogar y tecnología",
+        description:
+          "10% al 15% en Sole y 5% en La Curacao.",
+      },
+    ],
+    details: [
+      { label: "Para", value: "Clientes Ancosur" },
+      { label: "Aliados", value: "15 marcas" },
+      { label: "Vigencia", value: "Permanente" },
+    ],
+    primaryCta: "Quiero ser parte",
+    secondaryCta: {
+      label: "Ver Club de Beneficios",
+      href: "/beneficios/club-beneficios",
+    },
+    whatsappMessage:
+      "Hola, quiero comprar un lote o departamento y conocer los beneficios de la familia Ancosur.",
+    legal:
+      "Beneficios para clientes de Ancosur. Los descuentos y condiciones dependen de cada marca aliada y pueden variar.",
   },
   {
     id: "viaje-cusco",
