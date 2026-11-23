@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -30,8 +29,16 @@ export default function FloatingPromo({
 }: FloatingPromoProps) {
   const pathname = usePathname();
 
-  const [isVisible, setIsVisible] =
-    useState(true);
+  /*
+   * Ruta en la que el usuario cerró a Leonito.
+   * Al cambiar de página vuelve a mostrarse.
+   *
+   * Ejemplo:
+   * /promociones → /
+   * /promociones → /departamentos
+   */
+  const [closedOnPath, setClosedOnPath] =
+    useState<string | null>(null);
 
   const targetPath = useMemo(
     () => normalizePath(href),
@@ -46,25 +53,11 @@ export default function FloatingPromo({
   const isTargetPage =
     currentPath === targetPath;
 
-  /*
-   * Al salir de la página de promociones,
-   * el león vuelve a mostrarse.
-   *
-   * Ejemplo:
-   * /promociones → /
-   * /promociones → /departamentos
-   */
-  useEffect(() => {
-    if (!isTargetPage) {
-      setIsVisible(true);
-    }
-  }, [
-    currentPath,
-    isTargetPage,
-  ]);
+  const isVisible =
+    closedOnPath !== currentPath;
 
   const closePromo = () => {
-    setIsVisible(false);
+    setClosedOnPath(currentPath);
   };
 
   /*
@@ -95,9 +88,8 @@ export default function FloatingPromo({
         />
       </button>
 
-      {/* Solo en tablet y escritorio: en móvil se oculta (la
-          franja de promociones cumple esa función). Carga
-          diferida para que en móvil no se descargue. */}
+      {/* Leonito explorador (temática selva de Zagari Resort
+          Club). En móvil se muestra en tamaño reducido. */}
       <Link
         href={href}
         className={styles.floatingPromo}
@@ -105,12 +97,12 @@ export default function FloatingPromo({
         aria-label="Conocer las promociones de Ancosur"
       >
         <Image
-          src="/assets/floating/leonito-eso.webp"
-          alt="Leonito invitando a conocer las promociones de Ancosur"
-          width={600}
-          height={789}
+          src="/assets/floating/leonito-zagari.webp"
+          alt="Leonito explorador invitando a conocer las promociones de Ancosur"
+          width={760}
+          height={1006}
           className={styles.image}
-          sizes="(max-width: 1024px) 185px, 210px"
+          sizes="(max-width: 640px) 124px, (max-width: 1024px) 185px, 210px"
         />
       </Link>
     </div>

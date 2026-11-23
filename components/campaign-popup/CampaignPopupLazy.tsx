@@ -4,23 +4,24 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import type { PopupPromotion } from "./types";
+import { obtenerPopupWeb, type PopupWeb } from "@/data/popupWeb";
 
 /* =========================================================
-   CARGADOR DEL POPUP DE CAMPAÑA
-   Compatible con las pautas de Google:
+   CARGADOR DEL POPUP
+   El pop-up lo arma marketing en el CRM (afiche, textos,
+   campos, páginas y vigencia). Compatible con las pautas de
+   Google:
    - no aparece al entrar: espera la primera interacción
-     (scroll, toque o tecla) y unos segundos más;
-   - una sola vez por sesión (si se cierra o se envía);
-   - nunca en /promociones (allí ya está el formulario).
+     (scroll, toque o tecla); recién ahí se consulta al CRM
+     si hay un pop-up para esta página, y se espera lo que
+     indique su configuración;
+   - una sola vez por sesión (si se cierra o se envía).
    El componente del popup se descarga solo en ese momento.
 ========================================================= */
 
 const CampaignPopup = dynamic(() => import("./CampaignPopup"), {
   ssr: false,
 });
-
-const SHOW_DELAY = 2500;
 
 const INTERACTION_EVENTS = [
   "scroll",
@@ -29,33 +30,31 @@ const INTERACTION_EVENTS = [
   "touchstart",
 ] as const;
 
-export const popupStorageKey = (id: string) =>
+export const popupStorageKey = (id: number | string) =>
   `ancosur-popup-${id}`;
 
-type CampaignPopupLazyProps = {
-  promotion: PopupPromotion | null;
+type Estado = {
+  /* Ruta para la que se consultó: al cambiar de página se vuelve a consultar. */
+  ruta: string;
+  popup: PopupWeb | null;
+  mostrar: boolean;
 };
 
-export default function CampaignPopupLazy({
-  promotion,
-}: CampaignPopupLazyProps) {
+export default function CampaignPopupLazy() {
   const pathname = usePathname();
-  const [shouldShow, setShouldShow] = useState(false);
+  const [estado, setEstado] = useState<Estado>({
+    ruta: "",
+    popup: null,
+    mostrar: false,
+  });
 
   useEffect(() => {
-    if (!promotion || pathname?.startsWith("/promociones")) {
-      return;
-    }
+    if (!pathname) return;
 
-    try {
-      if (sessionStorage.getItem(popupStorageKey(promotion.id))) {
-        return;
-      }
-    } catch {
-      /* sessionStorage bloqueado: se muestra igual */
-    }
-
+    const ruta = pathname;
+    let cancelled = false;
     let timer = 0;
+    const controller = new AbortController();
 
     const removeListeners = () => {
       INTERACTION_EVENTS.forEach((name) =>
@@ -63,9 +62,30 @@ export default function CampaignPopupLazy({
       );
     };
 
-    function handleInteraction() {
+    async function handleInteraction() {
       removeListeners();
-      timer = window.setTimeout(() => setShouldShow(true), SHOW_DELAY);
+
+      const found = await obtenerPopupWeb(ruta, controller.signal).catch(
+        () => null,
+      );
+      if (cancelled || !found) return;
+
+      try {
+        if (sessionStorage.getItem(popupStorageKey(found.id))) return;
+      } catch {
+        /* sessionStorage bloqueado: se muestra igual */
+      }
+
+      setEstado({ ruta, popup: found, mostrar: false });
+      timer = window.setTimeout(
+        () => {
+          if (cancelled) return;
+          setEstado((actual) =>
+            actual.ruta === ruta ? { ...actual, mostrar: true } : actual,
+          );
+        },
+        Math.max(0, found.retraso_seg) * 1000,
+      );
     }
 
     INTERACTION_EVENTS.forEach((name) =>
@@ -75,17 +95,23 @@ export default function CampaignPopupLazy({
     );
 
     return () => {
+      cancelled = true;
       removeListeners();
       window.clearTimeout(timer);
+      controller.abort();
     };
-  }, [promotion, pathname]);
+  }, [pathname]);
 
-  if (!promotion || !shouldShow) return null;
+  if (estado.ruta !== pathname || !estado.popup || !estado.mostrar) {
+    return null;
+  }
 
   return (
     <CampaignPopup
-      promotion={promotion}
-      onClose={() => setShouldShow(false)}
+      popup={estado.popup}
+      onClose={() =>
+        setEstado((actual) => ({ ...actual, mostrar: false }))
+      }
     />
   );
 }

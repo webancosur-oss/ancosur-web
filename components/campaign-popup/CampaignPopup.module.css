@@ -488,7 +488,8 @@
   .media {
     flex: 0 0 auto;
     height: 100%;
-    aspect-ratio: 1081 / 1351;
+    /* La proporción la pone el componente según el afiche subido en el CRM. */
+    aspect-ratio: var(--popup-ratio, 1081 / 1351);
   }
 
   .mediaImage {

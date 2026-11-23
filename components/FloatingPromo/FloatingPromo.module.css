@@ -164,14 +164,41 @@
 
 /*==================================================
   MÓVIL
-  Se oculta: la franja de promociones bajo el hero ya
-  lleva a /promociones y así solo queda un botón flotante.
+  Versión pequeña pegada a la esquina. Queda por debajo
+  de la tarjeta de campaña (z-index 1100) para que, si
+  esta aparece, no la tape.
 ==================================================*/
 
 @media (max-width:640px){
 
   .floatingWrapper{
-    display:none;
+    left:0;
+    bottom:0;
+
+    z-index:1050;
+
+    width:clamp(
+      96px,
+      27vw,
+      124px
+    );
+
+    filter:drop-shadow(
+      0 8px 14px
+      rgba(0,0,0,.26)
+    );
+  }
+
+  .closeButton{
+    top:0;
+    right:0;
+
+    width:28px;
+    height:28px;
+  }
+
+  .floatingPromo:hover{
+    transform:none;
   }
 }
 

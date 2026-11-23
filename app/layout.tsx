@@ -8,9 +8,9 @@ import { Manrope } from "next/font/google";
 
 import "./globals.css";
 
+import CampaignPopupLazy from "@/components/campaign-popup/CampaignPopupLazy";
 import FloatingActions from "@/components/FloatingActions";
 import FloatingPodcast from "@/components/FloatingPodcast";
-import FloatingPromo from "@/components/FloatingPromo/FloatingPromo";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Script from "next/script";
@@ -403,6 +403,9 @@ export default function RootLayout({
         <Navbar />
 
         {children}
+
+        {/* Pop-up configurado en el CRM (Página web → Pop-up): sale en las páginas que marketing indique. */}
+        <CampaignPopupLazy />
 
         <FloatingActions />
 

@@ -11,54 +11,42 @@ import {
   useId,
   useRef,
   useState,
+  type CSSProperties,
   type FormEvent,
 } from "react";
 
-import ShowroomDaysLeft from "@/components/home/ShowroomDaysLeft";
+import { type CampoPopup, type PopupWeb, urlAfichePopup } from "@/data/popupWeb";
 import { ProyectosWebAPI } from "@/data/proyectosWeb";
+import { isOptimizableImage } from "@/src/seo";
 import type { ProyectoWeb } from "@/src/types/proyectoWeb";
 
 import { popupStorageKey } from "./CampaignPopupLazy";
-import type { PopupPromotion } from "./types";
 
 import styles from "./CampaignPopup.module.css";
 
 /* =========================================================
-   POPUP DE CAMPAÑA
+   POPUP DE CAMPAÑA (configurado desde el CRM)
    - Escritorio/tablet: ventana centrada (afiche + formulario).
-   - Móvil: tarjeta compacta abajo; "Quiero información"
-     despliega el formulario (formato aceptado por Google).
-   El envío usa el mismo formato que el resto de formularios
-   (POST /api/leads, que registra el lead en el CRM) y el evento lead_form_submit.
+   - Móvil: tarjeta compacta abajo; el botón despliega el
+     formulario (formato aceptado por Google).
+   Los campos del formulario vienen del CRM (popup.campos).
+   El envío usa el mismo camino que el resto de formularios
+   (POST /api/leads → CRM) y el evento lead_form_submit.
 ========================================================= */
 
-type InterestType = "Departamento" | "Lote";
-
-type FormState = {
-  fullName: string;
-  phone: string;
-  interestType: InterestType | "";
-  project: string;
-  message: string;
-  consent: boolean;
-};
-
-type FormErrors = Partial<Record<keyof FormState | "form", string>>;
-
-
-const INITIAL_FORM: FormState = {
-  fullName: "",
-  phone: "",
-  interestType: "",
-  project: "",
-  message: "",
-  consent: true,
-};
-
-const HALLOWEEN_IDS = ["depaween", "showroom"];
+type Valores = Record<string, string>;
+type Errores = Record<string, string | undefined>;
 
 const NAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.'’-]{3,80}$/;
 const PHONE_REGEX = /^9\d{8}$/;
+const EMAIL_REGEX = /^[^@\s,;]+@[^@\s,;]+\.[a-z]{2,}$/i;
+const DNI_REGEX = /^\d{8}$/;
+const MAX_PARRAFO = 500;
+
+const TIPOS_INTERES = [
+  { valor: "Departamento", texto: "Departamentos", icono: "🏢" },
+  { valor: "Lote", texto: "Lotes", icono: "🌳" },
+] as const;
 
 /* Solo proyectos activos con unidades en venta */
 const isProjectAvailable = (project: ProyectoWeb) =>
@@ -66,49 +54,105 @@ const isProjectAvailable = (project: ProyectoWeb) =>
   project.estado !== "vendido" &&
   !/FINALIZADO|ENTREGADO|VENDIDOS/i.test(project.etapa ?? "");
 
-const validate = (form: FormState): FormErrors => {
-  const errors: FormErrors = {};
+const digitos = (v: string) => v.replace(/\D/g, "");
 
-  if (!NAME_REGEX.test(form.fullName.replace(/\s+/g, " ").trim())) {
-    errors.fullName = "Ingresa tu nombre (solo letras).";
+/* Evento para Google Tag Manager (fuera del componente: aquí sí se puede tocar window). */
+function enviarEventoGTM(datos: Record<string, unknown>) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(datos);
+}
+
+function validar(
+  campos: CampoPopup[],
+  valores: Valores,
+  tipoInteres: string,
+  consent: boolean,
+): Errores {
+  const errores: Errores = {};
+
+  for (const c of campos) {
+    const val = (valores[c.clave] ?? "").trim();
+    const falta = c.obligatorio && !val;
+
+    switch (c.tipo) {
+      case "texto":
+        if (c.clave === "nombre") {
+          if (!NAME_REGEX.test(val.replace(/\s+/g, " "))) {
+            errores[c.clave] = "Ingresa tu nombre (solo letras).";
+          }
+        } else if (falta) {
+          errores[c.clave] = "Completa este campo.";
+        } else if (val.length > 120) {
+          errores[c.clave] = "Máximo 120 caracteres.";
+        }
+        break;
+      case "telefono":
+        if ((val || c.obligatorio) && !PHONE_REGEX.test(digitos(val))) {
+          errores[c.clave] =
+            "El celular debe tener 9 dígitos y empezar con 9.";
+        }
+        break;
+      case "email":
+        if ((val || c.obligatorio) && !EMAIL_REGEX.test(val)) {
+          errores[c.clave] = "Escribe un correo válido.";
+        }
+        break;
+      case "dni":
+        if ((val || c.obligatorio) && !DNI_REGEX.test(digitos(val))) {
+          errores[c.clave] = "El DNI tiene 8 dígitos.";
+        }
+        break;
+      case "opciones":
+        if (falta) errores[c.clave] = "Elige una opción.";
+        break;
+      case "proyecto":
+        if (c.obligatorio && !tipoInteres) {
+          errores[c.clave] = "Elige departamentos o lotes.";
+        } else if (falta) {
+          errores[c.clave] = "Selecciona el proyecto de tu interés.";
+        }
+        break;
+      case "parrafo":
+        if (falta) {
+          errores[c.clave] = "Escribe tu mensaje.";
+        } else if (val.length > MAX_PARRAFO) {
+          errores[c.clave] = `El mensaje no debe superar los ${MAX_PARRAFO} caracteres.`;
+        }
+        break;
+    }
   }
 
-  if (!PHONE_REGEX.test(form.phone.replace(/\D/g, ""))) {
-    errors.phone = "El celular debe tener 9 dígitos y empezar con 9.";
+  if (!consent) {
+    errores.consent = "Debes aceptar ser contactado.";
   }
 
-  if (!form.interestType) {
-    errors.interestType = "Elige departamentos o lotes.";
-  } else if (!form.project) {
-    errors.project = "Selecciona el proyecto de tu interés.";
-  }
-
-  if (form.message.trim().length > 250) {
-    errors.message = "El mensaje no debe superar los 250 caracteres.";
-  }
-
-  if (!form.consent) {
-    errors.consent = "Debes aceptar ser contactado.";
-  }
-
-  return errors;
-};
+  return errores;
+}
 
 type CampaignPopupProps = {
-  promotion: PopupPromotion;
+  popup: PopupWeb;
   onClose: () => void;
 };
 
 export default function CampaignPopup({
-  promotion,
+  popup,
   onClose,
 }: CampaignPopupProps) {
   const titleId = useId();
-
-  /* Campañas de octubre: tema Halloween (diseño del popup
-     original); el resto usa el diseño verde de marca. */
-  const isHalloween = HALLOWEEN_IDS.includes(promotion.id);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+
+  const campos = popup.campos.filter((c) => c.visible);
+  const campoProyecto = campos.find((c) => c.tipo === "proyecto");
+
+  const afiche = popup.imagen_url
+    ? {
+        src: urlAfichePopup(popup.imagen_url),
+        width: popup.imagen_ancho || 1081,
+        height: popup.imagen_alto || 1351,
+        /* En local la API es una IP privada y Next no la optimiza: se sirve tal cual (ya viene en WEBP). */
+        unoptimized: !isOptimizableImage(urlAfichePopup(popup.imagen_url)),
+      }
+    : null;
 
   /* En pantallas grandes se abre directamente el formulario */
   const [expanded, setExpanded] = useState(() =>
@@ -117,8 +161,10 @@ export default function CampaignPopup({
       : false,
   );
 
-  const [form, setForm] = useState<FormState>(INITIAL_FORM);
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [valores, setValores] = useState<Valores>({});
+  const [tipoInteres, setTipoInteres] = useState("");
+  const [consent, setConsent] = useState(true);
+  const [errors, setErrors] = useState<Errores>({});
   const [isSending, setIsSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [projects, setProjects] = useState<ProyectoWeb[]>([]);
@@ -126,7 +172,7 @@ export default function CampaignPopup({
 
   const remember = () => {
     try {
-      sessionStorage.setItem(popupStorageKey(promotion.id), "1");
+      sessionStorage.setItem(popupStorageKey(popup.id), "1");
     } catch {
       /* sin sessionStorage: solo se cierra */
     }
@@ -137,9 +183,9 @@ export default function CampaignPopup({
     onClose();
   };
 
-  /* Proyectos activos (solo al desplegar el formulario) */
+  /* Proyectos activos (solo si el formulario los pide y al desplegarlo) */
   useEffect(() => {
-    if (!expanded || projects.length > 0) return;
+    if (!expanded || !campoProyecto || projects.length > 0) return;
 
     let cancelled = false;
 
@@ -165,7 +211,7 @@ export default function CampaignPopup({
     return () => {
       cancelled = true;
     };
-  }, [expanded, projects.length]);
+  }, [expanded, campoProyecto, projects.length]);
 
   /* Escape cierra; con el formulario abierto se bloquea el
      scroll de fondo y el foco va al primer campo. */
@@ -194,20 +240,18 @@ export default function CampaignPopup({
     };
   }, [expanded]);
 
-  const update = <K extends keyof FormState>(
-    key: K,
-    value: FormState[K],
-  ) => {
-    setForm((current) => ({
-      ...current,
-      [key]: value,
-      ...(key === "interestType" ? { project: "" } : {}),
-    }));
-    setErrors((current) => ({ ...current, [key]: undefined, form: undefined }));
+  const update = (clave: string, value: string) => {
+    setValores((current) => ({ ...current, [clave]: value }));
+    setErrors((current) => ({ ...current, [clave]: undefined, form: undefined }));
+  };
+
+  const elegirTipo = (tipo: string) => {
+    setTipoInteres(tipo);
+    if (campoProyecto) update(campoProyecto.clave, "");
   };
 
   const projectsByType = projects.filter(
-    (project) => project.tipo === form.interestType,
+    (project) => project.tipo === tipoInteres,
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -215,36 +259,64 @@ export default function CampaignPopup({
 
     if (isSending) return;
 
-    const found = validate(form);
+    const found = validar(campos, valores, tipoInteres, consent);
 
     if (Object.keys(found).length > 0) {
       setErrors(found);
       return;
     }
 
-    const fullName = form.fullName.replace(/\s+/g, " ").trim();
-    const phone = form.phone.replace(/\D/g, "").slice(0, 9);
+    const valorDe = (tipo: CampoPopup["tipo"]) =>
+      campos.find((c) => c.tipo === tipo)?.clave;
+    const texto = (clave?: string) => (clave ? (valores[clave] ?? "").trim() : "");
+
+    const fullName = texto("nombre").replace(/\s+/g, " ");
+    const phone = digitos(texto(valorDe("telefono"))).slice(0, 9);
+    const email = texto(valorDe("email")).toLowerCase();
+    const dni = digitos(texto(valorDe("dni")));
+    const proyecto = texto(campoProyecto?.clave);
+    const mensajeClave =
+      campos.find((c) => c.tipo === "parrafo" && c.clave === "mensaje")?.clave ??
+      valorDe("parrafo");
+    const mensaje = texto(mensajeClave);
+
+    /* Los demás campos (texto, opciones, otros párrafos) van como
+       preguntas adicionales del lead, con su clave. */
+    const otros: Record<string, string> = {};
+    for (const c of campos) {
+      if (
+        c.clave === "nombre" ||
+        c.tipo === "telefono" ||
+        c.tipo === "email" ||
+        c.tipo === "dni" ||
+        c.tipo === "proyecto" ||
+        c.clave === mensajeClave
+      ) {
+        continue;
+      }
+      const v = texto(c.clave);
+      if (v) otros[c.clave] = v;
+    }
+
     const params = new URLSearchParams(window.location.search);
-    /* Mismo nombre que el popup anterior para no romper los
-       filtros y reportes del CRM. La promoción va en el mensaje. */
-    const campaign = "Formulario Aterrador";
+    const campaign = popup.campana;
 
     const payload = {
-      codigo_formulario: "Formulario Aterrador",
-      nombre_formulario: "Formulario Aterrador",
-      tipo_formulario: "promocion",
+      ...otros,
+      codigo_formulario: `popup-web-${popup.id}`,
+      nombre_formulario: campaign,
+      tipo_formulario: "popup",
       nombre: fullName,
       telefono: phone,
-      email: "",
-      dni: "",
-      mensaje:
-        form.message.trim() || `Interesado en ${promotion.name}.`,
-      proyecto: form.project,
-      tipo_inmueble: form.interestType,
-      interes: `${form.interestType} - ${form.project}`,
+      email,
+      dni,
+      mensaje: mensaje || `Interesado en ${popup.nombre}.`,
+      proyecto,
+      tipo_inmueble: tipoInteres,
+      interes: [tipoInteres, proyecto].filter(Boolean).join(" - "),
       horario_visita: "",
       campania: campaign,
-      anuncio: "Formulario Aterrador - Popup web Ancosur",
+      anuncio: `Pop-up web · ${popup.nombre}`,
       fuente_id: 4,
       ruta_pagina: window.location.pathname,
       url_pagina: window.location.href,
@@ -291,14 +363,13 @@ export default function CampaignPopup({
         return;
       }
 
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
+      enviarEventoGTM({
         event: "lead_form_submit",
         form_name: payload.nombre_formulario,
         form_code: payload.codigo_formulario,
         form_type: payload.tipo_formulario,
         lead_type: "Promoción",
-        project: form.project,
+        project: proyecto,
         campaign,
         source_id: payload.fuente_id,
         page_path: payload.ruta_pagina,
@@ -322,49 +393,42 @@ export default function CampaignPopup({
     }
   };
 
+  const tituloCompleto = [popup.titulo, popup.resaltado].filter(Boolean).join(" ");
+  const nombreCorto = (valores.nombre ?? "").trim().split(" ")[0];
+
   /* ---------------------------------------------------------
      MÓVIL · TARJETA COMPACTA
   --------------------------------------------------------- */
 
   if (!expanded) {
     return (
-      <aside
-        className={`${styles.teaser} ${
-          isHalloween ? styles.halloween : ""
-        }`}
-        aria-label={promotion.name}
-      >
-        <Image
-          src={promotion.image}
-          alt=""
-          width={promotion.imageWidth}
-          height={promotion.imageHeight}
-          sizes="72px"
-          quality={90}
-          className={styles.teaserImage}
-        />
+      <aside className={styles.teaser} aria-label={tituloCompleto}>
+        {afiche && (
+          <Image
+            src={afiche.src}
+            alt=""
+            width={afiche.width}
+            height={afiche.height}
+            sizes="72px"
+            quality={90}
+            className={styles.teaserImage}
+            unoptimized={afiche.unoptimized}
+          />
+        )}
 
         <div className={styles.teaserBody}>
-          {isHalloween && (
-            <span className={styles.teaserEyebrow}>
-              🎃 Especial Halloween
-            </span>
+          {popup.antetitulo && (
+            <span className={styles.teaserEyebrow}>{popup.antetitulo}</span>
           )}
-          <strong>{promotion.name}</strong>
-          <span>
-            {promotion.id === "showroom" ? (
-              <ShowroomDaysLeft className={styles.badge} />
-            ) : (
-              promotion.validityLabel
-            )}
-          </span>
+          <strong>{tituloCompleto}</strong>
+          {popup.vigencia_texto && <span>{popup.vigencia_texto}</span>}
 
           <button
             type="button"
             className={styles.teaserButton}
             onClick={() => setExpanded(true)}
           >
-            Quiero información
+            {popup.texto_boton}
             <ArrowRightIcon size={16} weight="bold" aria-hidden="true" />
           </button>
         </div>
@@ -385,6 +449,10 @@ export default function CampaignPopup({
      VENTANA / HOJA CON FORMULARIO
   --------------------------------------------------------- */
 
+  const dialogStyle = afiche
+    ? ({ "--popup-ratio": `${afiche.width} / ${afiche.height}` } as CSSProperties)
+    : undefined;
+
   return (
     <div
       className={styles.overlay}
@@ -393,23 +461,12 @@ export default function CampaignPopup({
       }}
     >
       <div
-        className={`${styles.dialog} ${
-          isHalloween ? styles.halloween : ""
-        }`}
+        className={styles.dialog}
+        style={dialogStyle}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
       >
-        {isHalloween && (
-          <div className={styles.spooky} aria-hidden="true">
-            <span className={styles.bat1}>🦇</span>
-            <span className={styles.bat2}>🦇</span>
-            <span className={styles.bat3}>🦇</span>
-            <span className={styles.ghost1}>👻</span>
-            <span className={styles.ghost2}>👻</span>
-            <span className={styles.web} />
-          </div>
-        )}
         <button
           type="button"
           className={styles.close}
@@ -419,26 +476,30 @@ export default function CampaignPopup({
           <XIcon size={18} weight="bold" aria-hidden="true" />
         </button>
 
-        <div className={styles.media}>
-          <Image
-            src={promotion.image}
-            alt={promotion.imageAlt}
-            width={promotion.imageWidth}
-            height={promotion.imageHeight}
-            sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 520px"
-            quality={90}
-            className={styles.mediaImage}
-          />
-        </div>
+        {afiche && (
+          <div className={styles.media}>
+            <Image
+              src={afiche.src}
+              alt={tituloCompleto}
+              width={afiche.width}
+              height={afiche.height}
+              sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 520px"
+              quality={90}
+              className={styles.mediaImage}
+              unoptimized={afiche.unoptimized}
+              priority
+            />
+          </div>
+        )}
 
         <div className={styles.content}>
           {sent ? (
             <div className={styles.success} aria-live="polite">
               <CheckCircleIcon size={52} weight="fill" aria-hidden="true" />
-              <h2 id={titleId}>¡Listo, {form.fullName.split(" ")[0]}!</h2>
+              <h2 id={titleId}>¡Listo{nombreCorto ? `, ${nombreCorto}` : ""}!</h2>
               <p>
-                Recibimos tus datos. Un asesor de Ancosur te contactará
-                muy pronto por teléfono o WhatsApp.
+                {popup.mensaje_exito ||
+                  "Recibimos tus datos. Un asesor de Ancosur te contactará muy pronto por teléfono o WhatsApp."}
               </p>
               <button
                 type="button"
@@ -452,174 +513,220 @@ export default function CampaignPopup({
             <>
               <div className={styles.heading}>
                 {/* Móvil: afiche completo en miniatura (sin recortes) */}
-                <Image
-                  src={promotion.image}
-                  alt=""
-                  width={promotion.imageWidth}
-                  height={promotion.imageHeight}
-                  sizes="112px"
-                  quality={90}
-                  className={styles.headingThumb}
-                />
+                {afiche && (
+                  <Image
+                    src={afiche.src}
+                    alt=""
+                    width={afiche.width}
+                    height={afiche.height}
+                    sizes="112px"
+                    quality={90}
+                    className={styles.headingThumb}
+                    unoptimized={afiche.unoptimized}
+                  />
+                )}
 
                 <div>
-                  <span className={styles.eyebrow}>
-                    {isHalloween && "🎃 "}
-                    {promotion.eyebrow}
-                    {promotion.id === "showroom" && (
-                      <ShowroomDaysLeft className={styles.badge} />
-                    )}
-                  </span>
+                  {(popup.antetitulo || popup.vigencia_texto) && (
+                    <span className={styles.eyebrow}>
+                      {popup.antetitulo}
+                      {popup.vigencia_texto && (
+                        <span className={styles.badge}>{popup.vigencia_texto}</span>
+                      )}
+                    </span>
+                  )}
 
                   <h2 id={titleId} className={styles.title}>
-                    {promotion.title}
-                    <span> {promotion.highlight}</span>
+                    {popup.titulo}
+                    {popup.resaltado && <span> {popup.resaltado}</span>}
                   </h2>
                 </div>
               </div>
 
-              <p className={styles.summary}>{promotion.summary}</p>
+              {popup.resumen && <p className={styles.summary}>{popup.resumen}</p>}
 
               <form
                 className={styles.form}
                 onSubmit={handleSubmit}
                 noValidate
               >
-                <label className={styles.field}>
-                  <span>Nombre completo</span>
-                  <input
-                    ref={firstFieldRef}
-                    type="text"
-                    autoComplete="name"
-                    placeholder="Ej. Miguel Asto"
-                    value={form.fullName}
-                    onChange={(event) =>
-                      update("fullName", event.target.value)
-                    }
-                    aria-invalid={Boolean(errors.fullName)}
-                    disabled={isSending}
-                  />
-                  {errors.fullName && <small>{errors.fullName}</small>}
-                </label>
+                {campos.map((c, index) => {
+                  const error = errors[c.clave];
+                  const valor = valores[c.clave] ?? "";
+                  const obligatorio = c.obligatorio;
 
-                <label className={styles.field}>
-                  <span>Celular</span>
-                  <input
-                    type="tel"
-                    inputMode="numeric"
-                    autoComplete="tel-national"
-                    maxLength={9}
-                    placeholder="Ej. 987654321"
-                    value={form.phone}
-                    onChange={(event) =>
-                      update(
-                        "phone",
-                        event.target.value.replace(/\D/g, ""),
-                      )
-                    }
-                    aria-invalid={Boolean(errors.phone)}
-                    disabled={isSending}
-                  />
-                  {errors.phone && <small>{errors.phone}</small>}
-                </label>
-
-                <div className={styles.field}>
-                  <span id={`${titleId}-interes`}>Proyecto de interés</span>
-
-                  <div
-                    className={styles.typeTabs}
-                    role="radiogroup"
-                    aria-labelledby={`${titleId}-interes`}
-                  >
-                    {(["Departamento", "Lote"] as const).map((type) => (
-                      <button
-                        key={type}
-                        type="button"
-                        role="radio"
-                        aria-checked={form.interestType === type}
-                        className={`${styles.typeTab} ${
-                          form.interestType === type ? styles.typeTabActive : ""
-                        }`}
-                        onClick={() => update("interestType", type)}
-                        disabled={isSending}
-                      >
-                        <span aria-hidden="true">
-                          {type === "Departamento" ? "🏢" : "🌳"}
+                  if (c.tipo === "parrafo") {
+                    return (
+                      <label key={c.clave} className={styles.field}>
+                        <span>{c.etiqueta}</span>
+                        <textarea
+                          rows={3}
+                          maxLength={MAX_PARRAFO}
+                          placeholder={c.marcador || undefined}
+                          value={valor}
+                          onChange={(event) => update(c.clave, event.target.value)}
+                          aria-invalid={Boolean(error)}
+                          required={obligatorio}
+                          disabled={isSending}
+                        />
+                        <span className={styles.counter}>
+                          {valor.length}/{MAX_PARRAFO} caracteres
                         </span>
-                        {type === "Departamento" ? "Departamentos" : "Lotes"}
-                      </button>
-                    ))}
-                  </div>
-                  {errors.interestType && <small>{errors.interestType}</small>}
+                        {error && <small>{error}</small>}
+                      </label>
+                    );
+                  }
 
-                  {form.interestType && (
-                    <div
-                      className={styles.projectList}
-                      role="radiogroup"
-                      aria-label="Proyectos disponibles"
-                    >
-                      {loadingProjects ? (
-                        <span className={styles.projectHint}>
-                          {isHalloween
-                            ? "Invocando proyectos… 🦇"
-                            : "Cargando proyectos…"}
-                        </span>
-                      ) : projectsByType.length === 0 ? (
-                        <span className={styles.projectHint}>
-                          No hay proyectos disponibles en este momento.
-                        </span>
-                      ) : (
-                        projectsByType.map((project) => (
-                          <button
-                            key={project.id}
-                            type="button"
-                            role="radio"
-                            aria-checked={form.project === project.titulo}
-                            className={`${styles.projectChip} ${
-                              form.project === project.titulo
-                                ? styles.projectChipActive
-                                : ""
-                            }`}
-                            onClick={() => update("project", project.titulo)}
-                            disabled={isSending}
+                  if (c.tipo === "opciones") {
+                    return (
+                      <div key={c.clave} className={styles.field}>
+                        <span id={`${titleId}-${c.clave}`}>{c.etiqueta}</span>
+                        <div
+                          className={styles.typeTabs}
+                          role="radiogroup"
+                          aria-labelledby={`${titleId}-${c.clave}`}
+                        >
+                          {c.opciones.map((opcion) => (
+                            <button
+                              key={opcion}
+                              type="button"
+                              role="radio"
+                              aria-checked={valor === opcion}
+                              className={`${styles.typeTab} ${
+                                valor === opcion ? styles.typeTabActive : ""
+                              }`}
+                              onClick={() => update(c.clave, opcion)}
+                              disabled={isSending}
+                            >
+                              {opcion}
+                            </button>
+                          ))}
+                        </div>
+                        {error && <small>{error}</small>}
+                      </div>
+                    );
+                  }
+
+                  if (c.tipo === "proyecto") {
+                    return (
+                      <div key={c.clave} className={styles.field}>
+                        <span id={`${titleId}-interes`}>{c.etiqueta}</span>
+
+                        <div
+                          className={styles.typeTabs}
+                          role="radiogroup"
+                          aria-labelledby={`${titleId}-interes`}
+                        >
+                          {TIPOS_INTERES.map((tipo) => (
+                            <button
+                              key={tipo.valor}
+                              type="button"
+                              role="radio"
+                              aria-checked={tipoInteres === tipo.valor}
+                              className={`${styles.typeTab} ${
+                                tipoInteres === tipo.valor ? styles.typeTabActive : ""
+                              }`}
+                              onClick={() => elegirTipo(tipo.valor)}
+                              disabled={isSending}
+                            >
+                              <span aria-hidden="true">{tipo.icono}</span>
+                              {tipo.texto}
+                            </button>
+                          ))}
+                        </div>
+
+                        {tipoInteres && (
+                          <div
+                            className={styles.projectList}
+                            role="radiogroup"
+                            aria-label="Proyectos disponibles"
                           >
-                            <strong>{project.titulo}</strong>
-                            <small>
-                              {project.ciudad}
-                              {project.etapa ? ` · ${project.etapa}` : ""}
-                            </small>
-                          </button>
-                        ))
-                      )}
-                    </div>
-                  )}
-                  {errors.project && <small>{errors.project}</small>}
-                </div>
+                            {loadingProjects ? (
+                              <span className={styles.projectHint}>
+                                Cargando proyectos…
+                              </span>
+                            ) : projectsByType.length === 0 ? (
+                              <span className={styles.projectHint}>
+                                No hay proyectos disponibles en este momento.
+                              </span>
+                            ) : (
+                              projectsByType.map((project) => (
+                                <button
+                                  key={project.id}
+                                  type="button"
+                                  role="radio"
+                                  aria-checked={valor === project.titulo}
+                                  className={`${styles.projectChip} ${
+                                    valor === project.titulo
+                                      ? styles.projectChipActive
+                                      : ""
+                                  }`}
+                                  onClick={() => update(c.clave, project.titulo)}
+                                  disabled={isSending}
+                                >
+                                  <strong>{project.titulo}</strong>
+                                  <small>
+                                    {project.ciudad}
+                                    {project.etapa ? ` · ${project.etapa}` : ""}
+                                  </small>
+                                </button>
+                              ))
+                            )}
+                          </div>
+                        )}
+                        {error && <small>{error}</small>}
+                      </div>
+                    );
+                  }
 
-                <label className={styles.field}>
-                  <span>Mensaje opcional</span>
-                  <textarea
-                    rows={3}
-                    maxLength={250}
-                    placeholder="¿Alguna duda o comentario?"
-                    value={form.message}
-                    onChange={(event) =>
-                      update("message", event.target.value)
-                    }
-                    disabled={isSending}
-                  />
-                  <span className={styles.counter}>
-                    {form.message.length}/250 caracteres
-                  </span>
-                </label>
+                  const esTelefono = c.tipo === "telefono";
+                  const esDNI = c.tipo === "dni";
+                  const esEmail = c.tipo === "email";
+
+                  return (
+                    <label key={c.clave} className={styles.field}>
+                      <span>{c.etiqueta}</span>
+                      <input
+                        ref={index === 0 ? firstFieldRef : undefined}
+                        type={esEmail ? "email" : esTelefono ? "tel" : "text"}
+                        inputMode={esTelefono || esDNI ? "numeric" : undefined}
+                        autoComplete={
+                          c.clave === "nombre"
+                            ? "name"
+                            : esTelefono
+                              ? "tel-national"
+                              : esEmail
+                                ? "email"
+                                : "off"
+                        }
+                        maxLength={esTelefono ? 9 : esDNI ? 8 : 120}
+                        placeholder={c.marcador || undefined}
+                        value={valor}
+                        onChange={(event) =>
+                          update(
+                            c.clave,
+                            esTelefono || esDNI
+                              ? digitos(event.target.value)
+                              : event.target.value,
+                          )
+                        }
+                        aria-invalid={Boolean(error)}
+                        required={obligatorio}
+                        disabled={isSending}
+                      />
+                      {error && <small>{error}</small>}
+                    </label>
+                  );
+                })}
 
                 <label className={styles.consent}>
                   <input
                     type="checkbox"
-                    checked={form.consent}
-                    onChange={(event) =>
-                      update("consent", event.target.checked)
-                    }
+                    checked={consent}
+                    onChange={(event) => {
+                      setConsent(event.target.checked);
+                      setErrors((current) => ({ ...current, consent: undefined }));
+                    }}
                     disabled={isSending}
                   />
                   <span>
@@ -653,11 +760,7 @@ export default function CampaignPopup({
                   className={styles.submit}
                   disabled={isSending}
                 >
-                  {isSending
-                    ? "Enviando..."
-                    : isHalloween
-                      ? "Participar"
-                      : "Quiero esta promoción"}
+                  {isSending ? "Enviando..." : popup.texto_boton}
                 </button>
               </form>
             </>

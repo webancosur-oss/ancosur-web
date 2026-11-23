@@ -83,6 +83,57 @@ export const SHOWROOM_ADDRESS =
 
 export const promotions: Promotion[] = [
   {
+    id: "vive-y-explora",
+    name: "Vive y Explora La Selva",
+    teaser: "Vive y Explora La Selva con Zagari Resort Club",
+    kind: "evento",
+    eyebrow: "Zagari Resort Club · San Ramón",
+    title: "Vive y Explora",
+    highlight: "La Selva",
+    summary:
+      "Una experiencia de realidad virtual donde la magia de la selva despertará todos tus sentidos.",
+    description:
+      "Te invitamos a conocer Zagari Resort Club en San Ramón con una experiencia de realidad virtual: naturaleza, amenidades y lotes de descanso en plena selva central, acompañados de un café.",
+    image: "/assets/campanias/vive-y-explora.webp",
+    imageAlt:
+      "Invitación al evento Vive y Explora La Selva de Zagari Resort Club y Ancosur: sábado 21 de noviembre, 6:00 pm, en Café Colonial, Jirón Puno 482, Huancayo",
+    imageWidth: 1080,
+    imageHeight: 1349,
+    startsAt: "2026-11-16T00:00:00-05:00",
+    endsAt: "2026-11-30T23:59:59-05:00",
+    validityLabel: "Sábado 21 de noviembre · 6:00 pm",
+    benefits: [
+      {
+        title: "Recorrido en realidad virtual",
+        description:
+          "Explora Zagari Resort Club y la selva de San Ramón sin salir de Huancayo.",
+      },
+      {
+        title: "Café de cortesía",
+        description: "Te esperamos en Café Colonial con una bebida caliente.",
+      },
+      {
+        title: "Asesoría personalizada",
+        description:
+          "Conoce los lotes de descanso y las membresías del resort.",
+      },
+    ],
+    details: [
+      { label: "Lugar", value: "Café Colonial · Jr. Puno 482, Huancayo" },
+      { label: "Fecha", value: "Sábado 21 de noviembre" },
+      { label: "Hora", value: "6:00 pm" },
+    ],
+    primaryCta: "Quiero asistir",
+    secondaryCta: {
+      label: "Conocer Zagari Resort Club",
+      href: "/resorts",
+    },
+    whatsappMessage:
+      "Hola, quiero asistir al evento Vive y Explora La Selva de Zagari Resort Club.",
+    legal:
+      "Evento organizado por Zagari Resort Club y Ancosur. Cupos sujetos a aforo del local.",
+  },
+  {
     id: "showroom",
     name: "Showroom de Halloween",
     teaser: "Sáb. 17 de octubre · 11 a. m. a 5 p. m.",
